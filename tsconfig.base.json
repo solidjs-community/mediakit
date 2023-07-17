@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "esnext",
+    "newLine": "LF",
+    "moduleResolution": "Node",
+    "strict": true,
+    "module": "esnext",
+    "types": ["node"]
+  },
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "mediakit-mono",
+  "description": "Workspace for MediaKit",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "turbo run build --filter=./packages/*",
+    "dev": "turbo run dev --parallel --include-dependencies --no-deps",
+    "clean": "turbo run clean --parallel && rm -rf node_modules pnpm-lock.yaml && pnpm install",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "format": "prettier --write \"**.*.{ts,tsx,md}\"",
+    "ts:check": "torbo run ts:check --continue",
+    "dev:packages": "turbo run dev --filter=./packages/*",
+    "prepare": "husky install"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "lint-staged": {
+    "*.{js,json}": "prettier --write",
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "examples/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "package.json": "sort-package-json"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.2",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.4",
+    "prettier": "^2.8.0",
+    "sort-package-json": "^2.1.0",
+    "tslib": "^2.5.0",
+    "tsup": "^6.5.0",
+    "tsup-preset-solid": "0.1.8",
+    "turbo": "1.2.4",
+    "typescript": "^4.8.2"
+  }
+}

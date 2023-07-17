@@ -71,9 +71,9 @@ importers:
 
   examples/solidstart:
     dependencies:
-      '@media-kit/solid':
+      '@solid-mediakit/core':
         specifier: ^1.0.0
-        version: link:../../packages/solid
+        version: link:../../packages/core
       '@solidjs/meta':
         specifier: ^0.28.2
         version: 0.28.2(solid-js@1.7.3)
@@ -127,7 +127,7 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@18.14.0)
 
-  packages/solid:
+  packages/core:
     devDependencies:
       '@types/node':
         specifier: ^18.7.14

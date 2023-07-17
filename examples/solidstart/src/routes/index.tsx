@@ -1,10 +1,9 @@
-import { type VoidComponent } from 'solid-js'
-import { HelloComponent } from '@media-kit/solid'
+import { Toggler } from '@solid-mediakit/core'
 
-const Home: VoidComponent = () => {
+const Home = () => {
   return (
-    <div class='flex flex-col gap-2 items-center my-16'>
-      <HelloComponent />
+    <div>
+      <Toggler />
     </div>
   )
 }

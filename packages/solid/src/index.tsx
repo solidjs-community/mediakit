@@ -1,7 +1,3 @@
 export const HelloComponent = () => {
-  return (
-    <div>
-      hey
-    </div>
-  )
+  return <div>hey</div>
 }

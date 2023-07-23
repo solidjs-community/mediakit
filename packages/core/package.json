@@ -80,12 +80,18 @@
     "./dist/server.js": "./dist/index.js",
     "./dist/server.cjs": "./dist/index.cjs"
   },
+  "dependencies": {
+    "chrome-aws-lambda": "7.0.0",
+    "puppeteer-core": "13.1.2",
+    "twemoji": "13.0.1"
+  },
   "devDependencies": {
     "@types/node": "^18.7.14",
     "@typescript-eslint/parser": "^5.44.0",
     "solid-js": "^1.5.3",
     "typescript": "^4.8.2",
-    "solid-start": "^0.2.0"
+    "solid-start": "^0.2.0",
+    "@types/puppeteer-core": "5.4.0"
   },
   "peerDependencies": {
     "solid-js": "^1.5.3",

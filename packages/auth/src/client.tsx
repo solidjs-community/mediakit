@@ -50,7 +50,7 @@ export function createSession(): Resource<Session | null> {
   const value: SessionContextValue<R> = useContext(SessionContext)
   if (!value && (import.meta as any).env.DEV) {
     throw new Error(
-      '[@solid-auth/base]: `createSession` must be wrapped in a <SessionProvider />'
+      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />'
     )
   }
 
@@ -201,22 +201,38 @@ export async function signOut(options?: SignOutParams) {
   return data
 }
 
-export async function getSession(event?: PageEvent): Promise<Session | null> {
-  let reqInit: RequestInit | undefined
-  if (isServer && event) {
-    const cookie = event.request.headers.get('cookie')
-    if (cookie) {
-      reqInit = {
-        headers: {
-          cookie,
-        },
+export const getSession = createReqWithServerHandler<Session | null>(
+  async (reqInit) => {
+    return await fetch(getUrl(`/api/auth/session`), reqInit)
+  }
+)
+
+function createReqWithServerHandler<T>(
+  action: (reqInit: RequestInit | undefined) => Promise<Response>
+): (event?: PageEvent) => Promise<T> {
+  return async (event) => {
+    let reqInit: RequestInit | undefined
+    if (isServer && event) {
+      const cookie = event.request.headers.get('cookie')
+      if (cookie) {
+        reqInit = {
+          headers: {
+            cookie,
+          },
+        }
       }
     }
+    const res = await action(reqInit)
+    if (isServer && event) {
+      const cookie = res.headers.get('set-cookie')
+      if (cookie) {
+        event.responseHeaders.append('set-cookie', cookie)
+      }
+    }
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error)
+    if (!data) return null
+    if (Object.keys(data).length === 0) return null
+    return data
   }
-  const res = await fetch(getUrl(`/api/auth/session`), reqInit)
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.error)
-  if (!data) return null
-  if (Object.keys(data).length === 0) return null
-  return data
 }

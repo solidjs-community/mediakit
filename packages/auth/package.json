@@ -1,5 +1,5 @@
 {
-  "name": "@solid-mediakit/core",
+  "name": "@solid-mediakit/auth",
   "description": "A set of utilities to use with your Solid apps.",
   "version": "1.0.0",
   "scripts": {

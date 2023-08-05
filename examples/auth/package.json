@@ -1,5 +1,5 @@
 {
-  "name": "dev-solidstart",
+  "name": "dev-auth",
   "private": true,
   "scripts": {
     "dev": "solid-start dev --port 3000",
@@ -28,7 +28,8 @@
     "solid-start": "^0.2.26",
     "undici": "5.20.0",
     "zod": "^3.20.6",
-    "@solid-mediakit/core": "^1.0.0"
+    "@solid-mediakit/auth": "^1.0.0",
+    "@auth/core": "^0.10.0"
   },
   "engines": {
     "node": ">=16"

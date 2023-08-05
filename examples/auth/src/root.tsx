@@ -13,6 +13,7 @@ import {
   Title,
   Link,
 } from 'solid-start'
+import { SessionProvider } from '@solid-mediakit/auth/client'
 
 export default function Root() {
   return (
@@ -26,13 +27,15 @@ export default function Root() {
         <Link rel='icon' href='/favicon.ico' />
       </Head>
       <Body>
-          <Suspense>
-            <ErrorBoundary>
+        <Suspense>
+          <ErrorBoundary>
+            <SessionProvider>
               <Routes>
                 <FileRoutes />
               </Routes>
-            </ErrorBoundary>
-          </Suspense>
+            </SessionProvider>
+          </ErrorBoundary>
+        </Suspense>
         <Scripts />
       </Body>
     </Html>

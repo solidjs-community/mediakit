@@ -23,3 +23,9 @@ gitignore
 Thumbs.db
 
 .env
+
+**/*.d.ts
+**/*.js
+**/*.jsx
+!rollup.config.js
+!scripts/**/*.js

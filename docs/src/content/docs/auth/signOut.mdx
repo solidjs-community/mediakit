@@ -1,0 +1,20 @@
+---
+title: 'signOut'
+description: 'API for the signOut function'
+---
+
+**API for the signOut function**
+
+The `signOut` function is a function that will be used from the client side to sign out the user, after signing out, the session in [`createSession`](/auth/createsession) will be refetched and updated accordingly. This function takes 1 argument:
+
+- `options` - An object that contains the following properties:
+  - `redirectTo` - A string that represents the path to redirect to after signing out, defaults to `/`
+
+## Usage
+
+```ts
+import { signIn } from '@solid-mediakit/auth'
+signIn() // redirect to login page
+signIn('github') // login with github and redirect to the exact same page we are at right now
+signIn('github', { redirectTo: '/ok' }) // login with github and redirect to /ok
+```

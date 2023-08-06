@@ -1,0 +1,92 @@
+---
+title: 'Install'
+description: 'Installing MediaKit'
+---
+
+**Adding MediaKit/auth to SolidStart**
+
+## Install
+
+```sh
+pnpm add @solid-mediakit/auth@latest @auth/core@latest
+```
+
+## SessionProvider
+
+In order to update the session context accordingly, the entire app needs to be wrapped with a SessionProvider, this is a SolidJS context that will hold the current session.
+
+```tsx
+// root.tsx
+// @refresh reload
+import { Suspense } from 'solid-js'
+import {
+  Body,
+  ErrorBoundary,
+  FileRoutes,
+  Head,
+  Html,
+  Meta,
+  Routes,
+  Scripts,
+  Title,
+} from 'solid-start'
+import { SessionProvider } from '@solid-mediakit/auth/client'
+
+export default function Root() {
+  return (
+    <Html lang='en'>
+      <Head>
+        <Title>Create JD App</Title>
+        <Meta charset='utf-8' />
+        <Meta name='viewport' content='width=device-width, initial-scale=1' />
+      </Head>
+      <Body>
+        <SessionProvider>
+          <Suspense>
+            <ErrorBoundary>
+              <Routes>
+                <FileRoutes />
+              </Routes>
+            </ErrorBoundary>
+          </Suspense>
+        </SessionProvider>
+        <Scripts />
+      </Body>
+    </Html>
+  )
+}
+```
+
+Now that everything is set up on the client, we can start setting up the server.
+
+## API Route
+
+Go ahead to `routes/api/auth/[...solidauth].ts`, since we are using AuthJS, we can access all of its well known providers (Google, Github, etc). Make sure you have these enviroment variables set up:
+
+- `GITHUB_ID` - Github Client ID
+- `GITHUB_SECRET` - Github Client Secret
+- `AUTH_SECRET` - Secret used to sign token: `openssl rand -base64 32`
+
+```ts
+// routes/api/auth/[...solidauth].ts
+import { SolidAuth, type SolidAuthConfig } from '@solid-mediakit/auth'
+import GitHub from '@auth/core/providers/github'
+
+export const authOpts: SolidAuthConfig = {
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
+  debug: false,
+}
+
+export const { GET, POST } = SolidAuth(authOpts)
+```
+
+Now that everything is configured correctly, we can go ahead and start using the client functions:
+
+- [`signIn`](/auth/signin)
+- [`signOut`](/auth/signout)
+- [`createSession`](/auth/createsession)

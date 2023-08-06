@@ -1,0 +1,47 @@
+---
+title: 'getSession'
+description: 'API for the getSession function'
+---
+
+**API for the getSession function**
+The `getSession` function is a server side function that will be used to fetch the current active session from a web Request. It takes 2 arguments:
+
+- `request`: The web request to fetch the session from
+- `options`: The auth config we created in the previous step (API Route)
+
+## Usage
+
+### Basic
+
+```ts
+import { getSession } from '@solid-mediakit/auth'
+import { authOpts } from '~/routes/api/auth/[...solidauth]'
+
+async function getMySession(request: Request) {
+  return await getSession(request, authOpts)
+} // Promise<Session | null>
+```
+
+### Actual
+
+```ts
+import { getSession } from '@solid-mediakit/auth'
+import { createServerData$ } from 'solid-start/server'
+import { authOpts } from '~/routes/api/auth/[...solidauth]'
+
+export const useSession = () => {
+  return createServerData$(
+    async (_, { request }) => {
+      return await getSession(request, authOpts)
+    },
+    { key: () => ['auth_user'] }
+  )
+}
+
+// useSession returns a resource:
+const session = useSession()
+const loading = session.loading
+const user = () => session()?.user
+```
+
+This is being used to fetch the session from the server side, if you want to fetch it client-side, check out the [`createSession`](/auth/createsession) function.

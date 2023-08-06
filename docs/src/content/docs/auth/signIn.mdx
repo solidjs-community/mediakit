@@ -1,0 +1,21 @@
+---
+title: 'signIn'
+description: 'API for the signIn function'
+---
+
+**API for the signIn function**
+
+The `signIn` function is a function that will be used from the client side to sign in the user, after signing in, the session in [`createSession`](/auth/createsession) will be refetched and updated accordingly.
+This function takes 2 arguments:
+
+- `idp` - The identity provider to sign in with (e.g. `github`)
+- `options` - The options to pass to the identity provider (e.g. `redirectTo: "/"`)
+
+## Usage
+
+```ts
+import { signIn } from '@solid-mediakit/auth'
+signIn() // redirect to login page
+signIn('github') // login with github and redirect to the exact same page we are at right now
+signIn('github', { redirectTo: '/ok' }) // login with github and redirect to /ok
+```

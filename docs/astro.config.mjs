@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config'
 import solidJs from '@astrojs/solid-js'
 
 // https://astro.build/config
-import vercel from '@astrojs/vercel/static'
+import netlify from '@astrojs/netlify'
 
 // https://astro.build/config
 import mdx from '@astrojs/mdx'
@@ -14,5 +14,5 @@ export default defineConfig({
   integrations: [solidJs(), mdx()],
   site: `https://astro.build`,
   output: 'static',
-  adapter: vercel(),
+  adapter: netlify(),
 })

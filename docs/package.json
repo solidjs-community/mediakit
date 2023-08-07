@@ -15,12 +15,12 @@
   "dependencies": {
     "@algolia/client-search": "^4.13.1",
     "@astrojs/mdx": "^0.17.2",
+    "@astrojs/netlify": "^2.5.2",
     "@astrojs/solid-js": "^2.0.2",
-    "@astrojs/vercel": "^3.8.0",
     "@docsearch/css": "^3.1.0",
     "@docsearch/js": "^3.1.0",
     "@types/node": "^18.0.0",
-    "astro": "^2.10.1",
+    "astro": "2.0.15",
     "solid-js": "^1.4.3"
   },
   "devDependencies": {

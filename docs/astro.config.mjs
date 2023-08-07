@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config'
 import solidJs from '@astrojs/solid-js'
 
 // https://astro.build/config
-import netlify from '@astrojs/netlify'
+import netlify from '@astrojs/netlify/functions'
 
 // https://astro.build/config
 import mdx from '@astrojs/mdx'

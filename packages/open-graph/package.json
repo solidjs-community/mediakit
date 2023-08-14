@@ -1,0 +1,30 @@
+{
+  "name": "@solid-mediakit/open-graph",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.2",
+    "solid-js": "^1.7.11",
+    "tslib": "^2.5.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@vercel/og": "^0.5.11",
+    "html-to-json-parser": "^1.1.0"
+  }
+}

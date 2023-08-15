@@ -174,10 +174,23 @@ importers:
         version: 4.4.8(@types/node@18.14.0)
 
   packages/auth:
+    dependencies:
+      '@babel/core':
+        specifier: ^7.20.12
+        version: 7.22.9
+      '@babel/preset-typescript':
+        specifier: ^7.18.6
+        version: 7.22.5(@babel/core@7.22.9)
+      '@rollup/pluginutils':
+        specifier: ^5.0.2
+        version: 5.0.2(rollup@3.26.3)
     devDependencies:
       '@auth/core':
         specifier: ^0.10.0
         version: 0.10.0
+      '@types/babel__core':
+        specifier: ^7.20.0
+        version: 7.20.1
       '@types/node':
         specifier: ^18.7.14
         version: 18.14.0

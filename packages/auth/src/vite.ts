@@ -35,7 +35,6 @@ const isProtected = (protectedRoutes: string[], id: string) => {
   return protectedRoutes.some((route) => id.includes(`routes/${route}`))
 }
 
-const log = true
 async function compileAuth(code: string, id: string, opts?: Options) {
   const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
   const transformAuth = createTransformAuth(opts)
@@ -46,9 +45,11 @@ async function compileAuth(code: string, id: string, opts?: Options) {
     },
     plugins: [[transformAuth]],
     filename: id,
+    sourceMaps: true,
+    sourceFileName: id,
   })
   if (transformed) {
-    log && console.log(transformed.code)
+    opts?.log && console.log(transformed.code)
     return {
       code: transformed.code ?? '',
       map: transformed.map,

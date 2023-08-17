@@ -7,6 +7,7 @@ export default defineConfig(() => {
     plugins: [
       auth({
         protected: ['protected'],
+        // log: true,
       }),
       solid({ ssr: true }),
     ],

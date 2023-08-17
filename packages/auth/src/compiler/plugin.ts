@@ -10,6 +10,7 @@ export type Options = {
   protected: string[] | string
   //   @default ~/server/auth
   authLocation?: string
+  log?: boolean
 }
 
 export const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}'

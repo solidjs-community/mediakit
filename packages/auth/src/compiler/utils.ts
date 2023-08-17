@@ -62,6 +62,11 @@ export const getRouteDataProtectedExport = (t: typeof babel.types) => {
       ]),
     ],
     t.blockStatement([
+      t.expressionStatement(
+        t.callExpression(t.identifier('console.log'), [
+          t.stringLiteral('called routeData'),
+        ])
+      ),
       t.variableDeclaration('const', [
         t.variableDeclarator(
           t.identifier('session'),

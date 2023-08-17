@@ -6,7 +6,7 @@
     "build": "tsc -p . && rollup -c && node scripts/postbuild",
     "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "clean:dist": "rm -rf dist client.* index.* types.* utils.* vite.*",
+    "clean:dist": "rm -rf dist compiler client.* index.* types.* utils.* vite.*",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",
@@ -16,26 +16,35 @@
     "utils.*",
     "types.*",
     "vite.*",
-    "src"
+    "compiler/**/*",
+    "src/**/*"
   ],
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./index.js"
+      "default": "./index.js"
     },
     "./client": {
       "types": "./client.d.ts",
       "solid": "./client.js",
-      "import": "./client.js"
+      "default": "./client.js"
     },
     "./types": "./types.d.ts",
     "./utils": {
       "types": "./utils.d.ts",
-      "import": "./utils.js"
+      "default": "./utils.js"
+    },
+    "./compiler/plugin": {
+      "types": "./compiler/plugin.d.ts",
+      "default": "./compiler/plugin.js"
+    },
+    "./compiler/utils": {
+      "types": "./compiler/utils.d.ts",
+      "default": "./compiler/utils.js"
     },
     "./vite": {
       "types": "./vite.d.ts",
-      "import": "./vite.js"
+      "default": "./vite.js"
     },
     "./package.json": "./package.json"
   },

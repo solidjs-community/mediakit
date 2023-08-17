@@ -27,5 +27,6 @@ Thumbs.db
 **/*.d.ts
 **/*.js
 **/*.jsx
+/compiler
 !rollup.config.js
 !scripts/**/*.js

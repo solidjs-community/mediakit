@@ -1,11 +1,11 @@
 import solid from 'solid-start/vite'
 import { defineConfig } from 'vite'
-import auth from '@solid-mediakit/auth/vite'
+import auth from '@solid-mediakit/auth/unplugin'
 
 export default defineConfig(() => {
   return {
     plugins: [
-      auth({
+      auth.vite({
         protected: ['protected'],
         // log: true,
       }),

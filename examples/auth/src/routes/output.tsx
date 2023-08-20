@@ -14,9 +14,7 @@ const Protected = () => {
 export default Protected
 export const routeData = () => {
   return createServerData$(async (_$_key, { request: _request }) => {
-    console.log('called routeData')
     const session = await getSession(_request, authOptions)
-    console.log('session', session)
     if (!session) {
       throw redirect('/')
     }

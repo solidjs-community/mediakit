@@ -28,10 +28,7 @@ async function compileAuth(code: string, id: string, opts?: Options) {
   })
   if (transformed) {
     opts?.log && console.log(transformed.code)
-    return {
-      code: transformed.code ?? '',
-      map: transformed.map,
-    }
+    return transformed.code
   }
   return null
 }

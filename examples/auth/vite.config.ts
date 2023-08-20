@@ -7,7 +7,7 @@ export default defineConfig(() => {
     plugins: [
       auth.vite({
         protected: ['protected'],
-        log: false,
+        log: true,
         login: '/',
       }),
       solid({ ssr: true }),

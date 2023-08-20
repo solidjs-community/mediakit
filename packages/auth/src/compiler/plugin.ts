@@ -48,6 +48,7 @@ export function createTransformAuth(opts?: Options) {
             getDefaultExportAsFn(t, path, defaultExport)
           }
           replaceSession$(path, t)
+          return path
         },
       },
     }

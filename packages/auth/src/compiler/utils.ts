@@ -78,11 +78,6 @@ export const getRouteDataProtectedExport = (
       ]),
     ],
     t.blockStatement([
-      t.expressionStatement(
-        t.callExpression(t.identifier('console.log'), [
-          t.stringLiteral('called routeData'),
-        ])
-      ),
       t.variableDeclaration('const', [
         t.variableDeclarator(
           t.identifier('session'),
@@ -94,12 +89,6 @@ export const getRouteDataProtectedExport = (
           )
         ),
       ]),
-      t.expressionStatement(
-        t.callExpression(t.identifier('console.log'), [
-          t.stringLiteral('session'),
-          t.identifier('session'),
-        ])
-      ),
       t.ifStatement(
         t.unaryExpression('!', t.identifier('session'), true),
         t.blockStatement([

@@ -1,10 +1,15 @@
+import { Show } from 'solid-js'
 import { getSession } from '@solid-mediakit/auth'
 import { authOptions } from '~/server/auth'
 import { useRouteData, redirect } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 const Protected = () => {
   const _$rData = useRouteData<typeof routeData>()
-  return <h1>protected route - {JSON.stringify(_$rData()?.session)}</h1>
+  return (
+    <Show when={_$rData()?.session}>
+      <h1>protected route - {JSON.stringify(_$rData()?.session)}</h1>
+    </Show>
+  )
 }
 export default Protected
 export const routeData = () => {

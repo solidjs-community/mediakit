@@ -157,6 +157,7 @@ export const getDefaultExportAsFn = (
       >
       if (def.isFunctionDeclaration() || def.isArrowFunctionExpression()) {
         ;(def.node.body as any).body.unshift(rData)
+        WrapWithShowSuspense(t, path, (def.node.body as any).body)
         return def
       }
     }
@@ -165,6 +166,7 @@ export const getDefaultExportAsFn = (
     defaultExport.declaration.type === 'ArrowFunctionExpression'
   ) {
     ;(defaultExport.declaration.body as any).body.unshift(rData)
+    WrapWithShowSuspense(t, path, defaultExport.declaration.body)
     return defaultExport.declaration
   }
   return null
@@ -195,4 +197,40 @@ export const replaceSession$ = (
       }
     },
   })
+}
+
+const WrapWithShowSuspense = (
+  t: typeof babel.types,
+  path: babel.NodePath<babel.types.Program>,
+  body: babel.types.BlockStatement | babel.types.Expression
+) => {
+  importIfNotThere(t, path, 'solid-js', 'Show')
+  const returnStatement = (
+    (body.type === 'BlockStatement' ? body.body : body) as any
+  ).find(
+    (node: any) => node.type === 'ReturnStatement'
+  ) as babel.types.ReturnStatement
+  const show = t.jsxElement(
+    t.jsxOpeningElement(
+      t.jsxIdentifier('Show'),
+      [
+        t.jsxAttribute(
+          t.jsxIdentifier('when'),
+          t.jsxExpressionContainer(
+            t.optionalMemberExpression(
+              t.callExpression(t.identifier('_$rData'), []),
+              t.identifier('session'),
+              false,
+              true
+            )
+          )
+        ),
+      ],
+      false
+    ),
+    t.jsxClosingElement(t.jsxIdentifier('Show')),
+    [t.jsxText('\n'), returnStatement.argument as any, t.jsxText('\n')],
+    false
+  )
+  returnStatement.argument = show
 }

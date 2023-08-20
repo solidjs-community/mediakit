@@ -8,6 +8,8 @@ import {
 
 export type Options = {
   protected: string[] | string
+  // @default /login
+  login?: string
   //   @default ~/server/auth
   authLocation?: string
   log?: boolean
@@ -29,6 +31,7 @@ export function createTransformAuth(opts?: Options) {
         Program: (path) => {
           importIfNotThere(t, path, 'solid-start/server', 'createServerData$')
           importIfNotThere(t, path, 'solid-start', 'useRouteData')
+          importIfNotThere(t, path, 'solid-start', 'redirect')
           importIfNotThere(
             t,
             path,
@@ -36,7 +39,7 @@ export function createTransformAuth(opts?: Options) {
             'authOptions'
           )
           importIfNotThere(t, path, '@solid-mediakit/auth', 'getSession')
-          path.node.body.push(getRouteDataProtectedExport(t))
+          path.node.body.push(getRouteDataProtectedExport(t, opts))
           const defaultExport = path.node.body.find(
             (node): node is babel.types.ExportDefaultDeclaration =>
               node.type === 'ExportDefaultDeclaration'

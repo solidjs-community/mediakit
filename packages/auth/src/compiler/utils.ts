@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-extra-semi */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type * as babel from '@babel/core'
+import type { Options } from './plugin'
 
 export const importIfNotThere = (
   t: typeof babel.types,
@@ -8,7 +9,7 @@ export const importIfNotThere = (
   from: string,
   shouldImport: string
 ) => {
-  const serverImport = path.node.body.find(
+  const isImported = path.node.body.find(
     (node) =>
       node.type === 'ImportDeclaration' &&
       node.source.value === from &&
@@ -18,7 +19,19 @@ export const importIfNotThere = (
           (specifier.imported as any).name === shouldImport
       )
   )
-  if (!serverImport) {
+  if (!isImported) {
+    const alreadyImportedFromName = path.node.body.find(
+      (node) => node.type === 'ImportDeclaration' && node.source.value === from
+    )
+    if (alreadyImportedFromName) {
+      ;(alreadyImportedFromName as any).specifiers.push(
+        t.importSpecifier(
+          t.identifier(shouldImport),
+          t.identifier(shouldImport)
+        )
+      )
+      return
+    }
     path.node.body.unshift(
       t.importDeclaration(
         [
@@ -53,7 +66,10 @@ export const pushCode = (
   }
 }
 
-export const getRouteDataProtectedExport = (t: typeof babel.types) => {
+export const getRouteDataProtectedExport = (
+  t: typeof babel.types,
+  opts?: Options
+) => {
   const innerFn = t.arrowFunctionExpression(
     [
       t.identifier('_$_key'),
@@ -82,6 +98,16 @@ export const getRouteDataProtectedExport = (t: typeof babel.types) => {
         t.callExpression(t.identifier('console.log'), [
           t.stringLiteral('session'),
           t.identifier('session'),
+        ])
+      ),
+      t.ifStatement(
+        t.unaryExpression('!', t.identifier('session'), true),
+        t.blockStatement([
+          t.throwStatement(
+            t.callExpression(t.identifier('redirect'), [
+              t.stringLiteral(opts?.login ?? '/login'),
+            ])
+          ),
         ])
       ),
       t.returnStatement(

@@ -1,6 +1,6 @@
 import { getSession } from '@solid-mediakit/auth'
 import { authOptions } from '~/server/auth'
-import { useRouteData } from 'solid-start'
+import { useRouteData, redirect } from 'solid-start'
 import { createServerData$ } from 'solid-start/server'
 const Protected = () => {
   const _$rData = useRouteData<typeof routeData>()
@@ -9,8 +9,12 @@ const Protected = () => {
 export default Protected
 export const routeData = () => {
   return createServerData$(async (_$_key, { request: _request }) => {
+    console.log('called routeData')
     const session = await getSession(_request, authOptions)
     console.log('session', session)
+    if (!session) {
+      throw redirect('/')
+    }
     return {
       session: session,
     }

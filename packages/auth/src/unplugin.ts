@@ -75,10 +75,13 @@ export default createUnplugin((opts?: Options) => {
       enforce: 'pre',
       configResolved(config) {
         repushPlugin(config.plugins as Plugin[], 'vite-plugin-auth', [
-          // https://github.com/solidjs/vite-plugin-solid/blob/master/src/index.ts#L305
           'solid',
-          // https://github.com/solidjs/solid-start/blob/main/packages/start/vite/plugin.js#L118
+          'solid-start-config',
           'solid-start-file-system-router',
+          'solid-start-route-manifest',
+          'solid-start-csr-dev',
+          'solid-start-server',
+          'solid-start-inline-server-modules',
         ])
       },
     },

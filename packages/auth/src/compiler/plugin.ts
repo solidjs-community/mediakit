@@ -1,7 +1,6 @@
 import type * as babel from '@babel/core'
 import {
   getDefaultExportAsFn,
-  getRouteDataProtectedExport,
   importIfNotThere,
   replaceSession$,
 } from './utils.js'
@@ -30,7 +29,6 @@ export function createTransformAuth(opts?: Options) {
       visitor: {
         Program: (path) => {
           importIfNotThere(t, path, 'solid-start/server', 'createServerData$')
-          importIfNotThere(t, path, 'solid-start', 'useRouteData')
           importIfNotThere(t, path, 'solid-start', 'redirect')
           importIfNotThere(
             t,
@@ -39,13 +37,12 @@ export function createTransformAuth(opts?: Options) {
             'authOptions'
           )
           importIfNotThere(t, path, '@solid-mediakit/auth', 'getSession')
-          path.node.body.push(getRouteDataProtectedExport(t, path, opts))
           const defaultExport = path.node.body.find(
             (node): node is babel.types.ExportDefaultDeclaration =>
               node.type === 'ExportDefaultDeclaration'
           )
           if (defaultExport) {
-            getDefaultExportAsFn(t, path, defaultExport)
+            getDefaultExportAsFn(t, path, defaultExport, opts)
           }
           replaceSession$(path, t)
           return path

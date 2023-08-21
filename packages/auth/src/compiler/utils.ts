@@ -76,9 +76,8 @@ export const pushCode = (
   }
 }
 
-export const getRouteDataProtectedExport = (
+export const getServerProtectedData = (
   t: typeof babel.types,
-  path: babel.NodePath<babel.types.Program>,
   opts?: Options
 ) => {
   const innerFn = t.arrowFunctionExpression(
@@ -118,34 +117,21 @@ export const getRouteDataProtectedExport = (
     ])
   )
   innerFn.async = true
-  const exportStatement = t.exportNamedDeclaration(
-    t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.identifier('routeData'),
-        t.arrowFunctionExpression(
-          [],
-          t.blockStatement([
-            t.returnStatement(
-              t.callExpression(t.identifier('createServerData$'), [innerFn])
-            ),
-          ])
-        )
-      ),
-    ])
-  )
-  return exportStatement
+
+  return t.callExpression(t.identifier('createServerData$'), [innerFn])
 }
 
 export const getDefaultExportAsFn = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>,
-  defaultExport: babel.types.ExportDefaultDeclaration
+  defaultExport: babel.types.ExportDefaultDeclaration,
+  opts?: Options
 ) => {
-  // const _$rData = useRouteData();
+  // const _$rData = createServerData$(...)
   const rData = t.variableDeclaration('const', [
     t.variableDeclarator(
       t.identifier('_$rData'),
-      t.callExpression(t.identifier('useRouteData'), [])
+      getServerProtectedData(t, opts)
     ),
   ])
   if (defaultExport.declaration.type === 'Identifier') {

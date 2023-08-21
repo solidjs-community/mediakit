@@ -10,7 +10,7 @@ export default defineConfig(() => {
         log: true,
         login: '/',
       }),
-      solid({ ssr: true }),
+      solid({ ssr: true, inspect: true }),
     ],
   }
 })

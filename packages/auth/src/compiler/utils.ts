@@ -7,8 +7,18 @@ export const importIfNotThere = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>,
   from: string,
-  shouldImport: string
+  shouldImport: string,
+  isDefault = false
 ) => {
+  if (isDefault) {
+    path.node.body.unshift(
+      t.importDeclaration(
+        [t.importDefaultSpecifier(t.identifier(shouldImport))],
+        t.stringLiteral(from)
+      )
+    )
+    return
+  }
   const isImported = path.node.body.find(
     (node) =>
       node.type === 'ImportDeclaration' &&
@@ -68,6 +78,7 @@ export const pushCode = (
 
 export const getRouteDataProtectedExport = (
   t: typeof babel.types,
+  path: babel.NodePath<babel.types.Program>,
   opts?: Options
 ) => {
   const innerFn = t.arrowFunctionExpression(

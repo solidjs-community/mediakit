@@ -75,11 +75,11 @@ export default createUnplugin((opts?: Options) => {
           'solid',
           'solid-start-config',
           'solid-start-file-system-router',
-          'solid-start-route-manifest',
-          'solid-start-csr-dev',
           'solid-start-server',
           'solid-start-inline-server-modules',
         ])
+        // console.log(config.plugins)
+        // throw new Error('test')
       },
     },
     name: 'vite-plugin-auth',

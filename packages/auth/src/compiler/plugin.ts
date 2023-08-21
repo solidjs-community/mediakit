@@ -39,7 +39,7 @@ export function createTransformAuth(opts?: Options) {
             'authOptions'
           )
           importIfNotThere(t, path, '@solid-mediakit/auth', 'getSession')
-          path.node.body.push(getRouteDataProtectedExport(t, opts))
+          path.node.body.push(getRouteDataProtectedExport(t, path, opts))
           const defaultExport = path.node.body.find(
             (node): node is babel.types.ExportDefaultDeclaration =>
               node.type === 'ExportDefaultDeclaration'

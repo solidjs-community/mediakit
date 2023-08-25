@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server.js"
     }
   },
   "scripts": {
@@ -16,7 +20,7 @@
     "build": "tsc && rollup -c"
   },
   "keywords": [],
-  "author": "",
+  "author": "Thomas Beer",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.2",

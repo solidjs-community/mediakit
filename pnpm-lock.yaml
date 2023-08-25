@@ -210,7 +210,7 @@ importers:
         specifier: ^4.8.2
         version: 4.9.5
 
-  packages/open-graph:
+  packages/dynamic-image:
     dependencies:
       '@vercel/og':
         specifier: ^0.5.11
@@ -221,13 +221,13 @@ importers:
     devDependencies:
       '@rollup/plugin-typescript':
         specifier: ^11.1.2
-        version: 11.1.2(rollup@3.26.3)(tslib@2.6.1)(typescript@5.1.6)
+        version: 11.1.2(rollup@3.26.3)(tslib@2.5.0)(typescript@5.1.6)
       solid-js:
         specifier: ^1.7.11
         version: 1.7.11
       tslib:
         specifier: ^2.5.0
-        version: 2.6.1
+        version: 2.5.0
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -2599,7 +2599,7 @@ packages:
       resolve: 1.22.2
       rollup: 3.26.3
 
-  /@rollup/plugin-typescript@11.1.2(rollup@3.26.3)(tslib@2.6.1)(typescript@5.1.6):
+  /@rollup/plugin-typescript@11.1.2(rollup@3.26.3)(tslib@2.5.0)(typescript@5.1.6):
     resolution: {integrity: sha512-0ghSOCMcA7fl1JM+0gYRf+Q/HWyg+zg7/gDSc+fRLmlJWcW5K1I+CLRzaRhXf4Y3DRyPnnDo4M2ktw+a6JcDEg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2615,7 +2615,7 @@ packages:
       '@rollup/pluginutils': 5.0.2(rollup@3.26.3)
       resolve: 1.22.2
       rollup: 3.26.3
-      tslib: 2.6.1
+      tslib: 2.5.0
       typescript: 5.1.6
     dev: true
 

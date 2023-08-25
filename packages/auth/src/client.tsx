@@ -13,6 +13,7 @@ import {
   onMount,
   onCleanup,
   createEffect,
+  type JSX,
 } from 'solid-js'
 import { isServer } from 'solid-js/web'
 import { type PageEvent, useRequest } from 'solid-start/server'
@@ -236,3 +237,5 @@ function createReqWithServerHandler<T>(
     return data
   }
 }
+
+export type ProtectedComponent = (session$: Session) => JSX.Element

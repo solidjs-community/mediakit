@@ -6,7 +6,7 @@
     "build": "tsc -p . && rollup -c && node scripts/postbuild",
     "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "clean:dist": "rm -rf dist client.* index.* types.* utils.*",
+    "clean:dist": "rm -rf dist compiler client.* index.* types.* utils.* unplugin.*",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",
@@ -15,22 +15,36 @@
     "index.*",
     "utils.*",
     "types.*",
-    "src"
+    "unplugin.*",
+    "compiler/**/*",
+    "src/**/*"
   ],
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./index.js"
+      "default": "./index.js"
     },
     "./client": {
       "types": "./client.d.ts",
       "solid": "./client.js",
-      "import": "./client.js"
+      "default": "./client.js"
     },
     "./types": "./types.d.ts",
     "./utils": {
       "types": "./utils.d.ts",
-      "import": "./utils.js"
+      "default": "./utils.js"
+    },
+    "./compiler/plugin": {
+      "types": "./compiler/plugin.d.ts",
+      "default": "./compiler/plugin.js"
+    },
+    "./compiler/utils": {
+      "types": "./compiler/utils.d.ts",
+      "default": "./compiler/utils.js"
+    },
+    "./unplugin": {
+      "types": "./unplugin.d.ts",
+      "default": "./unplugin.js"
     },
     "./package.json": "./package.json"
   },
@@ -42,7 +56,14 @@
     "@typescript-eslint/parser": "^5.44.0",
     "solid-js": "^1.5.3",
     "typescript": "^4.8.2",
-    "solid-start": "^0.2.0"
+    "solid-start": "^0.2.0",
+    "@types/babel__core": "^7.20.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/pluginutils": "^5.0.2",
+    "unplugin": "^1.3.1"
   },
   "peerDependencies": {
     "solid-js": "^1.5.3",

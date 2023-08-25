@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "type": "module",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

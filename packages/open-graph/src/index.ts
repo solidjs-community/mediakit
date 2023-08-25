@@ -40,3 +40,10 @@ export async function createOpenGraphImage(jsx?: string | JSX.Element) {
   const converted = convertHTML(parsed as JSONContent)
   return new ImageResponse(converted)
 }
+
+export async function createBase64Image(jsx?: string | JSX.Element) {
+  const img = (await createOpenGraphImage(jsx)) as any
+  const buf = await new Response(img.body).arrayBuffer()
+  const url = 'data:image/png;base64,' + Buffer.from(buf).toString('base64')
+  return url
+}

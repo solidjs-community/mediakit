@@ -30,9 +30,17 @@ function convertHTML(json: JSONContent | string): any {
     },
   }
 }
-export async function createOpenGraphImage(jsx?: string | JSX.Element) {
+export async function createOpenGraphImage(
+  jsx?:
+    | string
+    | JSX.Element
+    | (() => (string | JSX.Element) | Promise<string | JSX.Element>)
+) {
   // TODO: Fix this hack
   let jsx1 = jsx as any
+  if (typeof jsx1 === 'function') {
+    jsx1 = await jsx1()
+  }
   if (typeof jsx1 !== 'string') {
     jsx1 = jsx1.t as string
   }

@@ -5,12 +5,15 @@ export default {
     index: './src/index.tsx',
     server: './src/server/index.ts',
   },
-  output: [
-    {
-      dir: 'dist',
-      format: 'es',
+  output: {
+    dir: 'dist',
+    format: 'es',
+    entryFileNames: (chunkInfo) => {
+      const name = chunkInfo.name
+      return `[name].${name === 'index' ? 'jsx' : 'js'}`
     },
-  ],
+  },
+
   acornInjectPlugins: [jsx()],
   plugins: [typescript({ jsx: 'preserve' })],
 }

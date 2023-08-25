@@ -34,6 +34,7 @@
     "html-to-json-parser": "^1.1.0"
   },
   "peerDependencies": {
-    "solid-start": "^0.3.4"
+    "solid-start": "^0.3.4",
+    "@solidjs/meta": "^0.28.5"
   }
 }

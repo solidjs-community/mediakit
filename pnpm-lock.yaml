@@ -212,6 +212,9 @@ importers:
 
   packages/dynamic-image:
     dependencies:
+      '@solidjs/meta':
+        specifier: ^0.28.5
+        version: 0.28.5(solid-js@1.7.11)
       '@vercel/og':
         specifier: ^0.5.11
         version: 0.5.11
@@ -223,7 +226,7 @@ importers:
         version: 1.1.0
       solid-start:
         specifier: ^0.3.4
-        version: 0.3.4(@solidjs/meta@0.28.2)(@solidjs/router@0.8.2)(solid-js@1.7.11)(vite@4.4.8)
+        version: 0.3.4(@solidjs/meta@0.28.5)(@solidjs/router@0.8.2)(solid-js@1.7.11)(vite@4.4.8)
     devDependencies:
       '@rollup/plugin-typescript':
         specifier: ^11.1.2
@@ -2667,20 +2670,20 @@ packages:
   /@sideway/pinpoint@2.0.0:
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
 
-  /@solidjs/meta@0.28.2(solid-js@1.7.11):
-    resolution: {integrity: sha512-avlLgBPdk4KVxzRGFlYp/MIJo8B5jVgXPgk6OUnUP8km21Z+ovO+DUd7ZPA7ejv8PBdWi9GE3zCzw8RU2YuV2Q==}
-    peerDependencies:
-      solid-js: '>=1.4.0'
-    dependencies:
-      solid-js: 1.7.11
-    dev: false
-
   /@solidjs/meta@0.28.2(solid-js@1.7.3):
     resolution: {integrity: sha512-avlLgBPdk4KVxzRGFlYp/MIJo8B5jVgXPgk6OUnUP8km21Z+ovO+DUd7ZPA7ejv8PBdWi9GE3zCzw8RU2YuV2Q==}
     peerDependencies:
       solid-js: '>=1.4.0'
     dependencies:
       solid-js: 1.7.3
+
+  /@solidjs/meta@0.28.5(solid-js@1.7.11):
+    resolution: {integrity: sha512-52luJR6hVNMA1K8Od5OD0d8WVz/svqZG4is8lrDimiUGxdia3DzuLF+pK56dnEzbNt9cA42qVFL134U9LkC9Gg==}
+    peerDependencies:
+      solid-js: '>=1.4.0'
+    dependencies:
+      solid-js: 1.7.11
+    dev: false
 
   /@solidjs/router@0.8.2(solid-js@1.7.11):
     resolution: {integrity: sha512-gUKW+LZqxtX6y/Aw6JKyy4gQ9E7dLqp513oB9pSYJR1HM5c56Pf7eijzyXX+b3WuXig18Cxqah4tMtF0YGu80w==}
@@ -8123,7 +8126,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /solid-start@0.3.4(@solidjs/meta@0.28.2)(@solidjs/router@0.8.2)(solid-js@1.7.11)(vite@4.4.8):
+  /solid-start@0.3.4(@solidjs/meta@0.28.5)(@solidjs/router@0.8.2)(solid-js@1.7.11)(vite@4.4.8):
     resolution: {integrity: sha512-rgtJboxzqaXmLTYV6AwzYk2QMImPviPk9yIA8fVP/UvsZwwdMEfSprqYR+81dR+QZvOrJNckWleesQApdOYM6A==}
     hasBin: true
     peerDependencies:
@@ -8163,7 +8166,7 @@ packages:
       '@babel/preset-env': 7.22.9(@babel/core@7.22.9)
       '@babel/preset-typescript': 7.22.5(@babel/core@7.22.9)
       '@babel/template': 7.22.5
-      '@solidjs/meta': 0.28.2(solid-js@1.7.11)
+      '@solidjs/meta': 0.28.5(solid-js@1.7.11)
       '@solidjs/router': 0.8.2(solid-js@1.7.11)
       '@types/cookie': 0.5.1
       '@types/debug': 4.1.8

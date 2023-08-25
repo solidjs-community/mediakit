@@ -1,7 +1,7 @@
 import { children, createMemo } from 'solid-js'
 import type { JSX, ParentProps } from 'solid-js'
 import { Meta } from '@solidjs/meta'
-export const DynamicImage = (): JSX.Element => {
+export const DynamicImage = (props: ParentProps): JSX.Element => {
   throw new Error('This should be compiled away')
 }
 export const Image = (props: ParentProps) => {

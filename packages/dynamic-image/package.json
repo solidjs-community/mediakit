@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "type": "module",
   "description": "",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/index.jsx",
+  "module": "./dist/index.jsx",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.jsx"
     },
     "./server": {
       "types": "./dist/server/index.d.ts",

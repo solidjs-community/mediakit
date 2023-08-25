@@ -1,9 +1,8 @@
 import typescript from '@rollup/plugin-typescript'
-
+import jsx from 'acorn-jsx'
 export default {
-  // input: ['./src/index.ts', './src/server/index.ts'],
   input: {
-    index: './src/index.ts',
+    index: './src/index.tsx',
     server: './src/server/index.ts',
   },
   output: [
@@ -11,10 +10,7 @@ export default {
       dir: 'dist',
       format: 'es',
     },
-    // {
-    //   file: 'dist/index.js',
-    //   format: 'es',
-    // },
   ],
-  plugins: [typescript()],
+  acornInjectPlugins: [jsx()],
+  plugins: [typescript({ jsx: 'preserve' })],
 }

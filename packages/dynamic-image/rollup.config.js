@@ -4,6 +4,7 @@ export default {
   input: {
     index: './src/index.tsx',
     server: './src/server/index.ts',
+    unplugin: './src/unplugin/index.ts',
   },
   output: {
     dir: 'dist',

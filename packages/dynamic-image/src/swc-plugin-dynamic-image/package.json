@@ -1,0 +1,21 @@
+{
+    "name": "swc-plugin-dynamic-image",
+    "version": "0.1.0",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [
+        "swc-plugin"
+    ],
+    "main": "target/wasm32-wasi/release/swc_plugin_dynamic_image.wasm",
+    "scripts": {
+        "prepublishOnly": "cargo build-wasi --release",
+        "build": "wasm-pack build --target web --release && jiti ./scripts/postBuild.ts"
+    },
+    "files": [],
+    "preferUnplugged": true,
+    "devDependencies": {
+        "@types/node": "^20.5.4",
+        "jiti": "^1.19.3"
+    }
+}

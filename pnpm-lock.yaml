@@ -221,9 +221,9 @@ importers:
       acorn-jsx:
         specifier: ^5.3.2
         version: 5.3.2(acorn@8.10.0)
-      html-to-json-parser:
-        specifier: ^1.1.0
-        version: 1.1.0
+      satori-html:
+        specifier: ^0.3.2
+        version: 0.3.2
       solid-start:
         specifier: ^0.3.4
         version: 0.3.4(@solidjs/meta@0.28.5)(@solidjs/router@0.8.2)(solid-js@1.7.11)(vite@4.4.8)
@@ -5524,12 +5524,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /html-to-json-parser@1.1.0:
-    resolution: {integrity: sha512-j6JiUBhIQkC+guahmh0VKwQRrnsROpUaRWAQyRlu5tp6atQg9ljeU70eBtpHSJwNALFNo//VOozvif7AQlfOtA==}
-    dependencies:
-      xmldom: 0.6.0
-    dev: false
-
   /html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
     dev: false
@@ -7845,6 +7839,12 @@ packages:
       suf-log: 2.5.3
     dev: false
 
+  /satori-html@0.3.2:
+    resolution: {integrity: sha512-wjTh14iqADFKDK80e51/98MplTGfxz2RmIzh0GqShlf4a67+BooLywF17TvJPD6phO0Hxm7Mf1N5LtRYvdkYRA==}
+    dependencies:
+      ultrahtml: 1.4.0
+    dev: false
+
   /satori@0.10.3:
     resolution: {integrity: sha512-8tZPu7AGiRWimbOyja1s2HK0hEC4DacZ8cAKDITxlVI5tKQZbOuMiVgSB50CABwc0I4Imgtkq7o9Egj1WOJTKg==}
     engines: {node: '>=16'}
@@ -8913,6 +8913,10 @@ packages:
     hasBin: true
     dev: true
 
+  /ultrahtml@1.4.0:
+    resolution: {integrity: sha512-2SbudS8oD4GNq4en+3ivp25JTCwP5O2soJhIBxGJrjojjLVaLcP84xVU6Xdf0wKMhZvr68rTtrXtO6uvEr2llQ==}
+    dev: false
+
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
     dependencies:
@@ -9439,11 +9443,6 @@ packages:
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
-
-  /xmldom@0.6.0:
-    resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
-    engines: {node: '>=10.0.0'}
-    dev: false
 
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}

@@ -31,7 +31,6 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "jiti": "^1.19.3",
     "solid-js": "^1.7.11",
-    "tslib": "^2.5.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {

@@ -240,9 +240,6 @@ importers:
       solid-js:
         specifier: ^1.7.11
         version: 1.7.11
-      tslib:
-        specifier: ^2.5.0
-        version: 2.5.0
       typescript:
         specifier: ^5.1.6
         version: 5.1.6

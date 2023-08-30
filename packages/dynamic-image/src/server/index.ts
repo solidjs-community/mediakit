@@ -25,7 +25,7 @@ export async function createOpenGraphImage(
 }
 
 export async function createBase64Image(jsx?: string | JSX.Element) {
-  const img = (await createOpenGraphImage(jsx)) as any
+  const img = (await createOpenGraphImage(jsx)) as { body: ReadableStream }
   const buf = await new Response(img.body).arrayBuffer()
   const url = 'data:image/png;base64,' + Buffer.from(buf).toString('base64')
   return url

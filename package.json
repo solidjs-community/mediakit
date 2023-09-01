@@ -12,7 +12,9 @@
     "format": "prettier --write \"**.*.{ts,tsx,md}\"",
     "ts:check": "torbo run ts:check --continue",
     "dev:packages": "turbo run dev --filter=./packages/*",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:rs": "pnpm -C packages/og/src/swc-plugin-dynamic-image build",
+    "postinstall": "pnpm run build:rs"
   },
   "type": "module",
   "engines": {

@@ -45,5 +45,5 @@ export const SIDEBAR: Sidebar = {
     { text: 'createSession', link: 'auth/createsession' },
     { text: 'getSession', link: 'auth/getsession' },
   ],
-  'Dynamic Image': [{ text: 'Install', link: 'dynamic-image/install' }],
+  Og: [{ text: 'Install', link: 'og/install' }],
 }

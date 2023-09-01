@@ -10,7 +10,7 @@ function getExtension(filename: string): string {
   const index = filename.lastIndexOf('.')
   return index < 0 ? '' : filename.substring(index).replace(/\?.+$/, '')
 }
-export const unplugin = createUnplugin((options) => {
+export const unplugin = createUnplugin(() => {
   return {
     enforce: 'pre',
     name: 'unplugin-dynamic-image',
@@ -26,18 +26,11 @@ export const unplugin = createUnplugin((options) => {
       if (!extensionsToWatch.includes(currentFileExtension)) {
         return null
       }
-      const out = transform(code, id)
-      if (id.endsWith('index.tsx')) {
-        // console.log(out);
-      }
-      return out
+      return transform(code, id)
     },
   }
 })
-const wasmURL = new URL(
-  './swc_plugin_dynamic_image_bg.wasm',
-  import.meta.url
-)
+const wasmURL = new URL('./swc_plugin_dynamic_image_bg.wasm', import.meta.url)
 await init(await readFile(fileURLToPath(wasmURL)))
 export const vitePlugin = unplugin.vite
 export const rollupPlugin = unplugin.rollup

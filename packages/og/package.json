@@ -1,5 +1,5 @@
 {
-  "name": "@solid-mediakit/dynamic-image",
+  "name": "@solid-mediakit/og",
   "version": "0.0.1",
   "type": "module",
   "description": "",
@@ -21,11 +21,13 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c && jiti ./scripts/postBuild.ts"
   },
-  "keywords": [],
-  "author": "Thomas Beer",
+  "keywords": [
+    "MediaKit",
+    "SolidJS",
+    "Og"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.2",

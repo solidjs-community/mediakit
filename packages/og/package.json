@@ -36,6 +36,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@babel/core": "^7.20.12",
     "@vercel/og": "^0.5.11",
     "acorn-jsx": "^5.3.2",
     "satori-html": "^0.3.2",

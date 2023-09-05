@@ -1,10 +1,4 @@
 import { createUnplugin } from 'unplugin'
-import { readFile } from 'fs/promises'
-
-import { fileURLToPath } from 'url'
-import init, {
-  transform,
-} from '../swc-plugin-dynamic-image/pkg/swc_plugin_dynamic_image'
 
 function getExtension(filename: string): string {
   const index = filename.lastIndexOf('.')
@@ -26,12 +20,10 @@ export const unplugin = createUnplugin(() => {
       if (!extensionsToWatch.includes(currentFileExtension)) {
         return null
       }
-      return transform(code, id)
+      return null;
     },
   }
 })
-const wasmURL = new URL('./swc_plugin_dynamic_image_bg.wasm', import.meta.url)
-await init(await readFile(fileURLToPath(wasmURL)))
 export const vitePlugin = unplugin.vite
 export const rollupPlugin = unplugin.rollup
 export const webpackPlugin = unplugin.webpack

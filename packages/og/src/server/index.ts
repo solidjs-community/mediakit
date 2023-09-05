@@ -3,6 +3,10 @@ import { ImageResponse } from '@vercel/og'
 import { html } from 'satori-html'
 import type { JSX } from 'solid-js'
 
+/**
+ * Given, JSX, or a function that returns JSX, returns an image response.
+ * Note: This can only be used on the server
+ */
 export async function createOpenGraphImage(
   jsx?:
     | string
@@ -29,4 +33,16 @@ export async function createBase64Image(jsx?: string | JSX.Element) {
   const buf = await new Response(img.body).arrayBuffer()
   const url = 'data:image/png;base64,' + Buffer.from(buf).toString('base64')
   return url
+}
+
+/**
+ * Parses the function arguments from the given URL
+ * @param url
+ * @returns
+ */
+export const getArguments = (url: string) => {
+  const argsStr = new URL(url).searchParams.get('args')
+  if (!argsStr) return []
+  const args = JSON.parse(argsStr)
+  return args
 }

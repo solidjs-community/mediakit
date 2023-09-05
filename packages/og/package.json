@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "build": "tsc && rollup -c && jiti ./scripts/postBuild.ts"
+    "build": "tsc && rollup -c"
   },
   "keywords": [
     "MediaKit",

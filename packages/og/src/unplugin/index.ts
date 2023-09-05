@@ -22,6 +22,8 @@ export const unplugin = createUnplugin(() => {
       if (!extensionsToWatch.includes(currentFileExtension)) {
         return null
       }
+      // Temporarily hack around it transforming the output file in `dist`
+      if (id.includes('index.jsx')) return
       const res = await babel.transformAsync(code, {
         plugins: [[transformOG]],
         parserOpts: { plugins },

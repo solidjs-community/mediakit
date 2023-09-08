@@ -1,5 +1,5 @@
 {
-  "name": "example-bare",
+  "name": "example-og",
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
@@ -18,7 +18,8 @@
     "@solidjs/meta": "^0.28.6",
     "@solidjs/router": "^0.8.3",
     "solid-js": "^1.7.11",
-    "solid-start": "^0.3.5"
+    "solid-start": "^0.3.5",
+    "@solid-mediakit/og": "workspace:*"
   },
   "engines": {
     "node": ">=18"

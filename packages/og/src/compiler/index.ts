@@ -1,10 +1,7 @@
 import type { PluginItem } from '@babel/core'
-import {
-  addDynamicImages,
-  importIfNotThere,
-  replaceDynamicImages,
-} from './utils'
+import { addDynamicImages, replaceDynamicImages } from './utils'
 import type babel from '@babel/core'
+import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export const transformOG = ({
   types: t,
@@ -14,15 +11,26 @@ export const transformOG = ({
   return {
     visitor: {
       Program(path) {
-        importIfNotThere(t, path, 'solid-start/server', 'server$', true)
-        importIfNotThere(t, path, 'solid-js', 'createMemo')
-        importIfNotThere(
+        babelUtils.importIfNotThere(
+          t,
+          path,
+          'solid-start/server',
+          'server$',
+          true
+        )
+        babelUtils.importIfNotThere(t, path, 'solid-js', 'createMemo')
+        babelUtils.importIfNotThere(
           t,
           path,
           '@solid-mediakit/og/server',
           'createOpenGraphImage'
         )
-        importIfNotThere(t, path, '@solid-mediakit/og/server', 'getArguments')
+        babelUtils.importIfNotThere(
+          t,
+          path,
+          '@solid-mediakit/og/server',
+          'getArguments'
+        )
         const dynamicImages = replaceDynamicImages(t, path)
         addDynamicImages(dynamicImages, t, path)
         return path

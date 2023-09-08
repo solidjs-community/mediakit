@@ -2,4 +2,3 @@ packages:
   - 'docs'
   - 'packages/*'
   - 'examples/*'
-  - 'packages/og/src/swc-plugin-dynamic-image'

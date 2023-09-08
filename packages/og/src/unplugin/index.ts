@@ -1,10 +1,12 @@
 import { createUnplugin } from 'unplugin'
 import babel from '@babel/core'
 import { transformOG } from '../compiler'
+
 function getExtension(filename: string): string {
   const index = filename.lastIndexOf('.')
   return index < 0 ? '' : filename.substring(index).replace(/\?.+$/, '')
 }
+
 export const unplugin = createUnplugin(() => {
   return {
     enforce: 'pre',

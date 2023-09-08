@@ -1,4 +1,4 @@
-import type { PluginItem } from '@babel/core'
+import type { PluginObj } from '@babel/core'
 import { addDynamicImages, replaceDynamicImages } from './utils'
 import type babel from '@babel/core'
 import { babel as babelUtils } from '@solid-mediakit/shared'
@@ -7,7 +7,7 @@ export const transformOG = ({
   types: t,
 }: {
   types: typeof babel.types
-}): PluginItem => {
+}): PluginObj => {
   return {
     visitor: {
       Program(path) {

@@ -1,26 +1,43 @@
+/* eslint-disable */
 import { type Session } from '@auth/core/types'
-import { defineAbility } from '@casl/ability'
+import { PureAbility, AbilityBuilder } from '@casl/ability'
+import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma'
+import { Todos } from '@prisma/client'
+
+type AppAbility = PureAbility<
+  [
+    'create' | 'read' | 'update' | 'delete' | 'manage',
+    Subjects<{ Todo: Todos; all: never }>
+  ],
+  PrismaQuery
+>
 
 export const ROLES = {
-  admin: defineAbility((can) => {
-    can('manage', 'all')
-  }),
-  user: (userId: string) =>
-    defineAbility((can) => {
-      can('manage', 'Todo', { userId })
-    }),
-  public: defineAbility((can) => {
-    can('read', 'Todo')
-  }),
+  admin: () => {
+    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
+    can(`manage`, `all`)
+    return build()
+  },
+  user: (userId: string) => {
+    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
+    can('manage', 'Todo', { userId })
+    can('read', 'Todo', { isPublic: true })
+    return build()
+  },
+  public: () => {
+    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
+    can('read', 'Todo', { isPublic: true })
+    return build()
+  },
 }
 
 export function getAbilityFromSession(session?: Session | null) {
-  const userId = session?.id
-  const role = session?.role
+  if (!session) return ROLES.public()
 
-  if (role === `admin`) return ROLES.admin
+  const userId = session.user.id
+  const role = session.user.role
 
-  if (userId) return ROLES.user(userId)
+  if (role === `admin`) return ROLES.admin()
 
-  return ROLES.public
+  return ROLES.user(userId)
 }

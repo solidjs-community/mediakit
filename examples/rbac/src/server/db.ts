@@ -1,22 +1,20 @@
-import fs from 'fs'
+import { PrismaClient } from "@prisma/client";
+import { serverEnv } from "~/env/server";
 
-async function getData<T>() {
-  const fileData = await fs.promises.readFile('db.json')
-  const data = JSON.parse(fileData.toString())
-  return data as T
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
 }
 
-async function saveData<T>(data: T) {
-  await fs.promises.writeFile('db.json', JSON.stringify(data))
-}
+export const prisma =
+  global.prisma ||
+  new PrismaClient({
+    log:
+      serverEnv.NODE_ENV === "development"
+        ? ["query", "error", "warn"]
+        : ["error"],
+  });
 
-export type Todo = {
-  title: string
-  completed: boolean
-  userId: string
-}
-
-export const Todos = {
-  get: getData<Todo[]>,
-  save: saveData<Todo[]>,
+if (serverEnv.NODE_ENV !== "production") {
+  global.prisma = prisma;
 }

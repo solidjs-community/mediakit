@@ -26,10 +26,14 @@ export function Can(props: {
   const ctx = useContext(AbilityContext)
   if (!ctx) throw new Error()
   const canRender = () => {
-    const ability = ctx.getAbility()
-    return props.not
-      ? ability?.cannot(props.I, props.a)
-      : ability?.can(props.I, props.a)
+    try {
+      const ability = ctx.getAbility()
+      return props.not
+        ? ability?.cannot(props.I, props.a)
+        : ability?.can(props.I, props.a)
+    } catch (err) {
+      console.error(`sakjdbhudhv`, err)
+    }
   }
 
   return (

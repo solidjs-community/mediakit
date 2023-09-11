@@ -3,12 +3,12 @@ import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
 import { Head, Title } from 'solid-start'
 import { Can } from '../../../../packages/casl'
 import { createServerAction$, createServerData$ } from 'solid-start/server'
+import { type Todo, Todos } from '~/server/db'
 import { getSession } from '@solid-mediakit/auth'
 import { authOptions } from '~/server/auth'
 import { subject } from '@casl/ability'
+import { rulesToQuery } from '@casl/ability/extra'
 import { getAbilityFromSession } from '~/roles'
-import { prisma } from '~/server/db'
-import { accessibleBy } from '@casl/prisma'
 
 const AuthShowcase: VoidComponent = () => {
   const session = createSession()
@@ -60,68 +60,80 @@ export default Home
 function TodoApp() {
   const todos = createServerData$(async (_, { request }) => {
     const session = await getSession(request, authOptions)
+    if (!session?.id) return []
+
     const ability = getAbilityFromSession(session)
+    const canRead = ability.can('read', `Todo`)
+    if (!canRead) throw new Error(`Forbidden`)
 
-    const todos = await prisma?.todos.findMany({
-      where: accessibleBy(ability).Todos,
-    })
+    const q = rulesToQuery(ability, 'read', 'Todo', (r) => r.conditions || [])
+    const allTodos = await Todos.get()
+    const filtered =
+      q?.$or?.reduce<Todo[]>(
+        (results, { userId }) => results.filter((t) => t.userId === userId),
+        allTodos
+      ) || allTodos
 
-    return todos
+    return filtered
   })
 
   const [, addTodo] = createServerAction$(
     async (title: string, { request }) => {
       const session = await getSession(request, authOptions)
-      const ability = getAbilityFromSession(session)
+      if (!session?.id) throw new Error('not signed in')
 
+      const ability = getAbilityFromSession(session)
       const canCreate = ability.can('create', `Todo`)
       if (!canCreate) throw new Error(`Forbidden`)
 
-      await prisma.todos.create({
-        data: { title, completed: false, userId: session!.user.id },
-      })
+      const todos = await Todos.get()
+      await Todos.save([
+        ...todos,
+        { title, completed: false, userId: session.id },
+      ])
     }
   )
 
   const [, toggleTodo] = createServerAction$(
-    async (id: string, { request }) => {
+    async (idx: number, { request }) => {
       const session = await getSession(request, authOptions)
-      if (!session?.user.id) throw new Error('not signed in')
+      if (!session?.id) throw new Error('not signed in')
 
-      const toUpdate = await prisma.todos.findUnique({ where: { id } })
+      const todos = await Todos.get()
+      const toUpdate = todos.find((t, i) => i === idx)
       if (!toUpdate) throw new Error(`not found`)
 
       const ability = getAbilityFromSession(session)
-      const canUpdate = ability.can('update', subject('Todo', toUpdate))
-      if (!canUpdate) throw new Error(`Forbidden`)
+      const canCreate = ability.can('update', subject('Todo', toUpdate))
+      if (!canCreate) throw new Error(`Forbidden`)
 
-      await prisma.todos.update({
-        where: { id },
-        data: { completed: !toUpdate.completed },
-      })
+      await Todos.save(
+        todos.map((t, i) => (i === idx ? { ...t, completed: !t.completed } : t))
+      )
     }
   )
 
   const [, removeTodo] = createServerAction$(
-    async (id: string, { request }) => {
+    async (idx: number, { request }) => {
       const session = await getSession(request, authOptions)
-      if (!session?.user.id) throw new Error('not signed in')
+      if (!session?.id) throw new Error('not signed in')
 
-      const toUpdate = await prisma.todos.findUnique({ where: { id } })
-      if (!toUpdate) throw new Error(`not found`)
+      const todos = await Todos.get()
+      const toDelete = todos.find((t, i) => i === idx)
+      if (!toDelete) throw new Error(`not found`)
 
       const ability = getAbilityFromSession(session)
-      const canUpdate = ability.can('delete', subject('Todo', toUpdate))
-      if (!canUpdate) throw new Error(`Forbidden`)
+      const canDelete = ability.can('delete', subject('Todo', toDelete))
+      if (!canDelete) throw new Error(`Forbidden`)
 
-      await prisma.todos.delete({ where: { id } })
+      await Todos.save(todos.filter((t, i) => i !== idx))
     }
   )
 
   return (
     <div class='bg-yellow-200 w-80 p-8'>
       <h1 class='text-center text-3xl'>todos</h1>
-      <Can I='create' a='Todo' fallback={<></>}>
+      <Can I='add' a='Todo' fallback={<></>}>
         <form
           class=''
           onSubmit={async (e) => {
@@ -146,13 +158,13 @@ function TodoApp() {
           <Show when={todos()} fallback={<>Loading todos...</>}>
             <Show when={(todos()?.length ?? 0) < 1}>No todos</Show>
             <For each={todos()}>
-              {(todo) => (
+              {(todo, i) => (
                 <div class='flex gap-1'>
                   <Can I='update' a={subject('Todo', todo)} fallback={<></>}>
                     <input
                       type='checkbox'
                       checked={todo.completed ?? false}
-                      onChange={() => toggleTodo(todo.id)}
+                      onChange={() => toggleTodo(i())}
                     />
                   </Can>
                   <span class={`${todo.completed ? 'line-through' : ''}`}>
@@ -162,7 +174,7 @@ function TodoApp() {
                   <Can I='delete' a={subject('Todo', todo)} fallback={<></>}>
                     <button
                       class='bg-white px-1 rounded bg-opacity-70 hover:bg-opacity-100'
-                      onClick={() => removeTodo(todo.id)}
+                      onClick={() => removeTodo(i())}
                     >
                       X
                     </button>

@@ -1,42 +1,40 @@
 import { type SolidAuthConfig } from '@solid-mediakit/auth'
-// import Discord from '@auth/core/providers/discord'
-import Creds from '@auth/core/providers/credentials'
+import Discord from '@auth/core/providers/discord'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { prisma } from './db'
+import { serverEnv } from '~/env/server'
 
 declare module '@auth/core/types' {
   export interface Session {
-    user?: DefaultSession['user']
-    role?: string
-    id?: string
+    user: {
+      id: string
+      role: `admin` | `user`
+    } & DefaultSession['user']
   }
 }
 
 export const authOptions: SolidAuthConfig = {
-  providers: [
-    // Discord({
-    //   clientId: process.env.DISCORD_ID,
-    //   clientSecret: process.env.DISCORD_SECRET,
-    // }),
-    Creds({
-      credentials: {
-        email: {},
-        password: {},
-      },
-      async authorize(credentials) {
-        console.log(credentials)
-        return {
-          id: credentials.email as string,
-          name: `Dev Agrawal`,
-          email: credentials.email as string,
-        }
-      },
-    }),
-  ],
   callbacks: {
-    session({ session, token }) {
-      session.id = token.sub
-      if (token.sub === 'dev') session.role = 'admin'
+    async session({ session, user }) {
+      if (session.user) {
+        const userRole = await prisma.userRole.findFirst({
+          where: { userId: user.id },
+        })
+
+        session.user.id = user.id
+
+        // prisma sqlite doesn't support enums
+        session.user.role = (userRole?.role as never) || 'user'
+      }
       return session
     },
   },
-  debug: true,
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    Discord({
+      clientId: serverEnv.DISCORD_ID,
+      clientSecret: serverEnv.DISCORD_SECRET,
+    }),
+  ],
+  debug: false,
 }

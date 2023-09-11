@@ -23,5 +23,3 @@ gitignore
 Thumbs.db
 
 .env
-.vscode
-prisma/db.sqlite

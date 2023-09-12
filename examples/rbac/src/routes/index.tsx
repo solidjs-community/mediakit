@@ -1,4 +1,4 @@
-import { Show, type VoidComponent, For } from 'solid-js'
+import { Show, type VoidComponent, For, createEffect } from 'solid-js'
 import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
 import { Head, Title } from 'solid-start'
 import { Can } from '../../../../packages/casl'
@@ -61,7 +61,7 @@ function TodoApp() {
   const todos = createServerData$(async (_, { request }) => {
     const session = await getSession(request, authOptions)
     const ability = getAbilityFromSession(session)
-
+    console.log(ability)
     const todos = await prisma?.todos.findMany({
       where: accessibleBy(ability).Todos,
     })
@@ -117,7 +117,7 @@ function TodoApp() {
       await prisma.todos.delete({ where: { id } })
     }
   )
-
+  createEffect(() => console.log({ todosE: todos.state }))
   return (
     <div class='bg-yellow-200 w-80 p-8'>
       <h1 class='text-center text-3xl'>todos</h1>
@@ -143,7 +143,16 @@ function TodoApp() {
       </Can>
       <Can I='read' a='Todo' fallback={<>NOPE</>}>
         <div class='flex flex-col gap-2 my-2'>
-          <Show when={todos()} fallback={<>Loading todos...</>}>
+          <Show
+            when={todos()}
+            fallback={
+              <>
+                {todos.state === 'errored'
+                  ? 'error' + todos.error.message
+                  : 'loading todos...'}
+              </>
+            }
+          >
             <Show when={(todos()?.length ?? 0) < 1}>No todos</Show>
             <For each={todos()}>
               {(todo) => (

@@ -7,7 +7,7 @@ import { Todos } from '@prisma/client'
 type AppAbility = PureAbility<
   [
     'create' | 'read' | 'update' | 'delete' | 'manage',
-    Subjects<{ Todo: Todos; all: never }>
+    Subjects<{ Todos: Todos; all: never }>
   ],
   PrismaQuery
 >
@@ -20,13 +20,13 @@ export const ROLES = {
   },
   user: (userId: string) => {
     const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('manage', 'Todo', { userId })
-    can('read', 'Todo', { isPublic: true })
+    can('manage', 'Todos', { userId })
+    can('read', 'Todos', { isPublic: true })
     return build()
   },
   public: () => {
     const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('read', 'Todo', { isPublic: true })
+    can('read', 'Todos', { isPublic: true })
     return build()
   },
 }

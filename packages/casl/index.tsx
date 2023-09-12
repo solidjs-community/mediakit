@@ -24,7 +24,8 @@ export function Can(props: {
   not?: boolean
 }) {
   const ctx = useContext(AbilityContext)
-  if (!ctx) throw new Error()
+  if (!ctx) throw new Error(`<Can> can only be used inside Ability Context`)
+
   const canRender = () => {
     try {
       const ability = ctx.getAbility()

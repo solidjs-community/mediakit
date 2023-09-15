@@ -7,6 +7,23 @@ type DynamicImage = {
   element: babel.types.JSXElement
   reactives: number
 }
+const extractChild = (
+  t: typeof babel.types,
+  element: babel.types.JSXElement
+) => {
+  const elementChildren = element.children.filter((ch) =>
+    t.isJSXElement(ch)
+  ) as babel.types.JSXElement[]
+  if (!elementChildren.length) return null
+  return elementChildren.length === 1
+    ? elementChildren[0]
+    : t.jsxElement(
+        t.jsxOpeningElement(t.jsxIdentifier('div'), []),
+        t.jsxClosingElement(t.jsxIdentifier('div')),
+        elementChildren,
+        false
+      )
+}
 export const replaceDynamicImages = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>
@@ -17,13 +34,7 @@ export const replaceDynamicImages = (
       const name = elementPath.node.openingElement.name
       if (t.isJSXIdentifier(name) && name.name === 'DynamicImage') {
         const reactives = extractAndReplaceReactives(t, elementPath)
-        let child: babel.types.JSXElement | null = null
-        for (const ch of elementPath.node.children) {
-          if (t.isJSXElement(ch)) {
-            child = ch
-            break
-          }
-        }
+        const child = extractChild(t, elementPath.node)
         if (!child) throw new Error('DynamicImage must have a child element')
         DynamicImages.push({
           reactives: reactives.length,
@@ -73,7 +84,7 @@ export const addDynamicImages = (
     const template = babel.template(
       `const %%compName%% = (props)=>{
       const img = server$(()=>{
-          const %%args%% = getArguments(server$.request.url);
+          %%args%%
           return createOpenGraphImage(%%jsx%%);
       });
       const url = createMemo(()=>{
@@ -87,11 +98,22 @@ export const addDynamicImages = (
     for (let i = 0; i < image.reactives; i++) {
       args.push(t.identifier(`r${i}`))
     }
+    const argsDecl =
+      args.length === 0
+        ? null
+        : t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.arrayPattern(args),
+              t.callExpression(t.identifier('getArguments'), [
+                t.identifier('server$.request.url'),
+              ])
+            ),
+          ])
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,
         jsx: image.element,
-        args: t.arrayPattern(args),
+        args: argsDecl,
       }),
       path,
       true

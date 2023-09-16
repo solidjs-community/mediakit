@@ -1,4 +1,3 @@
-import { createSignal } from 'solid-js'
 import './Counter.css'
 
 export default function Counter(props: {

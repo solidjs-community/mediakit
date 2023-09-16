@@ -2,6 +2,7 @@ import { Title } from 'solid-start'
 import Counter from '~/components/Counter'
 import { DynamicImage, Image } from '@solid-mediakit/og'
 import { createSignal } from 'solid-js'
+
 export default function Home() {
   const [count, setCount] = createSignal(0)
   return (

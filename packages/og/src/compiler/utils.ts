@@ -7,6 +7,7 @@ type DynamicImage = {
   element: babel.types.JSXElement
   reactives: number
 }
+
 const extractChild = (
   t: typeof babel.types,
   element: babel.types.JSXElement
@@ -24,6 +25,7 @@ const extractChild = (
         false
       )
 }
+
 export const replaceDynamicImages = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>

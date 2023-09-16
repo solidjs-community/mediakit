@@ -1,0 +1,28 @@
+{
+  "name": "@solid-mediakit/shared",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "clean": "rm -rf dist node_modules"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/babel__core": "7.20.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@babel/core": "7.20.12"
+  }
+}

@@ -2,79 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type * as babel from '@babel/core'
 import type { Options } from './plugin'
-
-export const importIfNotThere = (
-  t: typeof babel.types,
-  path: babel.NodePath<babel.types.Program>,
-  from: string,
-  shouldImport: string,
-  isDefault = false
-) => {
-  if (isDefault) {
-    path.node.body.unshift(
-      t.importDeclaration(
-        [t.importDefaultSpecifier(t.identifier(shouldImport))],
-        t.stringLiteral(from)
-      )
-    )
-    return
-  }
-  const isImported = path.node.body.find(
-    (node) =>
-      node.type === 'ImportDeclaration' &&
-      node.source.value === from &&
-      node.specifiers.find(
-        (specifier) =>
-          specifier.type === 'ImportSpecifier' &&
-          (specifier.imported as any).name === shouldImport
-      )
-  )
-  if (!isImported) {
-    const alreadyImportedFromName = path.node.body.find(
-      (node) => node.type === 'ImportDeclaration' && node.source.value === from
-    )
-    if (alreadyImportedFromName) {
-      ;(alreadyImportedFromName as any).specifiers.push(
-        t.importSpecifier(
-          t.identifier(shouldImport),
-          t.identifier(shouldImport)
-        )
-      )
-      return
-    }
-    path.node.body.unshift(
-      t.importDeclaration(
-        [
-          t.importSpecifier(
-            t.identifier(shouldImport),
-            t.identifier(shouldImport)
-          ),
-        ],
-        t.stringLiteral(from)
-      )
-    )
-  }
-}
-
-export const pushCode = (
-  temp: typeof babel.template,
-  path: babel.NodePath<babel.types.Program>,
-  code: string,
-  pushToTop = false
-) => {
-  const c = temp(code)()
-  const cAsArray = Array.isArray(c) ? c : [c]
-  if (pushToTop) {
-    const lastImport = path.node.body.findIndex(
-        (node) => node.type !== 'ImportDeclaration'
-      ),
-      before = path.node.body.slice(0, lastImport),
-      after = path.node.body.slice(lastImport)
-    path.node.body = [...before, ...cAsArray, ...after]
-  } else {
-    path.node.body.push(...cAsArray)
-  }
-}
+import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export const getServerProtectedData = (
   t: typeof babel.types,
@@ -190,7 +118,7 @@ const WrapWithShowSuspense = (
   path: babel.NodePath<babel.types.Program>,
   body: babel.types.BlockStatement | babel.types.Expression
 ) => {
-  importIfNotThere(t, path, 'solid-js', 'Show')
+  babelUtils.importIfNotThere(t, path, 'solid-js', 'Show')
   const returnStatement = (
     (body.type === 'BlockStatement' ? body.body : body) as any
   ).find(

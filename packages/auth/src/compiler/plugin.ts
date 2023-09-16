@@ -1,9 +1,6 @@
 import type * as babel from '@babel/core'
-import {
-  getDefaultExportAsFn,
-  importIfNotThere,
-  replaceSession$,
-} from './utils.js'
+import { getDefaultExportAsFn, replaceSession$ } from './utils.js'
+import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export type Options = {
   protected: string[] | string
@@ -28,15 +25,25 @@ export function createTransformAuth(opts?: Options) {
     return {
       visitor: {
         Program: (path) => {
-          importIfNotThere(t, path, 'solid-start/server', 'createServerData$')
-          importIfNotThere(t, path, 'solid-start', 'redirect')
-          importIfNotThere(
+          babelUtils.importIfNotThere(
+            t,
+            path,
+            'solid-start/server',
+            'createServerData$'
+          )
+          babelUtils.importIfNotThere(t, path, 'solid-start', 'redirect')
+          babelUtils.importIfNotThere(
             t,
             path,
             opts?.authLocation ?? '~/server/auth',
             'authOptions'
           )
-          importIfNotThere(t, path, '@solid-mediakit/auth', 'getSession')
+          babelUtils.importIfNotThere(
+            t,
+            path,
+            '@solid-mediakit/auth',
+            'getSession'
+          )
           const defaultExport = path.node.body.find(
             (node): node is babel.types.ExportDefaultDeclaration =>
               node.type === 'ExportDefaultDeclaration'

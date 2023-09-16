@@ -35,15 +35,15 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Todos         Todos[]
-  UserRole      UserRole[]
+  // Todos         Todo[]
+  // UserRole      UserRole[]
 }
 
 model VerificationToken {
@@ -58,14 +58,14 @@ model UserRole {
   id     String @id @default(cuid())
   role   String
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Todos {
+model Todo {
   id        String  @id @default(cuid())
   title     String
   completed Boolean
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   isPublic  Boolean @default(false)
 }

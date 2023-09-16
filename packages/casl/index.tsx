@@ -16,30 +16,33 @@ export function AbilityProvider(props: {
   )
 }
 
-export function Can(props: {
-  I: Parameters<AnyAbility['can']>[0]
-  a?: Parameters<AnyAbility['can']>[1]
-  children: JSX.Element
-  fallback?: JSX.Element
-  not?: boolean
-}) {
-  const ctx = useContext(AbilityContext)
-  if (!ctx) throw new Error(`<Can> can only be used inside Ability Context`)
+export function createCan<Ability extends AnyAbility>() {
+  return function Can(props: {
+    I: Parameters<Ability['can']>[0]
+    a?: Parameters<Ability['can']>[1]
+    children: JSX.Element
+    fallback?: JSX.Element
+    not?: boolean
+  }) {
+    const ctx = useContext(AbilityContext)
+    if (!ctx) throw new Error(`<Can> can only be used inside Ability Context`)
 
-  const canRender = () => {
-    try {
-      const ability = ctx.getAbility()
-      return props.not
-        ? ability?.cannot(props.I, props.a)
-        : ability?.can(props.I, props.a)
-    } catch (err) {
-      console.error(`sakjdbhudhv`, err)
+    const canRender = () => {
+      try {
+        const ability = ctx.getAbility()
+        console.log({ ability })
+        return props.not
+          ? ability?.cannot(props.I, props.a)
+          : ability?.can(props.I, props.a)
+      } catch (err) {
+        console.error(`sakjdbhudhv`, err)
+      }
     }
-  }
 
-  return (
-    <Show when={canRender()} fallback={props.fallback || <>loading</>}>
-      {props.children}
-    </Show>
-  )
+    return (
+      <Show when={canRender()} fallback={props.fallback || <>loading</>}>
+        {props.children}
+      </Show>
+    )
+  }
 }

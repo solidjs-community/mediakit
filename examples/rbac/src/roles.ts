@@ -2,12 +2,13 @@
 import { type Session } from '@auth/core/types'
 import { PureAbility, AbilityBuilder } from '@casl/ability'
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma'
-import { Todos } from '@prisma/client'
+import { Todo } from '@prisma/client'
+import { createCan } from '../../../packages/casl'
 
 type AppAbility = PureAbility<
   [
     'create' | 'read' | 'update' | 'delete' | 'manage',
-    Subjects<{ Todos: Todos; all: never }>
+    Subjects<{ Todo: Todo; all: never }>
   ],
   PrismaQuery
 >
@@ -20,13 +21,13 @@ export const ROLES = {
   },
   user: (userId: string) => {
     const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('manage', 'Todos', { userId })
-    can('read', 'Todos', { isPublic: true })
+    can('manage', 'Todo', { userId })
+    can('read', 'Todo', { isPublic: true })
     return build()
   },
   public: () => {
     const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('read', 'Todos', { isPublic: true })
+    can('read', 'Todo', { isPublic: true })
     return build()
   },
 }
@@ -41,3 +42,5 @@ export function getAbilityFromSession(session?: Session | null) {
 
   return ROLES.user(userId)
 }
+
+export const Can = createCan<AppAbility>()

@@ -1,11 +1,7 @@
 import { Show, type VoidComponent, For } from 'solid-js'
 import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
 import { Head, Title, useRouteData, createRouteAction } from 'solid-start'
-import {
-  createServerAction$,
-  createServerData$,
-  createServerMultiAction$,
-} from 'solid-start/server'
+import { createServerAction$, createServerData$ } from 'solid-start/server'
 import { getSession } from '@solid-mediakit/auth'
 import { authOptions } from '~/server/auth'
 import { subject } from '@casl/ability'
@@ -153,7 +149,13 @@ function TodoApp() {
   return (
     <div class='bg-yellow-200 w-80 p-8'>
       <h1 class='text-center text-3xl'>todos</h1>
-      <Can I='create' a='Todo' fallback={<></>}>
+      <Can
+        I='create'
+        a='Todo'
+        fallback={
+          <input placeholder='sign in to create todo' class='w-full' disabled />
+        }
+      >
         <form
           class=''
           onSubmit={async (e) => {

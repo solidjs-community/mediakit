@@ -15,32 +15,31 @@ type AppAbility = PureAbility<
 
 export const ROLES = {
   admin: () => {
-    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can(`manage`, `all`)
-    return build()
-  },
-  user: (userId: string) => {
-    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('manage', 'Todo', { userId })
-    can('read', 'Todo', { isPublic: true })
-    return build()
+    const ability = new AbilityBuilder<AppAbility>(createPrismaAbility)
+    ability.can(`manage`, `all`)
+    return ability
   },
   public: () => {
-    const { build, can } = new AbilityBuilder<AppAbility>(createPrismaAbility)
-    can('read', 'Todo', { isPublic: true })
-    return build()
+    const ability = new AbilityBuilder<AppAbility>(createPrismaAbility)
+    ability.can('read', 'Todo', { isPublic: true })
+    return ability
+  },
+  user: (userId: string) => {
+    const ability = ROLES.public()
+    ability.can('manage', 'Todo', { userId })
+    return ability
   },
 }
 
 export function getAbilityFromSession(session?: Session | null) {
-  if (!session) return ROLES.public()
+  if (!session) return ROLES.public().build()
 
   const userId = session.user.id
   const role = session.user.role
 
-  if (role === `admin`) return ROLES.admin()
+  if (role === `admin`) return ROLES.admin().build()
 
-  return ROLES.user(userId)
+  return ROLES.user(userId).build()
 }
 
 export const Can = createCan<AppAbility>()

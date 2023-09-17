@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { type Session } from '@auth/core/types'
 import { PureAbility, AbilityBuilder } from '@casl/ability'
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma'

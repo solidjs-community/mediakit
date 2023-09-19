@@ -8,6 +8,8 @@ description: 'Using `DynamicImage` to generate opengraph images'
 The `OpenGraph` component simply takes the origin of your site as a prop, and a `DynamicImage` component as its child:
 
 ```tsx
+import { DynamicImage, OpenGraph } from '@solid-mediakit/og'
+
 export const Component = () => {
   return (
     <OpenGraph origin='https://example.com'>

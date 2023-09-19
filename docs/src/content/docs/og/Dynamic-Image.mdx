@@ -15,6 +15,8 @@ All images are generated on the server-side, when the client requests them.
 You can simply wrap the JSX that you wish to be an image in the `DynamicImage` component:
 
 ```tsx
+import { DynamicImage } from '@solid-mediakit/og'
+
 export const Component = () => {
   return (
     <DynamicImage>
@@ -27,6 +29,8 @@ export const Component = () => {
 As mentioned before, this component merely returns a URL to the image. You can wrap in the `Image` component to render the image:
 
 ```tsx
+import { DynamicImage, Image } from '@solid-mediakit/og'
+
 export const Component = () => {
   return (
     <Image>
@@ -46,6 +50,8 @@ The compiler automatically captures and handles any reactive properties as well 
 The component automatically changes its URL and triggers an update whenever one of these properties changes:
 
 ```tsx
+import { DynamicImage, Image } from '@solid-mediakit/og'
+
 export const Component = () => {
   const [message, setMessage] = createSignal('Hello World')
   return (

@@ -45,7 +45,7 @@ export const SIDEBAR: Sidebar = {
     { text: 'createSession', link: 'auth/createsession' },
     { text: 'getSession', link: 'auth/getsession' },
   ],
-  Og: [
+  OpenGraph: [
     { text: 'Install', link: 'og/install' },
     { text: 'DynamicImage', link: 'og/dynamic-image' },
     { text: 'OpenGraph', link: 'og/opengraph' },

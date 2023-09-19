@@ -21,4 +21,4 @@ export const OpenGraph = (props: ParentProps & { origin: string }) => {
   return <Meta property='og:image' content={props.origin + url()}></Meta>
 }
 
-export { Meta }
+export const meta = () => Meta

@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/auth",
-  "description": "A set of utilities to use with your Solid apps.",
+  "description": "An authentication utility library for Solid.",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc -p . && rollup -c && node scripts/postbuild",

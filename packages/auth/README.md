@@ -1,6 +1,6 @@
 # @solid-mediakit/auth
 
-A set of utilities to use with your Solid apps.
+An authentication utility library for Solid.
 
 ### Installation
 
@@ -320,3 +320,5 @@ export default function LoginScreen() {
   )
 }
 ```
+
+[Read More Here](https://mediakit-taupe.vercel.app/auth/install)

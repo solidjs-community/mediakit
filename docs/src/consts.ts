@@ -50,4 +50,8 @@ export const SIDEBAR: Sidebar = {
     { text: 'DynamicImage', link: 'og/dynamic-image' },
     { text: 'OpenGraph', link: 'og/opengraph' },
   ],
+  Video: [
+    { text: 'Install', link: 'video/install' },
+    { text: 'createVideo', link: 'video/createvideo' },
+  ],
 }

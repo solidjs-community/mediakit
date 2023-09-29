@@ -27,7 +27,7 @@
     "solid-js": "^1.7.3",
     "solid-start": "^0.2.26",
     "undici": "5.20.0",
-    "zod": "^3.20.6"
+    "@solid-mediakit/video": "workspace:*"
   },
   "engines": {
     "node": ">=16"

@@ -212,6 +212,9 @@ importers:
 
   examples/video:
     dependencies:
+      '@solid-mediakit/video':
+        specifier: workspace:*
+        version: link:../../packages/video
       '@solidjs/meta':
         specifier: ^0.28.2
         version: 0.28.6(solid-js@1.7.11)
@@ -227,9 +230,6 @@ importers:
       undici:
         specifier: 5.20.0
         version: 5.20.0
-      zod:
-        specifier: ^3.20.6
-        version: 3.20.6
     devDependencies:
       '@types/node':
         specifier: ^18.14.0
@@ -366,6 +366,21 @@ importers:
       '@types/babel__core':
         specifier: 7.20.0
         version: 7.20.0
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
+
+  packages/video:
+    devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.2
+        version: 11.1.2(rollup@3.9.1)(tslib@2.5.0)(typescript@5.1.6)
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.10.0)
+      solid-js:
+        specifier: ^1.5.3
+        version: 1.7.11
       typescript:
         specifier: ^5.1.6
         version: 5.1.6

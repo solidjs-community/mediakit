@@ -1,3 +1,16 @@
+# @solid-mediakit/video
+
+A video utility library for Solid.
+
+### Installation
+
+```
+pnpm install @solid-mediakit/video
+```
+
+### Usage
+
+```tsx
 import { createVideo } from '@solid-mediakit/video'
 import { type VoidComponent } from 'solid-js'
 
@@ -33,3 +46,6 @@ const Home: VoidComponent = () => {
 }
 
 export default Home
+```
+
+[Read More Here](https://mediakit-taupe.vercel.app/video/install)

@@ -306,6 +306,10 @@ importers:
         version: 4.9.5
 
   packages/media:
+    dependencies:
+      '@solid-mediakit/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       '@rollup/plugin-typescript':
         specifier: ^11.1.2

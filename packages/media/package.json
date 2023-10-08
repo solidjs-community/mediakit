@@ -26,5 +26,8 @@
   "peerDependencies": {
     "solid-js": "^1.5.3"
   },
+  "dependencies": {
+    "@solid-mediakit/shared": "workspace:*"
+  },
   "author": "OrJDev"
 }

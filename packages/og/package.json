@@ -1,8 +1,8 @@
 {
   "name": "@solid-mediakit/og",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
-  "description": "",
+  "description": "An Open Graph / Dynamic image utility library for Solid.",
   "main": "./dist/index.jsx",
   "module": "./dist/index.jsx",
   "exports": {

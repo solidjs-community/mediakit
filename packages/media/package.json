@@ -1,0 +1,33 @@
+{
+  "name": "@solid-mediakit/media",
+  "version": "0.0.2",
+  "type": "module",
+  "description": "A media utility library for Solid.",
+  "main": "./dist/index.jsx",
+  "module": "./dist/index.jsx",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.jsx",
+      "default": "./dist/index.jsx"
+    }
+  },
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "clean": "rm -rf dist node_modules"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.2",
+    "typescript": "^5.1.6",
+    "solid-js": "^1.5.3",
+    "acorn-jsx": "^5.3.2"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.5.3"
+  },
+  "dependencies": {
+    "@solid-mediakit/shared": "workspace:*"
+  },
+  "author": "OrJDev"
+}

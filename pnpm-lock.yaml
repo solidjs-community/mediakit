@@ -118,7 +118,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
       '@solid-mediakit/auth':
-        specifier: ^1.0.1
+        specifier: ^1.0.2
         version: link:../../packages/auth
       '@solidjs/meta':
         specifier: ^0.28.2

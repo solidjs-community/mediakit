@@ -1,40 +1,4 @@
----
-title: 'createVideo'
-description: 'API for the createVideo function'
----
-
-**API for the createVideo function**
-
-`createVideo` is a Solid sort of hook, which will be used to interact with the MediaKit API.
-
-## Usage
-
-### Basic
-
-```tsx
-import { createVideo } from '@solid-mediakit/video'
-
-const { Render, play, pause, paused } = createVideo({
-  source: string, // URL of the video
-  type: string, // MIME type of the video
-})
-```
-
-#### IE
-
-```tsx
-import { createVideo } from '@solid-mediakit/video'
-
-const { Render, play, pause, paused } = createVideo({
-  source: 'https://www.w3schools.com/html/mov_bbb.mp4',
-  type: 'video/mp4',
-})
-```
-
-### Actual
-
-```tsx
-import { createVideo } from '@solid-mediakit/video'
+import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
 const { Render, play, pause, paused } = createVideo({
@@ -69,4 +33,3 @@ const Home: VoidComponent = () => {
 }
 
 export default Home
-```

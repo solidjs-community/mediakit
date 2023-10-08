@@ -1,8 +1,8 @@
 {
-  "name": "@solid-mediakit/video",
+  "name": "@solid-mediakit/media",
   "version": "0.0.1",
   "type": "module",
-  "description": "A video utility library for Solid.",
+  "description": "A media utility library for Solid.",
   "main": "./dist/index.jsx",
   "module": "./dist/index.jsx",
   "exports": {

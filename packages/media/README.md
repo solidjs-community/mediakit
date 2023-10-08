@@ -1,17 +1,17 @@
-# @solid-mediakit/video
+# @solid-mediakit/media
 
 A video utility library for Solid.
 
 ### Installation
 
 ```
-pnpm install @solid-mediakit/video
+pnpm install @solid-mediakit/media
 ```
 
 ### Usage
 
 ```tsx
-import { createVideo } from '@solid-mediakit/video'
+import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
 const { Render, play, pause, paused } = createVideo({

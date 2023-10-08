@@ -3,18 +3,18 @@ title: 'Install'
 description: 'Installing MediaKit'
 ---
 
-**Adding MediaKit/video to Solid**
+**Adding MediaKit/media to Solid**
 
 ## Install
 
 ```sh
-pnpm add @solid-mediakit/video
+pnpm add @solid-mediakit/media
 ```
 
 ## Usage
 
 ```tsx
-import { createVideo } from '@solid-mediakit/video'
+import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
 const { Render, play, pause, paused } = createVideo({
@@ -51,4 +51,4 @@ const Home: VoidComponent = () => {
 export default Home
 ```
 
-[Check out the `createVideo` hook](/video/createvideo)
+[Check out the `createVideo` hook](/media/createvideo)

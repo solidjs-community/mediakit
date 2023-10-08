@@ -118,7 +118,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
       '@solid-mediakit/auth':
-        specifier: ^1.0.0
+        specifier: ^1.0.1
         version: link:../../packages/auth
       '@solidjs/meta':
         specifier: ^0.28.2
@@ -173,48 +173,11 @@ importers:
         specifier: ^4.1.2
         version: 4.4.9(@types/node@18.17.5)
 
-  examples/og:
+  examples/media:
     dependencies:
-      '@solid-mediakit/og':
+      '@solid-mediakit/media':
         specifier: workspace:*
-        version: link:../../packages/og
-      '@solidjs/meta':
-        specifier: ^0.28.6
-        version: 0.28.6(solid-js@1.7.11)
-      '@solidjs/router':
-        specifier: ^0.8.3
-        version: 0.8.3(solid-js@1.7.11)
-      solid-js:
-        specifier: ^1.7.11
-        version: 1.7.11
-      solid-start:
-        specifier: ^0.3.5
-        version: 0.3.5(@solidjs/meta@0.28.6)(@solidjs/router@0.8.3)(solid-js@1.7.11)(solid-start-node@0.3.5)(vite@4.4.9)
-    devDependencies:
-      '@types/node':
-        specifier: ^18.17.5
-        version: 18.17.5
-      esbuild:
-        specifier: ^0.14.54
-        version: 0.14.54
-      postcss:
-        specifier: ^8.4.28
-        version: 8.4.28
-      solid-start-node:
-        specifier: ^0.3.5
-        version: 0.3.5(solid-start@0.3.5)(vite@4.4.9)
-      typescript:
-        specifier: ^4.9.5
-        version: 4.9.5
-      vite:
-        specifier: ^4.4.9
-        version: 4.4.9(@types/node@18.17.5)
-
-  examples/video:
-    dependencies:
-      '@solid-mediakit/video':
-        specifier: workspace:*
-        version: link:../../packages/video
+        version: link:../../packages/media
       '@solidjs/meta':
         specifier: ^0.28.2
         version: 0.28.6(solid-js@1.7.11)
@@ -265,6 +228,43 @@ importers:
         specifier: ^4.1.2
         version: 4.4.9(@types/node@18.17.5)
 
+  examples/og:
+    dependencies:
+      '@solid-mediakit/og':
+        specifier: workspace:*
+        version: link:../../packages/og
+      '@solidjs/meta':
+        specifier: ^0.28.6
+        version: 0.28.6(solid-js@1.7.11)
+      '@solidjs/router':
+        specifier: ^0.8.3
+        version: 0.8.3(solid-js@1.7.11)
+      solid-js:
+        specifier: ^1.7.11
+        version: 1.7.11
+      solid-start:
+        specifier: ^0.3.5
+        version: 0.3.5(@solidjs/meta@0.28.6)(@solidjs/router@0.8.3)(solid-js@1.7.11)(solid-start-node@0.3.5)(vite@4.4.9)
+    devDependencies:
+      '@types/node':
+        specifier: ^18.17.5
+        version: 18.17.5
+      esbuild:
+        specifier: ^0.14.54
+        version: 0.14.54
+      postcss:
+        specifier: ^8.4.28
+        version: 8.4.28
+      solid-start-node:
+        specifier: ^0.3.5
+        version: 0.3.5(solid-start@0.3.5)(vite@4.4.9)
+      typescript:
+        specifier: ^4.9.5
+        version: 4.9.5
+      vite:
+        specifier: ^4.4.9
+        version: 4.4.9(@types/node@18.17.5)
+
   packages/auth:
     dependencies:
       '@babel/core':
@@ -304,6 +304,21 @@ importers:
       typescript:
         specifier: ^4.8.2
         version: 4.9.5
+
+  packages/media:
+    devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.2
+        version: 11.1.2(rollup@3.9.1)(tslib@2.5.0)(typescript@5.1.6)
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.10.0)
+      solid-js:
+        specifier: ^1.5.3
+        version: 1.7.11
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
 
   packages/og:
     dependencies:
@@ -366,21 +381,6 @@ importers:
       '@types/babel__core':
         specifier: 7.20.0
         version: 7.20.0
-      typescript:
-        specifier: ^5.1.6
-        version: 5.1.6
-
-  packages/video:
-    devDependencies:
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.2
-        version: 11.1.2(rollup@3.9.1)(tslib@2.5.0)(typescript@5.1.6)
-      acorn-jsx:
-        specifier: ^5.3.2
-        version: 5.3.2(acorn@8.10.0)
-      solid-js:
-        specifier: ^1.5.3
-        version: 1.7.11
       typescript:
         specifier: ^5.1.6
         version: 5.1.6

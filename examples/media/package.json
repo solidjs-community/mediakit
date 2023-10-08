@@ -1,5 +1,5 @@
 {
-  "name": "dev-video",
+  "name": "dev-media",
   "private": true,
   "scripts": {
     "dev": "solid-start dev --port 3000",
@@ -27,7 +27,7 @@
     "solid-js": "^1.7.3",
     "solid-start": "^0.2.26",
     "undici": "5.20.0",
-    "@solid-mediakit/video": "workspace:*"
+    "@solid-mediakit/media": "workspace:*"
   },
   "engines": {
     "node": ">=16"

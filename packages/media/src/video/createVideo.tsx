@@ -1,6 +1,7 @@
 import { createSignal, createEffect, on, onCleanup } from 'solid-js'
 import type { VideoFn, VideoProps } from './types'
 import { unwrapValue } from '@solid-mediakit/shared'
+import { createEvents } from './events'
 
 const videoCanUnmute = () => {
   if (typeof navigator === 'undefined') return false
@@ -53,14 +54,13 @@ export function createVideo(props: VideoProps) {
     )
 
     createEffect(() => {
-      const onUserEvent = () => {
-        setCanBeUnmuted(videoCanUnmute())
-      }
-      const events = ['click', 'keydown', 'mousemove']
-      events.forEach((e) => document.addEventListener(e, onUserEvent))
-      onCleanup(() => {
-        events.forEach((e) => document.removeEventListener(e, onUserEvent))
+      const eventsCleanUp = createEvents({
+        video,
+        videoCanUnmute,
+        setCanBeUnmuted,
+        setPaused,
       })
+      onCleanup(eventsCleanUp)
     })
 
     return (
@@ -72,13 +72,12 @@ export function createVideo(props: VideoProps) {
 
   const play = async () => {
     if (!video.paused) return
-    await video.play().then(() => setPaused(false))
+    await video.play()
   }
 
   const pause = () => {
     if (video.paused) return
     video.pause()
-    setPaused(true)
   }
 
   return { Video, play, pause, paused, canBeUnmuted }

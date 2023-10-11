@@ -1,4 +1,4 @@
-import type { JSX, Component, Accessor } from 'solid-js'
+import type { JSX, Component, Accessor, Setter } from 'solid-js'
 
 export type VideoProps = {
   source: string
@@ -22,3 +22,10 @@ export type VideoFn = Component<
     onFailed?: OnFailedFn
   }
 >
+
+export type CreateEventFn = (props: {
+  setPaused: Setter<boolean>
+  video: HTMLVideoElement
+  setCanBeUnmuted: Setter<boolean>
+  videoCanUnmute: Accessor<boolean>
+}) => () => void

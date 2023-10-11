@@ -14,6 +14,7 @@ export function createVideo(props: VideoProps) {
   let video: HTMLVideoElement = {} as HTMLVideoElement
   const [paused, setPaused] = createSignal(true)
   const [canBeUnmuted, setCanBeUnmuted] = createSignal(videoCanUnmute())
+  const [isVideoLoading, setIsVideoLoading] = createSignal(true)
 
   const defaultRetry = async () => {
     // video should be muted
@@ -59,6 +60,7 @@ export function createVideo(props: VideoProps) {
         videoCanUnmute,
         setCanBeUnmuted,
         setPaused,
+        setIsVideoLoading,
       })
       onCleanup(eventsCleanUp)
     })
@@ -71,6 +73,9 @@ export function createVideo(props: VideoProps) {
   }
 
   const play = async () => {
+    if (video.ended) {
+      video.currentTime = 0
+    }
     if (!video.paused) return
     await video.play()
   }
@@ -80,5 +85,5 @@ export function createVideo(props: VideoProps) {
     video.pause()
   }
 
-  return { Video, play, pause, paused, canBeUnmuted }
+  return { Video, play, pause, paused, canBeUnmuted, isVideoLoading }
 }

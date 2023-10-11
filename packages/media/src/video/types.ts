@@ -28,4 +28,5 @@ export type CreateEventFn = (props: {
   video: HTMLVideoElement
   setCanBeUnmuted: Setter<boolean>
   videoCanUnmute: Accessor<boolean>
+  setIsVideoLoading: Setter<boolean>
 }) => () => void

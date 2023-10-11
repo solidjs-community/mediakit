@@ -14,7 +14,7 @@ description: 'API for the createVideo function'
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Video, play, pause, paused, canBeUnmuted } = createVideo({
+const { Video, play, pause, paused, canBeUnmuted, isVideoLoading } = createVideo({
   source: string, // URL of the video
   type: string, // MIME type of the video
   onFailed?: (
@@ -30,17 +30,18 @@ const { Video, play, pause, paused, canBeUnmuted } = createVideo({
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Video, play, pause, paused } = createVideo({
-  source: 'https://www.w3schools.com/html/mov_bbb.mp4',
-  type: 'video/mp4',
-  // since we try to autoPlay a video once rendered,
-  //  we need to mute it if the user has not interacted with the page
-  async onFailed(video, retry) {
-    console.log('called onFailed within createVideo')
-    video.muted = true
-    await retry()
-  },
-})
+const { Video, play, pause, paused, canBeUnmuted, isVideoLoading } =
+  createVideo({
+    source: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    type: 'video/mp4',
+    // since we try to autoPlay a video once rendered,
+    //  we need to mute it if the user has not interacted with the page
+    async onFailed(video, retry) {
+      console.log('called onFailed within createVideo')
+      video.muted = true
+      await retry()
+    },
+  })
 ```
 
 ### Actual
@@ -49,17 +50,23 @@ const { Video, play, pause, paused } = createVideo({
 import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
-const { Video, play, pause, paused, canBeUnmuted } = createVideo({
-  source: 'https://www.w3schools.com/html/mov_bbb.mp4',
-  type: 'video/mp4',
-})
+const { Video, play, pause, paused, canBeUnmuted, isVideoLoading } =
+  createVideo({
+    source: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    type: 'video/mp4',
+  })
 
 const Home: VoidComponent = () => {
   return (
     <div class='flex flex-col gap-2 items-center justify-center py-12'>
       <h1 class='text-3xl font-bold'>Home</h1>
       <h3 class='text-xl font-bold text-gray-400'>
-        Status: {paused() ? 'Paused' : 'Playing'}
+        Status:
+        {isVideoLoading()
+          ? 'Loading The Video..'
+          : paused()
+          ? 'Paused'
+          : 'Playing'}
       </h3>
       <Video autoplay muted={canBeUnmuted() ? false : true} />
       <div class='flex gap-2 items-center'>
@@ -85,7 +92,8 @@ export default Home
 
 ## Returns
 
-- canBeUnmuted - This is a signal that will check if the user interacts or has interacted with the page, if he did, you can start playing audio files.
+- canBeUnmuted - A signal that will check if the user interacts or has interacted with the page, if he did, you can start playing audio files.
+- isVideoLoading - A signal that will check if the video is loading or not.
 - play - A function that can be used to start playing the video.
 - pause - A function that can be used to pause the video.
 - paused - A Signal that will return if the video is paused or not.
@@ -124,15 +132,16 @@ A function that will be called if the video fails to load, it will receive the v
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Video, play, pause, paused } = createVideo({
-  source: 'https://www.w3schools.com/html/mov_bbb.mp4',
-  type: 'video/mp4',
-  // since we try to autoPlay a video once rendered,
-  //  we need to mute it if the user has not interacted with the page
-  async onFailed(video, retry, canBeUnmuted) {
-    console.log('called onFailed within createVideo')
-    video.muted = canBeUnmuted ? false : true
-    await retry()
-  },
-})
+const { Video, play, pause, paused, canBeUnmuted, isVideoLoading } =
+  createVideo({
+    source: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    type: 'video/mp4',
+    // since we try to autoPlay a video once rendered,
+    //  we need to mute it if the user has not interacted with the page
+    async onFailed(video, retry, canBeUnmuted) {
+      console.log('called onFailed within createVideo')
+      video.muted = canBeUnmuted ? false : true
+      await retry()
+    },
+  })
 ```

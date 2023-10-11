@@ -14,7 +14,7 @@ pnpm install @solid-mediakit/media
 import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
-const { Render, play, pause, paused } = createVideo({
+const { Video, play, pause, paused } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
 })
@@ -26,7 +26,7 @@ const Home: VoidComponent = () => {
       <h3 class='text-xl font-bold text-gray-400'>
         Status: {paused() ? 'Paused' : 'Playing'}
       </h3>
-      <Render autoplay />
+      <Video autoplay />
       <div class='flex gap-2 items-center'>
         <button
           onClick={play}

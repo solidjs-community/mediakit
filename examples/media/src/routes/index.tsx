@@ -1,7 +1,7 @@
 import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
-const { Render, play, pause, paused, canBeUnmuted } = createVideo({
+const { Video, play, pause, paused, canBeUnmuted } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
   // this shouldn't be called
@@ -19,10 +19,10 @@ const Home: VoidComponent = () => {
       <h3 class='text-xl font-bold text-gray-400'>
         Status: {paused() ? 'Paused' : 'Playing'}
       </h3>
-      <Render
+      <Video
         autoplay
         onFailed={(video, retry) => {
-          console.log('called onFailed within Render')
+          console.log('called onFailed within Video')
           video.muted = true
           void retry()
         }}

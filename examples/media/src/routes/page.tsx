@@ -1,7 +1,7 @@
 import { createVideo } from '@solid-mediakit/media'
 import { createSignal, type VoidComponent } from 'solid-js'
 
-const { Render, play, pause, paused, canBeUnmuted } = createVideo({
+const { Video, play, pause, paused, canBeUnmuted } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
   // this shouldn't be called
@@ -13,7 +13,7 @@ const { Render, play, pause, paused, canBeUnmuted } = createVideo({
 })
 
 const Home: VoidComponent = () => {
-  const [renderVideo, setRenderVideo] = createSignal(false)
+  const [renderVideo, setVideoVideo] = createSignal(false)
   return (
     <div class='flex flex-col gap-2 items-center justify-center py-12'>
       <h1 class='text-3xl font-bold'>Home</h1>
@@ -22,10 +22,10 @@ const Home: VoidComponent = () => {
           <h3 class='text-xl font-bold text-gray-400'>
             Status: {paused() ? 'Paused' : 'Playing'}
           </h3>
-          <Render
+          <Video
             autoplay
             onFailed={(video, retry) => {
-              console.log('called onFailed within Render')
+              console.log('called onFailed within Video')
               video.muted = true
               void retry()
             }}
@@ -48,10 +48,10 @@ const Home: VoidComponent = () => {
         </>
       ) : (
         <button
-          onClick={() => setRenderVideo(true)}
+          onClick={() => setVideoVideo(true)}
           class='rounded-lg bg-purple-400 text-white flex items-center justify-center p-3'
         >
-          Render Video
+          Video Video
         </button>
       )}
     </div>

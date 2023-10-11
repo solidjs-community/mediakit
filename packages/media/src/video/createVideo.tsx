@@ -1,5 +1,5 @@
 import { createSignal, createEffect, on, onCleanup } from 'solid-js'
-import type { RenderFn, VideoProps } from './types'
+import type { VideoFn, VideoProps } from './types'
 import { unwrapValue } from '@solid-mediakit/shared'
 
 const videoCanUnmute = () => {
@@ -20,7 +20,7 @@ export function createVideo(props: VideoProps) {
     await play()
   }
 
-  const Render: RenderFn = (p) => {
+  const Video: VideoFn = (p) => {
     createEffect(
       on(
         () => unwrapValue(p.autoplay),
@@ -81,5 +81,5 @@ export function createVideo(props: VideoProps) {
     setPaused(true)
   }
 
-  return { Render, play, pause, paused, canBeUnmuted }
+  return { Video, play, pause, paused, canBeUnmuted }
 }

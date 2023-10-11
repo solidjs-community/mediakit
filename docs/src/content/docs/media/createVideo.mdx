@@ -14,7 +14,7 @@ description: 'API for the createVideo function'
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Render, play, pause, paused, canBeUnmuted } = createVideo({
+const { Video, play, pause, paused, canBeUnmuted } = createVideo({
   source: string, // URL of the video
   type: string, // MIME type of the video
   onFailed?: (
@@ -30,7 +30,7 @@ const { Render, play, pause, paused, canBeUnmuted } = createVideo({
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Render, play, pause, paused } = createVideo({
+const { Video, play, pause, paused } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
   // since we try to autoPlay a video once rendered,
@@ -49,7 +49,7 @@ const { Render, play, pause, paused } = createVideo({
 import { createVideo } from '@solid-mediakit/media'
 import { type VoidComponent } from 'solid-js'
 
-const { Render, play, pause, paused, canBeUnmuted } = createVideo({
+const { Video, play, pause, paused, canBeUnmuted } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
 })
@@ -61,7 +61,7 @@ const Home: VoidComponent = () => {
       <h3 class='text-xl font-bold text-gray-400'>
         Status: {paused() ? 'Paused' : 'Playing'}
       </h3>
-      <Render autoplay muted={canBeUnmuted() ? false : true} />
+      <Video autoplay muted={canBeUnmuted() ? false : true} />
       <div class='flex gap-2 items-center'>
         <button
           onClick={play}
@@ -90,22 +90,22 @@ export default Home
 - pause - A function that can be used to pause the video.
 - paused - A Signal that will return if the video is paused or not.
 
-### Render
+### Video
 
 Solid component that will render the video.
 
 ```tsx
-<Render autoplay muted={canBeUnmuted() ? false : true} />
+<Video autoplay muted={canBeUnmuted() ? false : true} />
 ```
 
-The `Render` fn also takes in an `onFailed` option, this can be used to override the `onFailed` option passed to `createVideo`.
+The `Video` fn also takes in an `onFailed` option, this can be used to override the `onFailed` option passed to `createVideo`.
 
 ```tsx
-<Render
+<Video
   autoplay
   muted={canBeUnmuted() ? false : true}
   onFailed={(video, retry, canBeUnmuted) => {
-    console.log('called onFailed within Render')
+    console.log('called onFailed within Video')
     video.muted = canBeUnmuted ? false : true
     retry()
   }}
@@ -124,7 +124,7 @@ A function that will be called if the video fails to load, it will receive the v
 ```tsx
 import { createVideo } from '@solid-mediakit/media'
 
-const { Render, play, pause, paused } = createVideo({
+const { Video, play, pause, paused } = createVideo({
   source: 'https://www.w3schools.com/html/mov_bbb.mp4',
   type: 'video/mp4',
   // since we try to autoPlay a video once rendered,

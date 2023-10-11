@@ -12,7 +12,8 @@ export type OnFailedFn = (
   retry: () => Promise<void>,
   canBeUnmuted: boolean
 ) => void | Promise<void>
-export type RenderFn = Component<
+
+export type VideoFn = Component<
   Omit<JSX.VideoHTMLAttributes<HTMLVideoElement>, 'autoplay'> & {
     autoplay?:
       | JSX.VideoHTMLAttributes<HTMLVideoElement>['autoplay']

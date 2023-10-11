@@ -1,5 +1,9 @@
 This project was created using [Create JD App](https://github.com/OrJDev/create-jd-app)
 
+# Solid Start Authz Example
+
+This project showcases how to use role and attribute based access with @solid-mediakit/auth and @casl/ability.
+
 ## Start Dev Server
 
 ```bash

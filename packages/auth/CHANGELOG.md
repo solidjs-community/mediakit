@@ -1,5 +1,13 @@
 # @solid-mediakit/auth
 
+## 1.0.3
+
+### Patch Changes
+
+- [`a58269b`](https://github.com/solidjs-community/mediakit/commit/a58269b732a0fd42b5cf00684e8a19368361469c) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: include solid's '\_HY'
+
+- [`fc3b90c`](https://github.com/solidjs-community/mediakit/commit/fc3b90cd20892b5584a47551f701fe84d3b8f921) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: tRPC package & bump solid packages
+
 ## 1.0.2
 
 ### Patch Changes

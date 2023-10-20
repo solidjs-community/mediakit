@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/trpc",
   "description": "tRPC integration for SolidJS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "tsc -p . && rollup -c",
     "clean": "pnpm rm -rf ./node_modules .turbo .solid",

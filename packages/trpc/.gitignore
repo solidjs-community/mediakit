@@ -24,9 +24,3 @@ Thumbs.db
 
 .env
 
-**/*.d.ts
-**/*.js
-**/*.jsx
-/compiler
-!rollup.config.js
-!scripts/**/*.js

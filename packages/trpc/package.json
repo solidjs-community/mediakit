@@ -8,6 +8,9 @@
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit"
   },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "./dist/index.jsx",
   "module": "./dist/index.jsx",

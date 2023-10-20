@@ -116,7 +116,7 @@ export const addDynamicImages = (
         compName: `DynamicImage${i + 1}`,
         jsx: image.element,
         args: argsDecl,
-      }),
+      }) as any,
       path,
       true
     )

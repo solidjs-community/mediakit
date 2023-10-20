@@ -39,7 +39,8 @@
     "typescript": "^5.1.6",
     "vitest": "^0.34.3",
     "solid-js": "^1.8.3",
-    "solid-start": "^0.3.7"
+    "solid-start": "^0.3.7",
+    "@babel/types": "7.20.0"
   },
   "dependencies": {
     "@babel/core": "7.20.12",

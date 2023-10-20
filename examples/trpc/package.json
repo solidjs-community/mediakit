@@ -1,5 +1,5 @@
 {
-  "name": "dev-auth",
+  "name": "dev-trpc",
   "private": true,
   "scripts": {
     "dev": "solid-start dev --port 3000",
@@ -22,14 +22,17 @@
     "vite": "^4.1.2"
   },
   "dependencies": {
+    "@solid-mediakit/trpc": "workspace:*",
     "@solidjs/meta": "^0.28.6",
     "@solidjs/router": "^0.8.3",
+    "@tanstack/solid-query": "^5.0.0",
+    "@trpc/client": "^10.41.0",
+    "@trpc/server": "^10.41.0",
     "solid-js": "^1.8.3",
     "solid-start": "^0.3.7",
+    "solid-start-trpc": "^0.0.16",
     "undici": "5.20.0",
-    "zod": "^3.20.6",
-    "@solid-mediakit/auth": "^1.0.2",
-    "@auth/core": "^0.10.0"
+    "zod": "^3.22.4"
   },
   "engines": {
     "node": ">=16"

@@ -38,6 +38,11 @@ export const SIDEBAR: Sidebar = {
     { text: 'Contributors', link: 'contributors' },
     { text: 'Sponsors', link: 'sponsors' },
   ],
+  tRPC: [
+    { text: 'Install', link: 'trpc/install' },
+    { text: 'Router', link: 'trpc/router' },
+    { text: 'API Handler', link: 'trpc/handler' },
+  ],
   Auth: [
     { text: 'Install', link: 'auth/install' },
     { text: 'signIn', link: 'auth/signin' },

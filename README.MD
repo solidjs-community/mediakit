@@ -7,3 +7,4 @@ A set of utilities to use with your Solid apps.
 - [Authentication](./packages/auth/README.md)
 - [Open Graph](./packages/og/README.md)
 - [Media (Video / Audio / Img)](./packages/media/README.md)
+- [tRPC](./packages/trpc/README.md)

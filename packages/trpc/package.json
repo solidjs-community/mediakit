@@ -1,0 +1,45 @@
+{
+  "name": "@solid-mediakit/trpc",
+  "description": "tRPC integration for SolidJS",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -p . && rollup -c",
+    "clean": "pnpm rm -rf ./node_modules .turbo .solid",
+    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "main": "./dist/index.jsx",
+  "module": "./dist/index.jsx",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.jsx",
+      "default": "./dist/index.jsx"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "@typescript-eslint/parser": "^5.44.0",
+    "solid-js": "^1.8.3",
+    "typescript": "^4.8.2",
+    "solid-start": "^0.3.7",
+    "@tanstack/solid-query": "^5.0.0",
+    "@trpc/client": "^10.41.0",
+    "@trpc/server": "^10.41.0",
+    "@types/babel__core": "7.20.0",
+    "acorn-jsx": "^5.3.2",
+    "@rollup/plugin-typescript": "^11.1.2"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.8.3",
+    "solid-start": "^0.3.7",
+    "@tanstack/solid-query": "^5.0.0",
+    "@trpc/client": "^10.41.0",
+    "@trpc/server": "^10.41.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "author": "OrJDev"
+}

@@ -36,9 +36,10 @@
     "@types/babel__core": "7.20.0",
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.19.3",
-    "solid-js": "^1.7.11",
     "typescript": "^5.1.6",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.3",
+    "solid-js": "^1.8.3",
+    "solid-start": "^0.3.7"
   },
   "dependencies": {
     "@babel/core": "7.20.12",
@@ -50,6 +51,7 @@
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.28.5",
-    "solid-start": "^0.3.4"
+    "solid-js": "^1.8.3",
+    "solid-start": "^0.3.7"
   }
 }

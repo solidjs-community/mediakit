@@ -16,16 +16,16 @@
     "eslint": "^8.34.0",
     "eslint-plugin-solid": "^0.9.4",
     "postcss": "^8.4.21",
-    "solid-start-node": "^0.2.26",
+    "solid-start-node": "^0.3.7",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.5",
     "vite": "^4.1.2"
   },
   "dependencies": {
-    "@solidjs/meta": "^0.28.2",
-    "@solidjs/router": "^0.8.2",
-    "solid-js": "^1.7.3",
-    "solid-start": "^0.2.26",
+    "@solidjs/meta": "^0.28.6",
+    "@solidjs/router": "^0.8.3",
+    "solid-js": "^1.8.3",
+    "solid-start": "^0.3.7",
     "undici": "5.20.0",
     "@solid-mediakit/media": "workspace:*"
   },

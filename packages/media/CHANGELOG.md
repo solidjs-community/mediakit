@@ -1,5 +1,11 @@
 # @solid-mediakit/media
 
+## 0.0.4
+
+### Patch Changes
+
+- [`fc3b90c`](https://github.com/solidjs-community/mediakit/commit/fc3b90cd20892b5584a47551f701fe84d3b8f921) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: tRPC package & bump solid packages
+
 ## 0.0.3
 
 ### Patch Changes

@@ -30,7 +30,6 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            {' '}
             <QueryClientProvider client={queryClient}>
               <trpc.Provider queryClient={queryClient}>
                 <Routes>

@@ -10,10 +10,10 @@
     "module": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["vite/client", "node"],
+    "types": ["./solid", "vite/client", "node"],
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "solid.d.ts"]
 }

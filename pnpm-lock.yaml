@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -81,8 +81,6 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(astro@3.3.2)
       '@astrojs/solid-js':
-        specifier: ^3.0.2
-        version: 3.0.2(solid-js@1.8.3)(vite@4.4.9)
       '@astrojs/vercel':
         specifier: ^5.0.2
         version: 5.0.2(astro@3.3.2)
@@ -722,14 +720,6 @@ packages:
       prismjs: 1.29.0
     dev: false
 
-  /@astrojs/solid-js@3.0.2(solid-js@1.8.3)(vite@4.4.9):
-    resolution: {integrity: sha512-BGTtS/ygAlcopELdjgTURHnxS2AoDRKjpu3Dgp12TOcArBMCiI/rYdHtlB+ligMm9Bbvar8qdzXsT1zlrxK5jQ==}
-    engines: {node: '>=18.14.1'}
-    peerDependencies:
-      solid-js: ^1.4.3
-    dependencies:
-      solid-js: 1.8.3
-      vite-plugin-solid: 2.7.0(solid-js@1.8.3)(vite@4.4.9)
     transitivePeerDependencies:
       - supports-color
       - vite
@@ -10506,41 +10496,6 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.17.5
-      esbuild: 0.18.20
-      postcss: 8.4.30
-      rollup: 3.29.0
-    optionalDependencies:
-      fsevents: 2.3.3
-
-  /vite@4.4.9(@types/node@20.8.7):
-    resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.8.7
       esbuild: 0.18.20
       postcss: 8.4.30
       rollup: 3.29.0

@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro";
-import { ViewTransitions  } from "astro:transitions";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -17,7 +16,6 @@ type Props = CollectionEntry<"docs">;
 const post = Astro.props;
 const { Content, headings } = await post.render();
 ---
-<ViewTransitions />
 <MainLayout headings={headings} {...post.data}>
   <Content />
 </MainLayout>

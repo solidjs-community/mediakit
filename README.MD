@@ -8,3 +8,4 @@ A set of utilities to use with your Solid apps.
 - [Open Graph](./packages/og/README.md)
 - [Media (Video / Audio / Img)](./packages/media/README.md)
 - [tRPC](./packages/trpc/README.md)
+- [Log](./packages/log/README.md)

@@ -59,4 +59,8 @@ export const SIDEBAR: Sidebar = {
     { text: 'Install', link: 'media/install' },
     { text: 'createVideo', link: 'media/createvideo' },
   ],
+  Log: [
+    { text: 'Install', link: 'log/install' },
+    { text: 'log$', link: 'log/log' },
+  ],
 }

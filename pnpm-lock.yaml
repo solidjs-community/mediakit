@@ -167,6 +167,61 @@ importers:
         specifier: ^4.1.2
         version: 4.4.9(@types/node@18.17.5)
 
+  examples/log:
+    dependencies:
+      '@solid-mediakit/log':
+        specifier: workspace:*
+        version: link:../../packages/log
+      '@solidjs/meta':
+        specifier: ^0.28.6
+        version: 0.28.6(solid-js@1.8.3)
+      '@solidjs/router':
+        specifier: ^0.8.3
+        version: 0.8.3(solid-js@1.8.3)
+      solid-js:
+        specifier: ^1.8.3
+        version: 1.8.3
+      solid-start:
+        specifier: ^0.3.7
+        version: 0.3.7(@solidjs/meta@0.28.6)(@solidjs/router@0.8.3)(solid-js@1.8.3)(solid-start-node@0.3.7)(vite@4.4.9)
+      undici:
+        specifier: 5.20.0
+        version: 5.20.0
+    devDependencies:
+      '@types/node':
+        specifier: ^18.14.0
+        version: 18.17.5
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.52.0
+        version: 5.52.0(@typescript-eslint/parser@5.52.0)(eslint@8.34.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.52.0
+        version: 5.52.0(eslint@8.34.0)(typescript@4.9.5)
+      autoprefixer:
+        specifier: ^10.4.13
+        version: 10.4.13(postcss@8.4.28)
+      eslint:
+        specifier: ^8.34.0
+        version: 8.34.0
+      eslint-plugin-solid:
+        specifier: ^0.9.4
+        version: 0.9.4(eslint@8.34.0)(typescript@4.9.5)
+      postcss:
+        specifier: ^8.4.21
+        version: 8.4.28
+      solid-start-node:
+        specifier: ^0.3.7
+        version: 0.3.7(solid-start@0.3.7)(vite@4.4.9)
+      tailwindcss:
+        specifier: ^3.2.7
+        version: 3.2.7(postcss@8.4.28)
+      typescript:
+        specifier: ^4.9.5
+        version: 4.9.5
+      vite:
+        specifier: ^4.1.2
+        version: 4.4.9(@types/node@18.17.5)
+
   examples/media:
     dependencies:
       '@solid-mediakit/media':
@@ -371,6 +426,52 @@ importers:
       typescript:
         specifier: ^4.8.2
         version: 4.9.5
+
+  packages/log:
+    dependencies:
+      '@babel/core':
+        specifier: 7.20.12
+        version: 7.20.12
+      '@rollup/pluginutils':
+        specifier: ^5.0.2
+        version: 5.0.2(rollup@3.29.2)
+      '@solid-mediakit/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@solidjs/meta':
+        specifier: ^0.28.5
+        version: 0.28.6(solid-js@1.8.3)
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.10.0)
+      unplugin:
+        specifier: ^1.3.1
+        version: 1.3.1
+    devDependencies:
+      '@babel/types':
+        specifier: 7.20.0
+        version: 7.20.0
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.2
+        version: 11.1.2(rollup@3.29.2)(tslib@2.5.0)(typescript@5.1.6)
+      '@types/babel__core':
+        specifier: 7.20.0
+        version: 7.20.0
+      babel-plugin-tester:
+        specifier: ^11.0.4
+        version: 11.0.4(@babel/core@7.20.12)
+      jiti:
+        specifier: ^1.19.3
+        version: 1.19.3
+      solid-js:
+        specifier: ^1.8.3
+        version: 1.8.3
+      solid-start:
+        specifier: ^0.3.7
+        version: 0.3.7(@solidjs/meta@0.28.6)(@solidjs/router@0.8.3)(solid-js@1.8.3)(solid-start-node@0.3.7)(vite@4.4.9)
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
 
   packages/media:
     dependencies:
@@ -970,32 +1071,6 @@ packages:
     dependencies:
       '@babel/types': 7.22.19
 
-  /@babel/helper-module-transforms@7.22.15(@babel/core@7.20.12):
-    resolution: {integrity: sha512-l1UiX4UyHSFsYt17iQ3Se5pQQZZHa22zyIXURmvkmLCD4t/aU+dvNWHatKac/D9Vm9UES7nvIqHs4jZqKviUmQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': 7.20.12
-      '@babel/helper-environment-visitor': 7.22.5
-      '@babel/helper-module-imports': 7.22.15
-      '@babel/helper-simple-access': 7.22.5
-      '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/helper-validator-identifier': 7.22.20
-
-  /@babel/helper-module-transforms@7.22.15(@babel/core@7.22.15):
-    resolution: {integrity: sha512-l1UiX4UyHSFsYt17iQ3Se5pQQZZHa22zyIXURmvkmLCD4t/aU+dvNWHatKac/D9Vm9UES7nvIqHs4jZqKviUmQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': 7.22.15
-      '@babel/helper-environment-visitor': 7.22.5
-      '@babel/helper-module-imports': 7.22.15
-      '@babel/helper-simple-access': 7.22.5
-      '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/helper-validator-identifier': 7.22.20
-
   /@babel/helper-module-transforms@7.22.20(@babel/core@7.20.12):
     resolution: {integrity: sha512-dLT7JVWIUUxKOs1UnJUBR3S70YK+pKX6AbJgB2vMIvEkZkrfJDbYDJesnPshtKV4LhDOR3Oc5YULeDizRek+5A==}
     engines: {node: '>=6.9.0'}
@@ -1427,7 +1502,7 @@ packages:
       '@babel/core': 7.22.15
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-compilation-targets': 7.22.15
-      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-environment-visitor': 7.22.20
       '@babel/helper-function-name': 7.22.5
       '@babel/helper-optimise-call-expression': 7.22.5
       '@babel/helper-plugin-utils': 7.22.5
@@ -1568,7 +1643,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/helper-module-transforms': 7.22.15(@babel/core@7.22.15)
+      '@babel/helper-module-transforms': 7.22.20(@babel/core@7.22.15)
       '@babel/helper-plugin-utils': 7.22.5
 
   /@babel/plugin-transform-modules-commonjs@7.22.15(@babel/core@7.20.12):
@@ -1578,7 +1653,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-module-transforms': 7.22.15(@babel/core@7.20.12)
+      '@babel/helper-module-transforms': 7.22.20(@babel/core@7.20.12)
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-simple-access': 7.22.5
 
@@ -1589,7 +1664,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/helper-module-transforms': 7.22.15(@babel/core@7.22.15)
+      '@babel/helper-module-transforms': 7.22.20(@babel/core@7.22.15)
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-simple-access': 7.22.5
 
@@ -1601,7 +1676,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.15
       '@babel/helper-hoist-variables': 7.22.5
-      '@babel/helper-module-transforms': 7.22.15(@babel/core@7.22.15)
+      '@babel/helper-module-transforms': 7.22.20(@babel/core@7.22.15)
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-validator-identifier': 7.22.20
 
@@ -1612,7 +1687,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/helper-module-transforms': 7.22.15(@babel/core@7.22.15)
+      '@babel/helper-module-transforms': 7.22.20(@babel/core@7.22.15)
       '@babel/helper-plugin-utils': 7.22.5
 
   /@babel/plugin-transform-named-capturing-groups-regex@7.22.5(@babel/core@7.22.15):

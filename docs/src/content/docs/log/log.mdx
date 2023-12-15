@@ -1,0 +1,46 @@
+---
+title: 'log$'
+description: 'API for the log$ function'
+---
+
+**API for the log$ function**
+
+`log$` is a Solid sort of hook, which will be used to log elements using MediaKit.
+
+## Usage
+
+```ts
+import { createSignal } from 'solid-js'
+import { log$ } from '@solid-mediakit/log'
+
+const [value, setValue] = createSignal(0)
+
+log$(value) // now everytime value changes, it will be logged
+```
+
+Another example:
+
+```tsx
+import { log$ } from '@solid-mediakit/log'
+import { createSignal, type VoidComponent } from 'solid-js'
+
+const Home: VoidComponent = () => {
+  const [value, setValue] = createSignal('')
+
+  log$(value)
+
+  return (
+    <div class='flex flex-col gap-2 items-center justify-center py-12'>
+      <h1 class='text-3xl font-bold'>Home</h1>
+      <input
+        class='border border-gray-400 rounded p-2'
+        type='text'
+        value={value()}
+        onInput={(e) => setValue(e.currentTarget.value)}
+      />
+    </div>
+  )
+}
+
+export default Home
+```

@@ -111,6 +111,19 @@ export interface TRPCContextState<TRouter extends AnyRouter>
   ): Promise<void>;
 
   /**
+   * @link https://tanstack.com/query/latest/docs/reference/QueryClient#queryclientensurequerydata
+   */
+  ensureQueryData<
+    TPath extends keyof TRouter["_def"]["queries"] & string,
+    TProcedure extends TRouter["_def"]["queries"][TPath],
+    TOutput extends inferProcedureOutput<TProcedure>,
+    TInput extends inferProcedureInput<TProcedure>
+  >(
+    pathAndInput: [path: TPath, ...args: inferHandlerInput<TProcedure>],
+    opts?: TRPCFetchQueryOptions<TInput, TRPCClientError<TRouter>, TOutput>
+  ): Promise<TOutput>;
+
+  /**
    * @link https://react-query.tanstack.com/guides/query-invalidation
    */
   invalidateQueries<

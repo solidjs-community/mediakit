@@ -2,13 +2,13 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "strict": true,
     "target": "ESNext",
+    "declaration": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "jsxImportSource": "solid-js",
     "jsx": "preserve",
-    "types": ["solid-start/env"],
+    "strict": true,
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"]

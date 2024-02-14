@@ -15,8 +15,7 @@ import {
   createEffect,
   type JSX,
 } from 'solid-js'
-import { isServer } from 'solid-js/web'
-import { type PageEvent, useRequest } from 'solid-start/server'
+import { getRequestEvent, isServer } from 'solid-js/web'
 import type {
   SessionProviderProps,
   LiteralUnion,
@@ -66,27 +65,33 @@ const getUrl = (endpoint: string) => {
 }
 
 export function SessionProvider(props: SessionProviderProps) {
-  const event = useRequest()
-  const [session, { refetch }] = createResource(async (_, opts: any) => {
-    const thisEvent = opts?.refetching?.event
-    const storageEvent = thisEvent === 'storage'
-    const initEvent = thisEvent === 'init' || thisEvent === undefined
-    if (initEvent || storageEvent || __SOLIDAUTH._session === undefined) {
-      __SOLIDAUTH._lastSync = now()
-      __SOLIDAUTH._session = await getSession(event)
-      return __SOLIDAUTH._session
-    } else if (
-      !thisEvent ||
-      __SOLIDAUTH._session === null ||
-      now() < __SOLIDAUTH._lastSync
-    ) {
-      return __SOLIDAUTH._session
-    } else {
-      __SOLIDAUTH._lastSync = now()
-      __SOLIDAUTH._session = await getSession(event)
-      return __SOLIDAUTH._session
+  const event = getRequestEvent()
+  __SOLIDAUTH._session = (event as any)?.locals?.session
+  const [session, { refetch }] = createResource(
+    async (_, opts: any) => {
+      const thisEvent = opts?.refetching?.event
+      const storageEvent = thisEvent === 'storage'
+      const initEvent = thisEvent === 'init' || thisEvent === undefined
+      if (initEvent || storageEvent || __SOLIDAUTH._session === undefined) {
+        __SOLIDAUTH._lastSync = now()
+        __SOLIDAUTH._session = await getSession(event)
+        return __SOLIDAUTH._session
+      } else if (
+        !thisEvent ||
+        __SOLIDAUTH._session === null ||
+        now() < __SOLIDAUTH._lastSync
+      ) {
+        return __SOLIDAUTH._session
+      } else {
+        __SOLIDAUTH._lastSync = now()
+        __SOLIDAUTH._session = await getSession(event)
+        return __SOLIDAUTH._session
+      }
+    },
+    {
+      initialValue: __SOLIDAUTH._session,
     }
-  })
+  )
 
   onMount(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -113,7 +118,7 @@ export function SessionProvider(props: SessionProviderProps) {
   })
 
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={session as any}>
       {props.children}
     </SessionContext.Provider>
   )
@@ -202,40 +207,39 @@ export async function signOut(options?: SignOutParams) {
   return data
 }
 
-export const getSession = createReqWithServerHandler<Session | null>(
-  async (reqInit) => {
-    return await fetch(getUrl(`/api/auth/session`), reqInit)
+export const getSession = async (
+  event?: ReturnType<typeof getRequestEvent>
+) => {
+  let reqInit: RequestInit | undefined
+  if (isServer && event?.request) {
+    const cookie = event.request.headers.get('cookie')
+    if (cookie) {
+      reqInit = {
+        headers: {
+          cookie,
+        },
+      }
+    }
   }
-)
-
-function createReqWithServerHandler<T>(
-  action: (reqInit: RequestInit | undefined) => Promise<Response>
-): (event?: PageEvent) => Promise<T> {
-  return async (event) => {
-    let reqInit: RequestInit | undefined
-    if (isServer && event) {
-      const cookie = event.request.headers.get('cookie')
-      if (cookie) {
-        reqInit = {
-          headers: {
-            cookie,
-          },
+  const res = await fetch(getUrl(`/api/auth/session`), reqInit)
+  if (isServer && event?.request && (event as any)?.response) {
+    const cookie = res.headers.get('set-cookie')
+    if (cookie) {
+      try {
+        if ((event as any)?.response) {
+          ;(event as any).response.headers.append('set-cookie', cookie)
         }
+      } catch (e) {
+        // error: Cannot set headers after they are sent to the client
+        // console.log('specialdataErrorSetRes', e)
       }
     }
-    const res = await action(reqInit)
-    if (isServer && event) {
-      const cookie = res.headers.get('set-cookie')
-      if (cookie) {
-        event.responseHeaders.append('set-cookie', cookie)
-      }
-    }
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.error)
-    if (!data) return null
-    if (Object.keys(data).length === 0) return null
-    return data
   }
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error)
+  if (!data) return null
+  if (Object.keys(data).length === 0) return null
+  return data
 }
 
 export type ProtectedComponent = (session$: Session) => JSX.Element

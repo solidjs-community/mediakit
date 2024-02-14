@@ -1,6 +1,5 @@
 import { Show, type VoidComponent } from 'solid-js'
 import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
-import { Head, Title } from 'solid-start'
 
 const AuthShowcase: VoidComponent = () => {
   const session = createSession()
@@ -33,15 +32,10 @@ const AuthShowcase: VoidComponent = () => {
 
 const Home: VoidComponent = () => {
   return (
-    <>
-      <Head>
-        <Title>Home</Title>
-      </Head>
-      <main class='flex flex-col items-center justify-center gap-4'>
-        <span class='text-xl text-black'>Welcome to Solid Auth</span>
-        <AuthShowcase />
-      </main>
-    </>
+    <main class='flex flex-col items-center justify-center gap-4'>
+      <span class='text-xl text-black'>Welcome to Solid Auth</span>
+      <AuthShowcase />
+    </main>
   )
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/trpc",
-  "description": "tRPC integration for SolidJS",
+  "description": "tRPC integration for Solid 2",
   "version": "1.0.2",
   "scripts": {
     "build": "tsc -p . && rollup -c && node scripts/postbuild.mjs",
@@ -12,13 +12,13 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.jsx",
-  "module": "./dist/index.jsx",
+  "main": "./dist/index/index.jsx",
+  "module": "./dist/index/index.jsx",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.jsx",
-      "default": "./dist/index.jsx"
+      "types": "./dist/index/index.d.ts",
+      "import": "./dist/index/index.jsx",
+      "default": "./dist/index/index.jsx"
     },
     "./handler": {
       "types": "./handler.d.ts",
@@ -27,27 +27,26 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^18.7.14",
-    "@typescript-eslint/parser": "^5.44.0",
-    "typescript": "^4.8.2",
+    "@rollup/plugin-typescript": "^11.1.2",
     "@solidjs/router": "^0.11.2",
     "@solidjs/start": "^0.5.2",
     "solid-js": "^1.8.14",
     "vinxi": "^0.2.1",
-    "@solidjs/meta": "^0.29.3",
     "@tanstack/solid-query": "^5.0.0",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0",
     "@types/babel__core": "7.20.0",
-    "acorn-jsx": "^5.3.2",
-    "@rollup/plugin-typescript": "^11.1.2"
+    "@types/node": "^18.7.14",
+    "@typescript-eslint/parser": "^5.44.0",
+    "rollup": "^4.9.6",
+    "rollup-preset-solid": "^2.0.1",
+    "typescript": "^4.8.2"
   },
   "peerDependencies": {
     "@solidjs/router": "^0.11.2",
     "@solidjs/start": "^0.5.2",
     "solid-js": "^1.8.14",
     "vinxi": "^0.2.1",
-    "@solidjs/meta": "^0.29.3",
     "@tanstack/solid-query": "^5.0.0",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0"

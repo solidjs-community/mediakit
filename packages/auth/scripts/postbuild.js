@@ -7,8 +7,12 @@ const __dirname = path.dirname(__filename)
 
 async function main() {
   const root = path.join(__dirname, '../')
-  const dist = path.join(root, 'dist')
-  await fs.cp(dist, root, {
+  const distClient = path.join(root, 'dist', 'client')
+  const distIndex = path.join(root, 'dist', 'index')
+  await fs.cp(distClient, root, {
+    recursive: true,
+  })
+  await fs.cp(distIndex, root, {
     recursive: true,
   })
 }

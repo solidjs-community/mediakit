@@ -25,7 +25,7 @@ Create a `server/trpc/context.ts` file with the following content:
 
 ```ts
 import type { inferAsyncReturnType } from '@trpc/server'
-import type { createSolidAPIHandlerContext } from 'solid-start-trpc'
+import { createSolidAPIHandlerContext } from '@solid-mediakit/trpc/handler'
 
 export const createContextInner = async (
   opts: createSolidAPIHandlerContext

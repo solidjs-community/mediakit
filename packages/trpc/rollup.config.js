@@ -4,6 +4,7 @@ import jsx from 'acorn-jsx'
 export default {
   input: {
     index: './src/index.tsx',
+    handler: './src/handler.ts',
   },
   output: {
     dir: 'dist',

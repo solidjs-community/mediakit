@@ -26,22 +26,21 @@ async function getMySession(request: Request) {
 
 ```ts
 import { getSession } from '@solid-mediakit/auth'
-import { createServerData$ } from 'solid-start/server'
 import { authOpts } from '~/routes/api/auth/[...solidauth]'
+import { cache, createAsync, redirect } from '@solidjs/router'
+import { getWebRequest } from 'vinxi/server'
 
-export const useSession = () => {
-  return createServerData$(
-    async (_, { request }) => {
-      return await getSession(request, authOpts)
-    },
-    { key: () => ['auth_user'] }
-  )
-}
+const getUser = cache(async () => {
+  'use server'
+  const request = getWebRequest()
+  const session = await getSession(request, authOpts)
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'user')
 
-// useSession returns a resource:
-const session = useSession()
-const loading = session.loading
-const user = () => session()?.user
+const user = createAsync(getUser)
 ```
 
 This is being used to fetch the session from the server side, if you want to fetch it client-side, check out the [`createSession`](/auth/createsession) function.

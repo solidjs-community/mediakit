@@ -1,16 +1,7 @@
-import solid from 'solid-start/vite'
-import { defineConfig } from 'vite'
-import auth from '@solid-mediakit/auth/unplugin'
+import { defineConfig } from '@solidjs/start/config'
 
-export default defineConfig(() => {
-  return {
-    plugins: [
-      auth.vite({
-        protected: ['protected'],
-        log: true,
-        login: '/',
-      }),
-      solid({ ssr: true, inspect: true }),
-    ],
-  }
+export default defineConfig({
+  start: {
+    ssr: true,
+  },
 })

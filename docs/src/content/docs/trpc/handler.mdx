@@ -5,18 +5,12 @@ description: 'Creating a tRPC API handler'
 
 **Creating a tRPC API handler**
 
-## Install
-
-```sh
-pnpm install solid-start-trpc@latest
-```
-
 ## Usage
 
 Go to `routes/api/trpc/[trpc].ts` and add the following:
 
 ```ts
-import { createSolidAPIHandler } from 'solid-start-trpc'
+import { createSolidAPIHandler } from '@solid-mediakit/trpc/handler'
 import { createContext } from '~/server/trpc/context'
 import { appRouter } from '~/server/trpc/router/_app'
 
@@ -25,8 +19,7 @@ const handler = createSolidAPIHandler({
   createContext,
 })
 
-export const GET = handler
-export const POST = handler
+export const { GET, POST } = handler
 ```
 
 You now have a working tRPC API handler at `/api/trpc/[trpc]`.

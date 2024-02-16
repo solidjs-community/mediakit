@@ -25,6 +25,7 @@ Thumbs.db
 .env
 
 **/*.d.ts
+**/*.d.ts.map
 **/*.js
 **/*.jsx
 /compiler

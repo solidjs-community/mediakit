@@ -40,15 +40,21 @@ const AuthShowcase: VoidComponent = () => {
           </button>
         }
       >
-        <span class='text-xl text-black'>
-          Hello there {session()?.user?.name}
-        </span>
-        <button
-          onClick={() => signOut({ redirectTo: '/' })}
-          class='rounded-full bg-black/50 px-10 py-3 font-semibold text-white no-underline transition hover:bg-black/70'
-        >
-          Sign out
-        </button>
+        {(session) => {
+          return (
+            <>
+              <span class='text-xl text-black'>
+                Hello there {session()?.user?.name}
+              </span>
+              <button
+                onClick={() => signOut({ redirectTo: '/' })}
+                class='rounded-full bg-black/50 px-10 py-3 font-semibold text-white no-underline transition hover:bg-black/70'
+              >
+                Sign out
+              </button>
+            </>
+          )
+        }}
       </Show>
     </div>
   )

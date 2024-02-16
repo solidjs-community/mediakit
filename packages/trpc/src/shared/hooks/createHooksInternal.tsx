@@ -39,7 +39,6 @@ import {
   on,
 } from 'solid-js'
 import { isServer } from 'solid-js/web'
-import { useRequest } from 'solid-start/server'
 import {
   TRPCContext,
   type TRPCContextProps,
@@ -52,7 +51,7 @@ import {
   type UseTRPCInfiniteQueryOptions,
   type TRPCUseQueryBaseOptions,
 } from './types'
-
+import { getRequestEvent } from 'solid-js/web'
 export type OutputWithCursor<TData, TCursor = any> = {
   cursor: TCursor | null
   data: TData
@@ -116,7 +115,7 @@ export type UseDehydratedState<TRouter extends AnyRouter> = (
 
 export type CreateClient<TRouter extends AnyRouter> = (
   opts: (
-    event?: ReturnType<typeof useRequest>
+    event?: ReturnType<typeof getRequestEvent>
   ) => CreateTRPCClientOptions<TRouter>
 ) => TRPCClient<TRouter>
 
@@ -177,7 +176,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
 
   const TRPCProvider: TRPCProvider<TRouter> = (props) => {
     const { abortOnUnmount = false, queryClient } = props
-    const event = isServer ? useRequest() : undefined
+    const event = isServer ? getRequestEvent() : undefined
     return (
       <Context.Provider
         value={{
@@ -307,7 +306,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       TError
     >
   ): UseTRPCQueryResult<TData, TError> {
-    const event = isServer ? useRequest() : undefined
+    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.() ?? {}, {
         context: SolidQueryContext,
@@ -340,7 +339,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     TMutationValues[TPath]['input'],
     TContext
   > {
-    const event = isServer ? useRequest() : undefined
+    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.(), {
         context: SolidQueryContext,
@@ -389,7 +388,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
             return
           }
           let isStopped = false
-          const event = isServer ? useRequest() : undefined
+          const event = isServer ? getRequestEvent() : undefined
           const subscription = createTRPCClient(
             config?.config(event) as any
           ).subscription<
@@ -435,7 +434,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       TError
     >
   ): UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError> {
-    const event = isServer ? useRequest() : undefined
+    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.(), {
         context: SolidQueryContext,

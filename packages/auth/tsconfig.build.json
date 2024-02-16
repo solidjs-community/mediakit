@@ -2,19 +2,19 @@
   "compilerOptions": {
     "declaration": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "target": "esnext",
     "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "strict": true,
+    "strict": false,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "module": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node"],
-    "strictNullChecks": true,
+    "types": ["@solidjs/start/env", "node"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

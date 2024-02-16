@@ -58,7 +58,8 @@ export type GetSessionResult = Promise<Session | null>
 
 export async function getSession(
   req: Request,
-  options: AuthConfig
+  options: AuthConfig,
+  serverResponse?: Response
 ): GetSessionResult {
   options.secret ??= process.env.AUTH_SECRET
   options.trustHost ??= true
@@ -70,6 +71,11 @@ export async function getSession(
   )
 
   const { status = 200 } = response
+
+  const cookie = response.headers.get('set-cookie')
+  if (cookie && serverResponse) {
+    serverResponse.headers.append('set-cookie', cookie)
+  }
 
   const data = await response.json()
 

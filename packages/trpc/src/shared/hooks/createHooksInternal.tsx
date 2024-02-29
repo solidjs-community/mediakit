@@ -11,6 +11,7 @@ import {
   createQuery as __useQuery,
   type QueryClientProviderProps,
   type QueryClient,
+  InfiniteData,
 } from '@tanstack/solid-query'
 import {
   type CreateTRPCClientOptions,
@@ -138,7 +139,7 @@ export type UseTRPCQueryResult<TData, TError> = CreateQueryResult<
  * @internal
  */
 export type UseTRPCInfiniteQueryResult<TData, TError> =
-  CreateInfiniteQueryResult<TData, TError> & TRPCHookResult
+  CreateInfiniteQueryResult<InfiniteData<TData>, TError> & TRPCHookResult
 
 /**
  * @internal

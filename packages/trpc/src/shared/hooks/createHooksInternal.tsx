@@ -230,6 +230,15 @@ export function createHooksInternal<TRouter extends AnyRouter>(
               },
             })
           },
+          ensureQueryData: (pathAndInput, opts) => {
+            return queryClient.ensureQueryData({
+              queryKey: getArrayQueryKey(pathAndInput),
+              queryFn: () =>
+                (createTRPCClient(config?.config(event) as any) as any).query(
+                  ...getClientArgs(pathAndInput, opts)
+                ),
+            })
+          },
           invalidateQueries: (...args: any[]) => {
             const [queryKey, ...rest] = args
             return queryClient.invalidateQueries({

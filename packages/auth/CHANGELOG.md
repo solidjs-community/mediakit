@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.1
+
+### Patch Changes
+
+- [`d51d8e0`](https://github.com/solidjs-community/mediakit/commit/d51d8e07e34e2d559bd5caf1d9169459047ae202) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use response.headers.set
+
 ## 2.0.0
 
 ### Major Changes

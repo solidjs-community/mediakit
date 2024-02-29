@@ -226,12 +226,9 @@ export const getSession = async (
     const cookie = res.headers.get('set-cookie')
     if (cookie) {
       try {
-        if ((event as any)?.response) {
-          ;(event as any).response.headers.append('set-cookie', cookie)
-        }
+        ;(event as any).response.headers.append('set-cookie', cookie ?? '')
       } catch (e) {
-        // error: Cannot set headers after they are sent to the client
-        // console.log('specialdataErrorSetRes', e)
+        // console.log('spcasfafError: ', e)
       }
     }
   }

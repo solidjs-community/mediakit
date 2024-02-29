@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit"
   },
   "files": [
-    "dist"
+    "dist",
+    "handler.js",
+    "handler.d.ts"
   ],
   "type": "module",
   "main": "./dist/index/index.jsx",

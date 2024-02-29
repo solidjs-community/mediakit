@@ -175,6 +175,14 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     QueryClient | undefined
   >
 
+  function wrapFn<Fn extends (...args: any[]) => any>(fn: Fn) {
+    return async (...args: Parameters<Fn>) => {
+      const results = await fn(...args)
+      // console.log({ results })
+      return results
+    }
+  }
+
   const TRPCProvider: TRPCProvider<TRouter> = (props) => {
     const { abortOnUnmount = false, queryClient } = props
     const event = isServer ? getRequestEvent() : undefined
@@ -186,10 +194,11 @@ export function createHooksInternal<TRouter extends AnyRouter>(
           fetchQuery: (pathAndInput, opts) => {
             return queryClient.fetchQuery({
               queryKey: getArrayQueryKey(pathAndInput),
-              queryFn: () =>
+              queryFn: wrapFn(() =>
                 (createTRPCClient(config?.config(event) as any) as any).query(
                   ...getClientArgs(pathAndInput, opts)
-                ),
+                )
+              ),
               ...opts,
             })
           },
@@ -323,11 +332,11 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       })
     return __useQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
-      queryFn: () => {
+      queryFn: wrapFn(() => {
         return (createTRPCClient(config?.config(event) as any) as any).query(
           ...getClientArgs(pathAndInput(), opts?.())
         )
-      },
+      }),
       ...(withCtxOpts() as any),
     })) as UseTRPCQueryResult<TData, TError>
   }

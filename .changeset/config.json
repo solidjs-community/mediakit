@@ -10,5 +10,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["dev-auth", "example-og", "dev-media", "dev-trpc", "dev-log"]
+  "ignore": ["dev-auth", "dev-media", "dev-trpc"]
 }

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationMap": false,
     "allowSyntheticDefaultImports": true,
     "target": "esnext",
     "moduleResolution": "Node",

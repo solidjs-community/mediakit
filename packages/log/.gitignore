@@ -1,8 +1,0 @@
-unplugin
-compiler
-!src/**/*
-*.js
-!rollup.config.js
-!scripts/**/*
-*.d.ts
-*.jsx

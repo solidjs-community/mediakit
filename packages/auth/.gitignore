@@ -27,6 +27,7 @@ Thumbs.db
 **/*.d.ts
 **/*.d.ts.map
 **/*.js
+**/*.module.js.map
 **/*.jsx
 /compiler
 !rollup.config.js

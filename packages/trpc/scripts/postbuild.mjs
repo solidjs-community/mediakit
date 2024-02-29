@@ -12,6 +12,12 @@ async function main() {
   for (const file of filesToCopy) {
     await fs.copyFile(path.join(dist, file), path.join(root, file))
   }
+  const files = await fs.readdir(root)
+  for (const file of files) {
+    if (file.endsWith('.map')) {
+      await fs.unlink(path.join(root, file))
+    }
+  }
 }
 
 main()

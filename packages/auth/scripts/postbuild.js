@@ -15,6 +15,12 @@ async function main() {
   await fs.cp(distIndex, root, {
     recursive: true,
   })
+  const files = await fs.readdir(root)
+  for (const file of files) {
+    if (file.endsWith('.map')) {
+      await fs.unlink(path.join(root, file))
+    }
+  }
 }
 
 main()

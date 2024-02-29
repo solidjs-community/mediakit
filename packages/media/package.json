@@ -3,13 +3,13 @@
   "version": "0.0.4",
   "type": "module",
   "description": "A media utility library for Solid.",
-  "main": "./dist/index.jsx",
-  "module": "./dist/index.jsx",
+  "main": "./dist/index/index.jsx",
+  "module": "./dist/index/index.jsx",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.jsx",
-      "default": "./dist/index.jsx"
+      "types": "./dist/index/index.d.ts",
+      "import": "./dist/index/index.jsx",
+      "default": "./dist/index/index.jsx"
     }
   },
   "scripts": {
@@ -20,11 +20,11 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.2",
     "typescript": "^5.1.6",
-    "solid-js": "^1.8.3",
-    "acorn-jsx": "^5.3.2"
+    "solid-js": "^1.8.14",
+    "rollup-preset-solid": "^2.0.1"
   },
   "peerDependencies": {
-    "solid-js": "^1.8.3"
+    "solid-js": "^1.8.14"
   },
   "dependencies": {
     "@solid-mediakit/shared": "workspace:*"

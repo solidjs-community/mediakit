@@ -1,5 +1,11 @@
 # @solid-mediakit/trpc
 
+## 2.0.2
+
+### Patch Changes
+
+- [`3cc2896`](https://github.com/solidjs-community/mediakit/commit/3cc2896037a762e92743f9a75472dafadd34778d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: include handler.\*
+
 ## 2.0.1
 
 ### Patch Changes

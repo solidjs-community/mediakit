@@ -109,8 +109,8 @@ importers:
   examples/auth:
     dependencies:
       '@auth/core':
-        specifier: 0.15.0
-        version: 0.15.0
+        specifier: ^0.28.0
+        version: 0.28.0
       '@solid-mediakit/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -296,8 +296,8 @@ importers:
         version: 1.3.1
     devDependencies:
       '@auth/core':
-        specifier: 0.15.0
-        version: 0.15.0
+        specifier: ^0.28.0
+        version: 0.28.0
       '@solidjs/meta':
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.14)
@@ -720,17 +720,24 @@ packages:
       undici: 5.28.3
     dev: false
 
-  /@auth/core@0.15.0:
-    resolution: {integrity: sha512-pWchDMUT0TXUn5kencusX4IL9IfIuVKzRF/cy6RSKr6PgdwMvSPyqyxxhHU+nh3+C/3vYqV0k8SKzfgNo0A1jQ==}
+  /@auth/core@0.28.0:
+    resolution: {integrity: sha512-/fh/tb/L4NMSYcyPoo4Imn8vN6MskcVfgESF8/ndgtI4fhD/7u7i5fTVzWgNRZ4ebIEGHNDbWFRxaTu1NtQgvA==}
     peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
       nodemailer: ^6.8.0
     peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
       nodemailer:
         optional: true
     dependencies:
       '@panva/hkdf': 1.1.1
-      cookie: 0.5.0
-      jose: 4.15.4
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
+      jose: 5.2.3
       oauth4webapi: 2.10.3
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
@@ -3767,6 +3774,9 @@ packages:
   /@types/braces@3.0.4:
     resolution: {integrity: sha512-0WR3b8eaISjEW7RpZnclONaLFDf7buaowRHdqLp4vLj54AsSAYWfh3DRbfiYJY9XDxMgx1B4sE1Afw2PGpuHOA==}
 
+  /@types/cookie@0.6.0:
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+
   /@types/debug@4.1.12:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
     dependencies:
@@ -5088,6 +5098,11 @@ packages:
 
   /cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+    engines: {node: '>= 0.6'}
+    dev: false
+
+  /cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
 
   /core-js-compat@3.36.0:
@@ -7545,8 +7560,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  /jose@4.15.4:
-    resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+  /jose@5.2.3:
+    resolution: {integrity: sha512-KUXdbctm1uHVL8BYhnyHkgp3zDX5KW8ZhAKVFEfUbU2P8Alpzjb+48hHvjOdQIyPshoblhzsuqOwEEAbtHVirA==}
 
   /js-sdsl@4.4.2:
     resolution: {integrity: sha512-dwXFwByc/ajSV6m5bcKAPwe4yDDF6D614pxmIi5odytzxRlwqF6nwoiCek80Ixc7Cvma5awClxrzFtxCQvcM8w==}

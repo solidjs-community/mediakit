@@ -24,7 +24,7 @@
   "dependencies": {
     "zod": "^3.20.6",
     "@solid-mediakit/auth": "workspace:*",
-    "@auth/core": "0.15.0",
+    "@auth/core": "^0.28.0",
     "@solidjs/router": "^0.11.2",
     "@solidjs/start": "^0.5.2",
     "solid-js": "^1.8.14",

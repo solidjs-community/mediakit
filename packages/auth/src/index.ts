@@ -37,6 +37,7 @@ function SolidAuthHandler(prefix: string, authOptions: SolidAuthConfig) {
 
 export function SolidAuth(config: SolidAuthConfig) {
   const { prefix = '/api/auth', ...authOptions } = config
+  authOptions.basePath ??= prefix
   authOptions.secret ??= process.env.AUTH_SECRET
   authOptions.trustHost ??= !!(
     process.env.AUTH_TRUST_HOST ??

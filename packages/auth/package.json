@@ -39,7 +39,7 @@
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@auth/core": "0.15.0",
+    "@auth/core": "^0.28.0",
     "rollup": "^4.9.6",
     "rollup-preset-solid": "^2.0.1",
     "@types/node": "^18.7.14",
@@ -62,7 +62,7 @@
     "vinxi": "^0.2.1",
     "@solidjs/meta": "^0.29.3",
     "typescript": "^4.8.2",
-    "@auth/core": "0.15.0"
+    "@auth/core": "^0.15.0"
   },
   "engines": {
     "node": ">=16"

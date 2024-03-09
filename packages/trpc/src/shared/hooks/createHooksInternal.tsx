@@ -38,6 +38,7 @@ import {
   onCleanup,
   useContext as __useContext,
   on,
+  createMemo,
 } from 'solid-js'
 import { isServer } from 'solid-js/web'
 import {
@@ -169,7 +170,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
   type TMutationValues = inferProcedures<TMutations>
 
   const Context = (config?.context ?? TRPCContext) as Context<
-    TRPCContextState<TRouter>
+    TRPCContextState<TRouter> & { client: Accessor<any> }
   >
   const SolidQueryContext = config?.solidQueryContext as Context<
     QueryClient | undefined
@@ -186,18 +187,20 @@ export function createHooksInternal<TRouter extends AnyRouter>(
   const TRPCProvider: TRPCProvider<TRouter> = (props) => {
     const { abortOnUnmount = false, queryClient } = props
     const event = isServer ? getRequestEvent() : undefined
+    const client = createMemo(() =>
+      createTRPCClient(config?.config(event) as any)
+    ) as any
     return (
       <Context.Provider
         value={{
           abortOnUnmount,
           queryClient,
+          client,
           fetchQuery: (pathAndInput, opts) => {
             return queryClient.fetchQuery({
               queryKey: getArrayQueryKey(pathAndInput),
               queryFn: wrapFn(() =>
-                (createTRPCClient(config?.config(event) as any) as any).query(
-                  ...getClientArgs(pathAndInput, opts)
-                )
+                client().query(...getClientArgs(pathAndInput, opts))
               ),
               ...opts,
             })
@@ -208,9 +211,9 @@ export function createHooksInternal<TRouter extends AnyRouter>(
               queryFn: ({ pageParam }) => {
                 const [path, input] = pathAndInput
                 const actualInput = { ...(input as any), cursor: pageParam }
-                return (
-                  createTRPCClient(config?.config(event) as any) as any
-                ).query(...getClientArgs([path, actualInput], opts))
+                return client().query(
+                  ...getClientArgs([path, actualInput], opts)
+                )
               },
               initialPageParam: undefined,
               ...opts,
@@ -221,9 +224,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
             return queryClient.prefetchQuery({
               queryKey: getArrayQueryKey(pathAndInput),
               queryFn: () =>
-                (createTRPCClient(config?.config(event) as any) as any).query(
-                  ...getClientArgs(pathAndInput, opts)
-                ),
+                client().query(...getClientArgs(pathAndInput, opts)),
             })
           },
           prefetchInfiniteQuery: (pathAndInput, opts) => {
@@ -233,9 +234,9 @@ export function createHooksInternal<TRouter extends AnyRouter>(
               queryFn: ({ pageParam }) => {
                 const [path, input] = pathAndInput
                 const actualInput = { ...(input as any), cursor: pageParam }
-                return (
-                  createTRPCClient(config?.config(event) as any) as any
-                ).query(...getClientArgs([path, actualInput], opts))
+                return client().query(
+                  ...getClientArgs([path, actualInput], opts)
+                )
               },
             })
           },
@@ -243,9 +244,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
             return queryClient.ensureQueryData({
               queryKey: getArrayQueryKey(pathAndInput),
               queryFn: () =>
-                (createTRPCClient(config?.config(event) as any) as any).query(
-                  ...getClientArgs(pathAndInput, opts)
-                ),
+                client().query(...getClientArgs(pathAndInput, opts)),
             })
           },
           invalidateQueries: (...args: any[]) => {
@@ -325,17 +324,15 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       TError
     >
   ): UseTRPCQueryResult<TData, TError> {
-    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.() ?? {}, {
         context: SolidQueryContext,
       })
+    const ctx = useContext()
     return __useQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
       queryFn: wrapFn(() => {
-        return (createTRPCClient(config?.config(event) as any) as any).query(
-          ...getClientArgs(pathAndInput(), opts?.())
-        )
+        return ctx.client().query(...getClientArgs(pathAndInput(), opts?.()))
       }),
       ...(withCtxOpts() as any),
     })) as UseTRPCQueryResult<TData, TError>
@@ -358,18 +355,18 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     TMutationValues[TPath]['input'],
     TContext
   > {
-    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.(), {
         context: SolidQueryContext,
       })
+    const ctx = useContext()
     return __useMutation(() => ({
       mutationFn: (input) => {
         const actualPath = Array.isArray(path) ? path[0] : path
 
-        return (createTRPCClient(config?.config(event) as any) as any).mutation(
-          ...getClientArgs([actualPath, input], opts)
-        )
+        return ctx
+          .client()
+          .mutation(...getClientArgs([actualPath, input], opts))
       },
       ...withCtxOpts(),
     })) as UseTRPCMutationResult<
@@ -399,6 +396,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       inferProcedureClientError<TSubscriptions[TPath]>
     >
   ) {
+    const ctx = useContext()
     return createEffect(
       on(
         () => [pathAndInput(), opts?.()],
@@ -407,9 +405,9 @@ export function createHooksInternal<TRouter extends AnyRouter>(
             return
           }
           let isStopped = false
-          const event = isServer ? getRequestEvent() : undefined
-          const subscription = createTRPCClient(
-            config?.config(event) as any
+
+          const subscription = (
+            ctx.client() as TRPCClient<AnyRouter>
           ).subscription<
             TRouter['_def']['subscriptions'],
             TPath,
@@ -453,11 +451,11 @@ export function createHooksInternal<TRouter extends AnyRouter>(
       TError
     >
   ): UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError> {
-    const event = isServer ? getRequestEvent() : undefined
     const withCtxOpts = () =>
       mergeProps(opts?.(), {
         context: SolidQueryContext,
       })
+    const ctx = useContext()
     return __useInfiniteQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
       queryFn: (queryFunctionContext) => {
@@ -466,9 +464,9 @@ export function createHooksInternal<TRouter extends AnyRouter>(
           cursor: queryFunctionContext.pageParam,
         }
 
-        return (createTRPCClient(config?.config(event) as any) as any).query(
-          ...getClientArgs([pathAndInput()[0], actualInput], opts?.())
-        )
+        return ctx
+          .client()
+          .query(...getClientArgs([pathAndInput()[0], actualInput], opts?.()))
       },
       ...(withCtxOpts() as any),
     })) as UseTRPCInfiniteQueryResult<TQueryValues[TPath]['output'], TError>

@@ -26,7 +26,7 @@ export interface CreateTRPCSolidOptions<TRouter extends AnyRouter> {
    * Override behaviors of the built-in hooks
    */
   unstable_overrides?: {
-    useMutation?: Partial<UseMutationOverride>
+    createMutation?: Partial<UseMutationOverride>
   }
 
   /**

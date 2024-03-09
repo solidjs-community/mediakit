@@ -23,7 +23,7 @@ export function createSolidProxyDecoration<TRouter extends AnyRouter>(
 
     // The `path` ends up being something like `post.byId`
     const path = pathCopy.join(".");
-    if (lastArg === "useMutation") {
+    if (lastArg === "createMutation") {
       return (hooks as any)[lastArg](path, ...args);
     }
     return (hooks as any)[lastArg](

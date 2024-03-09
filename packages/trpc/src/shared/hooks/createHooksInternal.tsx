@@ -6,9 +6,9 @@ import {
   type CreateMutationOptions,
   type CreateMutationResult,
   type CreateQueryResult,
-  createInfiniteQuery as __useInfiniteQuery,
-  createMutation as __useMutation,
-  createQuery as __useQuery,
+  createInfiniteQuery as __createInfiniteQuery,
+  createMutation as __createMutation,
+  createQuery as __createQuery,
   type QueryClientProviderProps,
   type QueryClient,
   InfiniteData,
@@ -307,7 +307,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     return __useContext(Context)
   }
 
-  function useQuery<
+  function createQuery<
     TPath extends keyof TQueryValues & string,
     TQueryFnData = TQueryValues[TPath]['output'],
     TData = TQueryValues[TPath]['output']
@@ -329,7 +329,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
         context: SolidQueryContext,
       })
     const ctx = useContext()
-    return __useQuery(() => ({
+    return __createQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
       queryFn: wrapFn(() => {
         return ctx.client().query(...getClientArgs(pathAndInput(), opts?.()))
@@ -338,7 +338,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     })) as UseTRPCQueryResult<TData, TError>
   }
 
-  function useMutation<
+  function createMutation<
     TPath extends keyof TMutationValues & string,
     TContext = unknown
   >(
@@ -360,7 +360,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
         context: SolidQueryContext,
       })
     const ctx = useContext()
-    return __useMutation(() => ({
+    return __createMutation(() => ({
       mutationFn: (input) => {
         const actualPath = Array.isArray(path) ? path[0] : path
 
@@ -383,7 +383,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
    *  **Experimental.** API might change without major version bump
    * ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠
    */
-  function useSubscription<
+  function createSubscription<
     TPath extends keyof TSubscriptions & string,
     TOutput extends inferSubscriptionOutput<TRouter, TPath>
   >(
@@ -439,7 +439,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
     )
   }
 
-  function useInfiniteQuery<TPath extends TInfiniteQueryNames & string>(
+  function createInfiniteQuery<TPath extends TInfiniteQueryNames & string>(
     pathAndInput: () => [
       path: TPath,
       input: Omit<TQueryValues[TPath]['input'], 'cursor'>
@@ -456,7 +456,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
         context: SolidQueryContext,
       })
     const ctx = useContext()
-    return __useInfiniteQuery(() => ({
+    return __createInfiniteQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
       queryFn: (queryFunctionContext) => {
         const actualInput = {
@@ -474,10 +474,10 @@ export function createHooksInternal<TRouter extends AnyRouter>(
   return {
     Provider: TRPCProvider,
     useContext,
-    useQuery,
-    useMutation,
-    useSubscription,
-    useInfiniteQuery,
+    createQuery,
+    createMutation,
+    createSubscription,
+    createInfiniteQuery,
   }
 }
 

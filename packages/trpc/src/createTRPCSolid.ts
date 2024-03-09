@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type TRPCClientErrorLike } from "@trpc/client";
+import { type TRPCClientErrorLike } from '@trpc/client'
 import type {
   AnyMutationProcedure,
   AnyProcedure,
@@ -9,14 +9,14 @@ import type {
   ProcedureRouterRecord,
   inferProcedureInput,
   inferProcedureOutput,
-} from "@trpc/server";
-import { type inferObservableValue } from "@trpc/server/observable";
-import { createFlatProxy } from "@trpc/server/shared";
+} from '@trpc/server'
+import { type inferObservableValue } from '@trpc/server/observable'
+import { createFlatProxy } from '@trpc/server/shared'
 import {
   type CreateSolidUtilsProxy,
   createSolidProxyDecoration,
   createSolidQueryUtilsProxy,
-} from "./shared";
+} from './shared'
 import {
   type CreateClient,
   type CreateSolidQueryHooks,
@@ -28,16 +28,16 @@ import {
   type UseTRPCQueryResult,
   type UseTRPCSubscriptionOptions,
   createHooksInternal,
-} from "./shared/hooks/createHooksInternal";
+} from './shared/hooks/createHooksInternal'
 import {
   type UseTRPCInfiniteQueryOptions,
   type UseTRPCQueryOptions,
-} from "./shared/hooks/types";
-import { type CreateTRPCSolidOptions } from "./shared/types";
+} from './shared/hooks/types'
+import { type CreateTRPCSolidOptions } from './shared/types'
 
 export type FixProcedureInput<T> = T extends void | undefined
   ? void | undefined
-  : () => T;
+  : () => T
 /**
  * @internal
  */
@@ -46,7 +46,7 @@ export type DecorateProcedure<
   TPath extends string
 > = TProcedure extends AnyQueryProcedure
   ? {
-      useQuery: <
+      createQuery: <
         TQueryFnData = inferProcedureOutput<TProcedure>,
         TData = inferProcedureOutput<TProcedure>
       >(
@@ -58,16 +58,16 @@ export type DecorateProcedure<
           TData,
           TRPCClientErrorLike<TProcedure>
         >
-      ) => UseTRPCQueryResult<TData, TRPCClientErrorLike<TProcedure>>;
+      ) => UseTRPCQueryResult<TData, TRPCClientErrorLike<TProcedure>>
     } & (inferProcedureInput<TProcedure> extends { cursor?: any }
       ? {
-          useInfiniteQuery: <
+          createInfiniteQuery: <
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             _TQueryFnData = inferProcedureOutput<TProcedure>,
             TData = inferProcedureOutput<TProcedure>
           >(
             input: FixProcedureInput<
-              Omit<inferProcedureInput<TProcedure>, "cursor">
+              Omit<inferProcedureInput<TProcedure>, 'cursor'>
             >,
             opts?: UseTRPCInfiniteQueryOptions<
               TPath,
@@ -78,13 +78,13 @@ export type DecorateProcedure<
           ) => UseTRPCInfiniteQueryResult<
             TData,
             TRPCClientErrorLike<TProcedure>
-          >;
+          >
         }
       : // eslint-disable-next-line @typescript-eslint/ban-types
         {})
   : TProcedure extends AnyMutationProcedure
   ? {
-      useMutation: <TContext = unknown>(
+      createMutation: <TContext = unknown>(
         opts?: UseTRPCMutationOptions<
           inferProcedureInput<TProcedure>,
           TRPCClientErrorLike<TProcedure>,
@@ -96,43 +96,43 @@ export type DecorateProcedure<
         TRPCClientErrorLike<TProcedure>,
         inferProcedureInput<TProcedure>,
         TContext
-      >;
+      >
     }
   : TProcedure extends AnySubscriptionProcedure
   ? {
-      useSubscription: (
+      createSubscription: (
         input: FixProcedureInput<inferProcedureInput<TProcedure>>,
         opts?: () => UseTRPCSubscriptionOptions<
           inferObservableValue<inferProcedureOutput<TProcedure>>,
           TRPCClientErrorLike<TProcedure>
         >
-      ) => void;
+      ) => void
     }
-  : never;
+  : never
 
 /**
  * @internal
  */
 export type DecoratedProcedureRecord<
   TProcedures extends ProcedureRouterRecord,
-  TPath extends string = ""
+  TPath extends string = ''
 > = {
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
     ? DecoratedProcedureRecord<
-        TProcedures[TKey]["_def"]["record"],
+        TProcedures[TKey]['_def']['record'],
         `${TPath}${TKey & string}.`
       >
     : TProcedures[TKey] extends AnyProcedure
     ? DecorateProcedure<TProcedures[TKey], `${TPath}${TKey & string}`>
-    : never;
-};
+    : never
+}
 
 export type CreateTRPCSolidStart<TRouter extends AnyRouter> = {
-  useContext(): CreateSolidUtilsProxy<TRouter>;
-  Provider: TRPCProvider<TRouter>;
-  createClient: CreateClient<TRouter>;
-  useDehydratedState: UseDehydratedState<TRouter>;
-} & DecoratedProcedureRecord<TRouter["_def"]["record"]>;
+  useContext(): CreateSolidUtilsProxy<TRouter>
+  Provider: TRPCProvider<TRouter>
+  createClient: CreateClient<TRouter>
+  useDehydratedState: UseDehydratedState<TRouter>
+} & DecoratedProcedureRecord<TRouter['_def']['record']>
 
 /**
  * @internal
@@ -140,30 +140,30 @@ export type CreateTRPCSolidStart<TRouter extends AnyRouter> = {
 export function createHooksInternalProxy<TRouter extends AnyRouter>(
   trpc: CreateSolidQueryHooks<TRouter>
 ) {
-  type CreateHooksInternalProxy = CreateTRPCSolidStart<TRouter>;
+  type CreateHooksInternalProxy = CreateTRPCSolidStart<TRouter>
 
   return createFlatProxy<CreateHooksInternalProxy>((key) => {
-    if (key === "useContext") {
+    if (key === 'useContext') {
       return () => {
-        const context = trpc.useContext();
+        const context = trpc.useContext()
         // create a stable reference of the utils context
-        return (createSolidQueryUtilsProxy as any)(context as any);
-      };
+        return (createSolidQueryUtilsProxy as any)(context as any)
+      }
     }
 
     if ((key as string) in trpc) {
-      return (trpc as any)[key];
+      return (trpc as any)[key]
     }
 
-    return createSolidProxyDecoration(key as string, trpc);
-  });
+    return createSolidProxyDecoration(key as string, trpc)
+  })
 }
 
 export function createTRPCSolidStart<TRouter extends AnyRouter>(
   opts?: CreateTRPCSolidOptions<TRouter>
 ) {
-  const hooks = createHooksInternal<TRouter>(opts);
-  const proxy = createHooksInternalProxy<TRouter>(hooks);
+  const hooks = createHooksInternal<TRouter>(opts)
+  const proxy = createHooksInternalProxy<TRouter>(hooks)
 
-  return proxy;
+  return proxy
 }

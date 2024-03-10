@@ -1,5 +1,11 @@
 # @solid-mediakit/trpc
 
+## 3.0.0
+
+### Major Changes
+
+- [#25](https://github.com/solidjs-community/mediakit/pull/25) [`401b3ce`](https://github.com/solidjs-community/mediakit/commit/401b3cec6694fd6ece3f66622c3031250206df4a) Thanks [@oscartbeaumont](https://github.com/oscartbeaumont)! - renamed all tRPC hooks from use* to create*
+
 ## 2.0.2
 
 ### Patch Changes

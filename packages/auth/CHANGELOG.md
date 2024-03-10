@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.2
+
+### Patch Changes
+
+- [`446e30f`](https://github.com/solidjs-community/mediakit/commit/446e30f97b47706164bb43fe2cb0bcf78bcb55c1) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bump @auth/core to its latest version
+
 ## 2.0.1
 
 ### Patch Changes

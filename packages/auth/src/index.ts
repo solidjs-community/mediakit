@@ -19,8 +19,29 @@ export function SolidAuth(
 ): {
   signIn: APIHandler
   signOut: APIHandler
-  handle: APIHandler
+  GET: APIHandler
+  POST: APIHandler
 } {
+  const handler = async (event: APIEvent) => {
+    const _config = typeof config === 'object' ? config : await config(event)
+    setEnvDefaults(process.env, _config)
+    const { request } = event
+    const url = new URL(request.url)
+    event.locals.auth ??= () => auth(event, _config)
+    event.locals.getSession ??= event.locals.auth
+
+    const action = url.pathname
+      .slice(_config.basePath!.length + 1)
+      .split('/')[0]
+    if (
+      isAuthAction(action) &&
+      url.pathname.startsWith(_config.basePath + '/')
+    ) {
+      return Auth(request, _config)
+    }
+
+    return new Response('Not Found', { status: 404 })
+  }
   return {
     signIn: async (event: APIEvent) => {
       const { request } = event
@@ -53,26 +74,8 @@ export function SolidAuth(
       const options = Object.fromEntries(await event.request.formData())
       await signOut(options, _config, event)
     },
-    async handle(event: APIEvent) {
-      const _config = typeof config === 'object' ? config : await config(event)
-      setEnvDefaults(process.env, _config)
-      const { request } = event
-      const url = new URL(request.url)
-      event.locals.auth ??= () => auth(event, _config)
-      event.locals.getSession ??= event.locals.auth
-
-      const action = url.pathname
-        .slice(_config.basePath!.length + 1)
-        .split('/')[0]
-      if (
-        isAuthAction(action) &&
-        url.pathname.startsWith(_config.basePath + '/')
-      ) {
-        return Auth(request, _config)
-      }
-
-      return new Response('Not Found', { status: 404 })
-    },
+    GET: handler,
+    POST: handler,
   }
 }
 

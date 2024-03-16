@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Session } from '@auth/core/types'
+import { SolidAuthConfig } from './types'
+import { setEnvDefaults as coreSetEnvDefaults } from '@auth/core'
+import { isDev } from 'solid-js/web'
 
 export interface InternalUrl {
   origin: string
@@ -62,4 +65,18 @@ export const conditionalEnv = (...envs: string[]) => {
     }
   }
   return undefined
+}
+
+export function setEnvDefaults(
+  envObject: Record<string, string | undefined>,
+  config: SolidAuthConfig
+) {
+  coreSetEnvDefaults(envObject, config)
+  config.trustHost ??= isDev
+  config.basePath = getBasePath()
+}
+
+export const getBasePath = (): string => {
+  const ev = conditionalEnv('AUTH_URL_INTERNAL', 'VITE_AUTH_PATH')
+  return ev ?? `/api/auth`
 }

@@ -355,6 +355,9 @@ importers:
       '@solid-mediakit/shared':
         specifier: workspace:*
         version: link:../shared
+      set-cookie-parser:
+        specifier: ^2.6.0
+        version: 2.6.0
     devDependencies:
       '@auth/core':
         specifier: ^0.28.0
@@ -371,6 +374,9 @@ importers:
       '@types/node':
         specifier: ^18.7.14
         version: 18.17.5
+      '@types/set-cookie-parser':
+        specifier: ^2.4.7
+        version: 2.4.7
       '@typescript-eslint/parser':
         specifier: ^5.44.0
         version: 5.52.0(eslint@8.34.0)(typescript@4.9.5)
@@ -4320,6 +4326,12 @@ packages:
 
   /@types/semver@7.5.7:
     resolution: {integrity: sha512-/wdoPq1QqkSj9/QOeKkFquEuPzQbHTWAMPH/PaUMB+JuR31lXhlWXRZ52IpfDYVlDOUBvX09uBrPwxGT1hjNBg==}
+    dev: true
+
+  /@types/set-cookie-parser@2.4.7:
+    resolution: {integrity: sha512-+ge/loa0oTozxip6zmhRIk8Z/boU51wl9Q6QdLZcokIGMzY5lFXYy/x7Htj2HTC6/KZP1hUbZ1ekx8DYXICvWg==}
+    dependencies:
+      '@types/node': 18.17.5
     dev: true
 
   /@types/unist@2.0.10:

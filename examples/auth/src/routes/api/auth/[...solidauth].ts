@@ -1,4 +1,7 @@
 import { SolidAuth } from '@solid-mediakit/auth'
 import { authOptions } from '../../server/auth'
 
-export const { GET, POST } = SolidAuth(authOptions)
+const { handle } = SolidAuth(authOptions)
+
+export const GET = handle
+export const POST = handle

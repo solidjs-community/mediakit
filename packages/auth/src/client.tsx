@@ -1,31 +1,113 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable solid/reactivity */
 import type {
   BuiltInProviderType,
   RedirectableProviderType,
 } from '@auth/core/providers'
-import type { Session } from '@auth/core/types'
+import { Session } from '@auth/core/types'
 import {
-  type Resource,
+  JSX,
+  Resource,
   createContext,
-  useContext,
-  createResource,
-  onMount,
-  onCleanup,
   createEffect,
-  type JSX,
+  createResource,
+  onCleanup,
+  onMount,
+  useContext,
 } from 'solid-js'
+import { conditionalEnv, getBasePath, getEnv, now, parseUrl } from './utils'
 import { getRequestEvent, isServer } from 'solid-js/web'
-import type {
-  SessionProviderProps,
-  LiteralUnion,
-  SignInOptions,
-  SignInAuthorizationParams,
-  SignOutParams,
+import {
   AuthClientConfig,
+  LiteralUnion,
+  SignInAuthorizationParams,
+  SignInOptions,
+  SignOutParams,
 } from './types'
-import { conditionalEnv, getEnv, now } from './utils'
-import { parseUrl } from './utils'
+
+export async function signIn<
+  P extends RedirectableProviderType | undefined = undefined
+>(
+  providerId?: LiteralUnion<
+    P extends RedirectableProviderType
+      ? P | BuiltInProviderType
+      : BuiltInProviderType
+  >,
+  options?: SignInOptions,
+  authorizationParams?: SignInAuthorizationParams
+) {
+  const { callbackUrl = window.location.href, redirect = true } = options ?? {}
+
+  // TODO: Support custom providers
+  const isCredentials = providerId === 'credentials'
+  const isEmail = providerId === 'email'
+  const isSupportingReturn = isCredentials || isEmail
+
+  const basePath = getBasePath()
+  const signInUrl = `${basePath}/${
+    isCredentials ? 'callback' : 'signin'
+  }/${providerId}`
+
+  const _signInUrl = `${signInUrl}?${new URLSearchParams(authorizationParams)}`
+
+  // TODO: Remove this since Sveltekit offers the CSRF protection via origin check
+  const csrfTokenResponse = await fetch(`${basePath}/csrf`)
+  const { csrfToken } = await csrfTokenResponse.json()
+
+  const res = await fetch(_signInUrl, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Auth-Return-Redirect': '1',
+    },
+    // @ts-ignore
+    body: new URLSearchParams({
+      ...options,
+      csrfToken,
+      callbackUrl,
+    }),
+  })
+
+  const data = await res.clone().json()
+
+  if (redirect || !isSupportingReturn) {
+    // TODO: Do not redirect for Credentials and Email providers by default in next major
+    window.location.href = data.url ?? callbackUrl
+    // If url contains a hash, the browser does not reload the page. We reload manually
+    if (data.url.includes('#')) window.location.reload()
+    return
+  }
+
+  return res
+}
+
+/**
+ * Signs the user out, by removing the session cookie.
+ * Automatically adds the CSRF token to the request.
+ *
+ * [Documentation](https://authjs.dev/reference/sveltekit/client#signout)
+ */
+export async function signOut(options?: SignOutParams) {
+  const { redirectTo = window.location.href } = options ?? {}
+  const basePath = getBasePath()
+  const csrfTokenResponse = await fetch(`${basePath}/csrf`)
+  const { csrfToken } = await csrfTokenResponse.json()
+  const res = await fetch(`${basePath}/signout`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Auth-Return-Redirect': '1',
+    },
+    body: new URLSearchParams({
+      csrfToken,
+      callbackUrl: redirectTo,
+    }),
+  })
+  const data = await res.json()
+
+  const url = data.url ?? redirectTo
+  window.location.href = url
+  // If url contains a hash, the browser does not reload the page. We reload manually
+  if (url.includes('#')) window.location.reload()
+}
 
 export const __SOLIDAUTH: AuthClientConfig = {
   baseUrl: parseUrl(conditionalEnv('AUTH_URL', 'VERCEL_URL')).origin,
@@ -56,12 +138,11 @@ export function createSession(): Resource<Session | null> {
 
   return value
 }
-
-const getUrl = (endpoint: string) => {
-  if (typeof window === 'undefined') {
-    return `${__SOLIDAUTH.baseUrlServer}${endpoint}`
-  }
-  return endpoint
+export interface SessionProviderProps {
+  children: JSX.Element
+  baseUrl?: string
+  basePath?: string
+  refetchOnWindowFocus?: boolean
 }
 
 export function SessionProvider(props: SessionProviderProps) {
@@ -124,87 +205,11 @@ export function SessionProvider(props: SessionProviderProps) {
   )
 }
 
-export async function signIn<
-  P extends RedirectableProviderType | undefined = undefined
->(
-  providerId?: LiteralUnion<
-    P extends RedirectableProviderType
-      ? P | BuiltInProviderType
-      : BuiltInProviderType
-  >,
-  options?: SignInOptions,
-  authorizationParams?: SignInAuthorizationParams
-) {
-  const { redirectTo = window.location.href, redirect = true } = options ?? {}
-
-  const isCredentials = providerId === 'credentials'
-  const isEmail = providerId === 'email'
-  const isSupportingReturn = isCredentials || isEmail
-
-  const signInUrl = getUrl(
-    `/api/auth/${isCredentials ? 'callback' : 'signin'}/${providerId}`
-  )
-
-  const _signInUrl = `${signInUrl}?${new URLSearchParams(authorizationParams)}`
-
-  const csrfTokenResponse = await fetch('/api/auth/csrf')
-  const { csrfToken } = await csrfTokenResponse.json()
-
-  const res = await fetch(_signInUrl, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'X-Auth-Return-Redirect': '1',
-    },
-    // @ts-expect-error -- ignore
-    body: new URLSearchParams({
-      ...options,
-      csrfToken,
-      callbackUrl: redirectTo,
-    }),
-  })
-
-  const data = await res.json()
-  if (redirect || !isSupportingReturn) {
-    window.location.href = data.url ?? data.redirect ?? redirectTo
-    if (data.url.includes('#')) window.location.reload()
-    return
+const getUrl = (endpoint: string) => {
+  if (typeof window === 'undefined') {
+    return `${__SOLIDAUTH.baseUrlServer}${endpoint}`
   }
-  const error = data.url ? new URL(data.url).searchParams.get('error') : null
-  if (res.ok && !error) {
-    await __SOLIDAUTH._getSession({ event: 'storage' })
-  }
-  return {
-    error,
-    status: res.status,
-    ok: res.ok,
-    url: error ? null : data.url,
-  } as const
-}
-
-export async function signOut(options?: SignOutParams) {
-  const { redirectTo = window.location.href, redirect } = options ?? {}
-  const csrfTokenResponse = await fetch('/api/auth/csrf')
-  const { csrfToken } = await csrfTokenResponse.json()
-  const res = await fetch(getUrl(`/api/auth/signout`), {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'X-Auth-Return-Redirect': '1',
-    },
-    body: new URLSearchParams({
-      csrfToken,
-      callbackUrl: redirectTo,
-    }),
-  })
-  const data = await res.json()
-  if (redirect) {
-    const url = data.url ?? data.redirect ?? redirectTo
-    window.location.href = url
-    if (url.includes('#')) window.location.reload()
-  }
-  await __SOLIDAUTH._getSession({ event: 'storage' })
-  return data
+  return endpoint
 }
 
 export const getSession = async (
@@ -221,7 +226,7 @@ export const getSession = async (
       }
     }
   }
-  const res = await fetch(getUrl(`/api/auth/session`), reqInit)
+  const res = await fetch(getUrl(`${getBasePath()}/session`), reqInit)
   if (isServer && event?.request && (event as any)?.response) {
     const cookie = res.headers.get('set-cookie')
     if (cookie) {
@@ -238,5 +243,3 @@ export const getSession = async (
   if (Object.keys(data).length === 0) return null
   return data
 }
-
-export type ProtectedComponent = (session$: Session) => JSX.Element

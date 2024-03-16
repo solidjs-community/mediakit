@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.6
+
+### Patch Changes
+
+- [`fc60847`](https://github.com/solidjs-community/mediakit/commit/fc60847b25edb3b93bf6d4c264e744507581fb1f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: add the getSession server side fn
+
 ## 2.0.5
 
 ### Patch Changes

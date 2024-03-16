@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.5
+
+### Patch Changes
+
+- [`c5e1d7b`](https://github.com/solidjs-community/mediakit/commit/c5e1d7b86935f3c07346f67dc38b7427dcaa73c0) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: export GET & POST api endpoints
+
 ## 2.0.4
 
 ### Patch Changes

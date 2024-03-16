@@ -1,7 +1,9 @@
 import { defineConfig } from '@solidjs/start/config'
+import prpc from '~/prpc/plugin'
 
 export default defineConfig({
-  start: {
-    ssr: true,
+  ssr: true,
+  vite: {
+    plugins: [prpc({ log: true })],
   },
 })

@@ -83,7 +83,8 @@ import { parse } from 'set-cookie-parser'
 
 import { createActionURL, raw, skipCSRFCheck } from '@auth/core'
 import { sendRedirect } from 'vinxi/http'
-import { setEnvDefaults } from './utils'
+import { getBasePath, setEnvDefaults } from './utils'
+import { Session } from '@auth/core/types'
 
 type SignInParams = Parameters<App.Locals['signIn']>
 
@@ -238,6 +239,31 @@ export async function auth(
   }
 
   const { status = 200 } = response
+  const data = await response.json()
+
+  if (!data || !Object.keys(data).length) return null
+  if (status === 200) return data
+  throw new Error(data.message)
+}
+
+export type GetSessionResult = Promise<Session | null>
+
+export async function getSession(
+  req: Request,
+  options: SolidAuthConfig
+): GetSessionResult {
+  options.secret ??= process.env.AUTH_SECRET
+  options.trustHost ??= true
+
+  const basePath = getBasePath()
+  const url = new URL(`${basePath}/session`, req.url)
+  const response = await Auth(
+    new Request(url, { headers: req.headers }),
+    options
+  )
+
+  const { status = 200 } = response
+
   const data = await response.json()
 
   if (!data || !Object.keys(data).length) return null

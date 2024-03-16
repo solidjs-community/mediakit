@@ -1,5 +1,11 @@
 # @solid-mediakit/trpc
 
+## 3.0.1
+
+### Patch Changes
+
+- [`b0ea575`](https://github.com/solidjs-community/mediakit/commit/b0ea575d3283449456692da64e4cf6892efae49d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use latest versions for everything
+
 ## 3.0.0
 
 ### Major Changes

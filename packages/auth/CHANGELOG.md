@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.7
+
+### Patch Changes
+
+- [`bc079b4`](https://github.com/solidjs-community/mediakit/commit/bc079b43782662fb270f218d68124a4410c9f048) Thanks [@OrJDev](https://github.com/OrJDev)! - bump the min version of auth core
+
 ## 2.0.6
 
 ### Patch Changes

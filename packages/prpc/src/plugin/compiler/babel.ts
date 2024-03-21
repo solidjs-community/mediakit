@@ -9,7 +9,7 @@ import {
   shiftMiddleware,
 } from './utils'
 
-const prpcLoc = `~/prpc/utils`
+const prpcLoc = `@solid-mediakit/prpc`
 
 export function createTransformpRPC$() {
   return function transformpRPC$({
@@ -90,7 +90,7 @@ export function createTransformpRPC$() {
             const destructuring = args.serverFunction.params[0]
             if (t.isObjectPattern(destructuring)) {
               destructuring.properties = destructuring.properties.filter(
-                (p: any) => p.key.name !== 'request$' && p.key.name !== 'ctx$'
+                (p: any) => p.key.name !== 'event$' && p.key.name !== 'ctx$'
               )
             }
             const originFn = t.arrowFunctionExpression(

@@ -6,13 +6,13 @@ export const addRequestIfNeeded = (
   path: babel.NodePath<babel.types.CallExpression>
 ) => {
   const shouldAddRequest = serverFunction.params[0].properties.some(
-    (p: any) => p.key.name === 'request$'
+    (p: any) => p.key.name === 'event$'
   )
   if (shouldAddRequest) {
     serverFunction.body.body.unshift(
       t.variableDeclaration('const', [
         t.variableDeclarator(
-          t.identifier('_$$request'),
+          t.identifier('_$$event'),
           t.callExpression(t.identifier('getRequestEvent'), [])
         ),
       ])
@@ -20,10 +20,10 @@ export const addRequestIfNeeded = (
     path.traverse({
       Identifier(innerPath: any) {
         if (
-          innerPath.node.name === 'request$' &&
+          innerPath.node.name === 'event$' &&
           innerPath.scope?.path?.listKey !== 'params'
         ) {
-          innerPath.node.name = '_$$request'
+          innerPath.node.name = '_$$event'
         }
       },
     })

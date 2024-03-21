@@ -1,20 +1,29 @@
-import { type VoidComponent } from 'solid-js'
+import { getRequestEvent } from 'solid-js/web'
+import { cache } from '@solidjs/router'
+import { validateZod } from '@solid-mediakit/prpc'
 import { query$ } from '@solid-mediakit/prpc'
 import { z } from 'zod'
-
+const __$helloQuery = cache(async ({ payload: _$$payload }) => {
+  'use server'
+  const _$$validatedZod = await validateZod(
+    _$$payload,
+    z.object({
+      hello: z.string(),
+    })
+  )
+  if (_$$validatedZod instanceof Response) return _$$validatedZod
+  const _$$event = getRequestEvent()!
+  const ua = _$$event.request.headers.get('user-agent')
+  console.log({
+    ua,
+  })
+  return `hey ${_$$validatedZod.hello}`
+}, 'hello')
 const testQuery = query$({
-  queryFn: async ({ payload, event$ }) => {
-    const ua = event$.request.headers.get('user-agent')
-    console.log({ ua })
-    return `hey ${payload.hello}`
-  },
+  queryFn: __$helloQuery,
   key: 'hello',
-  schema: z.object({
-    hello: z.string(),
-  }),
 })
-
-const Home: VoidComponent = () => {
+const Home = () => {
   const hello = testQuery(() => ({
     hello: 'JDev',
   }))
@@ -29,5 +38,4 @@ const Home: VoidComponent = () => {
     </main>
   )
 }
-
 export default Home

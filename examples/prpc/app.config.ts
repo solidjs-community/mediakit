@@ -1,9 +1,9 @@
 import { defineConfig } from '@solidjs/start/config'
-import prpc from '~/prpc/plugin'
+import { prpcVite } from '@solid-mediakit/prpc'
 
 export default defineConfig({
   ssr: true,
-  vite: {
-    plugins: [prpc({ log: true })],
-  },
+  // vite: {
+  //   plugins: [prpcVite({ log: true })],
+  // },
 })

@@ -4,7 +4,8 @@ import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
 import './app.css'
-import { QueryClientProvider, QueryClient } from '@tanstack/solid-query'
+import { QueryClient } from '@tanstack/solid-query'
+import { PRPCProvider } from '@solid-mediakit/prpc'
 
 export default function App() {
   const queryClient = new QueryClient()
@@ -14,9 +15,9 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <Suspense>
-            <QueryClientProvider client={queryClient}>
+            <PRPCProvider queryClient={queryClient}>
               {props.children}
-            </QueryClientProvider>
+            </PRPCProvider>
           </Suspense>
         </MetaProvider>
       )}

@@ -10,14 +10,7 @@ export default defineConfig(
   ],
   [
     {
-      entry: 'src/query.tsx',
-      devEntry: true,
-      serverEntry: true,
-    },
-  ],
-  [
-    {
-      entry: 'src/mutation.tsx',
+      entry: 'src/provider.tsx',
       devEntry: true,
       serverEntry: true,
     },

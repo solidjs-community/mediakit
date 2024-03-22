@@ -1,5 +1,5 @@
 import { type VoidComponent } from 'solid-js'
-import { testQuery } from '~/testing/piped'
+import { testQuery } from '~/server/queries'
 
 const Home: VoidComponent = () => {
   const hello = testQuery(() => ({

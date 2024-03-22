@@ -20,8 +20,9 @@ export function prpcVite(opts?: PRPCPluginOptions): Plugin {
         return code
       }
       if (
-        ((code.includes('query$(') || code.includes('mutation$(')) &&
-          id.endsWith('.ts')) ||
+        code.includes('query$(') ||
+        code.includes('mutation$(') ||
+        (code.includes('middleware$') && id.endsWith('.ts')) ||
         id.endsWith('.tsx')
       ) {
         return await compilepRRPC(code, id, opts)

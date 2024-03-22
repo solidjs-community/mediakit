@@ -21,8 +21,8 @@
     "vite": "^5.1.6"
   },
   "dependencies": {
-    "@solidjs/router": "^0.13.0",
-    "@solidjs/start": "^0.7.4",
+    "@solidjs/router": "^0.13.1",
+    "@solidjs/start": "^1.0.0-rc.0",
     "solid-js": "^1.8.15",
     "vinxi": "^0.3.10",
     "@solidjs/meta": "^0.29.3",

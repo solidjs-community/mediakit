@@ -2,7 +2,7 @@ import { getRequestEvent, isServer } from 'solid-js/web'
 import type { ExpectedFn } from './types'
 import { PRPCClientError } from './error'
 
-export async function tryAndWrap<Fn extends ExpectedFn<any>>(
+export async function tryAndWrap<Fn extends ExpectedFn<any, any>>(
   queryFn: Fn,
   input: any,
   handleResponse = genHandleResponse()

@@ -38,10 +38,23 @@ export const SIDEBAR: Sidebar = {
     { text: 'Contributors', link: 'contributors' },
     { text: 'Sponsors', link: 'sponsors' },
   ],
-  tRPC: [
-    { text: 'Install', link: 'trpc/install' },
-    { text: 'Router', link: 'trpc/router' },
-    { text: 'API Handler', link: 'trpc/handler' },
+  pRPC: [
+    { text: 'query$', link: 'prpc/query' },
+    { text: 'query$', link: 'prpc/mutation' },
+    { text: 'middleware$', link: 'prpc/middleware' },
+    { text: 'pipe$', link: 'prpc/pipe' },
+    {
+      text: 'error$',
+      link: 'prpc/error',
+    },
+    {
+      text: 'PRPCClientError',
+      link: 'prpc/prpc-client-error',
+    },
+    {
+      text: 'hideRequest',
+      link: 'prpc/hideRequest',
+    },
   ],
   Auth: [
     { text: 'Install', link: 'auth/install' },
@@ -49,6 +62,11 @@ export const SIDEBAR: Sidebar = {
     { text: 'signOut', link: 'auth/signout' },
     { text: 'createSession', link: 'auth/createsession' },
     { text: 'getSession', link: 'auth/getsession' },
+  ],
+  tRPC: [
+    { text: 'Install', link: 'trpc/install' },
+    { text: 'Router', link: 'trpc/router' },
+    { text: 'API Handler', link: 'trpc/handler' },
   ],
   Media: [
     { text: 'Install', link: 'media/install' },

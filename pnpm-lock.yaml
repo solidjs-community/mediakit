@@ -118,11 +118,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       solid-js:
         specifier: ^1.8.15
         version: 1.8.15
@@ -176,11 +176,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       solid-js:
         specifier: ^1.8.15
         version: 1.8.15
@@ -231,11 +231,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
         specifier: ^5.28.5
         version: 5.28.5(solid-js@1.8.15)
@@ -289,11 +289,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
         specifier: ^5.28.5
         version: 5.28.5(solid-js@1.8.15)
@@ -363,11 +363,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@types/node':
         specifier: ^18.7.14
         version: 18.17.5
@@ -425,11 +425,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
         specifier: ^5.28.5
         version: 5.28.5(solid-js@1.8.15)
@@ -523,11 +523,11 @@ importers:
         specifier: ^0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ^0.13.0
-        version: 0.13.0(solid-js@1.8.15)
+        specifier: ^0.13.1
+        version: 0.13.1(solid-js@1.8.15)
       '@solidjs/start':
-        specifier: ^0.7.4
-        version: 0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
         specifier: ^5.28.5
         version: 5.28.5(solid-js@1.8.15)
@@ -4037,15 +4037,15 @@ packages:
     dependencies:
       solid-js: 1.8.15
 
-  /@solidjs/router@0.13.0(solid-js@1.8.15):
-    resolution: {integrity: sha512-YHLbFv9J53+iG4yVrh0vVdYiyXPTk892UyZ1jiMPsUXn2dYkX4552N+8SjvlKWWsmNmYxaoefM6jZn1YtVIUUg==}
+  /@solidjs/router@0.13.1(solid-js@1.8.15):
+    resolution: {integrity: sha512-Rz5Lf0ssWMuN+Wm2GFO0vwZoO/KSwYFSuCUzWrRAvje5M0ZYZrMk5FZxuzdJT+zg8KuqWJQlRALks5E0r+FjAA==}
     peerDependencies:
       solid-js: ^1.8.6
     dependencies:
       solid-js: 1.8.15
 
-  /@solidjs/start@0.7.4(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6):
-    resolution: {integrity: sha512-SBFCpLo0yGUFPKNyneZ7g8cHchQKm0+G/Gr19SEtGzCn0KE4/YmDCtuDUk4ANxm6XTFrdcDPjdLgYXHDrWxVLA==}
+  /@solidjs/start@1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6):
+    resolution: {integrity: sha512-wimF6eqYx8L1XC1MMxwruOgS+BGmv6nEnCa1Fd/VPcYaSF8BKBvgIQYNJALl8QUjfJ7lMK4b41uKAXz451vNNA==}
     dependencies:
       '@vinxi/plugin-directives': 0.3.1(vinxi@0.3.10)
       '@vinxi/server-components': 0.3.3(vinxi@0.3.10)

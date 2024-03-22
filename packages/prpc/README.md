@@ -2,10 +2,14 @@
 
 A typesafed Wrapper for Solid's RPC protocol
 
+## Docs
+
+Please read the docs [here](https://mediakit-taupe.vercel.app/trpc/install), bellow info is less accurate.
+
 ### Installation
 
 ```bash
-pnpm install @solid-mediakit/prpc@latest @tanstack/solid-query@latest
+pnpm install @solid-mediakit/prpc @tanstack/solid-query @solid-mediakit/prpc-plugin
 ```
 
 ### Adding The Vite Plugin
@@ -14,13 +18,12 @@ Go ahead to `app.config.ts` and add the following:
 
 ```ts
 import { defineConfig } from '@solidjs/start/config'
-import { prpcVite } from '@solid-mediakit/prpc' // ->
+import { prpcVite } from '@solid-mediakit/prpc-plugin' // ->
 
 export default defineConfig({
   ssr: true,
-  //   **right here**
   vite: {
-    plugins: [prpcVite({ log: true })],
+    plugins: [prpcVite({ log: false })], // ->
   },
 })
 ```
@@ -170,3 +173,29 @@ const testMutation = mutation$({
   key: 'hello',
 })
 ```
+
+## Middleware
+
+One of pRPC's features is the ability to add middleware to your queries and mutations. This is useful for adding additional logic to your queries and mutations, such as logging, authentication, and more.
+
+```ts
+const mw1 = middleware$(({ event$ }) => {
+  const ua = event$.request.headers.get('user-agent')!
+  const isBot = ua.includes('bot')
+  return {
+    isBot,
+  }
+})
+const testQuery = query$({
+  queryFn: async ({ payload, ctx$ }) => {
+    return `hey ${payload.hello} ${ctx$.isBot ? 'bot' : 'human'}`
+  },
+  key: 'hello',
+  schema: z.object({
+    hello: z.string(),
+  }),
+  middleware: [mw1],
+})
+```
+
+In this example, the middleware function `mw1` adds a `isBot` property to the context object. This property is then used in the query function to determine if the user is a bot or a human.

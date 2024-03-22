@@ -11,6 +11,7 @@ import type {
   ExpectedFn,
   ExpectedSchema,
   Fn$Output,
+  IMiddleware,
   Infer$PayLoad,
   OmitQueryData,
 } from './types'
@@ -18,10 +19,11 @@ import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
 
 export const query$ = <
-  Fn extends ExpectedFn<ZObj>,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema
 >(
-  props: Query$Props<Fn, ZObj>
+  props: Query$Props<Mw, Fn, ZObj>
 ) => {
   return (
     input: ZObj extends EmptySchema
@@ -34,17 +36,19 @@ export const query$ = <
         await tryAndWrap(props.queryFn, input ? input() : undefined),
       queryKey: ['prpc.query', props.key, input ? input() : undefined],
       ...((opts?.() ?? {}) as any),
-    })) as CreateQueryResult<Fn$Output<Fn>>
+    })) as CreateQueryResult<Fn$Output<Fn, ZObj, Mw>>
   }
 }
 
 export type Query$Props<
-  Fn extends ExpectedFn<ZObj>,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema
 > = {
   queryFn: Fn
   key: string
   schema?: ZObj
+  middleware?: Mw
 }
 
 export type FCreateQueryOptions<

@@ -1,18 +1,5 @@
 import { type VoidComponent } from 'solid-js'
-import { query$ } from '@solid-mediakit/prpc'
-import { z } from 'zod'
-
-const testQuery = query$({
-  queryFn: async ({ payload, event$ }) => {
-    const ua = event$.request.headers.get('user-agent')
-    console.log({ ua })
-    return `hey ${payload.hello}`
-  },
-  key: 'hello',
-  schema: z.object({
-    hello: z.string(),
-  }),
-})
+import { testQuery } from '~/testing/piped'
 
 const Home: VoidComponent = () => {
   const hello = testQuery(() => ({

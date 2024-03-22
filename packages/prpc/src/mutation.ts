@@ -9,6 +9,7 @@ import {
   ExpectedFn,
   ExpectedSchema,
   Fn$Output,
+  IMiddleware,
   Infer$PayLoad,
   OmitQueryData,
 } from './types'
@@ -16,27 +17,30 @@ import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
 
 export const mutation$ = <
-  Fn extends ExpectedFn<ZObj>,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema
 >(
-  props: Mutation$Props<Fn, ZObj>
+  props: Mutation$Props<Mw, Fn, ZObj>
 ) => {
   return (opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>) => {
     return createMutation(() => ({
       mutationFn: async (input) => await tryAndWrap(props.mutationFn, input),
       mutationKey: ['prpc.mutation', props.key],
       ...(opts?.() ?? {}),
-    })) as CreateMutationResult<Fn$Output<Fn>>
+    })) as CreateMutationResult<Fn$Output<Fn, ZObj, Mw>>
   }
 }
 
 export type Mutation$Props<
-  Fn extends ExpectedFn<ZObj>,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema
 > = {
   mutationFn: Fn
   key: string
   schema?: ZObj
+  middleware?: Mw
 }
 
 export type FCreateMutationOptions<

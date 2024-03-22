@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.0.4
+
+### Patch Changes
+
+- [`d75403e`](https://github.com/solidjs-community/mediakit/commit/d75403ea9177c9e1386336f46315f60598463611) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: should be .d.ts not .ts
+
 ## 1.0.3
 
 ### Patch Changes

@@ -35,3 +35,5 @@ Thumbs.db
 !solid.d.ts
 !provider.d.ts
 !provider.jsx
+!provider.js
+!provider.cjs

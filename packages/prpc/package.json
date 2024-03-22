@@ -14,7 +14,9 @@
     "src/**/*",
     "dist/**/*",
     "provider.d.ts",
-    "provider.jsx"
+    "provider.jsx",
+    "provider.js",
+    "provider.cjs"
   ],
   "exports": {
     ".": {
@@ -23,8 +25,8 @@
       "types": "./dist/index.d.ts"
     },
     "./provider": {
-      "import": "./provider.jsx",
-      "require": "./provider.jsx",
+      "import": "./provider.js",
+      "require": "./provider.cjs",
       "types": "./provider.d.ts"
     }
   },

@@ -44,8 +44,14 @@ export function createTransformpRPC$() {
         },
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
-
-          if (nodeInfo.isMutation || nodeInfo.isQuery) {
+          if (nodeInfo.isMiddleware) {
+            const originFn = path.node.arguments[0]
+            if (t.isArrowFunctionExpression(originFn)) {
+              ;(originFn.body as any).body.unshift(
+                t.expressionStatement(t.stringLiteral('use server'))
+              )
+            }
+          } else if (nodeInfo.isMutation || nodeInfo.isQuery) {
             const args = getFunctionArgs(path, t, nodeInfo)!
             const payload = t.objectProperty(
               t.identifier('payload'),

@@ -50,9 +50,11 @@ export const getNodeInfo = (
   const isMutation =
     t.isIdentifier(callee, { name: 'mutation$' }) || isReuseableMutation
   const isQuery = t.isIdentifier(callee, { name: 'query$' }) || isReuseableQuery
+  const isMiddleware = t.isIdentifier(callee, { name: 'middleware$' })
   return {
     isReuseableQuery,
     isReuseableMutation,
+    isMiddleware,
     isMutation,
     isQuery,
     callee,

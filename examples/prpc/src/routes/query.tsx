@@ -1,18 +1,5 @@
 import { type VoidComponent } from 'solid-js'
-import { query$ } from '~/prpc/query'
-import { z } from 'zod'
-
-const testQuery = query$({
-  queryFn: ({ payload, request$ }) => {
-    const ua = request$
-    console.log({ ua })
-    return `hey ${payload.hello}`
-  },
-  key: 'hello',
-  schema: z.object({
-    hello: z.string(),
-  }),
-})
+import { testQuery } from '~/testing/piped'
 
 const Home: VoidComponent = () => {
   const hello = testQuery(() => ({

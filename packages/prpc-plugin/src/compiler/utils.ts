@@ -2,17 +2,23 @@ import * as babel from '@babel/core'
 
 export const addRequestIfNeeded = (
   serverFunction: any,
+  isReuseableQuery: boolean,
+  isReuseableMutation: boolean,
+  middlewares: any[],
   t: typeof babel.types,
   path: babel.NodePath<babel.types.CallExpression>
 ) => {
-  const shouldAddRequest = serverFunction.params[0].properties.some(
-    (p: any) => p.key.name === 'request$'
-  )
+  const useMw =
+    (middlewares?.length ?? 0) >= 1 || isReuseableQuery || isReuseableMutation
+  const shouldAddRequest =
+    serverFunction.params[0].properties.some(
+      (p: any) => p.key.name === 'event$'
+    ) || useMw
   if (shouldAddRequest) {
     serverFunction.body.body.unshift(
       t.variableDeclaration('const', [
         t.variableDeclarator(
-          t.identifier('_$$request'),
+          t.identifier('_$$event'),
           t.callExpression(t.identifier('getRequestEvent'), [])
         ),
       ])
@@ -20,10 +26,10 @@ export const addRequestIfNeeded = (
     path.traverse({
       Identifier(innerPath: any) {
         if (
-          innerPath.node.name === 'request$' &&
+          innerPath.node.name === 'event$' &&
           innerPath.scope?.path?.listKey !== 'params'
         ) {
-          innerPath.node.name = '_$$request'
+          innerPath.node.name = '_$$event'
         }
       },
     })
@@ -79,7 +85,7 @@ export const getFunctionArgs = (
         !nodeInfo.isReuseableQuery && !nodeInfo.isReuseableMutation
           ? (
               arg.properties.find(
-                (prop: any) => prop.key.name === 'middlewares'
+                (prop: any) => prop.key.name === 'middleware'
               ) as any
             )?.value?.elements.map((e: any) => e.name) ?? []
           : []
@@ -132,7 +138,7 @@ export const shiftMiddleware = (
   args: FnArgs
 ) => {
   if (args.middlewares?.length || isReuseableQuery || isReuseableMutation) {
-    const req = '_$$request'
+    const req = '_$$event'
     let callMiddleware
     if (isReuseableQuery || isReuseableMutation) {
       const name = ((callee as any).object as any).name

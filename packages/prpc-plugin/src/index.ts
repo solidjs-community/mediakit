@@ -6,7 +6,7 @@ import { compilepRRPC, type PRPCPluginOptions } from './compiler'
 const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}'
 const DEFAULT_EXCLUDE = 'node_modules/**/*.{jsx,tsx,ts,js,mjs,cjs}'
 
-export default function prpc(opts?: PRPCPluginOptions): Plugin {
+export function prpcVite(opts?: PRPCPluginOptions): Plugin {
   const filter = createFilter(
     opts?.filter?.include || DEFAULT_INCLUDE,
     opts?.filter?.exclude || DEFAULT_EXCLUDE
@@ -14,7 +14,8 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
   const plugin: Plugin = {
     enforce: 'pre',
     name: 'prpc',
-    async transform(code: string, id: string) {
+    async transform(code, id) {
+      id = getId(id)
       if (!filter(id)) {
         return code
       }
@@ -61,4 +62,13 @@ function repushPlugin(
     plugins.splice(targetIndex, 1)
     plugins.splice(baseIndex, 0, plugin)
   }
+}
+
+function getId(id: string) {
+  if (id.includes('?')) {
+    // might be useful for the future
+    const [actualId] = id.split('?')
+    return actualId
+  }
+  return id
 }

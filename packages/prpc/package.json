@@ -1,0 +1,105 @@
+{
+  "name": "@solid-mediakit/prpc",
+  "description": "A typesafed Wrapper for Solid's RPC protocol",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rm -rf dist && tsup --config ./tsup.config.js",
+    "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",
+    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "clean:dist": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "files": [
+    "src/**/*",
+    "dist/**/*"
+  ],
+  "exports": {
+    "worker": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "browser": {
+      "development": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/dev.js"
+        },
+        "require": "./dist/dev.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": "./dist/index.cjs"
+    },
+    "deno": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "node": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "development": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/dev.js"
+      },
+      "require": "./dist/dev.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "require": "./dist/index.cjs"
+  },
+  "main": "./dist/server.cjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/server.js",
+  "devDependencies": {
+    "@solidjs/meta": "^0.29.3",
+    "@solidjs/router": "^0.13.1",
+    "@solidjs/start": "^1.0.0-rc.0",
+    "@tanstack/solid-query": "^5.28.5",
+    "@types/node": "^18.7.14",
+    "@typescript-eslint/parser": "^5.44.0",
+    "solid-js": "^1.8.15",
+    "typescript": "^4.8.2",
+    "vinxi": "^0.3.10",
+    "zod": "^3.22.4",
+    "tsup": "^6.5.0",
+    "tsup-preset-solid": "0.1.8"
+  },
+  "dependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/pluginutils": "^5.0.2"
+  },
+  "peerDependencies": {
+    "@solidjs/meta": "^0.29.3",
+    "@solidjs/router": "^0.13.1",
+    "@solidjs/start": "^1.0.0-rc.0",
+    "@tanstack/solid-query": "^5.28.5",
+    "solid-js": "^1.8.15",
+    "typescript": "^4.8.2",
+    "vinxi": "^0.3.10",
+    "zod": "^3.22.4"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "browser": {
+    "./dist/server.js": "./dist/index.js",
+    "./dist/server.cjs": "./dist/index.cjs"
+  },
+  "typesVersions": {}
+}

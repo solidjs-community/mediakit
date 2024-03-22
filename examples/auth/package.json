@@ -19,14 +19,14 @@
     "esbuild": "^0.14.54",
     "postcss": "^8.4.28",
     "typescript": "^4.9.5",
-    "vite": "^4.4.9"
+    "vite": "^5.1.6"
   },
   "dependencies": {
     "zod": "^3.20.6",
     "@solid-mediakit/auth": "workspace:*",
     "@auth/core": "^0.28.0",
-    "@solidjs/router": "^0.13.0",
-    "@solidjs/start": "^0.7.4",
+    "@solidjs/router": "^0.13.1",
+    "@solidjs/start": "^1.0.0-rc.0",
     "solid-js": "^1.8.15",
     "vinxi": "^0.3.10",
     "@solidjs/meta": "^0.29.3"

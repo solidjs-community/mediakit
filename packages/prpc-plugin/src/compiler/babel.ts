@@ -9,7 +9,7 @@ import {
   shiftMiddleware,
 } from './utils'
 
-const prpcLoc = `~/prpc/utils`
+const prpcLoc = `@solid-mediakit/prpc`
 
 export function createTransformpRPC$() {
   return function transformpRPC$({
@@ -40,7 +40,7 @@ export function createTransformpRPC$() {
           importIfNotThere('validateZod')
           importIfNotThere('cache', '@solidjs/router')
           importIfNotThere('getRequestEvent', 'solid-js/web')
-          // disable middlewares   importIfNotThere('callMiddleware$')
+          importIfNotThere('callMiddleware$')
         },
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
@@ -51,10 +51,17 @@ export function createTransformpRPC$() {
               t.identifier('payload'),
               t.identifier('_$$payload')
             )
-            addRequestIfNeeded(args.serverFunction, t, path)
+            shiftMiddleware(temp, t, args.serverFunction, nodeInfo, args)
+            addRequestIfNeeded(
+              args.serverFunction,
+              nodeInfo.isReuseableQuery,
+              nodeInfo.isReuseableMutation,
+              args.middlewares ?? [],
+              t,
+              path
+            )
             cleanOutParams('payload', path, '_$$payload')
             args.serverFunction.params[0] = t.objectPattern([payload])
-            shiftMiddleware(temp, t, args.serverFunction, nodeInfo, args)
             if (
               args.zodSchema &&
               !t.isIdentifier(args.zodSchema, { name: 'undefined' })
@@ -90,7 +97,7 @@ export function createTransformpRPC$() {
             const destructuring = args.serverFunction.params[0]
             if (t.isObjectPattern(destructuring)) {
               destructuring.properties = destructuring.properties.filter(
-                (p: any) => p.key.name !== 'request$' && p.key.name !== 'ctx$'
+                (p: any) => p.key.name !== 'event$' && p.key.name !== 'ctx$'
               )
             }
             const originFn = t.arrowFunctionExpression(
@@ -109,29 +116,10 @@ export function createTransformpRPC$() {
               args.key,
             ])
 
-            const prefix = `__$`
-            const n = nodeInfo.isQuery
-              ? `${prefix}${args.key.value}Query`
-              : `${prefix}${args.key.value}Mutation`
-            const uniqueVar = path.scope.generateUidIdentifierBasedOnNode(
-              path.node.arguments[0]
-            )
-            uniqueVar.name = n
-
-            const p = (path.findParent((p) => p.isProgram())!.node as any).body
-            const lastImport = p.findLast(
-              (n: any) => n.type === 'ImportDeclaration'
-            )
-            if (lastImport) {
-              const dec = t.variableDeclaration('const', [
-                t.variableDeclarator(uniqueVar, wrappedArg),
-              ])
-              p.splice(p.indexOf(lastImport) + 1, 0, dec)
-            }
             path.node.arguments[0] = t.objectExpression([
               t.objectProperty(
                 t.identifier(nodeInfo.isQuery ? 'queryFn' : 'mutationFn'),
-                uniqueVar
+                wrappedArg
               ),
               t.objectProperty(t.identifier('key'), args.key),
             ])

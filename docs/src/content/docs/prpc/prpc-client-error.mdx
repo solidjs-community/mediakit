@@ -1,0 +1,56 @@
+---
+title: 'PRPCClientError'
+description: 'API for the PRPCClientError instance'
+---
+
+**API for the PRPCClientError instance**
+
+This is the error instance that pRPC will throw when ever it faces any issue.
+
+Assuming you have this query defined:
+
+```ts
+export const add = query$({
+  queryFn: ({ payload }) => {
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return error$('Result is 10')
+    }
+    return { result }
+  },
+  key: 'add',
+  schema: z.object({
+    a: z.number().max(5),
+    b: z.number().max(10),
+  }),
+})
+```
+
+You can handle errors thrown by zod on the client side like this:
+
+```ts
+const addRes = add(
+  () => ({
+    a: num1(),
+    b: 3,
+  }),
+  () => ({
+    placeholderData: (prev) => prev,
+    onError: (error) => {
+      if (error.isZodError()) {
+        const fieldErrors = error.cause.fieldErrors
+        console.log(fieldErrors.a)
+        console.log(fieldErrors.b)
+      } else {
+        // the value is probably 10
+        // ...
+      }
+    },
+    retry: false,
+  })
+)
+```
+
+Using `error.isZodError()` you can check if the error is a zod error and then you can access the `fieldErrors` property to get the errors for each field, in a type safe way ofc.
+
+You can also check if the error is a native `Error` instance using `error.isError()`, this will give you access to its `message` property.

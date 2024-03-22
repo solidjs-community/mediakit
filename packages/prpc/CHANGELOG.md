@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.0.3
+
+### Patch Changes
+
+- [`aa69e73`](https://github.com/solidjs-community/mediakit/commit/aa69e732df499b70e2b933cb583223eda430e13a) Thanks [@OrJDev](https://github.com/OrJDev)! - use .js for provider and not .jsx
+
 ## 1.0.2
 
 ### Patch Changes

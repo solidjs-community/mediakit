@@ -1,58 +1,24 @@
 import { getRequestEvent, isServer } from 'solid-js/web'
-import { ExpectedFn } from '../types'
-import { PRPCClientError } from './error'
-
-export const makeKey = (
-  type: 'query' | 'mutation',
-  key: string,
-  input?: any
-) => {
-  if (type === 'mutation') {
-    return ['prpc.mutation', key]
-  }
-  return ['prpc.query', key, input]
-}
-
-export const unwrapValue = (value: any) => {
-  if (typeof value === 'function') {
-    return { payload: value() }
-  }
-  return { payload: value }
-}
-export function figureOutMessageError(err: any) {
-  if (typeof err === 'string') {
-    return err
-  }
-  if (err && typeof err === 'object') {
-    if ('formErrors' in err) {
-      return 'Invalid Data Was Provided'
-    } else if (err instanceof Error || 'message' in err) {
-      return err.message
-    }
-  }
-  return 'Unknown Error'
-}
+import type { ExpectedFn } from '@solid-mediakit/prpc'
 
 export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   queryFn: Fn,
   input: any,
-  handleResponse?: (response: Response) => any
+  handleResponse = genHandleResponse()
 ) {
-  const value = unwrapValue(input)
-  let response: any
-  try {
-    response = await queryFn({
-      payload: JSON.stringify(value.payload),
-    } as any)
-  } catch (e: any) {
-    throw new PRPCClientError(figureOutMessageError(e), e)
-  }
+  const response = await queryFn({
+    payload: input
+      ? typeof input === 'function'
+        ? input()
+        : input
+      : undefined,
+  } as any)
   if (response instanceof Response) {
     handleResponse?.(response)
     const url = response.headers.get('location')
     if (response.headers.get('X-Prpc-Error') === '1') {
       const error = await optionalData(response)
-      throw new PRPCClientError(figureOutMessageError(error.error), error.error)
+      throw new Error(error.error.message, error.error)
     } else if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     }

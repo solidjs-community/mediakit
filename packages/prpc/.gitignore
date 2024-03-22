@@ -30,6 +30,6 @@ Thumbs.db
 **/*.module.js.map
 **/*.jsx
 /compiler
-!rollup.config.js
+!tsup.config.js
 !scripts/**/*.js
 !solid.d.ts

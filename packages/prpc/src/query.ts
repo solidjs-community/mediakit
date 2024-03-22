@@ -6,16 +6,16 @@ import {
   SolidQueryOptions,
 } from '@tanstack/solid-query'
 import { Accessor } from 'solid-js'
-import {
+import type {
   EmptySchema,
   ExpectedFn,
   ExpectedSchema,
   Fn$Output,
   Infer$PayLoad,
   OmitQueryData,
-} from '../types'
-import { genHandleResponse, makeKey, tryAndWrap, unwrapValue } from './helpers'
-import { PRPCClientError } from './error'
+} from './types'
+import type { PRPCClientError } from './error'
+import { tryAndWrap } from './wrap'
 
 export const query$ = <
   Fn extends ExpectedFn<ZObj>,
@@ -31,8 +31,8 @@ export const query$ = <
   ) => {
     return createQuery(() => ({
       queryFn: async () =>
-        await tryAndWrap(props.queryFn, input, genHandleResponse()),
-      queryKey: makeKey('query', props.key, unwrapValue(input)) as any,
+        await tryAndWrap(props.queryFn, input ? input() : undefined),
+      queryKey: ['prpc.query', props.key, input ? input() : undefined],
       ...((opts?.() ?? {}) as any),
     })) as CreateQueryResult<Fn$Output<Fn>>
   }

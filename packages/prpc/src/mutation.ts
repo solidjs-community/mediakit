@@ -11,9 +11,9 @@ import {
   Fn$Output,
   Infer$PayLoad,
   OmitQueryData,
-} from '../types'
-import { genHandleResponse, makeKey, tryAndWrap } from './helpers'
-import { PRPCClientError } from './error'
+} from './types'
+import type { PRPCClientError } from './error'
+import { tryAndWrap } from './wrap'
 
 export const mutation$ = <
   Fn extends ExpectedFn<ZObj>,
@@ -23,9 +23,8 @@ export const mutation$ = <
 ) => {
   return (opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>) => {
     return createMutation(() => ({
-      mutationFn: async (input) =>
-        await tryAndWrap(props.mutationFn, input, genHandleResponse()),
-      mutationKey: makeKey('mutation', props.key),
+      mutationFn: async (input) => await tryAndWrap(props.mutationFn, input),
+      mutationKey: ['prpc.mutation', props.key],
       ...(opts?.() ?? {}),
     })) as CreateMutationResult<Fn$Output<Fn>>
   }

@@ -11,7 +11,7 @@
     "module": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["vite/client", "@solidjs/start/env", "node"],
+    "types": ["vite/client", "vinxi/client", "@solidjs/start/env", "node"],
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,

@@ -1,3 +1,5 @@
-export * from './lib/index.js'
-export * from './plugin/index.js'
 export * from './utils.js'
+export * from './types.js'
+export * from './query.js'
+export * from './mutation.js'
+export * from './error.js'

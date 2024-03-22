@@ -26,7 +26,7 @@ const Home: VoidComponent = () => {
       if (error.isZodError()) {
         console.log('zod error:', error.cause.fieldErrors)
       } else {
-        console.log(error.message)
+        console.log('not zod error', error.message)
       }
     },
   }))

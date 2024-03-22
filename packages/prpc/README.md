@@ -4,7 +4,7 @@ A typesafed Wrapper for Solid's RPC protocol
 
 ## Docs
 
-Please read the docs [here](https://mediakit-taupe.vercel.app/trpc/install), bellow info is less accurate.
+Please read the docs [here](https://mediakit-taupe.vercel.app/prpc/install), bellow info is less accurate.
 
 ### Installation
 

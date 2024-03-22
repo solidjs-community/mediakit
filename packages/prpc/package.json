@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/prpc",
   "description": "A typesafed Wrapper for Solid's RPC protocol",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "rm -rf dist && tsup --config ./tsup.config.js",
     "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",

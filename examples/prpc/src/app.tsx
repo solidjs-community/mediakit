@@ -5,7 +5,7 @@ import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
 import './app.css'
 import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc'
+import { PRPCProvider } from '@solid-mediakit/prpc/provider'
 
 export default function App() {
   const queryClient = new QueryClient()

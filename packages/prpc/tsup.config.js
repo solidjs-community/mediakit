@@ -8,16 +8,9 @@ export default defineConfig(
       serverEntry: true,
     },
   ],
-  [
-    {
-      entry: 'src/provider.tsx',
-      devEntry: true,
-      serverEntry: true,
-    },
-  ],
   {
     printInstructions: false,
-    writePackageJson: true,
+    writePackageJson: false,
     dropConsole: false,
     cjs: true,
   }

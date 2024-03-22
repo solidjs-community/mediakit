@@ -12,56 +12,21 @@
   "type": "module",
   "files": [
     "src/**/*",
-    "dist/**/*"
+    "dist/**/*",
+    "provider.d.ts",
+    "provider.jsx"
   ],
   "exports": {
-    "worker": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/server.js"
-      },
-      "require": "./dist/server.cjs"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     },
-    "browser": {
-      "development": {
-        "import": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/dev.js"
-        },
-        "require": "./dist/dev.cjs"
-      },
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": "./dist/index.cjs"
-    },
-    "deno": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/server.js"
-      },
-      "require": "./dist/server.cjs"
-    },
-    "node": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/server.js"
-      },
-      "require": "./dist/server.cjs"
-    },
-    "development": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/dev.js"
-      },
-      "require": "./dist/dev.cjs"
-    },
-    "import": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "require": "./dist/index.cjs"
+    "./provider": {
+      "import": "./provider.jsx",
+      "require": "./provider.jsx",
+      "types": "./provider.d.ts"
+    }
   },
   "main": "./dist/server.cjs",
   "types": "./dist/index.d.ts",

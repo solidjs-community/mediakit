@@ -1,5 +1,9 @@
 import type zod from 'zod'
 import type { getRequestEvent } from 'solid-js/web'
+import { Accessor } from 'solid-js'
+import { FCreateQueryOptions } from './query'
+import { CreateMutationResult, CreateQueryResult } from '@tanstack/solid-query'
+import { FCreateMutationOptions } from './mutation'
 
 export type EmptySchema = void | undefined
 
@@ -12,7 +16,7 @@ export type PRPCEvent = NonNullable<ReturnType<typeof getRequestEvent>>
 
 export type ExpectedFn<
   ZObject = EmptySchema,
-  Mw extends IMiddleware[] = []
+  Mw extends IMiddleware<any>[] | void = void
 > = ZObject extends EmptySchema
   ? (input: Fn$Input<ZObject, Mw>) => any
   : ZObject extends zod.ZodSchema
@@ -23,17 +27,17 @@ export type IMiddleware<T = any> = (ctx$: T & { event$: PRPCEvent }) => any
 
 export type Fn$Input<
   ZObj extends ExpectedSchema = EmptySchema,
-  Mw extends IMiddleware[] = []
+  Mw extends IMiddleware<any>[] | void = void
 > = {
   payload: Infer$PayLoad<ZObj>
   event$: PRPCEvent
-  ctx$: FilterOutResponse<InferFinalMiddlware<FlattenArray<Mw>>>
+  ctx$: FilterOutResponse<InferFinalMiddlware<Mw>>
 }
 
 export type Fn$Output<
   Fn extends ExpectedFn<ZObject, Mw>,
   ZObject = EmptySchema,
-  Mw extends IMiddleware[] = []
+  Mw extends IMiddleware[] | void = void
 > = FilterOutResponse<
   ReturnType<Fn> extends Promise<infer T> ? T : ReturnType<Fn>
 >
@@ -49,23 +53,65 @@ export type InferReturnType<T> = T extends (...args: any[]) => infer R
     : R
   : never
 
-export type FilterOutResponse<T> = T extends Response
-  ? never
-  : T extends object
-  ? { [K in keyof T]: FilterOutResponse<T[K]> }
-  : T
+export type FilterOutResponse<T> = T extends Response ? never : T
 
 export type FlattenArray<T> = T extends (infer U)[] ? U : T
 
-export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
-  (Mw extends [
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ...infer _Start,
-    infer Last
-  ]
-    ? InferReturnType<Last>
-    : Mw extends IMiddleware
-    ? InferReturnType<Mw>
-    : Mw extends any[]
-    ? InferReturnType<FlattenArray<[...Mw]>>
-    : InferReturnType<Mw>) & {}
+export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware | void> =
+  Mw extends IMiddleware[] ? InferReturnType<TakeLast<Mw>> : InferReturnType<Mw>
+
+type TakeLast<T extends any[]> = T extends [...infer _, infer L] ? L : never
+
+export type PossibleBuilderTypes = 'query' | 'mutation'
+
+export type QueryBuilder<
+  Fn extends ExpectedFn<ZObj, Mws>,
+  Mws extends IMiddleware<any>[] | void = void,
+  ZObj extends ExpectedSchema = EmptySchema,
+  BuilderType extends PossibleBuilderTypes | void = void
+> = (BuilderType extends 'query'
+  ? {
+      createQuery: (
+        input: ZObj extends EmptySchema
+          ? EmptySchema
+          : Accessor<Infer$PayLoad<ZObj>>,
+        opts?: FCreateQueryOptions<Infer$PayLoad<ZObj>>
+      ) => CreateQueryResult<Fn$Output<Fn, ZObj, Mws>>
+    }
+  : {}) &
+  (BuilderType extends 'mutation'
+    ? {
+        createMutation: (
+          opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>
+        ) => CreateMutationResult<Fn$Output<Fn, ZObj, Mws>>
+      }
+    : {} & BuilderType extends void
+    ? {
+        query$<NewFn extends ExpectedFn<ZObj, Mws>>(
+          fn: NewFn,
+          key: string
+        ): QueryBuilder<NewFn, Mws, ZObj, 'query'>
+        mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(
+          fn: NewFn,
+          key: string
+        ): QueryBuilder<NewFn, Mws, ZObj, 'mutation'>
+      }
+    : {}) &
+  (ZObj extends EmptySchema
+    ? {
+        input<NewZObj extends ExpectedSchema>(
+          schema: NewZObj
+        ): QueryBuilder<ExpectedFn<NewZObj, Mws>, Mws, NewZObj>
+      }
+    : {}) &
+  (BuilderType extends void
+    ? {
+        middleware<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(
+          mw: Mw
+        ): QueryBuilder<
+          ExpectedFn<ZObj, Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw]>,
+          Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw],
+          ZObj
+        >
+      }
+    : {})

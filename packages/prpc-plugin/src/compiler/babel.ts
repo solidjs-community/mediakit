@@ -63,8 +63,8 @@ export function createTransformpRPC$() {
             shiftMiddleware(temp, t, args.serverFunction, nodeInfo, args)
             addRequestIfNeeded(
               args.serverFunction,
-              nodeInfo.isReuseableQuery,
-              nodeInfo.isReuseableMutation,
+              nodeInfo.isBuilderQuery,
+              nodeInfo.isBuilderMutation,
               args.middlewares ?? [],
               t,
               path
@@ -114,8 +114,7 @@ export function createTransformpRPC$() {
               args.serverFunction.body,
               true
             )
-            // the first line of the originFn should have this line
-            // 'use server'; exactly as it is, its not a function, just a string
+
             ;(originFn.body as any).body.unshift(
               t.expressionStatement(t.stringLiteral('use server'))
             )
@@ -125,13 +124,17 @@ export function createTransformpRPC$() {
               args.key,
             ])
 
-            path.node.arguments[0] = t.objectExpression([
-              t.objectProperty(
-                t.identifier(nodeInfo.isQuery ? 'queryFn' : 'mutationFn'),
-                wrappedArg
-              ),
-              t.objectProperty(t.identifier('key'), args.key),
-            ])
+            if (nodeInfo.isBuilderMutation || nodeInfo.isBuilderQuery) {
+              path.node.arguments[0] = wrappedArg
+            } else {
+              path.node.arguments[0] = t.objectExpression([
+                t.objectProperty(
+                  t.identifier(nodeInfo.isQuery ? 'queryFn' : 'mutationFn'),
+                  wrappedArg
+                ),
+                t.objectProperty(t.identifier('key'), args.key),
+              ])
+            }
           }
         },
       },

@@ -1,10 +1,5 @@
 import { ZodSchema } from 'zod'
-import {
-  FilterOutResponse,
-  IMiddleware,
-  InferFinalMiddlware,
-  PRPCEvent,
-} from './types'
+import { FilterOutResponse, IMiddleware, InferFinalMiddlware } from './types'
 
 export const validateZod = async <Schema extends ZodSchema>(
   payload: any,
@@ -41,35 +36,6 @@ export const middleware$ = <
   mw: Mw
 ): Mw => {
   return mw
-}
-
-export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
-  event: PRPCEvent,
-  middlewares: Mw,
-  ctx?: any
-) => {
-  let currentCtx = ctx ? { ...ctx, event$: event } : { event$: event }
-  if (Array.isArray(middlewares)) {
-    for (const middleware of middlewares) {
-      if (Array.isArray(middleware)) {
-        currentCtx = await callMiddleware$(event, middleware, currentCtx)
-        if (currentCtx instanceof Response) {
-          return currentCtx
-        }
-      } else {
-        currentCtx = await middleware({ event$: event, ...currentCtx })
-        if (currentCtx instanceof Response) {
-          return currentCtx
-        }
-      }
-    }
-    return currentCtx
-  } else {
-    return await (middlewares as any)({
-      event$: event,
-      ...ctx,
-    })
-  }
 }
 
 type Flattened<T> = T extends Array<infer U> ? Flattened<U> : T

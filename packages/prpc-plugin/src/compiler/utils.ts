@@ -41,19 +41,19 @@ export const getNodeInfo = (
   t: typeof babel.types
 ) => {
   const { callee } = path.node
-  const isReuseableQuery =
+  const isBuilderQuery =
     t.isMemberExpression(callee) &&
     t.isIdentifier(callee.property, { name: 'query$' })
-  const isReuseableMutation =
+  const isBuilderMutation =
     t.isMemberExpression(callee) &&
     t.isIdentifier(callee.property, { name: 'mutation$' })
   const isMutation =
-    t.isIdentifier(callee, { name: 'mutation$' }) || isReuseableMutation
-  const isQuery = t.isIdentifier(callee, { name: 'query$' }) || isReuseableQuery
+    t.isIdentifier(callee, { name: 'mutation$' }) || isBuilderMutation
+  const isQuery = t.isIdentifier(callee, { name: 'query$' }) || isBuilderQuery
   const isMiddleware = t.isIdentifier(callee, { name: 'middleware$' })
   return {
-    isReuseableQuery,
-    isReuseableMutation,
+    isBuilderQuery,
+    isBuilderMutation,
     isMiddleware,
     isMutation,
     isQuery,
@@ -68,7 +68,19 @@ export const getFunctionArgs = (
   t: typeof babel.types,
   nodeInfo: NodeInfo
 ) => {
-  if (path.node.arguments.length === 1) {
+  if (nodeInfo.isBuilderQuery || nodeInfo.isBuilderMutation) {
+    const serverFunction = path.node.arguments[0]
+    const key = path.node.arguments[1]
+    const thisCall = (path.parentPath.node as any).init.callee.object
+    const zodSchema = thisCall.arguments[0]
+    thisCall.arguments = []
+
+    return {
+      serverFunction,
+      key,
+      zodSchema,
+    }
+  } else if (path.node.arguments.length === 1) {
     const arg = path.node.arguments[0]
     if (t.isObjectExpression(arg)) {
       const serverFunction = (
@@ -84,7 +96,7 @@ export const getFunctionArgs = (
         arg.properties.find((prop: any) => prop.key.name === 'schema') as any
       )?.value
       const middlewares =
-        !nodeInfo.isReuseableQuery && !nodeInfo.isReuseableMutation
+        !nodeInfo.isBuilderQuery && !nodeInfo.isBuilderMutation
           ? (
               arg.properties.find(
                 (prop: any) => prop.key.name === 'middleware'
@@ -136,14 +148,30 @@ export const shiftMiddleware = (
   temp: typeof babel.template,
   t: typeof babel.types,
   serverFunction: any,
-  { isReuseableQuery, isReuseableMutation, callee }: NodeInfo,
+  { isBuilderQuery, isBuilderMutation, callee }: NodeInfo,
   args: FnArgs
 ) => {
-  if (args.middlewares?.length || isReuseableQuery || isReuseableMutation) {
+  if (args.middlewares?.length || isBuilderQuery || isBuilderMutation) {
     const req = '_$$event'
     let callMiddleware
-    if (isReuseableQuery || isReuseableMutation) {
-      const name = ((callee as any).object as any).name
+    if (isBuilderQuery || isBuilderMutation) {
+      const getName = () => {
+        let name: string | undefined = undefined
+        let currentNode: typeof callee = callee
+        while (!name) {
+          if ('callee' in currentNode) {
+            currentNode = currentNode.callee
+          } else if ('object' in currentNode) {
+            currentNode = currentNode.object
+          }
+          if ('name' in currentNode) {
+            return currentNode.name
+          }
+        }
+        return name
+      }
+      const name = getName()
+      console.log('got name', name)
       callMiddleware = temp(`const ctx$ = await ${name}.callMw(${req})`)()
     } else {
       callMiddleware = temp(

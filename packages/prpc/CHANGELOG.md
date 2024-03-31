@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.1.1
+
+### Patch Changes
+
+- [`5842cf6`](https://github.com/solidjs-community/mediakit/commit/5842cf656a11f8f0b2805177b1c177813def5fef) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: event$ type for first middleware
+
 ## 1.1.0
 
 ### Minor Changes

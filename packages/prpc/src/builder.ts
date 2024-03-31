@@ -22,7 +22,7 @@ import { tryAndWrap } from './wrap'
 import { RequestEvent } from 'solid-js/web'
 import { callMiddleware$ } from './middleware'
 
-const actualBuilder = <
+export const builder$ = <
   Fn extends ExpectedFn<ZObj, Mws>,
   Mws extends IMiddleware<any>[] | void = void,
   ZObj extends ExpectedSchema = EmptySchema,
@@ -101,10 +101,6 @@ const actualBuilder = <
   }
 
   return builder as any
-}
-
-export const builder$ = () => {
-  return actualBuilder()
 }
 
 type InnerBuilder<

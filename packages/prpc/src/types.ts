@@ -23,7 +23,11 @@ export type ExpectedFn<
   ? (input: Fn$Input<ZObject, Mw>) => any
   : (input: Fn$Input<never, Mw>) => any
 
-export type IMiddleware<T = any> = (ctx$: T & { event$: PRPCEvent }) => any
+type P = {
+  event$: PRPCEvent
+}
+
+export type IMiddleware<T = any> = (ctx$: T & P) => any
 
 export type Fn$Input<
   ZObj extends ExpectedSchema = EmptySchema,
@@ -51,7 +55,7 @@ export type InferReturnType<T> = T extends (...args: any[]) => infer R
   ? R extends Promise<infer R2>
     ? R2
     : R
-  : never
+  : unknown
 
 export type FilterOutResponse<T> = T extends Response ? never : T
 
@@ -60,7 +64,7 @@ export type FlattenArray<T> = T extends (infer U)[] ? U : T
 export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware | void> =
   Mw extends IMiddleware[] ? InferReturnType<TakeLast<Mw>> : InferReturnType<Mw>
 
-type TakeLast<T extends any[]> = T extends [...infer _, infer L] ? L : never
+type TakeLast<T extends any[]> = T extends [...infer _, infer L] ? L : unknown
 
 export type PossibleBuilderTypes = 'query' | 'mutation'
 
@@ -106,7 +110,7 @@ export type QueryBuilder<
     : {}) &
   (BuilderType extends void
     ? {
-        middleware<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(
+        middleware<Mw extends IMiddleware<P & InferFinalMiddlware<Mws>>>(
           mw: Mw
         ): QueryBuilder<
           ExpectedFn<ZObj, Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw]>,

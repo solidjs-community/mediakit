@@ -24,7 +24,6 @@ export function prpcVite(opts?: PRPCPluginOptions): Plugin {
           id.endsWith('.ts')) ||
         id.endsWith('.tsx')
       ) {
-        console.log({ id })
         return await compilepRRPC(code, id, opts)
       }
       return undefined

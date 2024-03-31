@@ -11,6 +11,14 @@ const Home: VoidComponent = () => {
       <A href='/mutation' class='text-2xl text-white'>
         Mutation
       </A>
+      <span class='text-2xl text-white'>|</span>
+      <A href='/builder-query' class='text-2xl text-white'>
+        Builder.Query
+      </A>
+      <span class='text-2xl text-white'>|</span>
+      <A href='/builder-mutation' class='text-2xl text-white'>
+        Builder.Mutation
+      </A>
     </main>
   )
 }

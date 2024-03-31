@@ -18,6 +18,7 @@ export const error$ = (error: any, init?: ResponseInit): Response => {
   const headers = new Headers(init?.headers)
   headers.set('Content-Type', 'application/json')
   headers.set('X-Prpc-Error', '1')
+  headers.set('X-Prpc-Validation', '1')
   return new Response(
     JSON.stringify({
       error: typeof error === 'string' ? { message: error } : error,

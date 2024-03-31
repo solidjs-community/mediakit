@@ -47,7 +47,7 @@ const actualBuilder = <
 
   const builder: QueryBuilder<Fn, Mws, ZObj, PossibleBuilderTypes> = {
     middleware<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(mw: Mw) {
-      if (inner?.fn) return
+      if (inner?.fn) return builder
       modifyInner(
         'middlewares',
         (typeof inner?.middlewares === 'object'
@@ -57,21 +57,21 @@ const actualBuilder = <
       return builder
     },
     query$<NewFn extends ExpectedFn<ZObj, Mws>>(fn: NewFn, key: string) {
-      if (inner?.fn) return
+      if (inner?.fn) return builder
       modifyInner('fn', fn as any)
       modifyInner('type', 'query')
       modifyInner('key', key)
       return builder
     },
     mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(fn: NewFn, key: string) {
-      if (inner?.fn) return
+      if (inner?.fn) return builder
       modifyInner('fn', fn as any)
       modifyInner('type', 'mutation')
       modifyInner('key', key)
       return builder
     },
     input<NewZObj extends ExpectedSchema>(schema: NewZObj) {
-      if (inner?.schema || !schema) return
+      if (inner?.schema || !schema) return builder
       modifyInner('schema', schema as any)
       return builder as any
     },

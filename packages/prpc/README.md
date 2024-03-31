@@ -32,6 +32,38 @@ Basically, what is going to happen is that the Vite plugin will make this piece 
 
 ## Usage
 
+### Recommended (Builder)
+
+Read more about the builder [here](https://mediakit-taupe.vercel.app/prpc/builder)
+
+```ts
+export const helloBuilder = builder$()
+  .middleware(() => {
+    return {
+      hello: 1,
+    }
+  })
+  .middleware((ctx) => {
+    return {
+      ...ctx,
+      world: 2,
+    }
+  })
+
+export const helloQuery = helloBuilder
+  .input(
+    z.object({
+      hello: z.string(),
+    })
+  )
+  .query$(({ payload, ctx$ }) => {
+    if (payload.hello === 'hello') {
+      return ctx$.hello
+    }
+    return ctx$.world
+  }, 'myNewQuery')
+```
+
 ### Query
 
 ```tsx

@@ -27,6 +27,7 @@ export async function tryAndWrap<Fn extends ExpectedFn<any, any>>(
     }
     return response
   } catch (e: any) {
+    if (e instanceof PRPCClientError) throw e
     throw new PRPCClientError(e.message, e)
   }
 }

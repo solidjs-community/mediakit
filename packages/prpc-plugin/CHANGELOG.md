@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.1.0
+
+### Minor Changes
+
+- [`8907758`](https://github.com/solidjs-community/mediakit/commit/8907758f9f75f52436c83e813a504dd4c841ae1f) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add builder$ function
+
 ## 1.0.2
 
 ### Patch Changes

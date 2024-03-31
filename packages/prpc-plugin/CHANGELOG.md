@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.1.1
+
+### Patch Changes
+
+- [`8175646`](https://github.com/solidjs-community/mediakit/commit/81756462f335126b256e1d13225b2247ea91e339) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: do not print the id in the plugin
+
 ## 1.1.0
 
 ### Minor Changes

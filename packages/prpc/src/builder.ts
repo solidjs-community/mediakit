@@ -19,8 +19,6 @@ import {
   createQuery,
 } from '@tanstack/solid-query'
 import { tryAndWrap } from './wrap'
-import { RequestEvent } from 'solid-js/web'
-import { callMiddleware$ } from './middleware'
 
 export const builder$ = <
   Fn extends ExpectedFn<ZObj, Mws>,
@@ -46,15 +44,15 @@ export const builder$ = <
   }
 
   const builder: QueryBuilder<Fn, Mws, ZObj, PossibleBuilderTypes> = {
-    middleware<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(mw: Mw) {
-      if (inner?.fn) return builder
-      modifyInner(
-        'middlewares',
-        (typeof inner?.middlewares === 'object'
-          ? [...inner.middlewares, mw]
-          : [mw]) as any
-      )
-      return builder
+    middleware$<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(mw: Mw) {
+      return builder as QueryBuilder<
+        ExpectedFn<
+          ZObj,
+          Mws extends IMiddleware[] ? [...Mws, typeof mw] : [typeof mw]
+        >,
+        Mws extends IMiddleware[] ? [...Mws, typeof mw] : [typeof mw],
+        ZObj
+      >
     },
     query$<NewFn extends ExpectedFn<ZObj, Mws>>(fn: NewFn, key: string) {
       if (inner?.fn) return builder
@@ -71,12 +69,11 @@ export const builder$ = <
       return builder
     },
     input<NewZObj extends ExpectedSchema>(schema: NewZObj) {
-      if (inner?.schema || !schema) return builder
-      modifyInner('schema', schema as any)
-      return builder as any
-    },
-    callMw: async (event: RequestEvent) => {
-      return await callMiddleware$(event, inner?.middlewares ?? [])
+      return builder as QueryBuilder<
+        ExpectedFn<typeof schema, Mws>,
+        Mws,
+        NewZObj
+      >
     },
     createQuery: (
       input: ZObj extends EmptySchema
@@ -100,7 +97,7 @@ export const builder$ = <
     },
   }
 
-  return builder as any
+  return builder as QueryBuilder<Fn, Mws, ZObj, BuilderType>
 }
 
 type InnerBuilder<
@@ -110,8 +107,6 @@ type InnerBuilder<
   BuilderType extends PossibleBuilderTypes | void = void
 > = {
   fn?: Fn
-  middlewares?: Mws
-  schema?: ZObj
   key?: string
   type?: BuilderType
 }

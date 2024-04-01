@@ -110,7 +110,7 @@ export type QueryBuilder<
     : {}) &
   (BuilderType extends void
     ? {
-        middleware<Mw extends IMiddleware<P & InferFinalMiddlware<Mws>>>(
+        middleware$<Mw extends IMiddleware<P & InferFinalMiddlware<Mws>>>(
           mw: Mw
         ): QueryBuilder<
           ExpectedFn<ZObj, Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw]>,

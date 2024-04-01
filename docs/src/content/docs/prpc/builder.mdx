@@ -19,12 +19,12 @@ Create a file under server called `prpc` (basically `server/prpc.ts`) and fill i
 import { builder$ } from '@solid-mediakit/prpc'
 
 export const helloBuilder = builder$()
-  .middleware(() => {
+  .middleware$(() => {
     return {
       hello: 1,
     }
   })
-  .middleware((ctx) => {
+  .middleware$((ctx) => {
     return {
       ...ctx,
       world: 2,
@@ -62,7 +62,7 @@ So the format of the `helloBuilder` is basically:
 - helloBuilder.input(zodSchema) - to declare the input of the query, optional
 - helloBuilder.query$(function, 'queryName') - to declare the query & queryKey, the function is the actual query, the queryKey is the name of the query, using .query$ will declare this function as query (createQuery).
 - helloBuilder.mutation$(function, 'mutationName') - to declare the mutation & mutationKey, the function is the actual mutation, the mutationKey is the name of the mutation, using .mutation$ will declare this function as mutation (createMutation).
-- helloBuilder.middleware(function) - to declare a middleware, this will be added to the builder, you can add multiple middlewares, the order of the middlewares is the order they are added and called.
+- helloBuilder.middleware$(function) - to declare a middleware, this will be added to the builder, you can add multiple middlewares, the order of the middlewares is the order they are added and called.
 
 ### Step 3
 
@@ -103,12 +103,12 @@ This is an example of invalid usage: **DO NOT CREATE THE BUILDER AND SET THE QUE
 import { builder$ } from '@solid-mediakit/prpc'
 
 export const helloQuery = builder$()
-  .middleware(() => {
+  .middleware$(() => {
     return {
       hello: 1,
     }
   })
-  .middleware((ctx) => {
+  .middleware$((ctx) => {
     return {
       ...ctx,
       world: 2,
@@ -122,12 +122,12 @@ export const helloQuery = builder$()
 import { builder$ } from '@solid-mediakit/prpc'
 
 export const helloBuilder = builder$()
-  .middleware(() => {
+  .middleware$(() => {
     return {
       hello: 1,
     }
   })
-  .middleware((ctx) => {
+  .middleware$((ctx) => {
     return {
       ...ctx,
       world: 2,

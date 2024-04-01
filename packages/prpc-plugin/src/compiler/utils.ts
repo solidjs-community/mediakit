@@ -41,6 +41,11 @@ export const getNodeInfo = (
   t: typeof babel.types
 ) => {
   const { callee } = path.node
+  const isBuilder = t.isIdentifier(callee, { name: 'builder$' })
+  const isBuilderMiddleware =
+    t.isMemberExpression(callee) &&
+    t.isIdentifier(callee.property, { name: 'middleware$' })
+
   const isBuilderQuery =
     t.isMemberExpression(callee) &&
     t.isIdentifier(callee.property, { name: 'query$' })
@@ -58,6 +63,8 @@ export const getNodeInfo = (
     isMutation,
     isQuery,
     callee,
+    isBuilder,
+    isBuilderMiddleware,
   }
 }
 
@@ -73,6 +80,7 @@ export const getFunctionArgs = (
     const key = path.node.arguments[1]
     const thisCall = (path.parentPath.node as any).init.callee.object
     const zodSchema = thisCall.arguments[0]
+
     thisCall.arguments = []
 
     return {
@@ -148,31 +156,14 @@ export const shiftMiddleware = (
   temp: typeof babel.template,
   t: typeof babel.types,
   serverFunction: any,
-  { isBuilderQuery, isBuilderMutation, callee }: NodeInfo,
+  { isBuilderQuery, isBuilderMutation }: NodeInfo,
   args: FnArgs
 ) => {
   if (args.middlewares?.length || isBuilderQuery || isBuilderMutation) {
     const req = '_$$event'
     let callMiddleware
     if (isBuilderQuery || isBuilderMutation) {
-      const getName = () => {
-        let name: string | undefined = undefined
-        let currentNode: typeof callee = callee
-        while (!name) {
-          if ('callee' in currentNode) {
-            currentNode = currentNode.callee
-          } else if ('object' in currentNode) {
-            currentNode = currentNode.object
-          }
-          if ('name' in currentNode) {
-            return currentNode.name
-          }
-        }
-        return name
-      }
-      const name = getName()
-      console.log('got name', name)
-      callMiddleware = temp(`const ctx$ = await ${name}.callMw(${req})`)()
+      callMiddleware = temp(`const ctx$ = await modifyHere$$`)()
     } else {
       callMiddleware = temp(
         `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`
@@ -189,5 +180,80 @@ export const shiftMiddleware = (
       t.returnStatement(t.identifier('ctx$'))
     )
     serverFunction.body.body.unshift(callMiddleware, ifStatement)
+  }
+}
+
+export const afterImports = (
+  path: babel.NodePath<babel.types.CallExpression>,
+  value: any
+) => {
+  const p = (path.findParent((p) => p.isProgram())!.node as any).body
+  const lastImport = p.findLast((n: any) => n.type === 'ImportDeclaration')
+  if (lastImport) {
+    p.splice(p.indexOf(lastImport) + 1, 0, value)
+  } else {
+    p.unshift(value)
+  }
+}
+
+export const handleBuilderMw = (
+  path: babel.NodePath<babel.types.CallExpression>,
+  t: typeof babel.types
+) => {
+  let name: string | undefined = undefined
+  path.findParent((p) => {
+    if (p.isVariableDeclarator()) {
+      name = (p.node.id as any).name
+      return true
+    }
+    return false
+  })
+  if (!name) {
+    throw new Error(`Expected name to be defined`)
+  }
+  const fn = path.node.arguments[0]
+  const mwName = `_$$${name}_mws`
+  const currentMws = path.scope.getBinding(mwName)
+  if (currentMws) {
+    const mwsArray = (currentMws as any)?.path?.node?.init
+    if (t.isArrayExpression(mwsArray)) {
+      mwsArray.elements.unshift(fn as any)
+      path.replaceWith((path.node.callee as any).object)
+    } else {
+      throw new Error(`Expected ${mwName} to be an array`)
+    }
+  } else {
+    const mws = t.identifier(mwName)
+    const mwsArray = t.arrayExpression([fn as any])
+
+    path.replaceWith((path.node.callee as any).object)
+    path.scope.push({
+      id: mws,
+      init: mwsArray,
+      kind: 'const',
+      _blockHoist: -1,
+    })
+  }
+}
+
+export const exportBuilderMw = (
+  mwKeys: string[],
+  path: babel.NodePath<babel.types.Program>,
+  t: typeof babel.types
+) => {
+  for (const name of mwKeys) {
+    const currentMws = path.scope.getBinding(name)
+    if (currentMws) {
+      const mwsArray = (currentMws as any)?.path?.node?.init
+      if (mwsArray) {
+        const exportMw = t.exportNamedDeclaration(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(t.identifier(name), mwsArray as any),
+          ])
+        )
+        currentMws.path.remove()
+        path.node.body.push(exportMw)
+      }
+    }
   }
 }

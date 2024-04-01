@@ -4,8 +4,10 @@ import * as babel from '@babel/core'
 import {
   addRequestIfNeeded,
   cleanOutParams,
+  exportBuilderMw,
   getFunctionArgs,
   getNodeInfo,
+  handleBuilderMw,
   shiftMiddleware,
 } from './utils'
 
@@ -21,40 +23,45 @@ export function createTransformpRPC$() {
   }): babel.PluginObj {
     return {
       visitor: {
-        Program(path) {
-          const importIfNotThere = (name: string, loc?: string) => {
-            const imported = path.node.body.find(
-              (node: any) =>
-                node.type === 'ImportDeclaration' &&
-                node.source.name === (loc ?? prpcLoc)
+        Program: {
+          exit(path) {
+            const scope = path.scope.bindings
+            const keys = Object.keys(scope)
+            const mwKeys = keys.filter(
+              (key) => key.startsWith('_$$') && key.endsWith('_mws')
             )
-            if (!imported) {
-              path.node.body.unshift(
-                t.importDeclaration(
-                  [t.importSpecifier(t.identifier(name), t.identifier(name))],
-                  t.stringLiteral(loc ?? prpcLoc)
-                )
-              )
+            if (mwKeys.length) {
+              exportBuilderMw(mwKeys, path, t)
             }
-          }
-          importIfNotThere('validateZod')
-          importIfNotThere('cache', '@solidjs/router')
-          importIfNotThere('getRequestEvent', 'solid-js/web')
-          importIfNotThere('callMiddleware$')
+          },
+          enter(path) {
+            const importIfNotThere = (name: string, loc?: string) => {
+              const imported = path.node.body.find(
+                (node: any) =>
+                  node.type === 'ImportDeclaration' &&
+                  node.source.name === (loc ?? prpcLoc)
+              )
+              if (!imported) {
+                path.node.body.unshift(
+                  t.importDeclaration(
+                    [t.importSpecifier(t.identifier(name), t.identifier(name))],
+                    t.stringLiteral(loc ?? prpcLoc)
+                  )
+                )
+              }
+            }
+            importIfNotThere('validateZod')
+            importIfNotThere('cache', '@solidjs/router')
+            importIfNotThere('getRequestEvent', 'solid-js/web')
+            importIfNotThere('callMiddleware$')
+          },
         },
+
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
-
-          // if (nodeInfo.isMiddleware) {
-          //   const originFn = path.node.arguments[0]
-          //   if (t.isArrowFunctionExpression(originFn)) {
-          //     ;(originFn.body as any).body.unshift(
-          //       t.expressionStatement(t.stringLiteral('use server'))
-          //     )
-          //   }
-          // }
-
-          if (nodeInfo.isMutation || nodeInfo.isQuery) {
+          if (nodeInfo.isBuilderMiddleware) {
+            handleBuilderMw(path, t)
+          } else if (nodeInfo.isMutation || nodeInfo.isQuery) {
             const args = getFunctionArgs(path, t, nodeInfo)!
             const payload = t.objectProperty(
               t.identifier('payload'),
@@ -159,7 +166,7 @@ export async function compilepRRPC(
   })
   if (transformed) {
     if (opts?.log) {
-      console.log(transformed.code)
+      console.log(id, transformed.code)
     }
     return {
       code: transformed.code ?? '',
@@ -168,3 +175,78 @@ export async function compilepRRPC(
   }
   return null
 }
+// {
+//   path: NodePath {
+//     contexts: [],
+
+//     _traverseFlags: 0,
+//     skipKeys: null,
+//     parentPath: NodePath {
+//       contexts: [Array],
+//       state: undefined,
+//       opts: [Object],
+//       _traverseFlags: 0,
+//       skipKeys: null,
+//       parentPath: [NodePath],
+//       container: [Array],
+//       listKey: 'body',
+//       key: 0,
+//       node: [Object],
+//       type: 'VariableDeclaration',
+//       parent: [Node],
+//       hub: [Object],
+//       data: null,
+//       context: [TraversalContext],
+//       scope: [Scope]
+//     },
+//     container: [ [Object] ],
+//     listKey: 'declarations',
+//     key: 0,
+//     node: { type: 'VariableDeclarator', id: [Object], init: [Object] },
+//     type: 'VariableDeclarator',
+//     parent: {
+//       type: 'VariableDeclaration',
+//       kind: 'const',
+//       declarations: [Array],
+//       _blockHoist: 2
+//     },
+//     hub: {
+//       file: [File],
+//       getCode: [Function: getCode],
+//       getScope: [Function: getScope],
+//       addHelper: [Function: bound addHelper],
+//       buildError: [Function: bound buildCodeFrameError]
+//     },
+//     data: null,
+//     context: TraversalContext {
+//       queue: [Array],
+//       priorityQueue: [],
+//       parentPath: undefined,
+//       scope: [Scope],
+//       state: undefined,
+//       opts: [Object]
+//     },
+//     scope: <ref *1> Scope {
+//       uid: 7497,
+//       path: [NodePath],
+//       block: [Node],
+//       labels: Map(0) {},
+//       inited: true,
+//       bindings: [Object: null prototype],
+//       references: [Object: null prototype],
+//       globals: [Object: null prototype] {},
+//       uids: [Object: null prototype] {},
+//       data: [Object: null prototype] {},
+//       crawling: false
+//     }
+//   },
+//   kind: 'const',
+//   constantViolations: [],
+//   constant: true,
+//   referencePaths: [],
+//   referenced: false,
+//   references: 0,
+//   hasDeoptedValue: false,
+//   hasValue: false,
+//   value: null
+// }

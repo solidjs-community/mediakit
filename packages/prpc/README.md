@@ -38,12 +38,12 @@ Read more about the builder [here](https://mediakit-taupe.vercel.app/prpc/builde
 
 ```ts
 export const helloBuilder = builder$()
-  .middleware(() => {
+  .middleware$(() => {
     return {
       hello: 1,
     }
   })
-  .middleware((ctx) => {
+  .middleware$((ctx) => {
     return {
       ...ctx,
       world: 2,

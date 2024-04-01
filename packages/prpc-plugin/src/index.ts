@@ -20,7 +20,10 @@ export function prpcVite(opts?: PRPCPluginOptions): Plugin {
         return code
       }
       if (
-        ((code.includes('query$(') || code.includes('mutation$(')) &&
+        ((code.includes('query$(') ||
+          code.includes('mutation$(') ||
+          code.includes('builder$(') ||
+          code.includes('.middleware$')) &&
           id.endsWith('.ts')) ||
         id.endsWith('.tsx')
       ) {

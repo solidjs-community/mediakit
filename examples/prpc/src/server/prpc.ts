@@ -35,3 +35,5 @@ export const byeBuilder = builder$()
       hehe: 1,
     }
   })
+
+export const noMw = builder$()

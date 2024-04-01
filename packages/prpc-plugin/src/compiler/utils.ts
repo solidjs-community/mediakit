@@ -1,4 +1,5 @@
 import * as babel from '@babel/core'
+import { prpcLoc } from './babel'
 
 export const addRequestIfNeeded = (
   serverFunction: any,
@@ -75,6 +76,7 @@ export const getFunctionArgs = (
   t: typeof babel.types,
   nodeInfo: NodeInfo
 ) => {
+  const source = (path.hub as any).file.opts.filename
   if (nodeInfo.isBuilderQuery || nodeInfo.isBuilderMutation) {
     const serverFunction = path.node.arguments[0]
     const key = path.node.arguments[1]
@@ -87,6 +89,7 @@ export const getFunctionArgs = (
       serverFunction,
       key,
       zodSchema,
+      source,
     }
   } else if (path.node.arguments.length === 1) {
     const arg = path.node.arguments[0]
@@ -117,6 +120,7 @@ export const getFunctionArgs = (
         key,
         zodSchema,
         middlewares,
+        source,
       }
     }
   }
@@ -155,15 +159,60 @@ export const cleanOutParams = (
 export const shiftMiddleware = (
   temp: typeof babel.template,
   t: typeof babel.types,
+  path: babel.NodePath<babel.types.CallExpression>,
   serverFunction: any,
-  { isBuilderQuery, isBuilderMutation }: NodeInfo,
+  { isBuilderQuery, isBuilderMutation, callee }: NodeInfo,
   args: FnArgs
 ) => {
   if (args.middlewares?.length || isBuilderQuery || isBuilderMutation) {
     const req = '_$$event'
+    const getName = () => {
+      let name: string | undefined = undefined
+      let currentNode: typeof callee = callee
+      while (true) {
+        if ('object' in currentNode) {
+          if (t.isIdentifier(currentNode.object)) {
+            name = currentNode.object.name
+            break
+          }
+          currentNode = currentNode.object
+        } else if ('callee' in currentNode) {
+          if (t.isIdentifier(currentNode.callee)) {
+            name = currentNode.callee.name
+            break
+          }
+          currentNode = currentNode.callee
+        }
+      }
+      return name
+    }
+    const name = isBuilderMutation || isBuilderQuery ? getName() : undefined
     let callMiddleware
     if (isBuilderQuery || isBuilderMutation) {
-      callMiddleware = temp(`const ctx$ = await modifyHere$$`)()
+      const v = `_$$${name}_mws`
+      const p = (path.findParent((p) => p.isProgram())!.node as any).body
+      const importedFrom = p.find((node: any) => {
+        return (
+          node.type === 'ImportDeclaration' &&
+          node.specifiers.some((s: any) => {
+            if (t.isImportSpecifier(s)) {
+              return (s.imported as any).name === name
+            }
+            return false
+          })
+        )
+      })
+      if (importedFrom && t.isImportDeclaration(importedFrom)) {
+        importedFrom.specifiers.push(
+          t.importSpecifier(t.identifier(v), t.identifier(v))
+        )
+      }
+      importIfNotThere(path, t, 'callMiddleware$')
+      callMiddleware = temp(
+        `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`
+      )({
+        middlewares: v,
+      })
     } else {
       callMiddleware = temp(
         `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`
@@ -196,9 +245,8 @@ export const afterImports = (
   }
 }
 
-export const handleBuilderMw = (
-  path: babel.NodePath<babel.types.CallExpression>,
-  t: typeof babel.types
+export const getBuilderName = (
+  path: babel.NodePath<babel.types.CallExpression>
 ) => {
   let name: string | undefined = undefined
   path.findParent((p) => {
@@ -211,6 +259,14 @@ export const handleBuilderMw = (
   if (!name) {
     throw new Error(`Expected name to be defined`)
   }
+  return name
+}
+
+export const handleBuilderMw = (
+  path: babel.NodePath<babel.types.CallExpression>,
+  t: typeof babel.types
+) => {
+  const name = getBuilderName(path)
   const fn = path.node.arguments[0]
   const mwName = `_$$${name}_mws`
   const currentMws = path.scope.getBinding(mwName)
@@ -235,7 +291,6 @@ export const handleBuilderMw = (
     })
   }
 }
-
 export const exportBuilderMw = (
   mwKeys: string[],
   path: babel.NodePath<babel.types.Program>,
@@ -255,5 +310,31 @@ export const exportBuilderMw = (
         path.node.body.push(exportMw)
       }
     }
+  }
+}
+
+export const importIfNotThere = (
+  path: babel.NodePath<babel.types.CallExpression>,
+  t: typeof babel.types,
+  name: string,
+  loc?: string
+) => {
+  const p = (path.findParent((p) => p.isProgram())!.node as any).body
+  const imported = p.find((node: any) => {
+    const ff = node.specifiers.some((s: any) => {
+      return t.isImportSpecifier(s) && (s.imported as any).name === name
+    })
+    return (
+      node.type === 'ImportDeclaration' &&
+      node.source.value === (loc ?? prpcLoc) &&
+      ff
+    )
+  })
+  if (!imported) {
+    const importDeclaration = t.importDeclaration(
+      [t.importSpecifier(t.identifier(name), t.identifier(name))],
+      t.stringLiteral(loc ?? prpcLoc)
+    )
+    p.unshift(importDeclaration)
   }
 }

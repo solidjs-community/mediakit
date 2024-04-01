@@ -5,13 +5,15 @@ import {
   addRequestIfNeeded,
   cleanOutParams,
   exportBuilderMw,
+  getBuilderName,
   getFunctionArgs,
   getNodeInfo,
   handleBuilderMw,
+  importIfNotThere,
   shiftMiddleware,
 } from './utils'
 
-const prpcLoc = `@solid-mediakit/prpc`
+export const prpcLoc = `@solid-mediakit/prpc`
 
 export function createTransformpRPC$() {
   return function transformpRPC$({
@@ -34,40 +36,31 @@ export function createTransformpRPC$() {
               exportBuilderMw(mwKeys, path, t)
             }
           },
-          enter(path) {
-            const importIfNotThere = (name: string, loc?: string) => {
-              const imported = path.node.body.find(
-                (node: any) =>
-                  node.type === 'ImportDeclaration' &&
-                  node.source.name === (loc ?? prpcLoc)
-              )
-              if (!imported) {
-                path.node.body.unshift(
-                  t.importDeclaration(
-                    [t.importSpecifier(t.identifier(name), t.identifier(name))],
-                    t.stringLiteral(loc ?? prpcLoc)
-                  )
-                )
-              }
-            }
-            importIfNotThere('validateZod')
-            importIfNotThere('cache', '@solidjs/router')
-            importIfNotThere('getRequestEvent', 'solid-js/web')
-            importIfNotThere('callMiddleware$')
-          },
         },
 
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
-          if (nodeInfo.isBuilderMiddleware) {
+          if (nodeInfo.isBuilder) {
+            const name = getBuilderName(path)
+            const b = `_$$${name}_mws`
+            const varExists = path.scope.bindings[b]
+            if (!varExists) {
+              path.scope.push({
+                id: t.identifier(b),
+                init: t.arrayExpression([]),
+              })
+            }
+          } else if (nodeInfo.isBuilderMiddleware) {
             handleBuilderMw(path, t)
           } else if (nodeInfo.isMutation || nodeInfo.isQuery) {
+            importIfNotThere(path, t, 'cache', '@solidjs/router')
+            importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
             const args = getFunctionArgs(path, t, nodeInfo)!
             const payload = t.objectProperty(
               t.identifier('payload'),
               t.identifier('_$$payload')
             )
-            shiftMiddleware(temp, t, args.serverFunction, nodeInfo, args)
+            shiftMiddleware(temp, t, path, args.serverFunction, nodeInfo, args)
             addRequestIfNeeded(
               args.serverFunction,
               nodeInfo.isBuilderQuery,
@@ -82,6 +75,7 @@ export function createTransformpRPC$() {
               args.zodSchema &&
               !t.isIdentifier(args.zodSchema, { name: 'undefined' })
             ) {
+              importIfNotThere(path, t, 'validateZod')
               const asyncParse = temp(
                 `const _$$validatedZod = await validateZod(_$$payload, %%zodSchema%%);`
               )({ zodSchema: args.zodSchema })

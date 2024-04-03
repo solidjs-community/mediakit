@@ -1,5 +1,15 @@
 # @solid-mediakit/prpc
 
+## 1.2.0
+
+### Minor Changes
+
+- [`1986729`](https://github.com/solidjs-community/mediakit/commit/19867296b662380d2aa032f8a9ddc272187fe368) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: transform builder$ correctly
+
+### Patch Changes
+
+- [`e584a22`](https://github.com/solidjs-community/mediakit/commit/e584a22aff79037c567bf82759edd329c7f99142) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: export callMiddleware$
+
 ## 1.1.1
 
 ### Patch Changes

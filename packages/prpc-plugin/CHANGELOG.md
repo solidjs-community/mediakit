@@ -1,5 +1,15 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.2.0
+
+### Minor Changes
+
+- [`1986729`](https://github.com/solidjs-community/mediakit/commit/19867296b662380d2aa032f8a9ddc272187fe368) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: transform builder$ correctly
+
+### Patch Changes
+
+- [`01d8ea2`](https://github.com/solidjs-community/mediakit/commit/01d8ea280ade639dd81e4383b7b213d2d342c69c) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: consume everything correctly
+
 ## 1.1.1
 
 ### Patch Changes

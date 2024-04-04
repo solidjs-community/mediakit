@@ -75,19 +75,19 @@ export type QueryBuilder<
   BuilderType extends PossibleBuilderTypes | void = void
 > = (BuilderType extends 'query'
   ? {
-      createQuery: (
+      (
         input: ZObj extends EmptySchema
           ? EmptySchema
           : Accessor<Infer$PayLoad<ZObj>>,
         opts?: FCreateQueryOptions<Infer$PayLoad<ZObj>>
-      ) => CreateQueryResult<Fn$Output<Fn, ZObj, Mws>>
+      ): CreateQueryResult<Fn$Output<Fn, ZObj, Mws>>
     }
   : {}) &
   (BuilderType extends 'mutation'
     ? {
-        createMutation: (
+        (
           opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>
-        ) => CreateMutationResult<Fn$Output<Fn, ZObj, Mws>>
+        ): CreateMutationResult<Fn$Output<Fn, ZObj, Mws>>
       }
     : {} & BuilderType extends void
     ? {

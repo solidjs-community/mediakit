@@ -3,7 +3,7 @@ import { helloMutation } from '~/server/hello/hello.mutations'
 
 const Home: VoidComponent = () => {
   const [hello, setHello] = createSignal('')
-  const helloMut = helloMutation.createMutation(() => ({
+  const helloMut = helloMutation(() => ({
     onError(error) {
       if (error.isZodError()) {
         console.log('zod error:', error.cause.fieldErrors)

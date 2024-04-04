@@ -126,7 +126,18 @@ export function createTransformpRPC$() {
             ])
 
             if (nodeInfo.isBuilderMutation || nodeInfo.isBuilderQuery) {
-              path.node.arguments[0] = wrappedArg
+              const ele = nodeInfo.isQuery ? 'query$' : 'mutation$'
+              importIfNotThere(path, t, ele, prpcLoc)
+              path.node.callee = t.identifier(ele)
+              path.node.arguments = [
+                t.objectExpression([
+                  t.objectProperty(
+                    t.identifier(nodeInfo.isQuery ? 'queryFn' : 'mutationFn'),
+                    wrappedArg
+                  ),
+                  t.objectProperty(t.identifier('key'), args.key),
+                ]),
+              ]
             } else {
               path.node.arguments[0] = t.objectExpression([
                 t.objectProperty(

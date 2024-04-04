@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.2.1
+
+### Patch Changes
+
+- [`25dac1a`](https://github.com/solidjs-community/mediakit/commit/25dac1ab45dcd194c818e489a010733e66380d1f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: don't leak server code to client with builder$
+
 ## 1.2.0
 
 ### Minor Changes

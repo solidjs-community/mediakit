@@ -77,45 +77,34 @@ signOut({ redirect: false }) // don't redirect at all
 
 ### Client Side
 
-Wrap your `Root` with `SessionProvider`
+Wrap your `App` with `SessionProvider`
+
+In order to update the session context accordingly, the entire app needs to be wrapped with a SessionProvider, this is a SolidJS context that will hold the current session.
 
 ```tsx
+// app.tsx
 // @refresh reload
+import { MetaProvider, Title } from '@solidjs/meta'
+import { Router } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import {
-  Body,
-  ErrorBoundary,
-  FileRoutes,
-  Head,
-  Html,
-  Meta,
-  Routes,
-  Scripts,
-  Title,
-} from 'solid-start'
 import { SessionProvider } from '@solid-mediakit/auth/client'
+import './app.css'
 
-export default function Root() {
+export default function App() {
   return (
-    <Html lang='en'>
-      <Head>
-        <Title>Create JD App</Title>
-        <Meta charset='utf-8' />
-        <Meta name='viewport' content='width=device-width, initial-scale=1' />
-      </Head>
-      <Body>
-        <SessionProvider>
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          <Title>SolidStart - Basic</Title>
           <Suspense>
-            <ErrorBoundary>
-              <Routes>
-                <FileRoutes />
-              </Routes>
-            </ErrorBoundary>
+            <SessionProvider>{props.children} </SessionProvider>
           </Suspense>
-        </SessionProvider>
-        <Scripts />
-      </Body>
-    </Html>
+        </MetaProvider>
+      )}
+    >
+      <FileRoutes />
+    </Router>
   )
 }
 ```
@@ -186,22 +175,21 @@ export default Home
 
 ```ts
 import { getSession } from '@solid-mediakit/auth'
-import { createServerData$ } from 'solid-start/server'
-import { authOpts } from '~/routes/api/auth/[...solidauth]'
+import { cache, createAsync, redirect } from '@solidjs/router'
+import { getWebRequest } from 'vinxi/server'
+import { authOptions } from './server/auth'
 
-export const useSession = () => {
-  return createServerData$(
-    async (_, { request }) => {
-      return await getSession(request, authOpts)
-    },
-    { key: () => ['auth_user'] }
-  )
-}
+const getUser = cache(async () => {
+  'use server'
+  const request = getWebRequest()
+  const session = await getSession(request, authOptions)
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'user')
 
-// useSession returns a resource:
-const session = useSession()
-const loading = session.loading
-const user = () => session()?.user
+const user = createAsync(() => getUser())
 ```
 
 ### Providing a custom Session Type

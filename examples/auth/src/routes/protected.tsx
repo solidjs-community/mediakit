@@ -19,7 +19,7 @@ export const route = {
 }
 
 export default function Protected() {
-  const user = createAsync(getUser)
+  const user = createAsync(() => getUser())
   return (
     <div class='flex flex-col items-center justify-center gap-4'>
       <span class='text-xl text-black'>Welcome to Solid Auth</span>

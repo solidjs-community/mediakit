@@ -1,0 +1,108 @@
+---
+title: 'protected$'
+description: 'API for the protected$ function'
+---
+
+**API for the protected$ function**
+
+The `protected$` function is used to define a protected page, meaning that only logged in user will be able to see the content in this page.
+
+For instance:
+
+In this page, if you are not lgoged in you will be redirected to the login page.
+
+```tsx
+import { protected$ } from '@solid-mediakit/auth'
+
+export default protected$((session$) => {
+  return (
+    <main>
+      <h1>Protected Route</h1>
+      <h1>hello {session$.user?.name}</h1>
+    </main>
+  )
+}, '/login')
+```
+
+## How to setup
+
+First of all install the Mediakit Auth Plugin:
+
+```bash
+pnpm install @solid-mediakit/auth-plugin
+```
+
+### Adding The Vite Plugin
+
+```ts
+import { authVite } from '@solid-mediakit/auth-plugin'
+import { defineConfig } from '@solidjs/start/config'
+
+export default defineConfig({
+  ssr: true,
+  vite: {
+    plugins: [
+      authVite({
+        authOpts: {
+          // the variable name of your authOptions (exported!!)
+          name: 'authOptions',
+          //   where your authOptions is located
+          dir: '~/server/auth',
+        },
+        // where should we redirect when the user is not logged in
+        redirectTo: '/login',
+      }),
+    ],
+  },
+})
+```
+
+This is it! you are good to go.
+
+### protected$ Usage
+
+protected$ takes in 2 arguments:
+
+- `page` - The function that will be rendered if the user is logged in - required
+- `redirectTo` - The path to redirect to if the user is not logged in - optional, if this is mention we use this, if not we use the `redirectTo` mentioned in the vite plugin.
+
+This is basically being compiled to:
+
+```tsx
+import { authOptions } from '~/server/auth'
+import { Show } from 'solid-js'
+import { getSession } from '@solid-mediakit/auth'
+import { getRequestEvent } from 'solid-js/web'
+import { createAsync } from '@solidjs/router'
+import { redirect } from '@solidjs/router'
+import { cache } from '@solidjs/router'
+import { protected$ } from '@solid-mediakit/auth'
+
+const _$$getUser = cache(async () => {
+  'use server'
+
+  const event = getRequestEvent()
+  const session = await getSession(event.request, authOptions)
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'media-user')
+
+export default () => {
+  const _$$session = createAsync(() => _$$getUser())
+  const _$$RenderProtected = () => {
+    return (
+      <main>
+        <h1>Protected Route</h1>
+        <h1>hello {_$$session().user?.name}</h1>
+      </main>
+    )
+  }
+  return (
+    <Show when={_$$session()?.user}>
+      <_$$RenderProtected />
+    </Show>
+  )
+}
+```

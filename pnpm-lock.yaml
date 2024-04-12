@@ -428,15 +428,12 @@ importers:
       '@babel/core':
         specifier: ^7.20.12
         version: 7.20.12
-      '@babel/plugin-syntax-jsx':
-        specifier: ^7.24.1
-        version: 7.24.1(@babel/core@7.20.12)
       '@babel/preset-typescript':
         specifier: ^7.18.6
         version: 7.23.3(@babel/core@7.20.12)
       '@rollup/pluginutils':
         specifier: ^5.0.2
-        version: 5.0.2(rollup@4.9.6)
+        version: 5.0.2
     devDependencies:
       '@types/babel__core':
         specifier: ^7.20.0
@@ -4030,6 +4027,20 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.1
+
+  /@rollup/pluginutils@5.0.2:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.5
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    dev: false
 
   /@rollup/pluginutils@5.0.2(rollup@4.9.6):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}

@@ -60,6 +60,7 @@ export const SIDEBAR: Sidebar = {
   ],
   Auth: [
     { text: 'Install', link: 'auth/install' },
+    { text: 'protected$', link: 'auth/protected' },
     { text: 'signIn', link: 'auth/signin' },
     { text: 'signOut', link: 'auth/signout' },
     { text: 'createSession', link: 'auth/createsession' },

@@ -272,6 +272,7 @@ export async function getSession(
   throw new Error(data.message)
 }
 
+//
 export const protected$ = (
   page: (session$: Session) => JSXElement,
   redirectTo?: string

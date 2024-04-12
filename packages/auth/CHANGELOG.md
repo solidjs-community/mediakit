@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.9
+
+### Patch Changes
+
+- [`1189312`](https://github.com/solidjs-community/mediakit/commit/118931204eec25cdbcf8f09de9b1731b7bf32012) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use latest version of authjs
+
 ## 2.0.8
 
 ### Patch Changes

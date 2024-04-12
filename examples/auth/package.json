@@ -29,7 +29,8 @@
     "@solidjs/start": "^1.0.0-rc.0",
     "solid-js": "^1.8.15",
     "vinxi": "^0.3.10",
-    "@solidjs/meta": "^0.29.3"
+    "@solidjs/meta": "^0.29.3",
+    "@solid-mediakit/auth-plugin": "workspace:*"
   },
   "engines": {
     "node": ">=16"

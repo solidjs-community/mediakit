@@ -1,13 +1,13 @@
 import { getSession } from '@solid-mediakit/auth'
 import { cache, createAsync, redirect } from '@solidjs/router'
-import { getWebRequest } from 'vinxi/server'
-import { authOptions } from './server/auth'
+import { authOptions } from '~/server/auth'
 import { Show } from 'solid-js'
+import { getRequestEvent } from 'solid-js/web'
 
 const getUser = cache(async () => {
   'use server'
-  const request = getWebRequest()
-  const session = await getSession(request, authOptions)
+  const event = getRequestEvent()!
+  const session = await getSession(event.request, authOptions)
   if (!session) {
     throw redirect('/')
   }

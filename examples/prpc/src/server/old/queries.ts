@@ -1,18 +1,28 @@
-import { error$, middleware$, query$ } from '@solid-mediakit/prpc'
+import { error$, middleware$, pipe$, query$ } from '@solid-mediakit/prpc'
 import { z } from 'zod'
 
 const testMw = middleware$(() => {
-  return 1
+  console.log('called a')
+  return {
+    b: 1,
+  }
+})
+
+const testMw2 = pipe$(testMw, (ctx) => {
+  console.log('called b')
+  return {
+    ...ctx,
+    c: 2,
+  }
 })
 
 export const testQuery = query$({
-  queryFn: async ({ payload }) => {
-    return error$('testing error')
-    return `hey ${payload.hello}`
+  queryFn: async ({ payload, ctx$ }) => {
+    return `hey ${payload.hello} ${ctx$.b} ${ctx$.c}`
   },
   key: 'hello',
   schema: z.object({
     hello: z.string(),
   }),
-  middleware: [testMw],
+  middleware: testMw2,
 })

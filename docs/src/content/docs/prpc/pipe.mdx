@@ -46,6 +46,6 @@ export const add = query$({
     a: z.number().max(5),
     b: z.number().max(10),
   }),
-  middleware: [middleWare2],
+  middleware: middleWare2,
 })
 ```

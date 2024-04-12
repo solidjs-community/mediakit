@@ -106,14 +106,20 @@ export const getFunctionArgs = (
       const zodSchema = (
         arg.properties.find((prop: any) => prop.key.name === 'schema') as any
       )?.value
-      const middlewares =
-        !nodeInfo.isBuilderQuery && !nodeInfo.isBuilderMutation
-          ? (
-              arg.properties.find(
-                (prop: any) => prop.key.name === 'middleware'
-              ) as any
-            )?.value?.elements.map((e: any) => e.name) ?? []
-          : []
+      let middlewares = []
+
+      if (!nodeInfo.isBuilderQuery && !nodeInfo.isBuilderMutation) {
+        const t = arg.properties.find(
+          (prop: any) => prop.key.name === 'middleware'
+        ) as any
+        if (t?.value?.elements) {
+          middlewares = Array.isArray(t?.value?.elements)
+            ? t?.value?.elements.map((e: any) => e.name)
+            : []
+        } else {
+          middlewares = [t.value.name]
+        }
+      }
 
       return {
         serverFunction,

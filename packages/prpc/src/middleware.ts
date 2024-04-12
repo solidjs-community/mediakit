@@ -43,15 +43,13 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   }
 }
 
-type Flattened<T> = T extends Array<infer U> ? Flattened<U> : T
-
 export const pipe$ = <
   CurrentMw extends IMiddleware<any> | IMiddleware<any>[],
   Mw extends IMiddleware<FilterOutResponse<InferFinalMiddlware<CurrentMw>>>[]
 >(
   currentMw: CurrentMw,
   ...middlewares: Mw
-): Flattened<Mw> => {
+): Mw => {
   if (Array.isArray(currentMw)) {
     return [...currentMw, ...middlewares].flat() as any
   }

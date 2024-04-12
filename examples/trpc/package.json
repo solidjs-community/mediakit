@@ -26,7 +26,7 @@
     "solid-js": "^1.8.15",
     "vinxi": "^0.3.10",
     "@solidjs/meta": "^0.29.3",
-    "@tanstack/solid-query": "^5.28.5",
+    "@tanstack/solid-query": "^5.29.3",
     "@trpc/client": "^10.41.0",
     "@trpc/server": "^10.41.0",
     "zod": "^3.22.4",

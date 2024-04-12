@@ -188,13 +188,14 @@ export const shiftMiddleware = (
     }
     const name = isBuilderMutation || isBuilderQuery ? getName() : undefined
     let callMiddleware
+    importIfNotThere(path, t, 'callMiddleware$')
     if (isBuilderQuery || isBuilderMutation) {
       const v = `_$$${name}_mws`
       const p = (path.findParent((p) => p.isProgram())!.node as any).body
       const importedFrom = p.find((node: any) => {
         return (
           node.type === 'ImportDeclaration' &&
-          node.specifiers.some((s: any) => {
+          node.specifiers?.some((s: any) => {
             if (t.isImportSpecifier(s)) {
               return (s.imported as any).name === name
             }
@@ -207,7 +208,6 @@ export const shiftMiddleware = (
           t.importSpecifier(t.identifier(v), t.identifier(v))
         )
       }
-      importIfNotThere(path, t, 'callMiddleware$')
       callMiddleware = temp(
         `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`
       )({
@@ -321,6 +321,7 @@ export const importIfNotThere = (
 ) => {
   const p = (path.findParent((p) => p.isProgram())!.node as any).body
   const imported = p.find((node: any) => {
+    if (!node || !node.specifiers) return false
     const ff = node.specifiers.some((s: any) => {
       return t.isImportSpecifier(s) && (s.imported as any).name === name
     })

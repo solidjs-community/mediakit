@@ -313,8 +313,8 @@ importers:
         specifier: ^1.0.0-rc.0
         version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
-        specifier: ^5.28.5
-        version: 5.28.5(solid-js@1.8.15)
+        specifier: ^5.29.3
+        version: 5.29.3(solid-js@1.8.15)
       solid-js:
         specifier: ^1.8.15
         version: 1.8.15
@@ -371,8 +371,8 @@ importers:
         specifier: ^1.0.0-rc.0
         version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
-        specifier: ^5.28.5
-        version: 5.28.5(solid-js@1.8.15)
+        specifier: ^5.29.3
+        version: 5.29.3(solid-js@1.8.15)
       '@trpc/client':
         specifier: ^10.41.0
         version: 10.41.0(@trpc/server@10.41.0)
@@ -507,8 +507,8 @@ importers:
         specifier: ^1.0.0-rc.0
         version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
-        specifier: ^5.28.5
-        version: 5.28.5(solid-js@1.8.15)
+        specifier: ^5.29.3
+        version: 5.29.3(solid-js@1.8.15)
       '@types/node':
         specifier: ^18.7.14
         version: 18.17.5
@@ -605,8 +605,8 @@ importers:
         specifier: ^1.0.0-rc.0
         version: 1.0.0-rc.0(rollup@4.9.6)(solid-js@1.8.15)(vinxi@0.3.10)(vite@5.1.6)
       '@tanstack/solid-query':
-        specifier: ^5.28.5
-        version: 5.28.5(solid-js@1.8.15)
+        specifier: ^5.29.3
+        version: 5.29.3(solid-js@1.8.15)
       '@trpc/client':
         specifier: ^10.41.0
         version: 10.41.0(@trpc/server@10.41.0)
@@ -4242,20 +4242,12 @@ packages:
       - vinxi
       - vite
 
-  /@tanstack/query-core@5.28.4:
-    resolution: {integrity: sha512-uQZqOFqLWUvXNIQZ63XdKzg22NtHzgCBUfDmjDHi3BoF+nUYeBNvMi/xFPtFrMhqRzG2Ir4mYaGsWZzmiEjXpA==}
-
   /@tanstack/query-core@5.28.6:
     resolution: {integrity: sha512-hnhotV+DnQtvtR3jPvbQMPNMW4KEK0J4k7c609zJ8muiNknm+yoDyMHmxTWM5ZnlZpsz0zOxYFr+mzRJNHWJsA==}
     dev: false
 
-  /@tanstack/solid-query@5.28.5(solid-js@1.8.15):
-    resolution: {integrity: sha512-qQrs3lVOPi7Jj+ud7WtaGsWwv/2GGnIbqzlQZ49xTvkCfBM20OynRh90j1WB+EoNq5tr0ozCZP/lvnCy2w4lZQ==}
-    peerDependencies:
-      solid-js: ^1.6.0
-    dependencies:
-      '@tanstack/query-core': 5.28.4
-      solid-js: 1.8.15
+  /@tanstack/query-core@5.29.0:
+    resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}
 
   /@tanstack/solid-query@5.28.6(solid-js@1.8.15):
     resolution: {integrity: sha512-0t4E5O+77dVfD50b5KGYitunmmZJLso78yk51SHVa9DoGsmy1pcwrQuQokg4QnTPitOResy9NKnLvXdp/gBTqw==}
@@ -4265,6 +4257,14 @@ packages:
       '@tanstack/query-core': 5.28.6
       solid-js: 1.8.15
     dev: false
+
+  /@tanstack/solid-query@5.29.3(solid-js@1.8.15):
+    resolution: {integrity: sha512-mIDdVcEnbBHG88T8wWRfnSc9slWqejt63jeeABVovZVMQCDS+OUD4xB+7oA37XhgDgo+nj/HwcTpvD/DcwWToA==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      '@tanstack/query-core': 5.29.0
+      solid-js: 1.8.15
 
   /@trpc/client@10.41.0(@trpc/server@10.41.0):
     resolution: {integrity: sha512-W4lYULb7//2yXkULCKim49slXsBwiBq48rfge1yOWXdq0Ed8VxzXvZt8+uWOkxmHbQAw4lq8G5fCNYFB+Za6vQ==}

@@ -1,4 +1,4 @@
-import { middleware$, query$ } from '@solid-mediakit/prpc'
+import { error$, middleware$, query$ } from '@solid-mediakit/prpc'
 import { z } from 'zod'
 
 const testMw = middleware$(() => {
@@ -7,6 +7,7 @@ const testMw = middleware$(() => {
 
 export const testQuery = query$({
   queryFn: async ({ payload }) => {
+    return error$('testing error')
     return `hey ${payload.hello}`
   },
   key: 'hello',

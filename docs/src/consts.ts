@@ -39,9 +39,10 @@ export const SIDEBAR: Sidebar = {
     { text: 'Sponsors', link: 'sponsors' },
   ],
   pRPC: [
+    { text: 'Install', link: 'prpc/install' },
     { text: 'builder$', link: 'prpc/builder' },
     { text: 'query$', link: 'prpc/query' },
-    { text: 'query$', link: 'prpc/mutation' },
+    { text: 'mutation$', link: 'prpc/mutation' },
     { text: 'middleware$', link: 'prpc/middleware' },
     { text: 'pipe$', link: 'prpc/pipe' },
     {
@@ -53,8 +54,8 @@ export const SIDEBAR: Sidebar = {
       link: 'prpc/prpc-client-error',
     },
     {
-      text: 'hideRequest',
-      link: 'prpc/hideRequest',
+      text: 'hideEvent',
+      link: 'prpc/hideevent',
     },
   ],
   Auth: [

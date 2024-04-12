@@ -1,16 +1,16 @@
 ---
-title: 'hideRequest'
-description: 'API for the hideRequest function'
+title: 'hideEvent'
+description: 'API for the hideEvent function'
 ---
 
-**API for the hideRequest function**
+**API for the hideEvent function**
 
 This function will be used to remove the `event$` object from the context passed to a function.
 
 ## Usage
 
 ```ts
-import { hideRequest, middleware$, pipe$, query$ } from '@solid-mediakit/prpc'
+import { hideEvent, middleware$, pipe$, query$ } from '@solid-mediakit/prpc'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ event$ }) => {
@@ -34,7 +34,7 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
 
 export const add = query$({
   queryFn: ({ payload, ctx$ }) => {
-    console.log({ ctx$: hideRequest(ctx$) })
+    console.log({ ctx$: hideEvent(ctx$) })
     const result = payload.a + payload.b
     return { result }
   },
@@ -49,12 +49,12 @@ export const add = query$({
 
 ## Parameters
 
-`hideRequest` also takes in a second argument - `fully`, setting this to true will use the `delete` op to remove the event$ from the context, so you can use this a bit differently:
+`hideEvent` also takes in a second argument - `fully`, setting this to true will use the `delete` op to remove the event$ from the context, so you can use this a bit differently:
 
 ```ts
 export const add = query$({
   queryFn: ({ payload, ctx$ }) => {
-    hideRequest(ctx$, true)
+    hideEvent(ctx$, true)
     console.log({ ctx$ })
     const result = payload.a + payload.b
     return { result }

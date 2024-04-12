@@ -1,5 +1,13 @@
 # @solid-mediakit/prpc
 
+## 1.2.2
+
+### Patch Changes
+
+- [`edcd613`](https://github.com/solidjs-community/mediakit/commit/edcd61313ab67f44d281d3b9d839b91a9545bd63) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: middleware on a regular query
+
+- [`edcd613`](https://github.com/solidjs-community/mediakit/commit/edcd61313ab67f44d281d3b9d839b91a9545bd63) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use latest version of solid query
+
 ## 1.2.1
 
 ### Patch Changes

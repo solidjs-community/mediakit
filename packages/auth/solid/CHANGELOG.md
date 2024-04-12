@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.10
+
+### Patch Changes
+
+- [`d779a41`](https://github.com/solidjs-community/mediakit/commit/d779a419b82565b8f39efd93ae285f3c9b9d6408) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add docs and protected$ function
+
 ## 2.0.9
 
 ### Patch Changes

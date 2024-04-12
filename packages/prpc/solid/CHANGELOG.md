@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.2.3
+
+### Patch Changes
+
+- [`f9e9de3`](https://github.com/solidjs-community/mediakit/commit/f9e9de3fb60b869b48e02f5745700d0ad6c90313) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: support for pipe$ middleware
+
 ## 1.2.2
 
 ### Patch Changes

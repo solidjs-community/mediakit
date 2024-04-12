@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.8
+
+### Patch Changes
+
+- [`8a3ce95`](https://github.com/solidjs-community/mediakit/commit/8a3ce95528bbfd174e99a511967b9d28200b3067) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: auth peer deps warnings
+
 ## 2.0.7
 
 ### Patch Changes

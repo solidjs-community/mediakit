@@ -1,5 +1,11 @@
 # @solid-mediakit/trpc
 
+## 3.0.2
+
+### Patch Changes
+
+- [`edcd613`](https://github.com/solidjs-community/mediakit/commit/edcd61313ab67f44d281d3b9d839b91a9545bd63) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use latest version of solid query
+
 ## 3.0.1
 
 ### Patch Changes

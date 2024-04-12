@@ -3,7 +3,7 @@
   "description": "Workspace for MediaKit",
   "version": "0.0.0",
   "scripts": {
-    "build": "turbo run build --filter=./packages/*",
+    "build": "turbo run build --filter=./packages/**/*",
     "dev": "turbo run dev --parallel --include-dependencies --no-deps",
     "clean": "turbo run clean --parallel && rm -rf node_modules pnpm-lock.yaml && pnpm install",
     "lint": "turbo run lint",
@@ -11,7 +11,7 @@
     "test:coverage": "turbo run test:coverage",
     "format": "prettier --write \"**.*.{ts,tsx,md}\"",
     "ts:check": "torbo run ts:check --continue",
-    "dev:packages": "turbo run dev --filter=./packages/*"
+    "dev:packages": "turbo run dev --filter=./packages/**/*"
   },
   "type": "module",
   "engines": {

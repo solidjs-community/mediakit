@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.0.3
+
+### Patch Changes
+
+- [`2501b01`](https://github.com/solidjs-community/mediakit/commit/2501b01a9fd1bb5c49eda646b57d972de1ece0dd) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: allow having route load function defined
+
 ## 1.0.2
 
 ### Patch Changes

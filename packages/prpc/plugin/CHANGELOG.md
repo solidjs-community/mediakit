@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.3.0
+
+### Minor Changes
+
+- [`604d274`](https://github.com/solidjs-community/mediakit/commit/604d2740655a6d9450d6459214e7fb368d292c19) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: query$ should work without mw
+
 ## 1.2.3
 
 ### Patch Changes

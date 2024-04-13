@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.11
+
+### Patch Changes
+
+- [`ebf2753`](https://github.com/solidjs-community/mediakit/commit/ebf27538c153ca87e67092682435eed6552cdbb9) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add fallback option
+
 ## 2.0.10
 
 ### Patch Changes

@@ -2,7 +2,7 @@ import { type SolidAuthConfig } from '@solid-mediakit/auth'
 import Discord from '@auth/core/providers/discord'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from './db'
-import { getServerEnv } from '~/env/server'
+import { serverEnv } from '~/env/server'
 
 declare module '@auth/core/types' {
   export interface Session {
@@ -12,7 +12,7 @@ declare module '@auth/core/types' {
   }
 }
 
-export const getAuthOptions = (): SolidAuthConfig => ({
+export const authOptions: SolidAuthConfig = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
@@ -24,9 +24,9 @@ export const getAuthOptions = (): SolidAuthConfig => ({
   adapter: PrismaAdapter(prisma),
   providers: [
     Discord({
-      clientId: getServerEnv().DISCORD_ID,
-      clientSecret: getServerEnv().DISCORD_SECRET,
+      clientId: serverEnv.DISCORD_ID,
+      clientSecret: serverEnv.DISCORD_SECRET,
     }),
   ],
   debug: false,
-})
+}

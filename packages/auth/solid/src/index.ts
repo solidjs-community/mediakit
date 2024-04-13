@@ -85,7 +85,7 @@ import { createActionURL, raw, skipCSRFCheck } from '@auth/core'
 import { sendRedirect } from 'vinxi/http'
 import { getBasePath, setEnvDefaults } from './utils'
 import { Session } from '@auth/core/types'
-import { JSXElement } from 'solid-js'
+import { JSXElement, VoidComponent } from 'solid-js'
 
 type SignInParams = Parameters<App.Locals['signIn']>
 
@@ -272,10 +272,14 @@ export async function getSession(
   throw new Error(data.message)
 }
 
-//
-export const protected$ = (
+export function protected$(
+  page: (session$: Session) => JSXElement,
+  fallBack: () => JSXElement
+): VoidComponent
+export function protected$(
   page: (session$: Session) => JSXElement,
   redirectTo?: string
-) => {
+): VoidComponent
+export function protected$(...args: any[]): VoidComponent {
   throw new Error('Should be compiled by the auth plugin.')
 }

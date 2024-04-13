@@ -57,32 +57,54 @@ export const importIfNotThere = (
 export const addMissingImports = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
-  opts: AuthPluginOptions
+  opts: AuthPluginOptions,
+  args: ReturnType<typeof getArgs>
 ) => {
   importIfNotThere(path, t, 'cache', '@solidjs/router')
-  importIfNotThere(path, t, 'redirect', '@solidjs/router')
   importIfNotThere(path, t, 'createAsync', '@solidjs/router')
   importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
   importIfNotThere(path, t, 'getSession', '@solid-mediakit/auth')
   importIfNotThere(path, t, 'Show', 'solid-js')
   importIfNotThere(path, t, opts.authOpts.name, opts.authOpts.dir)
+  if (!args.fallBack) {
+    importIfNotThere(path, t, 'redirect', '@solidjs/router')
+  }
 }
 
-export const getProtectedContent = (t: typeof babel.types) => {
-  return t.jsxElement(
-    t.jsxOpeningElement(t.jsxIdentifier('Show'), [
+export const getProtectedContent = (
+  t: typeof babel.types,
+  args: ReturnType<typeof getArgs>
+) => {
+  const attr = [
+    t.jsxAttribute(
+      t.jsxIdentifier('when'),
+      t.jsxExpressionContainer(
+        t.optionalMemberExpression(
+          t.callExpression(t.identifier('_$$session'), []),
+          t.identifier('user'),
+          false,
+          true
+        )
+      )
+    ),
+  ]
+  if (args.fallBack) {
+    attr.push(
       t.jsxAttribute(
-        t.jsxIdentifier('when'),
+        t.jsxIdentifier('fallback'),
         t.jsxExpressionContainer(
-          t.optionalMemberExpression(
-            t.callExpression(t.identifier('_$$session'), []),
-            t.identifier('user'),
-            false,
+          t.jsxElement(
+            t.jsxOpeningElement(t.jsxIdentifier('_$$RenderFallBack'), [], true),
+            t.jsxClosingElement(t.jsxIdentifier('_$$RenderFallBack')),
+            [],
             true
           )
         )
-      ),
-    ]),
+      )
+    )
+  }
+  return t.jsxElement(
+    t.jsxOpeningElement(t.jsxIdentifier('Show'), attr),
     t.jsxClosingElement(t.jsxIdentifier('Show')),
     [
       t.jsxElement(
@@ -99,21 +121,30 @@ export const appendRouteAction = (
   temp: typeof babel.template,
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
-  opts: AuthPluginOptions
+  opts: AuthPluginOptions,
+  args: ReturnType<typeof getArgs>
 ) => {
-  const redirectTo = path.node.arguments[1] ?? opts?.redirectTo
   const userKey = opts?.userKey ?? 'media-user'
-  const getUserR = temp`const _$$getUser = cache(async () => {
-    'use server'
-    const event = getRequestEvent()
-    const session = await getSession(event.request, authOptions)
-    if (!session) {
-      throw redirect('${redirectTo}')
-    }
-    return session
-  }, '${userKey}');
-  `()
-
+  let getUserR: ReturnType<ReturnType<typeof temp>> | undefined = undefined
+  if (args.fallBack) {
+    getUserR = temp`const _$$getUser = cache(async () => {
+      'use server'
+      const event = getRequestEvent()
+      return await getSession(event.request, authOptions)
+    }, '${userKey}');
+    `()
+  } else {
+    getUserR = temp`const _$$getUser = cache(async () => {
+      'use server'
+      const event = getRequestEvent()
+      const session = await getSession(event.request, authOptions)
+      if (!session) {
+        throw redirect('${args.redirectTo}')
+      }
+      return session
+    }, '${userKey}');
+    `()
+  }
   afterImports(path, getUserR)
   path.insertAfter(
     t.exportNamedDeclaration(
@@ -133,4 +164,25 @@ export const appendRouteAction = (
       ])
     )
   )
+}
+
+export const getArgs = (
+  path: babel.NodePath<babel.types.CallExpression>,
+  t: typeof babel.types,
+  opts: AuthPluginOptions
+) => {
+  const page = path.node.arguments[0] as babel.types.ArrowFunctionExpression
+  let fallBack: babel.types.JSXElement | undefined
+  let redirectTo: string | undefined
+  if (path.node.arguments.length === 2) {
+    if (t.isArrowFunctionExpression(path.node.arguments[1])) {
+      fallBack = path.node.arguments[1] as any as babel.types.JSXElement
+    } else {
+      redirectTo = path.node.arguments[1] as any as string
+    }
+  }
+  if (!redirectTo) {
+    redirectTo = opts.redirectTo
+  }
+  return { page, fallBack, redirectTo }
 }

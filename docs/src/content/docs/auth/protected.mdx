@@ -61,10 +61,29 @@ This is it! you are good to go.
 
 ### protected$ Usage
 
-protected$ takes in 2 arguments:
+#### Types
 
-- `page` - The function that will be rendered if the user is logged in - required
-- `redirectTo` - The path to redirect to if the user is not logged in - optional, if this is mention we use this, if not we use the `redirectTo` mentioned in the vite plugin.
+```ts
+export function protected$(
+  page: (session$: Session) => JSXElement,
+  fallBack: () => JSXElement
+): VoidComponent
+export function protected$(
+  page: (session$: Session) => JSXElement,
+  redirectTo?: string
+): VoidComponent
+export function protected$(...args: any[]): VoidComponent {
+  throw new Error('Should be compiled by the auth plugin.')
+}
+```
+
+that basically means, protected$ takes:
+
+- first argument: the page to be rendered if the user is logged in - required!
+- second argument: could be either a fallback function or a string to redirect to:
+  so basically if you want to SSR redirect when the user is not logged in, pass in a redirect url, if you pass a fallback function, it will be rendered instead of the page if the user is not logged in. By default we will use the `rediectTo` url mentioned in the vite config so its optional.
+
+### Protected without fallback
 
 This is basically being compiled to:
 
@@ -101,6 +120,68 @@ export default () => {
   }
   return (
     <Show when={_$$session()?.user}>
+      <_$$RenderProtected />
+    </Show>
+  )
+}
+```
+
+### Protected with fallback
+
+```tsx
+import { protected$ } from '@solid-mediakit/auth'
+import { protectedQuery } from '~/server/user/user.queries'
+
+export default protected$(
+  (session$) => {
+    const res = protectedQuery(() => ({ hello: 'world' }))
+    return (
+      <div>
+        <h1>Protected Page</h1>
+        <p>Session: {JSON.stringify(session$)}</p>
+        <p>Response: {JSON.stringify(res.data)}</p>
+      </div>
+    )
+  },
+  () => <div>Not logged in</div>
+)
+```
+
+This is basically being compiled to:
+
+```tsx
+import { Show } from 'solid-js'
+import { getSession } from '@solid-mediakit/auth'
+import { getRequestEvent } from 'solid-js/web'
+import { createAsync } from '@solidjs/router'
+import { cache } from '@solidjs/router'
+import { protected$ } from '@solid-mediakit/auth'
+import { protectedQuery } from '~/server/user/user.queries'
+
+const _$$getUser = cache(async () => {
+  'use server'
+
+  const event = getRequestEvent()
+  return await getSession(event.request, authOptions)
+}, 'media-user')
+
+export default () => {
+  const _$$session = createAsync(() => _$$getUser())
+  const _$$RenderFallBack = () => <div>Not logged in</div>
+  const _$$RenderProtected = () => {
+    const res = protectedQuery(() => ({
+      hello: 'world',
+    }))
+    return (
+      <div>
+        <h1>Protected Page</h1>
+        <p>Session: {JSON.stringify(_$$session())}</p>
+        <p>Response: {JSON.stringify(res.data)}</p>
+      </div>
+    )
+  }
+  return (
+    <Show when={_$$session()?.user} fallback={<_$$RenderFallBack />}>
       <_$$RenderProtected />
     </Show>
   )

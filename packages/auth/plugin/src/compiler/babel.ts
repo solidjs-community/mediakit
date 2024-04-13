@@ -4,6 +4,7 @@ import * as babel from '@babel/core'
 import {
   addMissingImports,
   appendRouteAction,
+  getArgs,
   getNodeInfo,
   getProtectedContent,
 } from './utils'
@@ -18,12 +19,10 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
     template: typeof babel.template
   }): babel.PluginObj {
     return {
-      manipulateOptions(_, parserOpts) {
-        parserOpts.plugins.push('jsx')
-      },
       visitor: {
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
+          const args = getArgs(path, t, opts)
           if (nodeInfo.isProtected) {
             const protectedComp = path.node
               .arguments[0] as babel.types.ArrowFunctionExpression
@@ -39,8 +38,8 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
               },
             })
 
-            addMissingImports(path, t, opts)
-            appendRouteAction(temp, path, t, opts)
+            addMissingImports(path, t, opts, args)
+            appendRouteAction(temp, path, t, opts, args)
             protectedComp.params = []
 
             const content = (protectedComp as any).body
@@ -61,12 +60,22 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
                 t.arrowFunctionExpression([], t.blockStatement(content.body))
               ),
             ])
+
             content.body = [RenderProtected]
+            if (args.fallBack) {
+              const RenderFallBack = t.variableDeclaration('const', [
+                t.variableDeclarator(
+                  t.identifier('_$$RenderFallBack'),
+                  args.fallBack
+                ),
+              ])
+              content.body.unshift(RenderFallBack)
+            }
             content.body.unshift(callGetUser)
 
             const newPage = t.arrowFunctionExpression([], content)
             ;(newPage.body as any).body.push(
-              t.returnStatement(getProtectedContent(t))
+              t.returnStatement(getProtectedContent(t, args))
             )
 
             path.replaceWith(newPage)

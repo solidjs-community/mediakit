@@ -32,6 +32,7 @@
     "zod": "^3.22.4",
     "@auth/core": "^0.28.0",
     "@solid-mediakit/auth": "workspace:*",
+    "@solid-mediakit/auth-plugin": "workspace:*",
     "@auth/prisma-adapter": "^1.5.0",
     "@prisma/client": "^5.10.2",
     "@solid-mediakit/prpc": "workspace:*",

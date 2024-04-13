@@ -17,7 +17,8 @@ const testMw2 = pipe$(testMw, (ctx) => {
 })
 
 export const testQuery = query$({
-  queryFn: async ({ payload, ctx$ }) => {
+  queryFn: async ({ payload, ctx$, event$ }) => {
+    console.log(event$.request.headers.get('user-agent'))
     return `hey ${payload.hello} ${ctx$.b} ${ctx$.c}`
   },
   key: 'hello',

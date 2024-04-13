@@ -34,18 +34,13 @@ export const importIfNotThere = (
   loc?: string
 ) => {
   const p = (path.findParent((p) => p.isProgram())!.node as any).body
-  const imported = p.find((node: any) => {
-    if (!node || !node.specifiers) return false
-    const ff = node.specifiers.some((s: any) => {
-      return t.isImportSpecifier(s) && (s.imported as any).name === name
-    })
-    return (
-      node.type === 'ImportDeclaration' &&
-      node.source.value === (loc ?? authLoc) &&
-      ff
-    )
-  })
-  if (!imported) {
+  const nameIsimported = p.some(
+    (n: any) =>
+      n.type === 'ImportDeclaration' &&
+      n.specifiers.some((s: any) => s.imported.name === name)
+  )
+
+  if (!nameIsimported) {
     const importDeclaration = t.importDeclaration(
       [t.importSpecifier(t.identifier(name), t.identifier(name))],
       t.stringLiteral(loc ?? authLoc)
@@ -146,24 +141,43 @@ export const appendRouteAction = (
     `()
   }
   afterImports(path, getUserR)
-  path.insertAfter(
-    t.exportNamedDeclaration(
-      t.variableDeclaration('const', [
-        t.variableDeclarator(
-          t.identifier('route'),
-          t.objectExpression([
-            t.objectProperty(
-              t.identifier('load'),
-              t.arrowFunctionExpression(
-                [],
-                t.callExpression(t.identifier('_$$getUser'), [])
-              )
-            ),
-          ])
-        ),
-      ])
+  const currentRouteExport = path.scope.getBinding('route')?.path
+  if (currentRouteExport) {
+    const routeExport = currentRouteExport.node
+    const load = (routeExport as any).init.properties.find(
+      (p: any) => p.key.name === 'load'
     )
-  )
+    if (load) {
+      load.value = t.arrowFunctionExpression(
+        [],
+        t.arrayExpression([
+          t.callExpression(t.identifier('_$$getUser'), []),
+          t.isArrowFunctionExpression(load.value)
+            ? load.value.body
+            : load.value,
+        ])
+      )
+    }
+  } else {
+    path.insertAfter(
+      t.exportNamedDeclaration(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.identifier('route'),
+            t.objectExpression([
+              t.objectProperty(
+                t.identifier('load'),
+                t.arrowFunctionExpression(
+                  [],
+                  t.callExpression(t.identifier('_$$getUser'), [])
+                )
+              ),
+            ])
+          ),
+        ])
+      )
+    )
+  }
 }
 
 export const getArgs = (

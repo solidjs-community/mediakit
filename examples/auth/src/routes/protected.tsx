@@ -14,12 +14,19 @@ const getUser = cache(async () => {
   return session
 }, 'user')
 
+const getSomething = cache(async () => {
+  'use server'
+  const event = getRequestEvent()!
+  return event.request.headers.get('user-agent')!
+}, 'something')
+
 export const route = {
-  load: () => getUser(),
+  load: () => [getUser(), getSomething()],
 }
 
 export default function Protected() {
   const user = createAsync(() => getUser())
+  const something = createAsync(() => getSomething())
   return (
     <div class='flex flex-col items-center justify-center gap-4'>
       <span class='text-xl text-black'>Welcome to Solid Auth</span>
@@ -30,6 +37,11 @@ export default function Protected() {
               Hello there {us().user?.name}
             </span>
           )
+        }}
+      </Show>
+      <Show when={something()}>
+        {(us) => {
+          return <span class='text-xl text-black'>{us()}</span>
         }}
       </Show>
     </div>

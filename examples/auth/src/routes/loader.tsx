@@ -5,6 +5,7 @@ import { Show, getRequestEvent } from 'solid-js/web'
 const getSomething = cache(async () => {
   'use server'
   const event = getRequestEvent()!
+  await new Promise((resolve) => setTimeout(resolve, 3000))
   return event.request.headers.get('user-agent')!
 }, 'something')
 

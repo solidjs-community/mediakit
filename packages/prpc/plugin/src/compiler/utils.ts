@@ -116,7 +116,7 @@ export const getFunctionArgs = (
           middlewares = Array.isArray(t?.value?.elements)
             ? t?.value?.elements.map((e: any) => e.name)
             : []
-        } else {
+        } else if (t?.value) {
           middlewares = [t.value.name]
         }
       }
@@ -326,18 +326,13 @@ export const importIfNotThere = (
   loc?: string
 ) => {
   const p = (path.findParent((p) => p.isProgram())!.node as any).body
-  const imported = p.find((node: any) => {
-    if (!node || !node.specifiers) return false
-    const ff = node.specifiers.some((s: any) => {
-      return t.isImportSpecifier(s) && (s.imported as any).name === name
-    })
-    return (
-      node.type === 'ImportDeclaration' &&
-      node.source.value === (loc ?? prpcLoc) &&
-      ff
-    )
-  })
-  if (!imported) {
+  const nameIsimported = p.some(
+    (n: any) =>
+      n.type === 'ImportDeclaration' &&
+      n.specifiers.some((s: any) => s.imported.name === name)
+  )
+
+  if (!nameIsimported) {
     const importDeclaration = t.importDeclaration(
       [t.importSpecifier(t.identifier(name), t.identifier(name))],
       t.stringLiteral(loc ?? prpcLoc)

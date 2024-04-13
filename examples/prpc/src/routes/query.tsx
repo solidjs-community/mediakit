@@ -1,8 +1,8 @@
 import { type VoidComponent } from 'solid-js'
-import { testQuery } from '~/server/old/queries'
+import { testQuery, testQuery2 } from '~/server/old/queries'
 
 const Home: VoidComponent = () => {
-  const hello = testQuery(() => ({
+  const hello = testQuery2(() => ({
     hello: 'JDev',
   }))
   return (

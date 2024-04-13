@@ -27,3 +27,15 @@ export const testQuery = query$({
   }),
   middleware: testMw2,
 })
+
+export const testQuery2 = query$({
+  queryFn: async ({ payload, event$ }) => {
+    const ua = event$.request.headers.get('user-agent')
+    console.log({ ua })
+    return `hey ${payload.hello}`
+  },
+  key: 'hello',
+  schema: z.object({
+    hello: z.string(),
+  }),
+})

@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.0.2
+
+### Patch Changes
+
+- [`ebf2753`](https://github.com/solidjs-community/mediakit/commit/ebf27538c153ca87e67092682435eed6552cdbb9) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add fallback option
+
 ## 1.0.1
 
 ### Patch Changes

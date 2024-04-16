@@ -70,7 +70,9 @@ export function createTransformpRPC$() {
               path
             )
             cleanOutParams('payload', path, '_$$payload')
-            args.serverFunction.params[0] = t.objectPattern([payload])
+            if (args.serverFunction?.params) {
+              args.serverFunction.params[0] = t.objectPattern([payload])
+            }
             if (
               args.zodSchema &&
               !t.isIdentifier(args.zodSchema, { name: 'undefined' })
@@ -104,8 +106,8 @@ export function createTransformpRPC$() {
                 },
               })
             }
-            const destructuring = args.serverFunction.params[0]
-            if (t.isObjectPattern(destructuring)) {
+            const destructuring = args.serverFunction?.params?.[0]
+            if (destructuring && t.isObjectPattern(destructuring)) {
               destructuring.properties = destructuring.properties.filter(
                 (p: any) => p.key.name !== 'event$' && p.key.name !== 'ctx$'
               )

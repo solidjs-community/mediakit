@@ -12,7 +12,7 @@ export const addRequestIfNeeded = (
   const useMw =
     (middlewares?.length ?? 0) >= 1 || isReuseableQuery || isReuseableMutation
   const shouldAddRequest =
-    serverFunction.params[0].properties.some(
+    serverFunction?.params[0]?.properties?.some(
       (p: any) => p.key.name === 'event$'
     ) || useMw
   if (shouldAddRequest) {
@@ -81,9 +81,9 @@ export const getFunctionArgs = (
     const serverFunction = path.node.arguments[0]
     const key = path.node.arguments[1]
     const thisCall = (path.parentPath.node as any).init.callee.object
-    const zodSchema = thisCall.arguments[0]
+    const zodSchema = thisCall?.arguments?.[0]
 
-    thisCall.arguments = []
+    thisCall.arguments && (thisCall.arguments = [])
 
     return {
       serverFunction,
@@ -210,9 +210,14 @@ export const shiftMiddleware = (
         )
       })
       if (importedFrom && t.isImportDeclaration(importedFrom)) {
-        importedFrom.specifiers.push(
-          t.importSpecifier(t.identifier(v), t.identifier(v))
+        if (
+          !importedFrom.specifiers.some(
+            (s: any) => t.isImportSpecifier(s) && (s.imported as any).name === v
+          )
         )
+          importedFrom.specifiers.push(
+            t.importSpecifier(t.identifier(v), t.identifier(v))
+          )
       }
       callMiddleware = temp(
         `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`

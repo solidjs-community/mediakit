@@ -13,3 +13,7 @@ export const helloQuery = helloBuilder
     }
     return ctx$.world
   }, 'myNewQuery')
+
+export const helloQuery2 = helloBuilder.query$(() => {
+  return 1
+}, 'myNewQuery')

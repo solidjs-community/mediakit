@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.0.4
+
+### Patch Changes
+
+- [`b7ac445`](https://github.com/solidjs-community/mediakit/commit/b7ac4454510e86e7de6588bd781f240d2a3eaef9) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: hoist createAsync calls
+
 ## 1.0.3
 
 ### Patch Changes

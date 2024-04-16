@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.3.1
+
+### Patch Changes
+
+- [`b23ff80`](https://github.com/solidjs-community/mediakit/commit/b23ff80d6d32508b4cf51fc5ae869dd4454ff5fb) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: allow not having to mention empty object
+
 ## 1.3.0
 
 ### Minor Changes

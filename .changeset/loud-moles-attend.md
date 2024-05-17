@@ -1,5 +1,5 @@
 ---
-'@solid-mediakit/trpc': minor
+'@solid-mediakit/trpc': patch
 ---
 
 expose `UseTRPCQueryResult`

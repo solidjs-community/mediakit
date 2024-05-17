@@ -124,6 +124,7 @@ export type CreateClient<TRouter extends AnyRouter> = (
 interface TRPCHookResult {
   trpc: {
     path: string
+    queryKey: string
   }
 }
 
@@ -329,13 +330,29 @@ export function createHooksInternal<TRouter extends AnyRouter>(
         context: SolidQueryContext,
       })
     const ctx = useContext()
-    return __createQuery(() => ({
+    const result = __createQuery(() => ({
       queryKey: getArrayQueryKey(pathAndInput()),
       queryFn: wrapFn(() => {
         return ctx.client().query(...getClientArgs(pathAndInput(), opts?.()))
       }),
       ...(withCtxOpts() as any),
     })) as UseTRPCQueryResult<TData, TError>
+    return new Proxy(result, {
+      get: function (target, prop, receiver) {
+        if (prop === 'trpc') {
+          return {
+            get path() {
+              return pathAndInput()[0]
+            },
+            get queryKey() {
+              return pathAndInput()
+            },
+          }
+        }
+
+        return Reflect.get(target, prop, receiver)
+      },
+    })
   }
 
   function createMutation<

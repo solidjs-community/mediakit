@@ -366,7 +366,7 @@ export function createHooksInternal<TRouter extends AnyRouter>(
 
         return ctx
           .client()
-          .mutation(...getClientArgs([actualPath, input], opts))
+          .mutation(...getClientArgs([actualPath, input], opts?.()))
       },
       ...withCtxOpts(),
     })) as UseTRPCMutationResult<

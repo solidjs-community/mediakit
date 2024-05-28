@@ -14,4 +14,4 @@ export {
   type CreateTRPCSolidStart,
 } from './createTRPCSolid'
 export { createSolidQueryHooks } from './interop'
-export { UseTRPCQueryResult } from "./shared";
+export { UseTRPCQueryResult } from "./shared/hooks/createHooksInternal";

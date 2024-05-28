@@ -7,3 +7,4 @@ export type {
 export * from "./hooks/createHooksInternal";
 export * from "./queryClient";
 export * from "./types";
+export * from "./hooks/types";

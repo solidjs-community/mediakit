@@ -1,5 +1,15 @@
 # @solid-mediakit/trpc
 
+## 3.0.3
+
+### Patch Changes
+
+- [#63](https://github.com/solidjs-community/mediakit/pull/63) [`0b756da`](https://github.com/solidjs-community/mediakit/commit/0b756da1b6275905939f2490c9cdd90fbd8e3f2f) Thanks [@oscartbeaumont](https://github.com/oscartbeaumont)! - fix `trpc.context` for `createMutation`
+
+- [#61](https://github.com/solidjs-community/mediakit/pull/61) [`11f6af4`](https://github.com/solidjs-community/mediakit/commit/11f6af4cd659a2c867ae541bec327c8425576abd) Thanks [@oscartbeaumont](https://github.com/oscartbeaumont)! - expose `UseTRPCQueryResult`
+
+- [#62](https://github.com/solidjs-community/mediakit/pull/62) [`7589025`](https://github.com/solidjs-community/mediakit/commit/758902543947013467cf527b52bf7b79e2a3779b) Thanks [@oscartbeaumont](https://github.com/oscartbeaumont)! - implement `query.path` and `query.queryKey`
+
 ## 3.0.2
 
 ### Patch Changes

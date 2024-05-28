@@ -59,6 +59,12 @@ export type OutputWithCursor<TData, TCursor = any> = {
   data: TData
 }
 
+export type UseTRPCQueryResult<TData, TError> = CreateQueryResult<
+  TData,
+  TError
+> &
+  TRPCHookResult
+
 export type { TRPCContext, TRPCContextState } from '../../internals/context'
 
 export interface UseTRPCMutationOptions<
@@ -128,14 +134,6 @@ interface TRPCHookResult {
   }
 }
 
-/**
- * @internal
- */
-export type UseTRPCQueryResult<TData, TError> = CreateQueryResult<
-  TData,
-  TError
-> &
-  TRPCHookResult
 
 /**
  * @internal

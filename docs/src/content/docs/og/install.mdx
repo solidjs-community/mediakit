@@ -16,13 +16,13 @@ pnpm add @solid-mediakit/og
 Add the plugin to your config, so that the compiler can resolve and extract `DynamicImage` elements.
 
 ```ts
-import solid from 'solid-start/vite'
-import { defineConfig } from 'vite'
-import { vitePlugin as OGPlugin } from '@solid-mediakit/og/unplugin'
-
+import { defineConfig } from "@solidjs/start/config";
+import { vitePlugin as OGPlugin } from "@solid-mediakit/og/unplugin";
 export default defineConfig({
-  plugins: [OGPlugin(), solid()],
-})
+    vite: {
+        plugins: [OGPlugin()]
+    }
+});
 ```
 
 Config complete! To see how to add dynamic and opengraph images to your app, visit [`DynamicImage`](/og/dynamic-image)

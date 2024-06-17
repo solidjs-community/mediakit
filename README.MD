@@ -6,6 +6,6 @@ A set of utilities to use with your Solid apps.
 
 - [Authentication](./packages/auth/README.md)
 - [Media (Video / Audio / Img)](./packages/media/README.md)
-- [OG](./packages/og/readme.md)
+- [OG](./packages/og/README.md)
 - [pRPC](./packages/prpc/solid/README.md)
 - [tRPC](./packages/trpc/README.md)

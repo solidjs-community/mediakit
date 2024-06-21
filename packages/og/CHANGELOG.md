@@ -1,5 +1,11 @@
 # @solid-mediakit/og
 
+## 0.2.0
+
+### Minor Changes
+
+- [#69](https://github.com/solidjs-community/mediakit/pull/69) [`4191e3c92b66ea21c97b4f833055caa6f2c52330`](https://github.com/solidjs-community/mediakit/commit/4191e3c92b66ea21c97b4f833055caa6f2c52330) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Update for Solid Start v1.0
+
 ## 0.0.4
 
 ### Patch Changes

@@ -548,9 +548,6 @@ importers:
       '@vercel/og':
         specifier: ^0.6.2
         version: 0.6.2
-      acorn-jsx:
-        specifier: ^5.3.2
-        version: 5.3.2(acorn@8.11.3)
       satori-html:
         specifier: ^0.3.2
         version: 0.3.2
@@ -561,9 +558,6 @@ importers:
       '@babel/types':
         specifier: 7.20.0
         version: 7.20.0
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.13.0)(tslib@2.6.2)(typescript@5.4.5)
       '@solidjs/start':
         specifier: ^1.0.1
         version: 1.0.1(rollup@4.13.0)(solid-js@1.8.17)(vinxi@0.3.10(@types/node@20.11.26)(ioredis@5.3.2)(terser@5.27.1))(vite@5.1.6(@types/node@20.11.26)(terser@5.27.1))
@@ -664,7 +658,7 @@ importers:
         version: 6.5.0(postcss@8.4.35)(typescript@4.9.5)
       tsup-preset-solid:
         specifier: 0.1.8
-        version: 0.1.8(esbuild@0.15.18)(solid-js@1.8.15)(tsup@6.5.0(postcss@8.4.35)(typescript@4.9.5))
+        version: 0.1.8(esbuild@0.20.2)(solid-js@1.8.15)(tsup@6.5.0(postcss@8.4.35)(typescript@4.9.5))
       typescript:
         specifier: ^4.8.2
         version: 4.9.5
@@ -9567,15 +9561,6 @@ snapshots:
       rollup: 3.29.4
       tslib: 2.6.2
 
-  '@rollup/plugin-typescript@11.1.6(rollup@4.13.0)(tslib@2.6.2)(typescript@5.4.5)':
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.13.0)
-      resolve: 1.22.8
-      typescript: 5.4.5
-    optionalDependencies:
-      rollup: 4.13.0
-      tslib: 2.6.2
-
   '@rollup/pluginutils@4.2.1':
     dependencies:
       estree-walker: 2.0.2
@@ -11506,12 +11491,12 @@ snapshots:
   esbuild-openbsd-64@0.15.18:
     optional: true
 
-  esbuild-plugin-solid@0.5.0(esbuild@0.15.18)(solid-js@1.8.15):
+  esbuild-plugin-solid@0.5.0(esbuild@0.20.2)(solid-js@1.8.15):
     dependencies:
       '@babel/core': 7.20.12
       '@babel/preset-typescript': 7.23.3(@babel/core@7.20.12)
       babel-preset-solid: 1.8.16(@babel/core@7.20.12)
-      esbuild: 0.15.18
+      esbuild: 0.20.2
       solid-js: 1.8.15
     transitivePeerDependencies:
       - supports-color
@@ -14998,9 +14983,9 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsup-preset-solid@0.1.8(esbuild@0.15.18)(solid-js@1.8.15)(tsup@6.5.0(postcss@8.4.35)(typescript@4.9.5)):
+  tsup-preset-solid@0.1.8(esbuild@0.20.2)(solid-js@1.8.15)(tsup@6.5.0(postcss@8.4.35)(typescript@4.9.5)):
     dependencies:
-      esbuild-plugin-solid: 0.5.0(esbuild@0.15.18)(solid-js@1.8.15)
+      esbuild-plugin-solid: 0.5.0(esbuild@0.20.2)(solid-js@1.8.15)
       tsup: 6.5.0(postcss@8.4.35)(typescript@4.9.5)
       type-fest: 3.13.1
     transitivePeerDependencies:

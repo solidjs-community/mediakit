@@ -20,5 +20,3 @@ export const OpenGraph = (props: ParentProps & { origin: string }) => {
   const url = createMemo(() => child()?.toString())
   return <Meta property='og:image' content={props.origin + url()}></Meta>
 }
-
-export const meta = () => Meta

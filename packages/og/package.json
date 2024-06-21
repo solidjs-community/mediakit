@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "build": "tsc && rollup -c",
+    "build": "tsc && tsup",
     "test": "vitest --globals",
     "clean": "rm -rf dist node_modules"
   },
@@ -34,11 +34,12 @@
   "devDependencies": {
     "@babel/types": "7.20.0",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@solidjs/start": "^1.0.1",
     "@types/babel__core": "7.20.5",
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.21.6",
     "solid-js": "^1.8.17",
-    "@solidjs/start": "^1.0.1",
+    "tsup": "^6.5.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   },
@@ -52,7 +53,7 @@
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.4",
-    "solid-js": "^1.8.17",
-    "@solidjs/start": "^1.0.1"
+    "@solidjs/start": ">=1.0.2",
+    "solid-js": "^1.8.17"
   }
 }

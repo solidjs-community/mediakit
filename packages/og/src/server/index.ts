@@ -25,7 +25,9 @@ export async function createOpenGraphImage(
     return
   }
   const converted = html(jsx)
-  return new ImageResponse(converted as any)
+  const img = new ImageResponse(converted as any)
+  img.headers.append("X-Content-Raw", "")
+  return img;
 }
 
 export async function createBase64Image(jsx?: string | JSX.Element) {

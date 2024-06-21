@@ -75,4 +75,9 @@ export const SIDEBAR: Sidebar = {
     { text: 'Install', link: 'media/install' },
     { text: 'createVideo', link: 'media/createvideo' },
   ],
+  OpenGraph: [
+    { text: 'Install', link: 'og/install' },
+    { text: 'DynamicImage', link: 'og/dynamic-image' },
+    { text: 'OpenGraph', link: 'og/opengraph' },
+  ],
 }

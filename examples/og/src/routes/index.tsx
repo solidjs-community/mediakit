@@ -19,19 +19,16 @@ export default function Home() {
           <DynamicImage>
             <div
               style={{
-                "font-size": "40",
-                color: 'black',
-                background: 'white',
                 width: '100%',
                 height: '100%',
-                padding: '50px 200px',
-                "text-align": 'center',
-                "justify-content": 'center',
-                "background-color": "lavender"
-                // "align-items": 'center',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+                'font-size': '128px',
+                background: 'lavender',
               }}
             >
-              {`👋 Hello World!!, ${count()}`}
+              {`👋 Hello, ${count() * 2}!`}
             </div>
           </DynamicImage>
         </Image>

@@ -1,4 +1,4 @@
-import { DynamicImage, Image } from '@solid-mediakit/og'
+import { DynamicImage, Image, OpenGraph } from '@solid-mediakit/og'
 import { Title } from '@solidjs/meta'
 import { createSignal } from 'solid-js'
 
@@ -7,6 +7,23 @@ export default function Home() {
   return (
     <main>
       <Title>Hello World</Title>
+      <OpenGraph origin=''>
+        <DynamicImage>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              'align-items': 'center',
+              'justify-content': 'center',
+              'font-size': '128px',
+              background: 'lavender',
+            }}
+          >
+            {`👋 Hello!`}
+          </div>
+        </DynamicImage>
+      </OpenGraph>
       <div>
         <button
           class='increment'

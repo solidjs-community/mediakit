@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc && tsup",
     "test": "vitest --globals",
-    "clean": "rm -rf dist node_modules"
+    "clean": "rimraf dist node_modules"
   },
   "keywords": [
     "MediaKit",

@@ -4,9 +4,9 @@
   "version": "2.0.11",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && rollup -c && node scripts/postbuild",
-    "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",
+    "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "clean:dist": "rm -rf dist compiler client.* index.* types.* utils.*",
+    "clean:dist": "rimraf dist compiler client.* index.* types.* utils.*",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",

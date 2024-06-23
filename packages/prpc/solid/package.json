@@ -4,9 +4,9 @@
   "version": "1.2.3",
   "scripts": {
     "build": "rimraf dist && tsup --config ./tsup.config.js",
-    "clean": "pnpm clean:dist && rm -rf ./node_modules .turbo .solid",
+    "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "clean:dist": "rm -rf dist",
+    "clean:dist": "rimraf dist",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",
@@ -40,7 +40,6 @@
     "@tanstack/solid-query": "^5.29.3",
     "@types/node": "^18.7.14",
     "@typescript-eslint/parser": "^5.44.0",
-    "rimraf": "^5.0.7",
     "solid-js": "^1.8.15",
     "tsup": "^6.5.0",
     "tsup-preset-solid": "0.1.8",

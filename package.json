@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build --filter=./packages/**/*",
     "dev": "turbo run dev --parallel --include-dependencies --no-deps",
-    "clean": "turbo run clean --parallel && rm -rf node_modules pnpm-lock.yaml && pnpm install",
+    "clean": "turbo run clean --parallel && rimraf node_modules pnpm-lock.yaml && pnpm install",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
@@ -33,6 +33,7 @@
     "eslint-plugin-n": "^15.5.1",
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^2.8.0",
+    "rimraf": "^5.0.7",
     "rollup": "^4.9.6",
     "sort-package-json": "^2.1.0",
     "tslib": "^2.5.0",

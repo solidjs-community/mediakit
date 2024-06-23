@@ -1,5 +1,6 @@
 {
-  "name": "example-basic",
+  "name": "og-example",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vinxi dev",

@@ -4,7 +4,7 @@
   "version": "3.0.3",
   "scripts": {
     "build": "tsc -p . && rollup -c && node scripts/postbuild.mjs",
-    "clean": "pnpm rm -rf ./node_modules .turbo .solid handler.*",
+    "clean": "rimraf -g ./node_modules .turbo .solid handler.*",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit"
   },

@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsc && rollup -c",
-    "clean": "rm -rf dist node_modules"
+    "clean": "rimraf dist node_modules"
   },
   "license": "ISC",
   "devDependencies": {

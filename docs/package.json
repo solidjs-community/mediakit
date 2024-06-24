@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "clean": "rm -rf ./node_modules .turbo .astro .vercel",
+    "clean": "rimraf ./node_modules .turbo .astro .vercel",
     "ts:check": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {

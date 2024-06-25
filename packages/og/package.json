@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "tsc && tsup",
-    "test": "vitest --globals",
+    "test": "vitest run --globals",
     "clean": "rimraf dist node_modules"
   },
   "keywords": [

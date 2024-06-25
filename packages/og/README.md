@@ -11,7 +11,7 @@ pnpm install @solid-mediakit/og
 ### Usage
 
 ```tsx
-import { Title } from 'solid-start'
+import { Title } from '@solidjs/meta'
 import Counter from '~/components/Counter'
 import { DynamicImage, Image } from '@solid-mediakit/og'
 import { createSignal } from 'solid-js'

@@ -1,4 +1,4 @@
-import { Component, createEffect, createSignal, For } from "solid-js";
+import { type Component, createEffect, createSignal, For } from "solid-js";
 import "./ThemeToggleButton.css";
 
 const themes = ["light", "dark"] as const;

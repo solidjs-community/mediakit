@@ -1,6 +1,6 @@
 import type { MarkdownHeading } from "astro";
 import { unescape } from "html-escaper";
-import { Component, createEffect, createSignal, For } from "solid-js";
+import { type Component, createEffect, createSignal, For } from "solid-js";
 
 type ItemOffsets = {
   id: string;

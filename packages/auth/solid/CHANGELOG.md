@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.0.12
+
+### Patch Changes
+
+- [#77](https://github.com/solidjs-community/mediakit/pull/77) [`488d559f59431f2ef9fa607825761e4253c21f5c`](https://github.com/solidjs-community/mediakit/commit/488d559f59431f2ef9fa607825761e4253c21f5c) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Change `solid-start` imports to what the should be in READMEs
+
 ## 2.0.11
 
 ### Patch Changes

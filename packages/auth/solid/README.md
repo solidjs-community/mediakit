@@ -123,7 +123,7 @@ This will return a resource, in Solid a resource can be used to trigger suspense
 ```tsx
 import { Show, type VoidComponent } from 'solid-js'
 import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
-import { Head, Title } from 'solid-start'
+import { Title } from '@solidjs/meta'
 
 const AuthShowcase: VoidComponent = () => {
   const session = createSession()
@@ -157,9 +157,7 @@ const AuthShowcase: VoidComponent = () => {
 const Home: VoidComponent = () => {
   return (
     <>
-      <Head>
-        <Title>Home</Title>
-      </Head>
+      <Title>Home</Title>
       <main class='flex flex-col items-center justify-center gap-4'>
         <span class='text-xl text-black'>Welcome to Solid Auth</span>
         <AuthShowcase />

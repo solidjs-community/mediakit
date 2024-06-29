@@ -613,42 +613,42 @@ importers:
   packages/prpc/plugin:
     dependencies:
       '@babel/core':
-        specifier: ^7.20.12
+        specifier: ^7.24.7
         version: 7.24.7
       '@babel/preset-typescript':
-        specifier: ^7.18.6
+        specifier: ^7.24.7
         version: 7.24.7(@babel/core@7.24.7)
       '@rollup/pluginutils':
-        specifier: ^5.0.2
+        specifier: ^5.1.0
         version: 5.1.0(rollup@4.13.0)
     devDependencies:
       '@types/babel__core':
-        specifier: ^7.20.0
+        specifier: ^7.20.5
         version: 7.20.5
       '@types/node':
-        specifier: ^18.13.0
-        version: 18.17.5
+        specifier: ^20.14.9
+        version: 20.14.9
       '@typescript-eslint/parser':
-        specifier: ^5.44.0
-        version: 5.52.0(eslint@8.57.0)(typescript@4.9.5)
+        specifier: ^7.14.1
+        version: 7.14.1(eslint@9.6.0)(typescript@5.5.2)
       eslint:
-        specifier: ^8.33.0
-        version: 8.57.0
+        specifier: ^9.6.0
+        version: 9.6.0
       pridepack:
-        specifier: 2.4.0
-        version: 2.4.0(eslint@8.57.0)(tslib@2.6.3)(typescript@4.9.5)
+        specifier: 2.6.0
+        version: 2.6.0(tslib@2.6.3)(typescript@5.5.2)
       tslib:
-        specifier: ^2.5.0
+        specifier: ^2.6.3
         version: 2.6.3
       typescript:
-        specifier: ^4.9.5
-        version: 4.9.5
+        specifier: ^5.5.2
+        version: 5.5.2
       vite:
-        specifier: ^5.1.6
-        version: 5.3.2(@types/node@18.17.5)(terser@5.27.1)
+        specifier: ^5.3.2
+        version: 5.3.2(@types/node@20.14.9)(terser@5.27.1)
       vitest:
-        specifier: 0.29.2
-        version: 0.29.2(terser@5.27.1)
+        specifier: 1.6.0
+        version: 1.6.0(@types/node@20.14.9)(terser@5.27.1)
 
   packages/prpc/solid:
     dependencies:
@@ -6438,6 +6438,10 @@ packages:
     resolution: {integrity: sha512-ERAyNnZOfqM+Ao3RAvIXkYh5joP220yf59gVe2X/cI6SiCxIdi4c9HZKZD8R6q/RDXEje1THBju6iExiSsgJaQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
+  ora@7.0.1:
+    resolution: {integrity: sha512-0TUxTiFJWv+JnjWm4o9yvuskpEJLXTcng8MJuKd+SzAzp2o+OP3HWqNhB4OdJRt1Vsd9/mR0oyaEYlOnL7XIRw==}
+    engines: {node: '>=16'}
+
   ora@8.0.1:
     resolution: {integrity: sha512-ANIvzobt1rls2BDny5fWZ3ZVKyD6nscLvfFRpQgfWsythlcsVUC9kL0zq6j2Z5z9wwp1kd7wpsD/T9qNPVLCaQ==}
     engines: {node: '>=18'}
@@ -6731,6 +6735,14 @@ packages:
       eslint: ^8.0
       tslib: ^2.0
       typescript: ^4.0
+
+  pridepack@2.6.0:
+    resolution: {integrity: sha512-K81TouT+M3zwzPvDi70/CFVtzADvGpn071zAMm419ULb29gZni21pJ24njDFm3O+lJn0txBl4x1dsFBLWqS4iQ==}
+    engines: {node: '>=16'}
+    hasBin: true
+    peerDependencies:
+      tslib: ^2.0
+      typescript: ^5.0
 
   prisma@5.10.2:
     resolution: {integrity: sha512-hqb/JMz9/kymRE25pMWCxkdyhbnIWrq+h7S6WysJpdnCvhstbJSNP/S6mScEcqiB8Qv2F+0R3yG+osRaWqZacQ==}
@@ -7287,6 +7299,10 @@ packages:
   string-width@5.1.2:
     resolution: {integrity: sha512-HnLOCR3vjcY8beoNLtcjZ5/nxn2afmME6lhrDrebokqMap+XbeW8n9TXpPDOqdGK5qcI3oT0GKTW6wC7EMiVqA==}
     engines: {node: '>=12'}
+
+  string-width@6.1.0:
+    resolution: {integrity: sha512-k01swCJAgQmuADB0YIc+7TuatfNvTBVOoaUWJjTB9R4VJzR5vNWzf5t42ESVZFPS8xTySF7CAdV4t/aaIm3UnQ==}
+    engines: {node: '>=16'}
 
   string-width@7.1.0:
     resolution: {integrity: sha512-SEIJCWiX7Kg4c129n48aDRwLbFb2LJmXXFrWBG4NGaRtMQ3myKPKbwrD1BKqQn74oCoNMBVrfDEr5M9YxCsrkw==}
@@ -11104,7 +11120,6 @@ snapshots:
   '@types/node@20.14.9':
     dependencies:
       undici-types: 5.26.5
-    optional: true
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -11236,6 +11251,19 @@ snapshots:
       '@typescript-eslint/visitor-keys': 7.14.1
       debug: 4.3.5
       eslint: 9.5.0
+    optionalDependencies:
+      typescript: 5.5.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/parser@7.14.1(eslint@9.6.0)(typescript@5.5.2)':
+    dependencies:
+      '@typescript-eslint/scope-manager': 7.14.1
+      '@typescript-eslint/types': 7.14.1
+      '@typescript-eslint/typescript-estree': 7.14.1(typescript@5.5.2)
+      '@typescript-eslint/visitor-keys': 7.14.1
+      debug: 4.3.5
+      eslint: 9.6.0
     optionalDependencies:
       typescript: 5.5.2
     transitivePeerDependencies:
@@ -15289,6 +15317,18 @@ snapshots:
       strip-ansi: 7.1.0
       wcwidth: 1.0.1
 
+  ora@7.0.1:
+    dependencies:
+      chalk: 5.3.0
+      cli-cursor: 4.0.0
+      cli-spinners: 2.9.2
+      is-interactive: 2.0.0
+      is-unicode-supported: 1.3.0
+      log-symbols: 5.1.0
+      stdin-discarder: 0.1.0
+      string-width: 6.1.0
+      strip-ansi: 7.1.0
+
   ora@8.0.1:
     dependencies:
       chalk: 5.3.0
@@ -15616,21 +15656,20 @@ snapshots:
       typescript: 4.9.5
       yargs: 17.7.2
 
-  pridepack@2.4.0(eslint@8.57.0)(tslib@2.6.3)(typescript@4.9.5):
+  pridepack@2.6.0(tslib@2.6.3)(typescript@5.5.2):
     dependencies:
       '@ovyerus/licenses': 6.4.4
       degit: 2.8.4
       dotenv: 16.4.5
-      esbuild: 0.17.19
-      eslint: 8.57.0
-      execa: 5.1.1
+      esbuild: 0.19.12
+      execa: 8.0.1
       license: 1.0.3
-      ora: 6.3.1
+      ora: 7.0.1
       package-json-type: 1.0.3
       pretty-bytes: 6.1.1
       prompts: 2.4.2
       tslib: 2.6.3
-      typescript: 4.9.5
+      typescript: 5.5.2
       yargs: 17.7.2
 
   prisma@5.10.2:
@@ -16391,6 +16430,12 @@ snapshots:
     dependencies:
       eastasianwidth: 0.2.0
       emoji-regex: 9.2.2
+      strip-ansi: 7.1.0
+
+  string-width@6.1.0:
+    dependencies:
+      eastasianwidth: 0.2.0
+      emoji-regex: 10.3.0
       strip-ansi: 7.1.0
 
   string-width@7.1.0:

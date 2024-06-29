@@ -20,8 +20,8 @@ export const transformOG = ({
             '@solid-mediakit/og/server',
             'createOpenGraphImage'
           )
+          addDynamicImages(dynamicImages, t, path)
         }
-        addDynamicImages(dynamicImages, t, path)
         return path
       },
     },

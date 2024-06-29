@@ -31,9 +31,6 @@ export const unplugin = createUnplugin(() => {
         parserOpts: { plugins },
       })
       if (!res?.code) return null
-      // if (id.includes('index.tsx')) {
-      //   console.log(res.code)
-      // }
       return { code: res.code, map: res.map }
     },
   }

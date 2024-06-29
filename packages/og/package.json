@@ -32,22 +32,22 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@babel/types": "7.20.0",
-    "@solidjs/start": "^1.0.1",
+    "@babel/types": "7.24.7",
+    "@solidjs/start": "^1.0.2",
     "@types/babel__core": "7.20.5",
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.21.6",
-    "solid-js": "^1.8.17",
-    "tsup": "^6.5.0",
-    "typescript": "^5.4.5",
+    "solid-js": "^1.8.18",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2",
     "vitest": "^1.6.0"
   },
   "dependencies": {
-    "@babel/core": "7.20.12",
+    "@babel/core": "7.24.7",
     "@solid-mediakit/shared": "workspace:*",
     "@vercel/og": "^0.6.2",
     "satori-html": "^0.3.2",
-    "unplugin": "^1.10.1"
+    "unplugin": "^1.10.2"
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.4",

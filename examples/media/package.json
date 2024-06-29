@@ -9,21 +9,21 @@
   },
   "type": "module",
   "devDependencies": {
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.9",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.14.1",
     "autoprefixer": "^10.4.19",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "eslint-plugin-solid": "^0.14.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.2",
-    "vite": "^5.3.1"
+    "vite": "^5.3.2"
   },
   "dependencies": {
     "@solidjs/router": "^0.13.6",
     "@solidjs/start": "^1.0.2",
-    "solid-js": "^1.8.17",
+    "solid-js": "^1.8.18",
     "vinxi": "^0.3.12",
     "@solidjs/meta": "^0.29.4",
     "@solid-mediakit/media": "workspace:*"

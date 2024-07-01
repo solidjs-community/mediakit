@@ -1,4 +1,6 @@
 # @solid-mediakit/trpc
+> [!WARNING]
+> This integration is now deprecated. It is now recommended to use [prpc](../prpc) instead.
 
 tRPC integration for SolidJS.
 

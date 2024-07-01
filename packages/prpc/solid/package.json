@@ -3,7 +3,7 @@
   "description": "A typesafed Wrapper for Solid's RPC protocol",
   "version": "1.2.3",
   "scripts": {
-    "build": "rimraf dist && tsup --config ./tsup.config.js",
+    "build": "rimraf dist && tsup --config ./tsup.config.ts",
     "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "clean:dist": "rimraf dist",
@@ -34,22 +34,22 @@
   "types": "./dist/index.d.ts",
   "module": "./dist/server.js",
   "devDependencies": {
-    "@solidjs/meta": "^0.29.3",
-    "@solidjs/router": "^0.13.1",
-    "@solidjs/start": "^1.0.0-rc.0",
-    "@tanstack/solid-query": "^5.29.3",
-    "@types/node": "^18.7.14",
-    "@typescript-eslint/parser": "^5.44.0",
-    "solid-js": "^1.8.15",
-    "tsup": "^6.5.0",
-    "tsup-preset-solid": "0.1.8",
-    "typescript": "^4.8.2",
-    "vinxi": "^0.3.10",
-    "zod": "^3.22.4"
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.13.6",
+    "@solidjs/start": "^1.0.2",
+    "@tanstack/solid-query": "^5.49.0",
+    "@types/node": "^20.14.9",
+    "@typescript-eslint/parser": "^7.14.1",
+    "solid-js": "^1.8.18",
+    "tsup": "^8.1.0",
+    "tsup-preset-solid": "2.2.0",
+    "typescript": "^5.5.2",
+    "vinxi": "^0.3.12",
+    "zod": "^3.23.8"
   },
   "dependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
-    "@rollup/pluginutils": "^5.0.2"
+    "@rollup/pluginutils": "^5.1.0"
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.3",

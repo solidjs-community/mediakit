@@ -10,21 +10,21 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 16
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -34,7 +34,7 @@ jobs:
         run: pnpm build
 
       - name: Create Release
-        uses: changesets/action@v1
+        uses: changesets/action@v1.4.1
         with:
           commit: 'chore(release): 📦 version packages'
           title: 'chore(release): 📦  version packages'

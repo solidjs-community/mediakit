@@ -24,20 +24,20 @@ export function SolidAuth(
 } {
   const handler = async (event: APIEvent) => {
     const _config = typeof config === 'object' ? config : await config(event)
+
     setEnvDefaults(process.env, _config)
+
     const { request } = event
     const url = new URL(request.url)
-    event.locals.auth ??= () => auth(event, _config)
-    event.locals.getSession ??= event.locals.auth
-
     const action = url.pathname
       .slice(_config.basePath!.length + 1)
       .split('/')[0]
+
     if (
       isAuthAction(action) &&
       url.pathname.startsWith(_config.basePath + '/')
     ) {
-      return Auth(request, _config)
+      return await Auth(request, _config)
     }
 
     return new Response('Not Found', { status: 404 })
@@ -86,6 +86,7 @@ import { sendRedirect } from 'vinxi/http'
 import { getBasePath, setEnvDefaults } from './utils'
 import { Session } from '@auth/core/types'
 import { JSXElement, VoidComponent } from 'solid-js'
+import { RequestEvent } from 'solid-js/web'
 
 type SignInParams = Parameters<App.Locals['signIn']>
 
@@ -250,14 +251,23 @@ export async function auth(
 export type GetSessionResult = Promise<Session | null>
 
 export async function getSession(
-  req: Request,
+  _req: Request | RequestEvent,
   options: SolidAuthConfig
 ): GetSessionResult {
-  options.secret ??= process.env.AUTH_SECRET
-  options.trustHost ??= true
+  const req = 'request' in _req ? _req.request : _req
+  setEnvDefaults(process.env, options)
 
-  const basePath = getBasePath()
-  const url = new URL(`${basePath}/session`, req.url)
+  const { protocol } = new URL(req.url)
+
+  options.basePath = getBasePath()
+  const url = createActionURL(
+    'session',
+    protocol,
+    new Headers(req.headers),
+    process.env,
+    options.basePath
+  )
+
   const response = await Auth(
     new Request(url, { headers: req.headers }),
     options

@@ -127,17 +127,17 @@ importers:
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.8.18)
       '@solidjs/router':
-        specifier: ^0.13.6
-        version: 0.13.6(solid-js@1.8.18)
+        specifier: ^0.14.1
+        version: 0.14.1(solid-js@1.8.18)
       '@solidjs/start':
-        specifier: ^1.0.2
-        version: 1.0.2(rollup@4.18.0)(solid-js@1.8.18)(vinxi@0.3.12)(vite@5.3.2)
+        specifier: ^1.0.6
+        version: 1.0.6(rollup@4.18.0)(solid-js@1.8.18)(vinxi@0.4.1)(vite@5.3.2)
       solid-js:
         specifier: ^1.8.18
         version: 1.8.18
       vinxi:
-        specifier: ^0.3.12
-        version: 0.3.12(@types/node@20.14.9)
+        specifier: ^0.4.1
+        version: 0.4.1(@types/node@20.14.9)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -4858,6 +4858,14 @@ packages:
     dependencies:
       solid-js: 1.8.18
 
+  /@solidjs/router@0.14.1(solid-js@1.8.18):
+    resolution: {integrity: sha512-GumQ4jbt5xDngLypAndC4EjapY/3DP0G8Az4YWEVQHdCtjHwB8IOm32eEBxE9lKpOffbtXV0r/0X0mofHJ1m5w==}
+    peerDependencies:
+      solid-js: ^1.8.6
+    dependencies:
+      solid-js: 1.8.18
+    dev: false
+
   /@solidjs/router@0.8.4(solid-js@1.8.18):
     resolution: {integrity: sha512-Gi/WVoVseGMKS1DBdT3pNAMgOzEOp6Q3dpgNd2mW9GUEnVocPmtyBjDvXwN6m7tjSGsqqfqJFXk7bm1hxabSRw==}
     peerDependencies:
@@ -4976,6 +4984,34 @@ packages:
       - supports-color
       - vinxi
       - vite
+
+  /@solidjs/start@1.0.6(rollup@4.18.0)(solid-js@1.8.18)(vinxi@0.4.1)(vite@5.3.2):
+    resolution: {integrity: sha512-O5knaeqDBx+nKLJRm5ZJurnXZtIYBOwOreQ10APaVtVjKIKKRC5HxJ1Kwqg7atOQNNDgsF0pzhW218KseaZ1UA==}
+    dependencies:
+      '@vinxi/plugin-directives': 0.4.1(vinxi@0.4.1)
+      '@vinxi/server-components': 0.4.1(vinxi@0.4.1)
+      '@vinxi/server-functions': 0.4.1(vinxi@0.4.1)
+      defu: 6.1.4
+      error-stack-parser: 2.1.4
+      glob: 10.4.5
+      html-to-image: 1.11.11
+      radix3: 1.1.2
+      seroval: 1.1.0
+      seroval-plugins: 1.1.0(seroval@1.1.0)
+      shikiji: 0.9.19
+      source-map-js: 1.2.0
+      terracotta: 1.0.5(solid-js@1.8.18)
+      vite-plugin-inspect: 0.7.42(rollup@4.18.0)(vite@5.3.2)
+      vite-plugin-solid: 2.10.2(solid-js@1.8.18)(vite@5.3.2)
+    transitivePeerDependencies:
+      - '@nuxt/kit'
+      - '@testing-library/jest-dom'
+      - rollup
+      - solid-js
+      - supports-color
+      - vinxi
+      - vite
+    dev: false
 
   /@tanstack/query-core@5.29.0:
     resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}
@@ -5878,7 +5914,24 @@ packages:
       magicast: 0.2.11
       recast: 0.23.9
       tslib: 2.6.3
-      vinxi: 0.3.12(@types/node@20.14.9)
+      vinxi: 0.3.12(@types/node@18.14.0)
+
+  /@vinxi/plugin-directives@0.4.1(vinxi@0.4.1):
+    resolution: {integrity: sha512-NsHCDyqU00i4RKGBoNNcBuONEirg/XfGgPCLFK1CZw3AYBE19haFSgvuo21Bx+BFGcwdRU3BRtaBMvwjLrUCnw==}
+    peerDependencies:
+      vinxi: ^0.4.0
+    dependencies:
+      '@babel/parser': 7.24.8
+      acorn: 8.12.1
+      acorn-jsx: 5.3.2(acorn@8.12.1)
+      acorn-loose: 8.4.0
+      acorn-typescript: 1.4.13(acorn@8.12.1)
+      astring: 1.8.6
+      magicast: 0.2.11
+      recast: 0.23.9
+      tslib: 2.6.3
+      vinxi: 0.4.1(@types/node@20.14.9)
+    dev: false
 
   /@vinxi/server-components@0.3.3(vinxi@0.3.10):
     resolution: {integrity: sha512-xaW92nj9HUMLyswPcCmsIXOsS3TJll0m9u3WEjWjLrtZWheHggina6+kTCSeltp/Qe8WlUfNU5G02Xy8L4xQxA==}
@@ -5907,7 +5960,22 @@ packages:
       astring: 1.8.6
       magicast: 0.2.11
       recast: 0.23.9
-      vinxi: 0.3.12(@types/node@20.14.9)
+      vinxi: 0.3.12(@types/node@18.14.0)
+
+  /@vinxi/server-components@0.4.1(vinxi@0.4.1):
+    resolution: {integrity: sha512-rMS+RCGr1tujO1xWgILMLpOWIyw2OwDO46EtkuhTfqaVgLLt/w7+hxzOnh4s3O9sXoKKuUswtj9/MpQQkFoMOQ==}
+    peerDependencies:
+      vinxi: ^0.4.0
+    dependencies:
+      '@vinxi/plugin-directives': 0.4.1(vinxi@0.4.1)
+      acorn: 8.12.1
+      acorn-loose: 8.4.0
+      acorn-typescript: 1.4.13(acorn@8.12.1)
+      astring: 1.8.6
+      magicast: 0.2.11
+      recast: 0.23.9
+      vinxi: 0.4.1(@types/node@20.14.9)
+    dev: false
 
   /@vinxi/server-functions@0.3.3(vinxi@0.3.10):
     resolution: {integrity: sha512-yUrHov1gc+NM/YCEOekM1DCdu2tNSH1/j0mZPyIOhPZH/yAZKWA+t3dP79Q3g4QLDHchf6xf8z9u1INEADTlXw==}
@@ -5936,7 +6004,22 @@ packages:
       astring: 1.8.6
       magicast: 0.2.11
       recast: 0.23.9
-      vinxi: 0.3.12(@types/node@20.14.9)
+      vinxi: 0.3.12(@types/node@18.14.0)
+
+  /@vinxi/server-functions@0.4.1(vinxi@0.4.1):
+    resolution: {integrity: sha512-dj5v9V+DurXK8w/nBDgJof+UsK3bkcgk6K/xBUg+WVmn7sUrLTurDTGRkCaknC6tQCyadNzj4FWGGc+qlrWf9g==}
+    peerDependencies:
+      vinxi: ^0.4.0
+    dependencies:
+      '@vinxi/plugin-directives': 0.4.1(vinxi@0.4.1)
+      acorn: 8.12.1
+      acorn-loose: 8.4.0
+      acorn-typescript: 1.4.13(acorn@8.12.1)
+      astring: 1.8.6
+      magicast: 0.2.11
+      recast: 0.23.9
+      vinxi: 0.4.1(@types/node@20.14.9)
+    dev: false
 
   /@vitest/expect@1.6.0:
     resolution: {integrity: sha512-ixEvFVQjycy/oNgHjqsL6AZCDduC+tflRluaHIzKIsdbzkLn2U/iBnVeJwB6HsIjQBdfMR8Z0tRxKUsvFJEeWQ==}
@@ -13811,6 +13894,76 @@ packages:
       - terser
       - uWebSockets.js
       - xml2js
+
+  /vinxi@0.4.1(@types/node@20.14.9):
+    resolution: {integrity: sha512-WGEYqIuJ2/P3sBoSVKsGvp/UKpW4wVSaAFdA18gthyMCEExN6nVteoA+Rv1wQFLKXTVL9JRpeGJjcLzcRRgGCA==}
+    hasBin: true
+    dependencies:
+      '@babel/core': 7.24.7
+      '@babel/plugin-syntax-jsx': 7.24.7(@babel/core@7.24.7)
+      '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.7)
+      '@types/micromatch': 4.0.9
+      '@vinxi/listhen': 1.5.6
+      boxen: 7.1.1
+      chokidar: 3.6.0
+      citty: 0.1.6
+      consola: 3.2.3
+      crossws: 0.2.4
+      dax-sh: 0.39.2
+      defu: 6.1.4
+      es-module-lexer: 1.5.4
+      esbuild: 0.20.2
+      fast-glob: 3.3.2
+      get-port-please: 3.1.2
+      h3: 1.11.1
+      hookable: 5.5.3
+      http-proxy: 1.18.1
+      micromatch: 4.0.7
+      nitropack: 2.9.7
+      node-fetch-native: 1.6.4
+      path-to-regexp: 6.2.2
+      pathe: 1.1.2
+      radix3: 1.1.2
+      resolve: 1.22.8
+      serve-placeholder: 2.0.2
+      serve-static: 1.15.0
+      ufo: 1.5.4
+      unctx: 2.3.1
+      unenv: 1.10.0
+      unstorage: 1.10.2(ioredis@5.4.1)
+      vite: 5.3.2(@types/node@20.14.9)
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@libsql/client'
+      - '@netlify/blobs'
+      - '@planetscale/database'
+      - '@types/node'
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - better-sqlite3
+      - debug
+      - drizzle-orm
+      - encoding
+      - idb-keyval
+      - ioredis
+      - less
+      - lightningcss
+      - magicast
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - uWebSockets.js
+      - xml2js
+    dev: false
 
   /vite-node@1.6.0(@types/node@18.14.0):
     resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}

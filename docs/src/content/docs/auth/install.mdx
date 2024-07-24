@@ -11,6 +11,13 @@ description: 'Installing MediaKit'
 pnpm add @solid-mediakit/auth@latest @auth/core@latest
 ```
 
+## Env variables
+
+**The env variables are required for the app to work!**
+
+- `VITE_AUTH_PATH` - Path for the auth api: `/api/auth`
+- `AUTH_URL` - Url for your app: `http://localhost:3000`
+
 ## SessionProvider
 
 In order to update the session context accordingly, the entire app needs to be wrapped with a SessionProvider, this is a SolidJS context that will hold the current session.

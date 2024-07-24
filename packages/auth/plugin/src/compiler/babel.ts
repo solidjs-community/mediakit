@@ -9,7 +9,6 @@ import {
   getProtectedContent,
 } from './utils'
 export const authLoc = `@solid-mediakit/auth`
-import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export function createTransformAuth$(opts: AuthPluginOptions) {
   return function transformAuth$({
@@ -114,14 +113,7 @@ export async function compileAuth(
   id: string,
   opts: AuthPluginOptions
 ) {
-  const filter = babelUtils.getFilter(opts?.filter)
-  if (!filter(id)) {
-    return null
-  }
-  if (!code.includes('protected$(') && !code.includes('session$')) {
-    return null
-  }
-  const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx', 'flow']
+  const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
   const transformAuth$ = createTransformAuth$(opts)
   const transformed = await babel.transformAsync(code, {
     presets: [['@babel/preset-typescript'], ...(opts?.babel?.presets ?? [])],

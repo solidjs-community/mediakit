@@ -12,11 +12,7 @@ export function authVite(opts: AuthPluginOptions): Plugin {
       if (!filter(id)) {
         return code
       }
-      if (
-        ((code.includes('protected$(') || code.includes('session$')) &&
-          id.endsWith('.ts')) ||
-        id.endsWith('.tsx')
-      ) {
+      if (code.includes('protected$(') || code.includes('session$')) {
         return await compileAuth(code, id, opts)
       }
       return undefined

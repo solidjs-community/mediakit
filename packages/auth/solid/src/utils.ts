@@ -77,6 +77,6 @@ export function setEnvDefaults(
 }
 
 export const getBasePath = (): string => {
-  const ev = conditionalEnv('AUTH_URL_INTERNAL', 'VITE_AUTH_PATH')
+  const ev = conditionalEnv('VITE_AUTH_PATH')
   return ev ?? `/api/auth`
 }

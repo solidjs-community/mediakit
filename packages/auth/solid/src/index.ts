@@ -50,8 +50,8 @@ export function SolidAuth(
       const formData = await request.formData()
       const { providerId: provider, ...options } = Object.fromEntries(formData)
       // get the authorization params from the options prefixed with `authorizationParams-`
-      let authorizationParams: Parameters<typeof signIn>[2] = {}
-      let _options: Parameters<typeof signIn>[1] = {}
+      let authorizationParams: Parameters<typeof server_signIn>[2] = {}
+      let _options: Parameters<typeof server_signIn>[1] = {}
       for (const key in options) {
         if (key.startsWith(authorizationParamsPrefix)) {
           authorizationParams[key.slice(authorizationParamsPrefix.length)] =
@@ -60,7 +60,7 @@ export function SolidAuth(
           _options[key] = options[key]
         }
       }
-      await signIn(
+      await server_signIn(
         provider as string,
         _options,
         authorizationParams,
@@ -72,7 +72,7 @@ export function SolidAuth(
       const _config = typeof config === 'object' ? config : await config(event)
       setEnvDefaults(process.env, _config)
       const options = Object.fromEntries(await event.request.formData())
-      await signOut(options, _config, event)
+      await server_signOut(options, _config, event)
     },
     GET: handler,
     POST: handler,
@@ -89,7 +89,7 @@ import { JSXElement, VoidComponent } from 'solid-js'
 
 type SignInParams = Parameters<App.Locals['signIn']>
 
-export async function signIn(
+export async function server_signIn(
   provider: SignInParams[0],
   options: SignInParams[1] = {},
   authorizationParams: SignInParams[2],
@@ -167,7 +167,7 @@ export async function signIn(
 }
 
 type SignOutParams = Parameters<App.Locals['signOut']>
-export async function signOut(
+export async function server_signOut(
   options: SignOutParams[0],
   config: SolidAuthConfig,
   event: APIEvent

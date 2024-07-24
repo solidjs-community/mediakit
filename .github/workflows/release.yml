@@ -19,24 +19,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@4
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Build
         run: pnpm build
 
       - name: Create Release
-        uses: changesets/action@v1.4.1
+        uses: changesets/action@v1
         with:
           commit: 'chore(release): 📦 version packages'
           title: 'chore(release): 📦  version packages'

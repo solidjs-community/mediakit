@@ -1,5 +1,18 @@
 # @solid-mediakit/auth
 
+## 2.1.0
+
+### Minor Changes
+
+- [`80e7254`](https://github.com/solidjs-community/mediakit/commit/80e725465080310ce60d1013dece47b647ac239b) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: Cannot parse action at /api/auth/session
+
+### Patch Changes
+
+- [`6b14aa9`](https://github.com/solidjs-community/mediakit/commit/6b14aa9770daf3dae297c98ac209066f5886a7a3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: rename the server sign In function to server_signIn
+
+- Updated dependencies [[`5d001c0`](https://github.com/solidjs-community/mediakit/commit/5d001c05396cd66654d41cce47f0f548f329a0c5)]:
+  - @solid-mediakit/shared@0.0.4
+
 ## 2.0.12
 
 ### Patch Changes

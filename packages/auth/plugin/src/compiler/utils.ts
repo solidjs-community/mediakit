@@ -1,6 +1,6 @@
 import * as babel from '@babel/core'
-import { authLoc } from './babel'
 import { AuthPluginOptions } from '.'
+import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export const getNodeInfo = (
   path: babel.NodePath<babel.types.CallExpression>,
@@ -27,42 +27,20 @@ export const afterImports = (
   }
 }
 
-export const importIfNotThere = (
-  path: babel.NodePath<babel.types.CallExpression>,
-  t: typeof babel.types,
-  name: string,
-  loc?: string
-) => {
-  const p = (path.findParent((p) => p.isProgram())!.node as any).body
-  const nameIsimported = p.some(
-    (n: any) =>
-      n.type === 'ImportDeclaration' &&
-      n.specifiers.some((s: any) => s.imported.name === name)
-  )
-
-  if (!nameIsimported) {
-    const importDeclaration = t.importDeclaration(
-      [t.importSpecifier(t.identifier(name), t.identifier(name))],
-      t.stringLiteral(loc ?? authLoc)
-    )
-    p.unshift(importDeclaration)
-  }
-}
-
 export const addMissingImports = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
   opts: AuthPluginOptions,
   args: ReturnType<typeof getArgs>
 ) => {
-  importIfNotThere(path, t, 'cache', '@solidjs/router')
-  importIfNotThere(path, t, 'createAsync', '@solidjs/router')
-  importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
-  importIfNotThere(path, t, 'getSession', '@solid-mediakit/auth')
-  importIfNotThere(path, t, 'Show', 'solid-js')
-  importIfNotThere(path, t, opts.authOpts.name, opts.authOpts.dir)
+  babelUtils.importIfNotThere(path, t, 'cache', '@solidjs/router')
+  babelUtils.importIfNotThere(path, t, 'createAsync', '@solidjs/router')
+  babelUtils.importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
+  babelUtils.importIfNotThere(path, t, 'getSession', '@solid-mediakit/auth')
+  babelUtils.importIfNotThere(path, t, 'Show', 'solid-js')
+  babelUtils.importIfNotThere(path, t, opts.authOpts.name, opts.authOpts.dir)
   if (!args.fallBack) {
-    importIfNotThere(path, t, 'redirect', '@solidjs/router')
+    babelUtils.importIfNotThere(path, t, 'redirect', '@solidjs/router')
   }
 }
 

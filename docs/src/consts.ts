@@ -38,6 +38,14 @@ export const SIDEBAR: Sidebar = {
     { text: 'Contributors', link: 'contributors' },
     { text: 'Sponsors', link: 'sponsors' },
   ],
+  Auth: [
+    { text: 'Install', link: 'auth/install' },
+    { text: 'protected$', link: 'auth/protected' },
+    { text: 'signIn', link: 'auth/signin' },
+    { text: 'signOut', link: 'auth/signout' },
+    { text: 'createSession', link: 'auth/createsession' },
+    { text: 'getSession', link: 'auth/getsession' },
+  ],
   pRPC: [
     { text: 'Install', link: 'prpc/install' },
     { text: 'builder$', link: 'prpc/builder' },
@@ -58,13 +66,14 @@ export const SIDEBAR: Sidebar = {
       link: 'prpc/hideevent',
     },
   ],
-  Auth: [
-    { text: 'Install', link: 'auth/install' },
-    { text: 'protected$', link: 'auth/protected' },
-    { text: 'signIn', link: 'auth/signin' },
-    { text: 'signOut', link: 'auth/signout' },
-    { text: 'createSession', link: 'auth/createsession' },
-    { text: 'getSession', link: 'auth/getsession' },
+  Log: [
+    { text: 'Install', link: 'log/install' },
+    { text: 'log$', link: 'log/log' },
+  ],
+  OpenGraph: [
+    { text: 'Install', link: 'og/install' },
+    { text: 'DynamicImage', link: 'og/dynamic-image' },
+    { text: 'OpenGraph', link: 'og/opengraph' },
   ],
   tRPC: [
     { text: 'Install', link: 'trpc/install' },
@@ -74,10 +83,5 @@ export const SIDEBAR: Sidebar = {
   Media: [
     { text: 'Install', link: 'media/install' },
     { text: 'createVideo', link: 'media/createvideo' },
-  ],
-  OpenGraph: [
-    { text: 'Install', link: 'og/install' },
-    { text: 'DynamicImage', link: 'og/dynamic-image' },
-    { text: 'OpenGraph', link: 'og/opengraph' },
   ],
 }

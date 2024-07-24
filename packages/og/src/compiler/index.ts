@@ -13,12 +13,12 @@ export const transformOG = ({
       Program(path) {
         const dynamicImages = replaceDynamicImages(t, path)
         if (dynamicImages.length) {
-          babelUtils.importIfNotThere(t, path, 'solid-js', 'createMemo')
+          babelUtils.importIfNotThere(path, t, 'createMemo', 'solid-js')
           babelUtils.importIfNotThere(
-            t,
             path,
-            '@solid-mediakit/og/server',
-            'createOpenGraphImage'
+            t,
+            'createOpenGraphImage',
+            '@solid-mediakit/og/server'
           )
           addDynamicImages(dynamicImages, t, path)
         }

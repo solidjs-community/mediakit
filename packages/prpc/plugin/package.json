@@ -26,7 +26,8 @@
   "dependencies": {
     "@babel/core": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@rollup/pluginutils": "^5.1.0"
+    "@rollup/pluginutils": "^5.1.0",
+    "@solid-mediakit/shared": "workspace:*"
   },
   "scripts": {
     "prepublishOnly": "pridepack clean && pridepack build",

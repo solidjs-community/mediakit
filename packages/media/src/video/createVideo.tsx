@@ -1,7 +1,10 @@
 import { createSignal, createEffect, on, onCleanup } from 'solid-js'
 import type { VideoFn, VideoProps } from './types'
-import { unwrapValue } from '@solid-mediakit/shared'
 import { createEvents } from './events'
+
+export const unwrapValue = <T,>(value: T | (() => T)): T => {
+  return typeof value === 'function' ? (value as any)() : value
+}
 
 const videoCanUnmute = () => {
   if (typeof navigator === 'undefined') return false

@@ -23,6 +23,7 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@babel/core": "7.24.7"
+    "@babel/core": "7.24.7",
+    "@rollup/pluginutils": "^5.0.2"
   }
 }

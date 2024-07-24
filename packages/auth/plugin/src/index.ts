@@ -1,21 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Plugin } from 'vite'
-import { createFilter } from '@rollup/pluginutils'
 import { compileAuth, type AuthPluginOptions } from './compiler'
-
-const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}'
-const DEFAULT_EXCLUDE = 'node_modules/**/*.{jsx,tsx,ts,js,mjs,cjs}'
+import { babel as babelUtils, repushPlugin } from '@solid-mediakit/shared'
 
 export function authVite(opts: AuthPluginOptions): Plugin {
-  const filter = createFilter(
-    opts?.filter?.include || DEFAULT_INCLUDE,
-    opts?.filter?.exclude || DEFAULT_EXCLUDE
-  )
+  const filter = babelUtils.getFilter(opts?.filter)
   const plugin: Plugin = {
     enforce: 'pre',
     name: 'auth',
     async transform(code, id) {
-      id = getId(id)
       if (!filter(id)) {
         return code
       }
@@ -37,38 +30,4 @@ export function authVite(opts: AuthPluginOptions): Plugin {
     },
   }
   return plugin
-}
-
-// From: https://github.com/bluwy/whyframe/blob/master/packages/jsx/src/index.js#L27-L37
-function repushPlugin(
-  plugins: Plugin[],
-  plugin: Plugin,
-  pluginNames: string[]
-): void {
-  const namesSet = new Set(pluginNames)
-
-  let baseIndex = -1
-  let targetIndex = -1
-  for (let i = 0, len = plugins.length; i < len; i += 1) {
-    const current = plugins[i]
-    if (namesSet.has(current.name) && baseIndex === -1) {
-      baseIndex = i
-    }
-    if (current.name === plugin.name) {
-      targetIndex = i
-    }
-  }
-  if (baseIndex !== -1 && targetIndex !== -1 && baseIndex < targetIndex) {
-    plugins.splice(targetIndex, 1)
-    plugins.splice(baseIndex, 0, plugin)
-  }
-}
-
-function getId(id: string) {
-  if (id.includes('?')) {
-    // might be useful for the future
-    const [actualId] = id.split('?')
-    return actualId
-  }
-  return id
 }

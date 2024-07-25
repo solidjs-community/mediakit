@@ -30,10 +30,13 @@ jobs:
       - name: Creating .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
-          //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           EOF
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify NPM Authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          npm whoami
 
       - name: Install dependencies
         run: pnpm install
@@ -45,7 +48,7 @@ jobs:
         uses: changesets/action@v1.4.7
         with:
           commit: 'chore(release): 📦 version packages'
-          title: 'chore(release): 📦  version packages'
+          title: 'chore(release): 📦 version packages'
           version: node .github/changeset-version.js
           publish: pnpm changeset publish
         env:

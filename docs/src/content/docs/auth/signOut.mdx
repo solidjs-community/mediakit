@@ -13,8 +13,7 @@ The `signOut` function is a function that will be used from the client side to s
 ## Usage
 
 ```ts
-import { signIn } from '@solid-mediakit/auth'
-signIn() // redirect to login page
-signIn('github') // login with github and redirect to the exact same page we are at right now
-signIn('github', { redirectTo: '/ok' }) // login with github and redirect to /ok
+import { signOut } from '@solid-mediakit/auth/client'
+signOut()
+signOut({ redirectTo: '/auth' }) // redirect to /ok
 ```

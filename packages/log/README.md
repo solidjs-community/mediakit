@@ -47,11 +47,7 @@ Config complete! To see how to use the `log$` utility in your app, visit [Log](h
 
 This function is used to keep track of your SolidJS signals / stores, it will nicely be printed on the console.
 
-<img
-width='923'
-alt='Screenshot 2024-07-24 at 21 50 20'
-src='https://github.com/user-attachments/assets/80054efb-844d-4fc9-b3df-1bf51532b3c1'
->
+![Output Example](https://github.com/user-attachments/assets/80054efb-844d-4fc9-b3df-1bf51532b3c1)
 
 ## Usage
 

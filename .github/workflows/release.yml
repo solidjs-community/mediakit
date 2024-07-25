@@ -27,6 +27,14 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+          //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Install dependencies
         run: pnpm install
 
@@ -34,7 +42,7 @@ jobs:
         run: pnpm build
 
       - name: Create Release
-        uses: changesets/action@v1.4.1
+        uses: changesets/action@v1
         with:
           commit: 'chore(release): 📦 version packages'
           title: 'chore(release): 📦  version packages'

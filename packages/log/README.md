@@ -51,9 +51,7 @@ This function is used to keep track of your SolidJS signals / stores, it will ni
 width='923'
 alt='Screenshot 2024-07-24 at 21 50 20'
 src='https://github.com/user-attachments/assets/80054efb-844d-4fc9-b3df-1bf51532b3c1'
-
-> {' '}
-> </img>
+>
 
 ## Usage
 

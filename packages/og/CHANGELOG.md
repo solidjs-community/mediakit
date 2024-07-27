@@ -1,5 +1,11 @@
 # @solid-mediakit/og
 
+## 0.2.3
+
+### Patch Changes
+
+- [#87](https://github.com/solidjs-community/mediakit/pull/87) [`ec376ff`](https://github.com/solidjs-community/mediakit/commit/ec376ffa954aa154323ceadf518161724dd31549) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Fixed OG plugin
+
 ## 0.2.2
 
 ### Patch Changes

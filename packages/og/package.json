@@ -37,21 +37,20 @@
     "@types/babel__core": "7.20.5",
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.21.6",
-    "solid-js": "^1.8.18",
     "tsup": "^8.1.0",
     "typescript": "^5.5.2",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.4"
   },
   "dependencies": {
     "@babel/core": "7.24.7",
     "@solid-mediakit/shared": "workspace:*",
-    "@vercel/og": "^0.6.2",
+    "@vercel/og": "^1.0.0",
     "satori-html": "^0.3.2",
     "unplugin": "^1.10.2"
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.4",
-    "@solidjs/start": ">=1.0.2",
-    "solid-js": "^1.8.17"
+    "@solidjs/start": "^1.0.6",
+    "solid-js": "^1.8.19"
   }
 }

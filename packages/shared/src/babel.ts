@@ -11,7 +11,7 @@ export const importIfNotThere = (
   name: string,
   loc: string
 ) => {
-  const p = (path.findParent((p) => p.isProgram())!.node as any).body
+  const p = (path.findParent((p) => p.isProgram())?.node ?? path.node! as any).body
   const nameIsimported = p.some(
     (n: any) =>
       n.type === 'ImportDeclaration' &&

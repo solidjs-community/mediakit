@@ -44,7 +44,7 @@
   "dependencies": {
     "@babel/core": "7.24.7",
     "@solid-mediakit/shared": "workspace:*",
-    "@vercel/og": "^1.0.0",
+    "@vercel/og": "^0.6.1",
     "satori-html": "^0.3.2",
     "unplugin": "^1.10.2"
   },

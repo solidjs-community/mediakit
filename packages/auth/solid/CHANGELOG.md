@@ -1,5 +1,12 @@
 # @solid-mediakit/auth
 
+## 2.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`87d4571`](https://github.com/solidjs-community/mediakit/commit/87d4571f5f1d1846f6728efecb4adc4bc6154771)]:
+  - @solid-mediakit/shared@0.0.5
+
 ## 2.1.0
 
 ### Minor Changes

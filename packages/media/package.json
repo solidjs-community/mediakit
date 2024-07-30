@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/media",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "A media utility library for Solid.",
   "main": "./dist/index/index.jsx",

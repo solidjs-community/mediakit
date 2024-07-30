@@ -19,8 +19,8 @@
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
-    "typescript": "^5.5.2",
-    "solid-js": "^1.8.18",
+    "typescript": "^5.5.4",
+    "solid-js": "^1.8.19",
     "rollup-preset-solid": "^2.0.1"
   },
   "peerDependencies": {

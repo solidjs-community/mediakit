@@ -1,5 +1,11 @@
 # @solid-mediakit/shared
 
+## 0.0.5
+
+### Patch Changes
+
+- [#91](https://github.com/solidjs-community/mediakit/pull/91) [`87d4571`](https://github.com/solidjs-community/mediakit/commit/87d4571f5f1d1846f6728efecb4adc4bc6154771) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Fixed `importIfNotThere`
+
 ## 0.0.4
 
 ### Patch Changes

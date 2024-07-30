@@ -15,7 +15,7 @@ export const importIfNotThere = (
   const nameIsimported = p.some(
     (n: any) =>
       n.type === 'ImportDeclaration' &&
-      n.specifiers.some((s: any) => s.imported.name === name)
+      n.specifiers.some((s: any) => s.imported?.name === name)
   )
 
   if (!nameIsimported) {

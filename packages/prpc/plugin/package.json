@@ -14,17 +14,17 @@
   ],
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
-    "@types/node": "^20.14.9",
-    "@typescript-eslint/parser": "^7.14.1",
-    "eslint": "^9.6.0",
-    "pridepack": "2.6.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^9.8.0",
+    "pridepack": "2.6.1",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.2",
-    "vitest": "1.6.0"
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vitest": "2.0.4"
   },
   "dependencies": {
-    "@babel/core": "^7.24.7",
+    "@babel/core": "^7.25.2",
     "@babel/preset-typescript": "^7.24.7",
     "@rollup/pluginutils": "^5.1.0",
     "@solid-mediakit/shared": "workspace:*"
@@ -37,8 +37,7 @@
     "clean": "pridepack clean",
     "watch": "pridepack watch",
     "start": "pridepack start",
-    "dev": "pridepack dev",
-    "test": "vitest --passWithNoTests"
+    "dev": "pridepack dev"
   },
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
   "publishConfig": {

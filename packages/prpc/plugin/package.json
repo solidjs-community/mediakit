@@ -37,8 +37,7 @@
     "clean": "pridepack clean",
     "watch": "pridepack watch",
     "start": "pridepack start",
-    "dev": "pridepack dev",
-    "test": "vitest --passWithNoTests"
+    "dev": "pridepack dev"
   },
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
   "publishConfig": {

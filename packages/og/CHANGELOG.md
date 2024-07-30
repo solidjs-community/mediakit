@@ -1,5 +1,12 @@
 # @solid-mediakit/og
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [[`6fe26d9`](https://github.com/solidjs-community/mediakit/commit/6fe26d9daa1c96436d6fe5e7f8e253344e56d9ad)]:
+  - @solid-mediakit/shared@0.0.6
+
 ## 0.2.4
 
 ### Patch Changes

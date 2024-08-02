@@ -19,11 +19,11 @@ const extractChild = (
   return elementChildren.length === 1
     ? elementChildren[0]
     : t.jsxElement(
-        t.jsxOpeningElement(t.jsxIdentifier('div'), []),
-        t.jsxClosingElement(t.jsxIdentifier('div')),
-        elementChildren,
-        false
-      )
+      t.jsxOpeningElement(t.jsxIdentifier('div'), []),
+      t.jsxClosingElement(t.jsxIdentifier('div')),
+      elementChildren,
+      false
+    )
 }
 
 export const replaceDynamicImages = (
@@ -91,7 +91,7 @@ export const addDynamicImages = (
           return createOpenGraphImage(%%jsx%%);
       };
       const url = createMemo(()=>{
-          return img.url.replace("_server", "_server/") + \`&raw=true&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
+          return img.url.replace("_server", "_server/") + \`&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
       });
       return <>{url()}</>;
   };`,
@@ -105,14 +105,11 @@ export const addDynamicImages = (
       args.length === 0
         ? null
         : t.variableDeclaration('const', [
-            t.variableDeclarator(
-              t.arrayPattern(args),
-              t.identifier("args")
-              // t.callExpression(t.identifier('getArguments'), [
-              //   t.identifier('server$.request.url'),
-              // ])
-            ),
-          ])
+          t.variableDeclarator(
+            t.arrayPattern(args),
+            t.identifier("args")
+          ),
+        ])
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,

@@ -10,7 +10,7 @@ const DynamicImage1 = (props) => {
   const url = createMemo(() => {
     return (
       img.url.replace('_server', '_server/') +
-      `&raw=true&args=${encodeURIComponent(JSON.stringify(props.values))}`
+      `&args=${encodeURIComponent(JSON.stringify(props.values))}`
     )
   })
   return <>{url()}</>

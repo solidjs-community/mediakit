@@ -74,12 +74,18 @@ export const extractAndReplaceReactives = (
 ) => {
   const Reactives: babel.types.Expression[] = []
   const replaceReactivesVisitor: babel.Visitor = {
-    JSXExpressionContainer(path) {
-      const expr = path.node.expression
+    // JSXExpressionContainer(path) {
+    //   const expr = path.node.expression
+    //   if (t.isJSXEmptyExpression(expr)) return
+    //   path.node.expression = t.identifier(`r${Reactives.length}`)
+    //   Reactives.push(t.cloneNode(expr))
+    // },
+    CallExpression(path) {
+      const expr = path.node
       if (t.isJSXEmptyExpression(expr)) return
-      path.node.expression = t.identifier(`r${Reactives.length}`)
+      path.replaceWith(t.identifier(`r${Reactives.length}`));
       Reactives.push(t.cloneNode(expr))
-    },
+    }
   }
   path.traverse(replaceReactivesVisitor)
   return Reactives

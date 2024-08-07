@@ -1,5 +1,5 @@
 const coolVar = (
   <DynamicImage>
-    <div style={{"font-size": "100px"}}>Hello</div>
+    <div style={{fontSize: "100px"}}>Hello</div>
   </DynamicImage>
 )

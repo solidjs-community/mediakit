@@ -4,15 +4,8 @@ const DynamicImage1 = (props) => {
   const img = (...args) => {
     'use server'
 
-    return createOpenGraphImage(
-      <div
-        style={{
-          fontSize: '100px',
-        }}
-      >
-        Hello
-      </div>
-    )
+    const [r0] = args
+    return createOpenGraphImage(<div>{r0}</div>)
   }
   const url = createMemo(() => {
     return (
@@ -22,4 +15,4 @@ const DynamicImage1 = (props) => {
   })
   return <>{url()}</>
 }
-const coolVar = <DynamicImage1 values={[]} />
+const coolVar = <DynamicImage1 values={[nonSignal]} />

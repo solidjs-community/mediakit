@@ -68,7 +68,7 @@ export const SIDEBAR: Sidebar = {
   ],
   Forms: [
     { text: 'Install', link: 'forms/install' },
-    { text: 'createForm', link: 'forms/createForm' },
+    { text: 'createForm', link: 'forms/createform' },
   ],
   Log: [
     { text: 'Install', link: 'log/install' },

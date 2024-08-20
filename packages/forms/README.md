@@ -292,3 +292,12 @@ createEffect(() => {
   console.log(testValues())
 })
 ```
+
+## Supports
+
+- [x] String
+- [x] Integer
+- [x] Float
+- [x] Boolean (Checkbox)
+- [ ] Objects (Soon)
+- [ ] Arrays (Soon)

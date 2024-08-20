@@ -17,7 +17,7 @@ export type $FieldInput<Z extends ZodSchema, R = InferZod<Z>> = {
   labelClass?: string
   inputClass?: string
   hidePlaceHolder?: boolean
-  type: string
+  type: $AllowedType
 }
 export type $Field<Z extends ZodSchema, R = InferZod<Z>> = Component<
   $FieldInput<Z, R>
@@ -62,6 +62,15 @@ type $RenderForm<Z extends ZodSchema, R = InferZod<Z>> = <
 type NonEmptyString<T extends string> = T extends `${infer _First}${infer _}`
   ? T
   : never
+
+export type $AllowedType =
+  | 'string'
+  | 'float'
+  | 'number'
+  | 'boolean'
+  | 'date'
+  | 'array'
+  | 'object'
 
 export type $Validate<Z extends ZodSchema> = (
   onSucces?: $OnSubmit<Z> | undefined,

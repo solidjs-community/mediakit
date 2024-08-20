@@ -8,12 +8,14 @@ const Home: VoidComponent = () => {
       name: z.string().min(1),
       test: z.string().min(1),
       num: z.number().min(10),
+      checked: z.boolean(),
     }),
     name: 'test',
     defaultValues: {
       name: 'default name',
       test: 'default test',
       num: 30,
+      checked: true,
     },
   })
 

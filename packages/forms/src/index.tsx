@@ -65,7 +65,9 @@ export const createForm = <
                   ? parseFloat(e.currentTarget.value)
                   : type === 'number'
                     ? parseInt(e.currentTarget.value)
-                    : e.currentTarget.value,
+                    : type === 'boolean'
+                      ? e.currentTarget.checked
+                      : e.currentTarget.value,
             }))
           }
           type={
@@ -73,7 +75,9 @@ export const createForm = <
               ? 'text'
               : type === 'float' || type === 'number'
                 ? 'number'
-                : 'text'
+                : type === 'boolean'
+                  ? 'checkbox'
+                  : 'text'
           }
           placeholder={hidePlaceHolder ? undefined : capitalize(t)}
         />

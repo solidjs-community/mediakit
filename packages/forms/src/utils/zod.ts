@@ -1,4 +1,4 @@
-import type { $ZError } from '../types'
+import type { $AllowedType, $ZError } from '../types'
 import {
   ZodTypeAny,
   ZodOptional,
@@ -25,8 +25,8 @@ export const validateZodSchema = async <Z extends Zod.Schema>(
 }
 
 type AType = {
-  type: string
-  innerType?: string | string[] | AType | object
+  type: $AllowedType
+  innerType?: $AllowedType | string[] | AType | object
 }
 
 const zodTypeToInputType = (zodType: ZodTypeAny): AType => {

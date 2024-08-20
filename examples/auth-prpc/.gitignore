@@ -23,3 +23,6 @@ gitignore
 Thumbs.db
 
 .env
+
+# Prisma DB
+**/db.sqlite

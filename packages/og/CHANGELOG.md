@@ -1,5 +1,31 @@
 # @solid-mediakit/og
 
+## 0.2.6
+
+### Patch Changes
+
+- [#95](https://github.com/solidjs-community/mediakit/pull/95) [`09d82b5`](https://github.com/solidjs-community/mediakit/commit/09d82b5066523b905ec769495e418bce36bfbf46) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Removed unnecessary `raw=true` from `DynamicImage` url
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [[`6fe26d9`](https://github.com/solidjs-community/mediakit/commit/6fe26d9daa1c96436d6fe5e7f8e253344e56d9ad)]:
+  - @solid-mediakit/shared@0.0.6
+
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`87d4571`](https://github.com/solidjs-community/mediakit/commit/87d4571f5f1d1846f6728efecb4adc4bc6154771)]:
+  - @solid-mediakit/shared@0.0.5
+
+## 0.2.3
+
+### Patch Changes
+
+- [#87](https://github.com/solidjs-community/mediakit/pull/87) [`ec376ff`](https://github.com/solidjs-community/mediakit/commit/ec376ffa954aa154323ceadf518161724dd31549) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Fixed OG plugin
+
 ## 0.2.2
 
 ### Patch Changes

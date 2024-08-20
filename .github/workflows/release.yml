@@ -34,6 +34,7 @@ jobs:
           EOF
 
       - name: Verify NPM Authentication
+        continue-on-error: true
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
           npm whoami
@@ -43,6 +44,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+      - name: Test
+        run: pnpm test
 
       - name: Create Release
         uses: changesets/action@v1.4.7

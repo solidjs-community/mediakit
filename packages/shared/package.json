@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/shared",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "type": "module",
   "description": "",
   "main": "./dist/index.js",
@@ -20,10 +20,10 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/babel__core": "7.20.5",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@babel/core": "7.24.7",
-    "@rollup/pluginutils": "^5.0.2"
+    "@babel/core": "7.25.2",
+    "@rollup/pluginutils": "^5.1.0"
   }
 }

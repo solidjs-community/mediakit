@@ -1,5 +1,19 @@
 # @solid-mediakit/media
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`6fe26d9`](https://github.com/solidjs-community/mediakit/commit/6fe26d9daa1c96436d6fe5e7f8e253344e56d9ad)]:
+  - @solid-mediakit/shared@0.0.6
+
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`87d4571`](https://github.com/solidjs-community/mediakit/commit/87d4571f5f1d1846f6728efecb4adc4bc6154771)]:
+  - @solid-mediakit/shared@0.0.5
+
 ## 0.0.5
 
 ### Patch Changes

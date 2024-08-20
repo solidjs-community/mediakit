@@ -5,7 +5,7 @@ export default defineConfig({
   vite: {
     plugins: [
       logPlugin({
-        logOn: 'production',
+        logOn: 'development',
       }),
     ],
   },

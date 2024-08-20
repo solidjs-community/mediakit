@@ -25,8 +25,7 @@ export async function createOpenGraphImage(
     return
   }
   const converted = html(jsx)
-  const img = new ImageResponse(converted as any)
-  img.headers.append("X-Content-Raw", "")
+  const img = new ImageResponse(converted as any, { headers: { "X-Content-Raw": "" } })
   return img;
 }
 

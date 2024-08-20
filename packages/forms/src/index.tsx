@@ -78,7 +78,7 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
             return (
               <children.Field
                 Field={(props) => <Field {...props} name={key} />}
-                name={'key'}
+                name={key}
               />
             )
           }}

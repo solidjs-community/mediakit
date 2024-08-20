@@ -1,21 +1,27 @@
-import { defineConfig } from "tsup";
-export default defineConfig([{
-    entry: ["src/index.tsx"],
+import { defineConfig } from 'tsup'
+export default defineConfig([
+  {
+    entry: ['src/index.tsx'],
     esbuildOptions: (opts) => {
-        opts.jsx = "preserve"
-        opts.outExtension = { ".js": ".jsx" }
-        opts.entryNames = "[name]"
+      opts.jsx = 'preserve'
+      opts.outExtension = { '.js': '.jsx' }
+      opts.entryNames = '[name]'
     },
-    target: "esnext",
-    format: "esm",
+    target: 'esnext',
+    format: 'esm',
     splitting: false,
-},
-{
-    entry: ["src/unplugin/index.ts", "src/server/index.ts", "src/compiler/index.ts"],
-    esbuildOptions(opts){
-        opts.entryNames = "[dir]"
+  },
+  {
+    entry: [
+      'src/unplugin/index.ts',
+      'src/server/index.ts',
+      'src/compiler/index.ts',
+    ],
+    esbuildOptions(opts) {
+      opts.entryNames = '[dir]'
     },
-    target: "esnext",
-    format: "esm",
+    target: 'esnext',
+    format: 'esm',
     splitting: false,
-}]);
+  },
+])

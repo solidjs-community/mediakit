@@ -48,6 +48,12 @@ export const createForm = <
     type,
   }) => {
     const t = typeof name === 'string' ? name : name.toString()
+    const additionalProps =
+      type === 'boolean'
+        ? {
+            checked: values()?.[t] ?? false,
+          }
+        : {}
     return (
       <div class={wrapperClass}>
         <label for={t} class={labelClass}>
@@ -57,6 +63,7 @@ export const createForm = <
           id={`${input.name}_${t}`}
           name={t}
           class={inputClass}
+          value={values()?.[t] ?? undefined}
           onInput={(e) =>
             setValues((prev) => ({
               ...prev,
@@ -80,6 +87,7 @@ export const createForm = <
                   : 'text'
           }
           placeholder={hidePlaceHolder ? undefined : capitalize(t)}
+          {...additionalProps}
         />
       </div>
     )

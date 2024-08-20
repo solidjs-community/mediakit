@@ -14,13 +14,9 @@ import {
 } from 'zod'
 
 export const validateZodSchema = async <Z extends Zod.Schema>(
-  target: (EventTarget & HTMLFormElement) | object,
   schema: Zod.Schema,
+  values: any,
 ): Promise<[true, SafeParseSuccess<any>] | [false, $ZError<Z>]> => {
-  const values =
-    target instanceof EventTarget
-      ? Object.fromEntries(new FormData(target))
-      : target
   const results = await schema.safeParseAsync(values)
   if (!results.success) {
     return [false, results.error.flatten().fieldErrors]
@@ -35,8 +31,13 @@ type AType = {
 
 const zodTypeToInputType = (zodType: ZodTypeAny): AType => {
   if (zodType instanceof ZodString) return { type: 'string' }
-  if (zodType instanceof ZodNumber) return { type: 'number' }
-  if (zodType instanceof ZodBoolean) return { type: ' boolean' }
+  if (zodType instanceof ZodNumber) {
+    if (zodType._def.checks?.some((check) => check.kind === 'multipleOf')) {
+      return { type: 'float' }
+    }
+    return { type: 'number' }
+  }
+  if (zodType instanceof ZodBoolean) return { type: 'boolean' }
   if (zodType instanceof ZodDate) return { type: 'date' }
   if (zodType instanceof ZodArray) {
     const elementType = zodTypeToInputType(zodType.element)

@@ -27,7 +27,7 @@ const Home: VoidComponent = () => {
         onSubmit={async (e) => {
           e.preventDefault()
           e.stopPropagation()
-          const [success, dataOrError] = await validateTest(e.target)
+          const [success, dataOrError] = await validateTest()
           if (success) {
             console.log('is data', dataOrError)
             // do stuff

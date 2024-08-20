@@ -5,6 +5,8 @@ description: 'API for the createForm function'
 
 **API for the createForm function**
 
+## createForm
+
 The `createForm` utility is being used to create a form and interact with the MediaKit/Forms api.
 
 ```ts
@@ -20,7 +22,50 @@ const { RenderTestForm, testFieldErrors } = createForm({
 })
 ```
 
-## Variables Name
+### CreateForm Input
+
+The createForm function accepts in 3 properties
+
+#### schema (required)
+
+```ts
+const {} = createForm({
+  schema: z.object({
+    name: z.string().min(1),
+    test: z.string().min(1),
+  }),
+  ...
+})
+```
+
+#### name (optional)
+
+Specifying a name is going to change all of your returned variables names
+
+```ts
+const { RenderTestForm } = createForm({
+  name: 'test',
+  ...
+})
+
+// no name
+
+const { RenderForm } = createForm({...})
+```
+
+#### defaultValues (optional)
+
+```ts
+const {} = createForm({
+  defaultValues: {
+    name: 'default name',
+    test: 'default test',
+  },
+  ...
+})
+```
+
+### Variables Name
 
 The returned variables names changed based on the `name` mentioned in the createForm input.
 
@@ -128,7 +173,7 @@ This function returned from `createForm` is a function you can use to validate y
   onSubmit={async (e) => {
     e.preventDefault()
     e.stopPropagation()
-    const [success, dataOrError] = await validateTest(e.target)
+    const [success, dataOrError] = await validateTest()
     if (success) {
       console.log('is data', dataOrError)
       // do stuff
@@ -226,3 +271,25 @@ The createForm function returns a signal that contains the errors of the input, 
 ```
 
 Notice again: the name of the variables change based on the `name` property mention in the createForm input.
+
+## values
+
+The createForm function also returns a signal that contains the current forms values, so we can use a SolidJS effect to render the current values.
+
+```ts
+const { testValues } = createForm({
+  schema: z.object({
+    name: z.string().min(1),
+    test: z.string().min(1),
+  }),
+  name: 'test',
+  defaultValues: {
+    name: 'default name',
+    test: 'default test',
+  },
+})
+
+createEffect(() => {
+  console.log(testValues())
+})
+```

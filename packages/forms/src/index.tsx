@@ -1,5 +1,5 @@
 import { For, createSignal } from 'solid-js'
-import { type ZodSchema } from 'zod'
+import { infer as InferZod, type ZodSchema } from 'zod'
 import {
   $Field,
   $FormInput,
@@ -15,20 +15,27 @@ import {
   validateZodSchema,
 } from './utils'
 
-export const createForm = <Z extends ZodSchema, N extends string | undefined>(
-  input: $FormInput<Z, N>,
-): $FormOutput<Z, N> => {
+export const createForm = <
+  Z extends ZodSchema,
+  N extends string | undefined,
+  dValues extends InferZod<Z> | undefined,
+>(
+  input: $FormInput<Z, N, dValues>,
+): $FormOutput<Z, N, dValues> => {
   const [fieldErrors, setFieldErrors] = createSignal<$ZError<Z> | null>(null)
+  const [values, setValues] = createSignal<null | InferZod<Z>>(
+    input.defaultValues ?? null,
+  )
 
-  const validate$: $Validate<Z> = async (_input, _onSucces, _onError) => {
+  const validate$: $Validate<Z> = async (onSucces, onError) => {
     setFieldErrors(null)
-    const [success, r] = await validateZodSchema(_input, input.schema)
+    const [success, r] = await validateZodSchema(input.schema, values())
     if (success) {
-      await _onSucces?.(r)
+      await onSucces?.(r)
       return [true, r]
     } else {
       setFieldErrors(r)
-      await _onError?.(r)
+      await onError?.(r)
       return [false, r]
     }
   }
@@ -38,6 +45,7 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
     labelClass,
     inputClass,
     hidePlaceHolder,
+    type,
   }) => {
     const t = typeof name === 'string' ? name : name.toString()
     return (
@@ -49,6 +57,24 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
           id={`${input.name}_${t}`}
           name={t}
           class={inputClass}
+          onInput={(e) =>
+            setValues((prev) => ({
+              ...prev,
+              [t]:
+                type === 'float'
+                  ? parseFloat(e.currentTarget.value)
+                  : type === 'number'
+                    ? parseInt(e.currentTarget.value)
+                    : e.currentTarget.value,
+            }))
+          }
+          type={
+            type === 'string'
+              ? 'text'
+              : type === 'float' || type === 'number'
+                ? 'number'
+                : 'text'
+          }
           placeholder={hidePlaceHolder ? undefined : capitalize(t)}
         />
       </div>
@@ -70,14 +96,16 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
         onSubmit={async (e) => {
           e.preventDefault()
           e.stopPropagation()
-          await validate$(e.target, onSubmit, onValidationError)
+          await validate$(onSubmit, onValidationError)
         }}
       >
         <For each={keys}>
           {(key) => {
             return (
               <children.Field
-                Field={(props) => <Field {...props} name={key} />}
+                Field={(props) => (
+                  <Field {...props} name={key} type={zT[key].type} />
+                )}
                 name={key}
               />
             )
@@ -91,10 +119,12 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
   const $fieldErrorsName = `${input.name ?? ''}${input.name ? 'F' : 'f'}ieldErrors`
   const $fieldName = `${input.name ? capitalize(input.name) : ''}Field`
   const $validateName = `validate${input.name ? capitalize(input.name) : ''}`
+  const $valuesName = `${input.name ?? ''}${input.name ? 'V' : 'v'}alues`
   return {
     [$renderName]: RenderForm,
     [$fieldErrorsName]: fieldErrors,
     [$fieldName]: Field,
     [$validateName]: validate$,
-  } as $FormOutput<Z, N>
+    [$valuesName]: values,
+  } as $FormOutput<Z, N, dValues>
 }

@@ -1,9 +1,14 @@
 import type { Accessor, Component, JSX, JSXElement } from 'solid-js'
 import type { ZodSchema, infer as InferZod } from 'zod'
 
-export type $FormInput<Z extends ZodSchema, N extends string | undefined> = {
+export type $FormInput<
+  Z extends ZodSchema,
+  N extends string | undefined,
+  dValues extends InferZod<Z> | undefined,
+> = {
   schema: Z
   name?: N
+  defaultValues?: dValues
 }
 
 export type $FieldInput<Z extends ZodSchema, R = InferZod<Z>> = {
@@ -12,13 +17,14 @@ export type $FieldInput<Z extends ZodSchema, R = InferZod<Z>> = {
   labelClass?: string
   inputClass?: string
   hidePlaceHolder?: boolean
+  type: string
 }
 export type $Field<Z extends ZodSchema, R = InferZod<Z>> = Component<
   $FieldInput<Z, R>
 >
 
 export type $TempField<Z extends ZodSchema, R = InferZod<Z>> = Component<
-  Omit<$FieldInput<Z, R>, 'name'>
+  Omit<$FieldInput<Z, R>, 'name' | 'type'>
 >
 
 export type $AllowedChild<
@@ -58,14 +64,14 @@ type NonEmptyString<T extends string> = T extends `${infer _First}${infer _}`
   : never
 
 export type $Validate<Z extends ZodSchema> = (
-  _input: (EventTarget & HTMLFormElement) | object,
-  _onSucces?: $OnSubmit<Z> | undefined,
-  _onError?: $OnError<Z> | undefined,
+  onSucces?: $OnSubmit<Z> | undefined,
+  onError?: $OnError<Z> | undefined,
 ) => Promise<[true, InferZod<Z>] | [false, $ZError<Z>]>
 
 export type $FormOutput<
   Z extends ZodSchema,
   N extends string | undefined,
+  dValues extends InferZod<Z> | undefined,
 > = Record<
   N extends undefined
     ? 'RenderForm'
@@ -86,7 +92,7 @@ export type $FormOutput<
         ? 'Field'
         : `${Capitalize<N>}Field`
       : `Field`,
-    $Field<Z>
+    Component<Omit<$FieldInput<Z>, 'type'>>
   > &
   Record<
     N extends string
@@ -95,6 +101,10 @@ export type $FormOutput<
         : `validate${Capitalize<N>}`
       : `validate`,
     $Validate<Z>
+  > &
+  Record<
+    N extends string ? `${N}Values` : `values`,
+    Accessor<dValues extends undefined ? null | InferZod<Z> : InferZod<Z>>
   > & {}
 
 export type $ZError<Z extends Zod.ZodSchema> = {

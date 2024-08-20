@@ -1,15 +1,26 @@
-import { Show, type VoidComponent } from 'solid-js'
+import { Show, createEffect, type VoidComponent } from 'solid-js'
 import { z } from 'zod'
 import { createForm } from '@solid-mediakit/forms'
 
 const Home: VoidComponent = () => {
-  const { RenderTestForm, testFieldErrors } = createForm({
+  const { RenderTestForm, testFieldErrors, testValues } = createForm({
     schema: z.object({
       name: z.string().min(1),
       test: z.string().min(1),
+      num: z.number().min(10),
     }),
     name: 'test',
+    defaultValues: {
+      name: 'default name',
+      test: 'default test',
+      num: 30,
+    },
   })
+
+  createEffect(() => {
+    console.log('t$$', testValues())
+  })
+
   return (
     <div class='flex flex-col gap-2 items-center justify-center py-12 w-full'>
       <Show when={testFieldErrors()}>
@@ -19,8 +30,7 @@ const Home: VoidComponent = () => {
       </Show>
       <RenderTestForm
         onSubmit={async (input) => {
-          const { name, test } = input // {name: string; test: string;}
-          console.log({ name, test })
+          console.log(input)
         }}
         onValidationError={(e) => {
           const nameErros = e.name // string[] | undefined

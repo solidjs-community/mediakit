@@ -69,18 +69,8 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
         {...rest}
         onSubmit={async (e) => {
           e.preventDefault()
+          e.stopPropagation()
           await validate$(e.target, onSubmit, onValidationError)
-          setFieldErrors(null)
-          const [success, r] = await validateZodSchema(
-            e.currentTarget,
-            input.schema,
-          )
-          if (success) {
-            await onSubmit(r)
-          } else {
-            setFieldErrors(r)
-            await onValidationError?.(r)
-          }
         }}
       >
         {keys.map((key) => {

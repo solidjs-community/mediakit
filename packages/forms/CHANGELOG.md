@@ -1,5 +1,11 @@
 # @solid-mediakit/forms
 
+## 1.1.1
+
+### Patch Changes
+
+- [`4d6c403`](https://github.com/solidjs-community/mediakit/commit/4d6c4032e0a2e0ecddf1e38c25124e5a76fa166b) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: reset the errors when input changes
+
 ## 1.1.0
 
 ### Minor Changes

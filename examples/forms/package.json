@@ -1,0 +1,35 @@
+{
+  "name": "dev-forms",
+  "private": true,
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\""
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.8.0",
+    "eslint-plugin-solid": "^0.14.1",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
+  },
+  "dependencies": {
+    "@solidjs/router": "^0.14.1",
+    "@solidjs/start": "^1.0.6",
+    "solid-js": "^1.8.19",
+    "vinxi": "^0.4.1",
+    "@solidjs/meta": "^0.29.4",
+    "zod": "^3.22.4",
+    "@solid-mediakit/forms": "workspace:*"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

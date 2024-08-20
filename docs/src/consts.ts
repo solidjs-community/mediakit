@@ -66,6 +66,10 @@ export const SIDEBAR: Sidebar = {
       link: 'prpc/hideevent',
     },
   ],
+  Forms: [
+    { text: 'Install', link: 'forms/install' },
+    { text: 'createForm', link: 'forms/createForm' },
+  ],
   Log: [
     { text: 'Install', link: 'log/install' },
     { text: 'log$', link: 'log/log' },

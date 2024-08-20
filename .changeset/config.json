@@ -17,6 +17,7 @@
     "dev-prpc",
     "auth-prpc",
     "og-example",
-    "log-example"
+    "log-example",
+    "dev-forms"
   ]
 }

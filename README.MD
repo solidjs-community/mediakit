@@ -9,4 +9,5 @@ A set of utilities to use with your Solid apps.
 - [OG](./packages/og/README.md)
 - [Log](./packages/log/README.md)
 - [pRPC](./packages/prpc/solid/README.md)
+- [Forms](./packages/forms/README.md)
 - [tRPC](./packages/trpc/README.md)

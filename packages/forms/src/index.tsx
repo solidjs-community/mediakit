@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { For, createSignal } from 'solid-js'
 import { type ZodSchema } from 'zod'
 import {
   $Field,
@@ -73,13 +73,17 @@ export const createForm = <Z extends ZodSchema, N extends string | undefined>(
           await validate$(e.target, onSubmit, onValidationError)
         }}
       >
-        {keys.map((key) => {
-          return children.Field({
-            Field: (props) => <Field {...props} name={key} />,
-            name: key,
-          })
-        })}
-        {children.SubmitButton()}
+        <For each={keys}>
+          {(key) => {
+            return (
+              <children.Field
+                Field={(props) => <Field {...props} name={key} />}
+                name={'key'}
+              />
+            )
+          }}
+        </For>
+        <children.SubmitButton />
       </form>
     )
   }

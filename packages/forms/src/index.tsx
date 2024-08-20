@@ -64,7 +64,16 @@ export const createForm = <
           name={t}
           class={inputClass}
           value={values()?.[t] ?? undefined}
-          onInput={(e) =>
+          onInput={(e) => {
+            const tempE = fieldErrors()
+            if (tempE && t in tempE) {
+              setFieldErrors((prev) => {
+                const copy = { ...prev }
+                delete copy?.[t]
+                if (Object.keys(copy).length === 0) return null
+                return copy as Record<string, string[]>
+              })
+            }
             setValues((prev) => ({
               ...prev,
               [t]:
@@ -76,7 +85,7 @@ export const createForm = <
                       ? e.currentTarget.checked
                       : e.currentTarget.value,
             }))
-          }
+          }}
           type={
             type === 'string'
               ? 'text'

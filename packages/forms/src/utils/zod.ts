@@ -17,7 +17,7 @@ export const validateZodSchema = async <Z extends Zod.Schema>(
   schema: Zod.Schema,
   values: any,
 ): Promise<[true, SafeParseSuccess<any>] | [false, $ZError<Z>]> => {
-  const results = await schema.safeParseAsync(values)
+  const results = await schema.safeParseAsync(values === null ? {} : values)
   if (!results.success) {
     return [false, results.error.flatten().fieldErrors]
   }

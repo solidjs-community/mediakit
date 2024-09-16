@@ -1,16 +1,10 @@
 import { Show, createEffect, type VoidComponent } from 'solid-js'
-import { inferFlattenedErrors, z } from 'zod'
-import { createForm } from '@solid-mediakit/forms'
-
-const sc = z.object({
-  name: z.string().min(1),
-  test: z.string().min(1),
-  num: z.number().min(10),
-  checked: z.boolean(),
-})
+import { z } from 'zod'
+import { createForm$ } from '@solid-mediakit/forms'
+import { isServer } from 'solid-js/web'
 
 const Home: VoidComponent = () => {
-  const { RenderTestForm, testFieldErrors, testValues } = createForm({
+  const { RenderTestForm, testFieldErrors, testValues } = createForm$({
     schema: z.object({
       name: z.string().min(1),
       test: z.string().min(1),
@@ -38,8 +32,9 @@ const Home: VoidComponent = () => {
         }}
       </Show>
       <RenderTestForm
-        onSubmit={async (input) => {
-          console.log(input)
+        onSubmit={async ({ payload, event$ }) => {
+          console.log('isServer', isServer)
+          console.log(payload, event$.request.headers.get('user-agent'))
         }}
         onFormError={(e) => {
           if (e.isZodError()) {

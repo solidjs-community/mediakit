@@ -27,7 +27,8 @@
     "vinxi": "^0.4.1",
     "@solidjs/meta": "^0.29.4",
     "zod": "^3.22.4",
-    "@solid-mediakit/forms": "workspace:*"
+    "@solid-mediakit/forms": "workspace:*",
+    "@solid-mediakit/forms-plugin": "workspace:*"
   },
   "engines": {
     "node": ">=16"

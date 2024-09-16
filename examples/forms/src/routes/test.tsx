@@ -21,10 +21,14 @@ const Home: VoidComponent = () => {
         onSubmit={async (input) => {
           console.log(input) // {name: string; test: string;}
         }}
-        onValidationError={(e) => {
-          const nameErros = e.name // string[] | undefined
-          const testErrors = e.test // string[] | undefined
-          console.log('Validation error', { nameErros, testErrors })
+        onFormError={(e) => {
+          if (e.isZodError()) {
+            const nameErros = e.cause.fieldErrors.name // string[] | undefined
+            const testErrors = e.cause.fieldErrors.test // string[] | undefined
+            console.log('Validation error', { nameErros, testErrors })
+          } else {
+            console.log(e.cause)
+          }
         }}
         class='flex p-3 rounded-lg flex-col gap-2 h-[300px] w-[80vw] bg-zinc-800 items-center'
       >

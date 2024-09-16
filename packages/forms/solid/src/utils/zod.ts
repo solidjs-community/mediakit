@@ -1,4 +1,5 @@
-import type { $AllowedType, $ZError } from '../types'
+import { MediakitClientError } from '../error'
+import type { $AllowedType } from '../types'
 import {
   ZodTypeAny,
   ZodOptional,
@@ -16,10 +17,14 @@ import {
 export const validateZodSchema = async <Z extends Zod.Schema>(
   schema: Zod.Schema,
   values: any,
-): Promise<[true, SafeParseSuccess<any>] | [false, $ZError<Z>]> => {
+): Promise<[true, SafeParseSuccess<any>] | [false, MediakitClientError<Z>]> => {
   const results = await schema.safeParseAsync(values === null ? {} : values)
   if (!results.success) {
-    return [false, results.error.flatten().fieldErrors]
+    const zodE = new MediakitClientError(
+      'Zod Parsing Error',
+      results.error.flatten(),
+    )
+    return [false, zodE]
   }
   return [true, results.data]
 }

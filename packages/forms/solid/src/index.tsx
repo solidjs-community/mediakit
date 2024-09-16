@@ -14,29 +14,48 @@ import {
   getZodKeysAndTypes,
   validateZodSchema,
 } from './utils'
+import { callServerFn } from './server'
+import { MediakitClientError } from './error'
 
+type Server = false
 export const createForm = <
   Z extends ZodSchema,
-  N extends string | undefined,
+  N extends Server extends true ? string : string | undefined,
   dValues extends InferZod<Z> | undefined,
+  // Server extends boolean,
 >(
-  input: $FormInput<Z, N, dValues>,
-): $FormOutput<Z, N, dValues> => {
+  input: $FormInput<Z, N, dValues, Server>,
+): $FormOutput<Z, N, dValues, Server> => {
   const [fieldErrors, setFieldErrors] = createSignal<$ZError<Z> | null>(null)
   const [values, setValues] = createSignal<null | InferZod<Z>>(
     input.defaultValues ?? null,
   )
+  const [error, setError] = createSignal<MediakitClientError<Z> | null>(null)
 
-  const validate$: $Validate<Z> = async (onSucces, onError) => {
+  const validate$: $Validate<Z, Server> = async (onSucces, onError) => {
     setFieldErrors(null)
-    const [success, r] = await validateZodSchema(input.schema, values())
-    if (success) {
-      await onSucces?.(r)
-      return [true, r]
+    if (input.server) {
+      await callServerFn<Z>(values(), onSucces!, setFieldErrors, setError)
+      return [true, values()]
     } else {
-      setFieldErrors(r)
-      await onError?.(r)
-      return [false, r]
+      const [success, r] = await validateZodSchema(input.schema, values())
+      try {
+        if (success) {
+          await onSucces?.(r as unknown as InferZod<Z>)
+          return [true, r]
+        } else {
+          if (r.isZodError()) setFieldErrors(r.cause.fieldErrors)
+          await onError?.(r)
+          return [false, r]
+        }
+      } catch (e: any) {
+        const newE =
+          e instanceof MediakitClientError
+            ? e
+            : new MediakitClientError(e?.message ?? 'Unknown error', e)
+        setError(newE)
+        return [false, newE]
+      }
     }
   }
   const Field: $Field<Z> = ({
@@ -104,10 +123,10 @@ export const createForm = <
   const RenderForm = <SbClass extends string | undefined>({
     children: _children,
     onSubmit,
-    onValidationError,
+    onFormError,
     submitButtonClass,
     ...rest
-  }: $RenderFormProps<Z, SbClass>) => {
+  }: $RenderFormProps<Z, SbClass, InferZod<Z>, Server>) => {
     const zT = getZodKeysAndTypes(input.schema)
     const keys = Object.keys(zT)
     const children = getChild(_children, submitButtonClass)
@@ -117,7 +136,7 @@ export const createForm = <
         onSubmit={async (e) => {
           e.preventDefault()
           e.stopPropagation()
-          await validate$(onSubmit, onValidationError)
+          await validate$(onSubmit, onFormError)
         }}
       >
         <For each={keys}>
@@ -141,11 +160,30 @@ export const createForm = <
   const $fieldName = `${input.name ? capitalize(input.name) : ''}Field`
   const $validateName = `validate${input.name ? capitalize(input.name) : ''}`
   const $valuesName = `${input.name ?? ''}${input.name ? 'V' : 'v'}alues`
+  const $errorName = `${input.name ?? ''}${input.name ? 'E' : 'e'}rror`
   return {
     [$renderName]: RenderForm,
     [$fieldErrorsName]: fieldErrors,
     [$fieldName]: Field,
     [$validateName]: validate$,
     [$valuesName]: values,
-  } as $FormOutput<Z, N, dValues>
+    [$errorName]: error,
+  } as $FormOutput<Z, N, dValues, Server>
 }
+
+export const createForm$ = <
+  Z extends ZodSchema,
+  N extends string,
+  dValues extends InferZod<Z> | undefined,
+>(
+  input: $FormInput<Z, N, dValues, true>,
+): $FormOutput<Z, N, dValues, true> =>
+  createForm({ ...input, server: true } as unknown as $FormInput<
+    Z,
+    N,
+    dValues,
+    false
+  >)
+
+export * from './server'
+export * from './error'

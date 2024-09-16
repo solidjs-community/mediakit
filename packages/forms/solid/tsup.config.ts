@@ -12,4 +12,13 @@ export default defineConfig([
     format: 'esm',
     splitting: false,
   },
+  {
+    entry: ['src/server.ts'],
+    esbuildOptions: (opts) => {
+      opts.entryNames = '[name]'
+    },
+    target: 'esnext',
+    format: 'esm',
+    splitting: false,
+  },
 ])

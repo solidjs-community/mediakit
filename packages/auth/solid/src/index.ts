@@ -15,7 +15,7 @@ export type { SolidAuthConfig }
 const authorizationParamsPrefix = 'authorizationParams-'
 
 export function SolidAuth(
-  config: SolidAuthConfig | ((event: APIEvent) => PromiseLike<SolidAuthConfig>)
+  config: SolidAuthConfig | ((event: APIEvent) => PromiseLike<SolidAuthConfig>),
 ): {
   signIn: APIHandler
   signOut: APIHandler
@@ -26,7 +26,7 @@ export function SolidAuth(
     const _config = typeof config === 'object' ? config : await config(event)
 
     setEnvDefaults(process.env, _config)
-
+    _config.basePath ??= getBasePath(_config)
     const { request } = event
     const url = new URL(request.url)
     const action = url.pathname
@@ -37,7 +37,7 @@ export function SolidAuth(
       isAuthAction(action) &&
       url.pathname.startsWith(_config.basePath + '/')
     ) {
-      return await Auth(request, _config)
+      return Auth(request, _config)
     }
 
     return new Response('Not Found', { status: 404 })
@@ -65,7 +65,7 @@ export function SolidAuth(
         _options,
         authorizationParams,
         _config,
-        event
+        event,
       )
     },
     signOut: async (event: APIEvent) => {
@@ -95,7 +95,7 @@ export async function server_signIn(
   options: SignInParams[1] = {},
   authorizationParams: SignInParams[2],
   config: SolidAuthConfig,
-  event: APIEvent
+  event: APIEvent,
 ) {
   const { request } = event
   const { protocol } = new URL(request.url)
@@ -107,13 +107,7 @@ export async function server_signIn(
   } = options instanceof FormData ? Object.fromEntries(options) : options
 
   const callbackUrl = redirectTo?.toString() ?? headers.get('Referer') ?? '/'
-  const base = createActionURL(
-    'signin',
-    protocol,
-    headers,
-    process.env,
-    config.basePath
-  )
+  const base = createActionURL('signin', protocol, headers, process.env, config)
 
   if (!provider) {
     const url = `${base}?${new URLSearchParams({ callbackUrl })}`
@@ -155,7 +149,7 @@ export async function server_signIn(
         c.options?.httpOnly ? 'HttpOnly;' : ''
       } ${c.options?.secure ? 'Secure;' : ''} ${
         c.options?.sameSite ? `SameSite=${c.options.sameSite};` : ''
-      }`
+      }`,
     )
   }
 
@@ -171,20 +165,14 @@ type SignOutParams = Parameters<App.Locals['signOut']>
 export async function server_signOut(
   options: SignOutParams[0],
   config: SolidAuthConfig,
-  event: APIEvent
+  event: APIEvent,
 ) {
   const { request } = event
   const { protocol } = new URL(request.url)
   const headers = new Headers(request.headers)
   headers.set('Content-Type', 'application/x-www-form-urlencoded')
 
-  const url = createActionURL(
-    'signout',
-    protocol,
-    headers,
-    process.env,
-    config.basePath
-  )
+  const url = createActionURL('signout', protocol, headers, process.env, config)
   const callbackUrl = options?.redirectTo ?? headers.get('Referer') ?? '/'
   const body = new URLSearchParams({ callbackUrl })
   const req = new Request(url, { method: 'POST', headers, body })
@@ -199,7 +187,7 @@ export async function server_signOut(
         c.options?.httpOnly ? 'HttpOnly;' : ''
       } ${c.options?.secure ? 'Secure;' : ''} ${
         c.options?.sameSite ? `SameSite=${c.options.sameSite};` : ''
-      }`
+      }`,
     )
 
   if (options?.redirect ?? true)
@@ -211,7 +199,7 @@ export async function server_signOut(
 
 export async function auth(
   event: APIEvent,
-  config: SolidAuthConfig
+  config: SolidAuthConfig,
 ): ReturnType<App.Locals['auth']> {
   setEnvDefaults(process.env, config)
   config.trustHost ??= true
@@ -223,7 +211,7 @@ export async function auth(
     protocol,
     req.headers,
     process.env,
-    config.basePath
+    config,
   )
   const request = new Request(sessionUrl, {
     headers: { cookie: req.headers.get('cookie') ?? '' },
@@ -236,7 +224,7 @@ export async function auth(
       'set-cookie',
       `${name}=${value}; Path=/; ${options.httpOnly ? 'HttpOnly;' : ''} ${
         options.secure ? 'Secure;' : ''
-      } ${options.sameSite ? `SameSite=${options.sameSite};` : ''}`
+      } ${options.sameSite ? `SameSite=${options.sameSite};` : ''}`,
     )
   }
 
@@ -252,25 +240,24 @@ export type GetSessionResult = Promise<Session | null>
 
 export async function getSession(
   _req: Request | RequestEvent,
-  options: SolidAuthConfig
+  options: SolidAuthConfig,
 ): GetSessionResult {
   const req = 'request' in _req ? _req.request : _req
   setEnvDefaults(process.env, options)
 
   const { protocol } = new URL(req.url)
 
-  options.basePath = getBasePath()
   const url = createActionURL(
     'session',
     protocol,
     new Headers(req.headers),
     process.env,
-    options.basePath
+    options,
   )
 
   const response = await Auth(
     new Request(url, { headers: req.headers }),
-    options
+    options,
   )
 
   const { status = 200 } = response
@@ -284,11 +271,11 @@ export async function getSession(
 
 export function protected$(
   page: (session$: Session) => JSXElement,
-  fallBack: () => JSXElement
+  fallBack: () => JSXElement,
 ): VoidComponent
 export function protected$(
   page: (session$: Session) => JSXElement,
-  redirectTo?: string
+  redirectTo?: string,
 ): VoidComponent
 export function protected$(...args: any[]): VoidComponent {
   throw new Error('Should be compiled by the auth plugin.')

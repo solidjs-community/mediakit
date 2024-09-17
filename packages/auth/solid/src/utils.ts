@@ -44,15 +44,15 @@ export function objectIsSession(obj: any): obj is Session {
 }
 
 export const getEnv = (env: string) => {
+  if (env.startsWith('VITE_')) {
+    return (import.meta as any).env[env]
+  }
   if (
     typeof process !== 'undefined' &&
     typeof process.env !== 'undefined' &&
     !env.startsWith('VITE_')
   ) {
     return process.env[env]
-  }
-  if (env.startsWith('VITE_')) {
-    return (import.meta as any).env[env]
   }
   return undefined
 }
@@ -69,14 +69,15 @@ export const conditionalEnv = (...envs: string[]) => {
 
 export function setEnvDefaults(
   envObject: Record<string, string | undefined>,
-  config: SolidAuthConfig
+  config: SolidAuthConfig,
 ) {
   coreSetEnvDefaults(envObject, config)
   config.trustHost ??= isDev
-  config.basePath = getBasePath()
+  config.basePath ??= getBasePath(config)
 }
 
-export const getBasePath = (): string => {
+export const getBasePath = (config?: SolidAuthConfig): string => {
+  if (config?.basePath) return config.basePath
   const ev = conditionalEnv('VITE_AUTH_PATH')
   return ev ?? `/api/auth`
 }

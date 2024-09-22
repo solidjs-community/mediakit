@@ -87,6 +87,8 @@ const testQuery = query$({
 // input should be an accessor
 const hello = testQuery(() => ({
   hello: 'JDev',
+}), () => ({
+  deferStream: true,
 }))
 ```
 
@@ -112,6 +114,7 @@ const __$helloQuery = cache(async ({ payload: _$$payload }) => {
 const testQuery = query$({
   queryFn: __$helloQuery,
   key: 'hello',
+  deferStream: true,
 })
 ```
 

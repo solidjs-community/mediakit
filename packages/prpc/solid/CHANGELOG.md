@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.2.5
+
+### Patch Changes
+
+- [`6abbe9a`](https://github.com/solidjs-community/mediakit/commit/6abbe9a22f38275f9d64deba9dabdbdc889668a1) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: useUtils function
+
 ## 1.2.4
 
 ### Patch Changes

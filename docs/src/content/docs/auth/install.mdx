@@ -15,7 +15,19 @@ pnpm add @solid-mediakit/auth@latest @auth/core@latest
 
 **The env variables are required for the app to work!**
 
-- `AUTH_URL` - Url for the auth api endpoint: `http://localhost:3000/api/auth`
+- `AUTH_URL` - Url for the auth api endpoint: `http://localhost:3000`
+- `VITE_AUTH_PATH` -auth api endpoint: `/api/auth`
+
+After adding the `VITE_AUTH_PATH` env, make sure to also add it to the config:
+
+```ts
+import { type SolidAuthConfig } from '@solid-mediakit/auth'
+export const authOpts: SolidAuthConfig = {
+  ...
+  basePath: import.meta.env.VITE_AUTH_PATH,
+}
+
+```
 
 ## SessionProvider
 
@@ -72,6 +84,7 @@ export const authOpts: SolidAuthConfig = {
     }),
   ],
   debug: false,
+  basePath: import.meta.env.VITE_AUTH_PATH,
 }
 
 export const { GET, POST } = SolidAuth(authOpts)

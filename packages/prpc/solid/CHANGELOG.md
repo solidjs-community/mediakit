@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.2.4
+
+### Patch Changes
+
+- [`4971e85`](https://github.com/solidjs-community/mediakit/commit/4971e85a95c141c87435a13f1ba22b1086a6b680) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: error typing
+
 ## 1.2.3
 
 ### Patch Changes

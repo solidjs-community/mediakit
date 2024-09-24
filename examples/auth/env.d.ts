@@ -1,6 +1,4 @@
-interface ImportMetaEnv {
-  readonly VITE_AUTH_PATH: string
-}
+interface ImportMetaEnv {}
 
 interface ImportMeta {
   readonly env: ImportMetaEnv

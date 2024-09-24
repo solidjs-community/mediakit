@@ -71,7 +71,7 @@ export function setEnvDefaults(
   envObject: Record<string, string | undefined>,
   config: SolidAuthConfig,
 ) {
-  coreSetEnvDefaults(envObject, config)
+  coreSetEnvDefaults(envObject, config, true)
   config.trustHost ??= isDev
   config.basePath ??= getBasePath(config)
 }

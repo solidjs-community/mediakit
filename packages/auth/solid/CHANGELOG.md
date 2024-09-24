@@ -1,5 +1,15 @@
 # @solid-mediakit/auth
 
+## 2.1.4
+
+### Patch Changes
+
+- [`bfbcea5`](https://github.com/solidjs-community/mediakit/commit/bfbcea5875775aa3d1f8333c41d8c54a900931a8) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: remove useage of VITE_AUTH_PATH
+
+- [`bfbcea5`](https://github.com/solidjs-community/mediakit/commit/bfbcea5875775aa3d1f8333c41d8c54a900931a8) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: mute the auth path warnings
+
+- [`4ce4b22`](https://github.com/solidjs-community/mediakit/commit/4ce4b22b1eb742b221ea3d06a3f55a29b46a7a59) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bumping
+
 ## 2.1.3
 
 ### Patch Changes

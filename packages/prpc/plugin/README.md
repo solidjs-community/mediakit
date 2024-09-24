@@ -24,4 +24,4 @@ export default defineConfig({
 })
 ```
 
-Now read the [pRPC documentation](...)
+Now read the [pRPC documentation](https://mediakit-taupe.vercel.app/prpc/install)

@@ -5,7 +5,7 @@ description: 'API for the query$ function'
 
 **API for the query$ function**
 
-`query$` is basically a wrapper for createQuery, it should be used whenever createQuery should be used.
+`query$` creates a factory for constructing [createQuery](https://tanstack.com/query/latest/docs/framework/solid/reference/createQuery) functions. It should be used whenever createQuery should be used.
 
 ## Usage
 
@@ -30,6 +30,8 @@ const testQuery = query$({
 // input should be an accessor
 const hello = testQuery(() => ({
   hello: 'JDev',
+}), () => ({
+  deferStream: true, // additional options go here
 }))
 ```
 

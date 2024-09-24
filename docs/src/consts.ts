@@ -58,6 +58,10 @@ export const SIDEBAR: Sidebar = {
       link: 'prpc/error',
     },
     {
+      text: 'useUtils',
+      link: 'prpc/useutils',
+    },
+    {
       text: 'PRPCClientError',
       link: 'prpc/prpc-client-error',
     },

@@ -39,7 +39,7 @@ const hello = testQuery(() => ({
 export type Query$Props<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema
+  ZObj extends ExpectedSchema = EmptySchema,
 > = {
   queryFn: Fn
   key: string
@@ -53,7 +53,7 @@ export type Query$Props<
 ```ts
 export type Fn$Input<
   ZObj extends ExpectedSchema = EmptySchema,
-  Mw extends IMiddleware[] = []
+  Mw extends IMiddleware[] = [],
 > = {
   payload: Infer$PayLoad<ZObj>
   event$: PRPCEvent
@@ -62,3 +62,7 @@ export type Fn$Input<
 ```
 
 Read more regarding the [Middleware API](/prpc/middleware)
+
+## Invalidation
+
+Please read the [useUtils](/prpc/useutils) API.

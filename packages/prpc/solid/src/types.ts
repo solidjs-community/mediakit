@@ -68,6 +68,23 @@ type TakeLast<T extends any[]> = T extends [...infer _, infer L] ? L : unknown
 
 export type PossibleBuilderTypes = 'query' | 'mutation'
 
+export type DeepPartial<TObject> = TObject extends object
+  ? {
+      [P in keyof TObject]?: DeepPartial<TObject[P]>
+    }
+  : TObject
+
+export type QueryType = 'any' | 'infinite' | 'query'
+
+export type GetQueryProcedureInput<TProcedureInput> =
+  | DeepPartial<TProcedureInput>
+  | undefined
+
+export type QueryKeyKnown<TInput, TType extends Exclude<QueryType, 'any'>> = [
+  string[],
+  { input?: GetQueryProcedureInput<TInput>; type: TType }?,
+]
+
 export type QueryBuilder<
   Fn extends ExpectedFn<ZObj, Mws>,
   Mws extends IMiddleware<any>[] | void = void,

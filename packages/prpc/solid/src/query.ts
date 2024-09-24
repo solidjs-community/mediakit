@@ -17,19 +17,20 @@ import type {
 } from './types'
 import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
+import { ZodSchema } from 'zod'
 
 export const query$ = <
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema
+  ZObj extends ExpectedSchema = EmptySchema,
 >(
-  props: Query$Props<Mw, Fn, ZObj>
+  props: Query$Props<Mw, Fn, ZObj>,
 ) => {
   return (
     input: ZObj extends EmptySchema
       ? EmptySchema
       : Accessor<Infer$PayLoad<ZObj>>,
-    opts?: FCreateQueryOptions<Infer$PayLoad<ZObj>>
+    opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
   ) => {
     return createQuery(() => ({
       queryFn: async () =>
@@ -43,7 +44,7 @@ export const query$ = <
 export type Query$Props<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema
+  ZObj extends ExpectedSchema = EmptySchema,
 > = {
   queryFn: Fn
   key: string
@@ -52,10 +53,11 @@ export type Query$Props<
 }
 
 export type FCreateQueryOptions<
+  ZObj extends ExpectedSchema,
   TQueryFnData = unknown,
-  TError = PRPCClientError,
+  TError = ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
 > = FunctionedParams<
   OmitQueryData<
     SolidQueryOptions<TQueryFnData, TError, TData, TQueryKey> & {

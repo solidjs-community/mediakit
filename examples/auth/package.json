@@ -25,10 +25,10 @@
     "zod": "^3.23.8",
     "@solid-mediakit/auth": "workspace:*",
     "@auth/core": "^0.35.0",
-    "@solidjs/router": "^0.14.1",
+    "@solidjs/router": "^0.14.5",
     "@solidjs/start": "^1.0.6",
     "solid-js": "^1.8.19",
-    "vinxi": "^0.4.1",
+    "vinxi": "^0.4.3",
     "@solidjs/meta": "^0.29.4",
     "@solid-mediakit/auth-plugin": "workspace:*"
   },

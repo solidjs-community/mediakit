@@ -21,15 +21,16 @@
     "vite": "^5.3.5"
   },
   "dependencies": {
-    "@solidjs/router": "^0.14.1",
+    "@solid-mediakit/prpc": "workspace:*",
+    "@solid-mediakit/prpc-plugin": "workspace:*",
+    "@tanstack/solid-query": "^5.56.2",
+    "typescript": "^4.8.2",
+    "zod": "^3.22.4",
+    "@solidjs/router": "^0.14.5",
     "@solidjs/start": "^1.0.6",
     "solid-js": "^1.8.19",
-    "vinxi": "^0.4.1",
-    "@solidjs/meta": "^0.29.4",
-    "@tanstack/solid-query": "^5.51.15",
-    "zod": "^3.23.8",
-    "@solid-mediakit/prpc": "workspace:*",
-    "@solid-mediakit/prpc-plugin": "workspace:*"
+    "vinxi": "^0.4.3",
+    "@solidjs/meta": "^0.29.4"
   },
   "engines": {
     "node": ">=16"

@@ -15,15 +15,16 @@ import {
 } from './types'
 import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
+import { ZodSchema } from 'zod'
 
 export const mutation$ = <
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema
+  ZObj extends ExpectedSchema = EmptySchema,
 >(
-  props: Mutation$Props<Mw, Fn, ZObj>
+  props: Mutation$Props<Mw, Fn, ZObj>,
 ) => {
-  return (opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>) => {
+  return (opts?: FCreateMutationOptions<ZObj, Infer$PayLoad<ZObj>>) => {
     return createMutation(() => ({
       mutationFn: async (input) => await tryAndWrap(props.mutationFn, input),
       mutationKey: ['prpc.mutation', props.key],
@@ -35,7 +36,7 @@ export const mutation$ = <
 export type Mutation$Props<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema
+  ZObj extends ExpectedSchema = EmptySchema,
 > = {
   mutationFn: Fn
   key: string
@@ -44,10 +45,11 @@ export type Mutation$Props<
 }
 
 export type FCreateMutationOptions<
+  ZObj extends ExpectedSchema,
   TData = unknown,
-  TError = PRPCClientError,
+  TError = ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
   TVariables = void,
-  TContext = unknown
+  TContext = unknown,
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
 >

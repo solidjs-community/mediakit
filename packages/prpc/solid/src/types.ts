@@ -16,12 +16,12 @@ export type PRPCEvent = NonNullable<ReturnType<typeof getRequestEvent>>
 
 export type ExpectedFn<
   ZObject = EmptySchema,
-  Mw extends IMiddleware<any>[] | void = void
+  Mw extends IMiddleware<any>[] | void = void,
 > = ZObject extends EmptySchema
   ? (input: Fn$Input<ZObject, Mw>) => any
   : ZObject extends zod.ZodSchema
-  ? (input: Fn$Input<ZObject, Mw>) => any
-  : (input: Fn$Input<never, Mw>) => any
+    ? (input: Fn$Input<ZObject, Mw>) => any
+    : (input: Fn$Input<never, Mw>) => any
 
 type P = {
   event$: PRPCEvent
@@ -31,7 +31,7 @@ export type IMiddleware<T = any> = (ctx$: T & P) => any
 
 export type Fn$Input<
   ZObj extends ExpectedSchema = EmptySchema,
-  Mw extends IMiddleware<any>[] | void = void
+  Mw extends IMiddleware<any>[] | void = void,
 > = {
   payload: Infer$PayLoad<ZObj>
   event$: PRPCEvent
@@ -41,7 +41,7 @@ export type Fn$Input<
 export type Fn$Output<
   Fn extends ExpectedFn<ZObject, Mw>,
   ZObject = EmptySchema,
-  Mw extends IMiddleware[] | void = void
+  Mw extends IMiddleware[] | void = void,
 > = FilterOutResponse<
   ReturnType<Fn> extends Promise<infer T> ? T : ReturnType<Fn>
 >
@@ -72,46 +72,46 @@ export type QueryBuilder<
   Fn extends ExpectedFn<ZObj, Mws>,
   Mws extends IMiddleware<any>[] | void = void,
   ZObj extends ExpectedSchema = EmptySchema,
-  BuilderType extends PossibleBuilderTypes | void = void
+  BuilderType extends PossibleBuilderTypes | void = void,
 > = (BuilderType extends 'query'
   ? {
       (
         input: ZObj extends EmptySchema
           ? EmptySchema
           : Accessor<Infer$PayLoad<ZObj>>,
-        opts?: FCreateQueryOptions<Infer$PayLoad<ZObj>>
+        opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
       ): CreateQueryResult<Fn$Output<Fn, ZObj, Mws>>
     }
   : {}) &
   (BuilderType extends 'mutation'
     ? {
         (
-          opts?: FCreateMutationOptions<Infer$PayLoad<ZObj>>
+          opts?: FCreateMutationOptions<ZObj, Infer$PayLoad<ZObj>>,
         ): CreateMutationResult<Fn$Output<Fn, ZObj, Mws>>
       }
     : {} & BuilderType extends void
-    ? {
-        query$<NewFn extends ExpectedFn<ZObj, Mws>>(
-          fn: NewFn,
-          key: string
-        ): QueryBuilder<NewFn, Mws, ZObj, 'query'>
-        mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(
-          fn: NewFn,
-          key: string
-        ): QueryBuilder<NewFn, Mws, ZObj, 'mutation'>
-      }
-    : {}) &
+      ? {
+          query$<NewFn extends ExpectedFn<ZObj, Mws>>(
+            fn: NewFn,
+            key: string,
+          ): QueryBuilder<NewFn, Mws, ZObj, 'query'>
+          mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(
+            fn: NewFn,
+            key: string,
+          ): QueryBuilder<NewFn, Mws, ZObj, 'mutation'>
+        }
+      : {}) &
   (ZObj extends EmptySchema
     ? {
         input<NewZObj extends ExpectedSchema>(
-          schema: NewZObj
+          schema: NewZObj,
         ): QueryBuilder<ExpectedFn<NewZObj, Mws>, Mws, NewZObj>
       }
     : {}) &
   (BuilderType extends void
     ? {
         middleware$<Mw extends IMiddleware<P & InferFinalMiddlware<Mws>>>(
-          mw: Mw
+          mw: Mw,
         ): QueryBuilder<
           ExpectedFn<ZObj, Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw]>,
           Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw],

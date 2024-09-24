@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { typeToFlattenedError } from 'zod'
+import { type inferFlattenedErrors, type ZodSchema } from 'zod'
 
-export class PRPCClientError<Zschema = any> extends Error {
-  public cause?: typeToFlattenedError<Zschema> | Error | Record<any, any>
+export class PRPCClientError<Zschema extends ZodSchema = any> extends Error {
+  public cause?: inferFlattenedErrors<Zschema> | Error | Record<any, any>
   constructor(
     message: string,
-    cause?: typeToFlattenedError<Zschema> | Error | Record<any, any>
+    cause?: inferFlattenedErrors<Zschema> | Error | Record<any, any>,
   ) {
     super(message)
     this.name = 'PRPCClientError'
     this.cause = cause
   }
   isZodError(): this is PRPCClientError & {
-    cause: typeToFlattenedError<Zschema>
+    cause: inferFlattenedErrors<Zschema>
   } {
     return this.cause && typeof this.cause === 'object'
       ? 'fieldErrors' in this.cause

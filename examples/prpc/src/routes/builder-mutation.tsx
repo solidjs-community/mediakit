@@ -6,7 +6,7 @@ const Home: VoidComponent = () => {
   const helloMut = helloMutation(() => ({
     onError(error) {
       if (error.isZodError()) {
-        console.log('zod error:', error.cause.fieldErrors)
+        console.log('zod error:', error.cause.fieldErrors.hello)
       } else {
         console.log('not zod error', error.message)
       }

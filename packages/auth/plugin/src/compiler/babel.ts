@@ -22,85 +22,93 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
       visitor: {
         CallExpression(path) {
           const nodeInfo = getNodeInfo(path, t)
-          const args = getArgs(path, t, opts)
           if (nodeInfo.isProtected) {
-            const protectedComp = path.node
-              .arguments[0] as babel.types.ArrowFunctionExpression
+            const args = getArgs(path, t, opts)
+            if (nodeInfo.isProtected) {
+              const protectedComp = path.node
+                .arguments[0] as babel.types.ArrowFunctionExpression
 
-            path.traverse({
-              Identifier(innerPath: any) {
-                if (
-                  innerPath.node.name === 'session$' &&
-                  innerPath.scope?.path?.listKey !== 'params'
-                ) {
-                  innerPath.node.name = '_$$session()'
-                }
-              },
-            })
+              path.traverse({
+                Identifier(innerPath: any) {
+                  if (
+                    innerPath.node.name === 'session$' &&
+                    innerPath.scope?.path?.listKey !== 'params'
+                  ) {
+                    innerPath.node.name = '_$$session()'
+                  }
+                },
+              })
 
-            addMissingImports(path, t, opts, args)
-            appendRouteAction(temp, path, t, opts, args)
-            protectedComp.params = []
+              addMissingImports(path, t, opts, args)
+              appendRouteAction(temp, path, t, opts, args)
+              protectedComp.params = []
 
-            const content = (protectedComp as any).body
-            const callGetUser = t.variableDeclaration('const', [
-              t.variableDeclarator(
-                t.identifier('_$$session'),
-                t.callExpression(t.identifier('createAsync'), [
-                  t.arrowFunctionExpression(
-                    [],
-                    t.callExpression(t.identifier('_$$getUser'), [])
-                  ),
-                ])
-              ),
-            ])
-
-            // const s = createAsync(...)
-            // const f = createAsync(...)
-            // search for all the createAsync calls within content.body
-
-            const createAsyncCalls = content.body.filter((node: any) => {
-              return (
-                t.isVariableDeclaration(node) &&
-                t.isCallExpression(node.declarations[0].init) &&
-                t.isIdentifier(node.declarations[0].init.callee) &&
-                node.declarations[0].init.callee.name === 'createAsync'
-              )
-            })
-
-            content.body = content.body.filter((node: any) => {
-              return !createAsyncCalls.includes(node)
-            })
-
-            const RenderProtected = t.variableDeclaration('const', [
-              t.variableDeclarator(
-                t.identifier('_$$RenderProtected'),
-                t.arrowFunctionExpression([], t.blockStatement(content.body))
-              ),
-            ])
-
-            content.body = [RenderProtected]
-            if (args.fallBack) {
-              const RenderFallBack = t.variableDeclaration('const', [
+              const content = (protectedComp as any).body
+              const callGetUser = t.variableDeclaration('const', [
                 t.variableDeclarator(
-                  t.identifier('_$$RenderFallBack'),
-                  args.fallBack
+                  t.identifier('_$$session'),
+                  t.callExpression(t.identifier('createAsync'), [
+                    t.arrowFunctionExpression(
+                      [],
+                      t.callExpression(t.identifier('_$$getUser'), []),
+                    ),
+                    t.objectExpression([
+                      t.objectProperty(
+                        t.identifier('deferStream'),
+                        t.booleanLiteral(true),
+                      ),
+                    ]),
+                  ]),
                 ),
               ])
-              content.body.unshift(RenderFallBack)
+
+              // const s = createAsync(...)
+              // const f = createAsync(...)
+              // search for all the createAsync calls within content.body
+
+              const createAsyncCalls = content.body.filter((node: any) => {
+                return (
+                  t.isVariableDeclaration(node) &&
+                  t.isCallExpression(node.declarations[0].init) &&
+                  t.isIdentifier(node.declarations[0].init.callee) &&
+                  node.declarations[0].init.callee.name === 'createAsync'
+                )
+              })
+
+              content.body = content.body.filter((node: any) => {
+                return !createAsyncCalls.includes(node)
+              })
+
+              const RenderProtected = t.variableDeclaration('const', [
+                t.variableDeclarator(
+                  t.identifier('_$$RenderProtected'),
+                  t.arrowFunctionExpression([], t.blockStatement(content.body)),
+                ),
+              ])
+
+              content.body = [RenderProtected]
+              if (args.fallBack) {
+                const RenderFallBack = t.variableDeclaration('const', [
+                  t.variableDeclarator(
+                    t.identifier('_$$RenderFallBack'),
+                    args.fallBack,
+                  ),
+                ])
+                content.body.unshift(RenderFallBack)
+              }
+              content.body.unshift(callGetUser)
+
+              const newPage = t.arrowFunctionExpression([], content)
+              ;(newPage.body as any).body.push(
+                t.returnStatement(getProtectedContent(t, args)),
+              )
+              ;(newPage.body as any).body = [
+                ...createAsyncCalls,
+                ...(newPage.body as any).body,
+              ]
+
+              path.replaceWith(newPage)
             }
-            content.body.unshift(callGetUser)
-
-            const newPage = t.arrowFunctionExpression([], content)
-            ;(newPage.body as any).body.push(
-              t.returnStatement(getProtectedContent(t, args))
-            )
-            ;(newPage.body as any).body = [
-              ...createAsyncCalls,
-              ...(newPage.body as any).body,
-            ]
-
-            path.replaceWith(newPage)
           }
         },
       },
@@ -111,7 +119,7 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
 export async function compileAuth(
   code: string,
   id: string,
-  opts: AuthPluginOptions
+  opts: AuthPluginOptions,
 ) {
   const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
   const transformAuth$ = createTransformAuth$(opts)

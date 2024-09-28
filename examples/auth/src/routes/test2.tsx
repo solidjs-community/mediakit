@@ -8,6 +8,6 @@ export default protected$(
       </main>
     )
   },
-  undefined,
+  '/test',
   true,
 )

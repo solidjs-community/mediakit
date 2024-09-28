@@ -189,7 +189,7 @@ export const getArgs = (
   const page = path.node.arguments[0] as babel.types.ArrowFunctionExpression
   let fallBack: babel.types.JSXElement | undefined
   let redirectTo: string | undefined
-  if (path.node.arguments.length === 2) {
+  if (path.node.arguments.length >= 2) {
     if (t.isArrowFunctionExpression(path.node.arguments[1])) {
       fallBack = path.node.arguments[1] as any as babel.types.JSXElement
     } else {

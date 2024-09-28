@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.2.6
+
+### Patch Changes
+
+- [`e4f7bc4`](https://github.com/solidjs-community/mediakit/commit/e4f7bc446dc404691a059d009c01d7df186d7bc2) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: mutation input typings
+
 ## 1.2.5
 
 ### Patch Changes

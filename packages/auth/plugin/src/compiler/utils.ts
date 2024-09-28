@@ -4,7 +4,7 @@ import { babel as babelUtils } from '@solid-mediakit/shared'
 
 export const getNodeInfo = (
   path: babel.NodePath<babel.types.CallExpression>,
-  t: typeof babel.types
+  t: typeof babel.types,
 ) => {
   const { callee } = path.node
   const isProtected = t.isIdentifier(callee, { name: 'protected$' })
@@ -16,7 +16,7 @@ export const getNodeInfo = (
 
 export const afterImports = (
   path: babel.NodePath<babel.types.CallExpression>,
-  value: any
+  value: any,
 ) => {
   const p = (path.findParent((p) => p.isProgram())!.node as any).body
   const lastImport = p.findLast((n: any) => n.type === 'ImportDeclaration')
@@ -31,7 +31,7 @@ export const addMissingImports = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
   opts: AuthPluginOptions,
-  args: ReturnType<typeof getArgs>
+  args: ReturnType<typeof getArgs>,
 ) => {
   babelUtils.importIfNotThere(path, t, 'cache', '@solidjs/router')
   babelUtils.importIfNotThere(path, t, 'createAsync', '@solidjs/router')
@@ -46,19 +46,29 @@ export const addMissingImports = (
 
 export const getProtectedContent = (
   t: typeof babel.types,
-  args: ReturnType<typeof getArgs>
+  args: ReturnType<typeof getArgs>,
 ) => {
   const attr = [
     t.jsxAttribute(
       t.jsxIdentifier('when'),
       t.jsxExpressionContainer(
-        t.optionalMemberExpression(
-          t.callExpression(t.identifier('_$$session'), []),
-          t.identifier('user'),
-          false,
-          true
-        )
-      )
+        args.reverse
+          ? t.unaryExpression(
+              '!',
+              t.optionalMemberExpression(
+                t.callExpression(t.identifier('_$$session'), []),
+                t.identifier('user'),
+                false,
+                true,
+              ),
+            )
+          : t.optionalMemberExpression(
+              t.callExpression(t.identifier('_$$session'), []),
+              t.identifier('user'),
+              false,
+              true,
+            ),
+      ),
     ),
   ]
   if (args.fallBack) {
@@ -70,10 +80,10 @@ export const getProtectedContent = (
             t.jsxOpeningElement(t.jsxIdentifier('_$$RenderFallBack'), [], true),
             t.jsxClosingElement(t.jsxIdentifier('_$$RenderFallBack')),
             [],
-            true
-          )
-        )
-      )
+            true,
+          ),
+        ),
+      ),
     )
   }
   return t.jsxElement(
@@ -84,9 +94,9 @@ export const getProtectedContent = (
         t.jsxOpeningElement(t.jsxIdentifier('_$$RenderProtected'), [], true),
         t.jsxClosingElement(t.jsxIdentifier('_$$RenderProtected')),
         [],
-        true
+        true,
       ),
-    ]
+    ],
   )
 }
 
@@ -95,7 +105,7 @@ export const appendRouteAction = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
   opts: AuthPluginOptions,
-  args: ReturnType<typeof getArgs>
+  args: ReturnType<typeof getArgs>,
 ) => {
   const userKey = opts?.userKey ?? 'media-user'
   let getUserR: ReturnType<ReturnType<typeof temp>> | undefined = undefined
@@ -107,7 +117,19 @@ export const appendRouteAction = (
     }, '${userKey}');
     `()
   } else {
-    getUserR = temp`const _$$getUser = cache(async () => {
+    if (args.reverse) {
+      getUserR = temp`const _$$getUser = cache(async () => {
+        'use server'
+        const event = getRequestEvent()
+        const session = await getSession(event.request, authOptions)
+        if (session) {
+          throw redirect('${args.redirectTo}')
+        }
+        return null
+      }, '${userKey}');
+      `()
+    } else {
+      getUserR = temp`const _$$getUser = cache(async () => {
       'use server'
       const event = getRequestEvent()
       const session = await getSession(event.request, authOptions)
@@ -117,13 +139,14 @@ export const appendRouteAction = (
       return session
     }, '${userKey}');
     `()
+    }
   }
   afterImports(path, getUserR)
   const currentRouteExport = path.scope.getBinding('route')?.path
   if (currentRouteExport) {
     const routeExport = currentRouteExport.node
     const load = (routeExport as any).init.properties.find(
-      (p: any) => p.key.name === 'load'
+      (p: any) => p.key.name === 'load',
     )
     if (load) {
       load.value = t.arrowFunctionExpression(
@@ -133,7 +156,7 @@ export const appendRouteAction = (
           t.isArrowFunctionExpression(load.value)
             ? load.value.body
             : load.value,
-        ])
+        ]),
       )
     }
   } else {
@@ -147,13 +170,13 @@ export const appendRouteAction = (
                 t.identifier('load'),
                 t.arrowFunctionExpression(
                   [],
-                  t.callExpression(t.identifier('_$$getUser'), [])
-                )
+                  t.callExpression(t.identifier('_$$getUser'), []),
+                ),
               ),
-            ])
+            ]),
           ),
-        ])
-      )
+        ]),
+      ),
     )
   }
 }
@@ -161,7 +184,7 @@ export const appendRouteAction = (
 export const getArgs = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
-  opts: AuthPluginOptions
+  opts: AuthPluginOptions,
 ) => {
   const page = path.node.arguments[0] as babel.types.ArrowFunctionExpression
   let fallBack: babel.types.JSXElement | undefined
@@ -176,5 +199,12 @@ export const getArgs = (
   if (!redirectTo) {
     redirectTo = opts.redirectTo
   }
-  return { page, fallBack, redirectTo }
+  return {
+    page,
+    fallBack,
+    redirectTo,
+    reverse: t.isBooleanLiteral(path.node.arguments[2])
+      ? path.node.arguments[2].value
+      : false,
+  }
 }

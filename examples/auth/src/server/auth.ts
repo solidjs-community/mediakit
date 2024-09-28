@@ -3,7 +3,7 @@ import Discord from '@auth/core/providers/discord'
 
 declare module '@auth/core/types' {
   export interface Session {
-    user?: DefaultSession['user']
+    user: DefaultSession['user']
   }
 }
 

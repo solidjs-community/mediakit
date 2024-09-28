@@ -269,14 +269,26 @@ export async function getSession(
   throw new Error(data.message)
 }
 
+type RequiredUser = Omit<Session, 'user'> & {
+  user: NonNullable<Session['user']>
+}
 export function protected$(
-  page: (session$: Session) => JSXElement,
+  page: (session$: RequiredUser) => JSXElement,
   fallBack: () => JSXElement,
 ): VoidComponent
-export function protected$(
-  page: (session$: Session) => JSXElement,
+export function protected$<
+  R extends boolean,
+  T extends boolean extends R
+    ? RequiredUser
+    : R extends true
+      ? null
+      : RequiredUser,
+>(
+  page: (session$: T) => JSXElement,
   redirectTo?: string,
+  reverse?: R,
 ): VoidComponent
+
 export function protected$(...args: any[]): VoidComponent {
   throw new Error('Should be compiled by the auth plugin.')
 }

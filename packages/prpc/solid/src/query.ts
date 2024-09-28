@@ -102,7 +102,10 @@ export const query$ = <
         input ? JSON.stringify(input()) : undefined,
       ],
       ...((opts?.() ?? {}) as any),
-    })) as CreateQueryResult<Fn$Output<Fn, ZObj, Mw>>
+    })) as unknown as CreateQueryResult<
+      Fn$Output<Fn, ZObj, Mw>,
+      ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
+    >
   }
   return new Proxy(actualFn, {
     get(target, prop) {

@@ -4,6 +4,8 @@ import { Accessor } from 'solid-js'
 import { FCreateQueryOptions } from './query'
 import { CreateMutationResult, CreateQueryResult } from '@tanstack/solid-query'
 import { FCreateMutationOptions } from './mutation'
+import { ZodSchema } from 'zod'
+import { PRPCClientError } from './error'
 
 export type EmptySchema = void | undefined
 
@@ -97,14 +99,21 @@ export type QueryBuilder<
           ? EmptySchema
           : Accessor<Infer$PayLoad<ZObj>>,
         opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
-      ): CreateQueryResult<Fn$Output<Fn, ZObj, Mws>>
+      ): CreateQueryResult<
+        Fn$Output<Fn, ZObj, Mws>,
+        ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
+      >
     }
   : {}) &
   (BuilderType extends 'mutation'
     ? {
         (
           opts?: FCreateMutationOptions<ZObj, Infer$PayLoad<ZObj>>,
-        ): CreateMutationResult<Fn$Output<Fn, ZObj, Mws>>
+        ): CreateMutationResult<
+          Fn$Output<Fn, ZObj, Mws>,
+          ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
+          Infer$PayLoad<ZObj>
+        >
       }
     : {} & BuilderType extends void
       ? {

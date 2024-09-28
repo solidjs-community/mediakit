@@ -29,7 +29,11 @@ export const mutation$ = <
       mutationFn: async (input) => await tryAndWrap(props.mutationFn, input),
       mutationKey: ['prpc.mutation', props.key],
       ...(opts?.() ?? {}),
-    })) as CreateMutationResult<Fn$Output<Fn, ZObj, Mw>>
+    })) as unknown as CreateMutationResult<
+      Fn$Output<Fn, ZObj, Mw>,
+      ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
+      Infer$PayLoad<ZObj>
+    >
   }
 }
 

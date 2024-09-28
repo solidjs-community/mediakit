@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.1.3
+
+### Patch Changes
+
+- [`0bb79ab`](https://github.com/solidjs-community/mediakit/commit/0bb79ab3fcc982cd5e68ded7ba3277bfe3661bc8) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: reverse stargety for protected$
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.1.5
+
+### Patch Changes
+
+- [`0bb79ab`](https://github.com/solidjs-community/mediakit/commit/0bb79ab3fcc982cd5e68ded7ba3277bfe3661bc8) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: reverse stargety for protected$
+
 ## 2.1.4
 
 ### Patch Changes

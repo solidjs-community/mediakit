@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.1.4
+
+### Patch Changes
+
+- [`1e41421`](https://github.com/solidjs-community/mediakit/commit/1e41421ffea77e879c64e2435d8b1328f701122b) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use deferStream & fix args length
+
 ## 1.1.3
 
 ### Patch Changes

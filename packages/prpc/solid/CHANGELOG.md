@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.3.3
+
+### Patch Changes
+
+- [`712628a`](https://github.com/solidjs-community/mediakit/commit/712628ab4955b5164998160c6ccbea8c6986a72a) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: experimental_prefetchInRender
+
 ## 1.3.2
 
 ### Patch Changes

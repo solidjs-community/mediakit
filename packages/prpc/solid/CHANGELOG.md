@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.2.7
+
+### Patch Changes
+
+- [`0ce559f`](https://github.com/solidjs-community/mediakit/commit/0ce559f4ce623f93e4c1aac1492b66828dca5ced) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: useful query utils for optimistic updates
+
 ## 1.2.6
 
 ### Patch Changes

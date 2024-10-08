@@ -90,6 +90,7 @@ export async function signIn<
   const code = new URL(data.url).searchParams.get('code')
 
   if (res.ok) {
+    console.log('here$$')
     await __SOLIDAUTH._getSession()
   }
 

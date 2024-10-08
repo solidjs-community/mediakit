@@ -1,12 +1,17 @@
 import { type SolidAuthConfig } from '@solid-mediakit/auth'
 import Discord from '@auth/core/providers/discord'
 import Credentials from '@auth/core/providers/credentials'
-
+import { z } from 'zod'
 declare module '@auth/core/types' {
   export interface Session {
     user: DefaultSession['user']
   }
 }
+
+const zSchema = z.object({
+  email: z.string().min(1).email(),
+  password: z.string().min(4),
+})
 
 export const authOptions: SolidAuthConfig = {
   providers: [
@@ -19,11 +24,14 @@ export const authOptions: SolidAuthConfig = {
         email: {},
         password: {},
       },
-      async authorize() {
-        await new Promise((res) => setTimeout(res, 3000))
+      async authorize(credentials) {
+        const zData = await zSchema.safeParseAsync(credentials)
+        if (!zData.success) {
+          throw new Error('No Such User')
+        }
         return {
-          name: 'testing',
-          email: 'testin@gmail.com',
+          name: zData.data.email.split('@')[0],
+          email: zData.data.email,
         }
       },
     }),

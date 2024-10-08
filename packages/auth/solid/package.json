@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/auth",
   "description": "An authentication utility library for Solid 2.",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && rollup -c && node scripts/postbuild",
     "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",

@@ -289,6 +289,6 @@ export function protected$<
   reverse?: R,
 ): VoidComponent
 
-export function protected$(...args: any[]): VoidComponent {
+export function protected$(..._args: any[]): VoidComponent {
   throw new Error('Should be compiled by the auth plugin.')
 }

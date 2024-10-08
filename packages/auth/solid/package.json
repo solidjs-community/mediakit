@@ -34,6 +34,10 @@
       "types": "./utils.d.ts",
       "default": "./utils.js"
     },
+    "./locales": {
+      "types": "./locales.d.ts",
+      "default": "./locales.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",

@@ -4,16 +4,15 @@ import type {
 } from '@auth/core/providers'
 import { Session } from '@auth/core/types'
 import {
+  Accessor,
   JSX,
   Resource,
   createContext,
-  createEffect,
   createResource,
   onCleanup,
-  onMount,
   useContext,
 } from 'solid-js'
-import { conditionalEnv, getBasePath, getEnv, now, parseUrl } from './utils'
+import { conditionalEnv, getBasePath, getEnv, parseUrl } from './utils'
 import { getRequestEvent, isServer } from 'solid-js/web'
 import {
   AuthClientConfig,
@@ -23,8 +22,19 @@ import {
   SignOutParams,
 } from './types'
 
+export const __SOLIDAUTH: Omit<AuthClientConfig, '_lastSync' | '_session'> = {
+  baseUrl: parseUrl(conditionalEnv('AUTH_URL', 'VERCEL_URL')).origin,
+  basePath: parseUrl(getEnv('AUTH_URL')).path,
+  baseUrlServer: parseUrl(
+    conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL', 'VERCEL_URL'),
+  ).origin,
+  basePathServer: parseUrl(conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL'))
+    .path,
+  _getSession: () => {},
+}
+
 export async function signIn<
-  P extends RedirectableProviderType | undefined = undefined
+  P extends RedirectableProviderType | undefined = undefined,
 >(
   providerId?: LiteralUnion<
     P extends RedirectableProviderType
@@ -32,7 +42,7 @@ export async function signIn<
       : BuiltInProviderType
   >,
   options?: SignInOptions,
-  authorizationParams?: SignInAuthorizationParams
+  authorizationParams?: SignInAuthorizationParams,
 ) {
   const { callbackUrl = window.location.href, redirect = true } = options ?? {}
 
@@ -76,7 +86,20 @@ export async function signIn<
     return
   }
 
-  return res
+  const error = new URL(data.url).searchParams.get('error')
+  const code = new URL(data.url).searchParams.get('code')
+
+  if (res.ok) {
+    await __SOLIDAUTH._getSession()
+  }
+
+  return {
+    error,
+    code,
+    status: res.status,
+    ok: res.ok,
+    url: error ? null : data.url,
+  } as any
 }
 
 /**
@@ -85,7 +108,9 @@ export async function signIn<
  *
  * [Documentation](https://authjs.dev/reference/sveltekit/client#signout)
  */
-export async function signOut(options?: SignOutParams) {
+export async function signOut<R extends boolean = true>(
+  options?: SignOutParams<R>,
+) {
   const { redirectTo = window.location.href } = options ?? {}
   const basePath = getBasePath()
   const csrfTokenResponse = await fetch(`${basePath}/csrf`)
@@ -103,36 +128,27 @@ export async function signOut(options?: SignOutParams) {
   })
   const data = await res.json()
 
-  const url = data.url ?? redirectTo
-  window.location.href = url
-  // If url contains a hash, the browser does not reload the page. We reload manually
-  if (url.includes('#')) window.location.reload()
+  if (options?.redirect ?? true) {
+    const url = data.url ?? redirectTo
+    window.location.href = url
+    // If url contains a hash, the browser does not reload the page. We reload manually
+    if (url.includes('#')) window.location.reload()
+    return
+  }
+
+  await __SOLIDAUTH._getSession()
+
+  return data
 }
 
-export const __SOLIDAUTH: AuthClientConfig = {
-  baseUrl: parseUrl(conditionalEnv('AUTH_URL', 'VERCEL_URL')).origin,
-  basePath: parseUrl(getEnv('AUTH_URL')).path,
-  baseUrlServer: parseUrl(
-    conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL', 'VERCEL_URL')
-  ).origin,
-  basePathServer: parseUrl(conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL'))
-    .path,
-  _lastSync: 0,
-  _session: undefined,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  _getSession: () => {},
-}
+export const SessionContext = createContext<Resource<SessionState>>(undefined)
 
-export const SessionContext = createContext<
-  Resource<Session | null> | undefined
->(undefined)
-
-export function createSession(): Resource<Session | null> {
+export function createSession(): Accessor<SessionState> {
   // @ts-expect-error Satisfy TS if branch on line below
   const value: SessionContextValue<R> = useContext(SessionContext)
   if (!value && (import.meta as any).env.DEV) {
     throw new Error(
-      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />'
+      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />',
     )
   }
 
@@ -142,64 +158,78 @@ export interface SessionProviderProps {
   children: JSX.Element
   baseUrl?: string
   basePath?: string
-  refetchOnWindowFocus?: boolean
+  deferStream?: boolean
 }
+
+type SessionState =
+  | {
+      status: 'authenticated'
+      session: Session
+    }
+  | {
+      status: 'unauthenticated'
+      session: null
+    }
+  | {
+      status: 'loading'
+      session: undefined
+    }
 
 export function SessionProvider(props: SessionProviderProps) {
   const event = getRequestEvent()
-  __SOLIDAUTH._session = (event as any)?.locals?.session
-  const [session, { refetch }] = createResource(
-    async (_, opts: any) => {
-      const thisEvent = opts?.refetching?.event
-      const storageEvent = thisEvent === 'storage'
-      const initEvent = thisEvent === 'init' || thisEvent === undefined
-      if (initEvent || storageEvent || __SOLIDAUTH._session === undefined) {
-        __SOLIDAUTH._lastSync = now()
-        __SOLIDAUTH._session = await getSession(event)
-        return __SOLIDAUTH._session
-      } else if (
-        !thisEvent ||
-        __SOLIDAUTH._session === null ||
-        now() < __SOLIDAUTH._lastSync
-      ) {
-        return __SOLIDAUTH._session
-      } else {
-        __SOLIDAUTH._lastSync = now()
-        __SOLIDAUTH._session = await getSession(event)
-        return __SOLIDAUTH._session
+
+  const authAction = async (): Promise<SessionState> => {
+    try {
+      const _session = await getSession(event)
+      if (_session) {
+        return {
+          status: 'authenticated',
+          session: _session,
+        }
       }
+      return {
+        status: 'unauthenticated',
+        session: null,
+      }
+    } catch {
+      return {
+        status: 'unauthenticated',
+        session: null,
+      }
+    }
+  }
+
+  const [authResource, { refetch }] = createResource(
+    async () => {
+      if (event?.locals.session) {
+        return {
+          status: 'authenticated' as const,
+          session: event.locals.session,
+        }
+      }
+      return await authAction()
     },
     {
-      initialValue: __SOLIDAUTH._session,
-    }
+      initialValue: event?.locals.session
+        ? {
+            status: 'authenticated',
+            session: event.locals.session,
+          }
+        : {
+            status: 'loading',
+            session: undefined,
+          },
+      deferStream: props.deferStream ?? true,
+    },
   )
+  __SOLIDAUTH._getSession = () => refetch()
 
-  onMount(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    __SOLIDAUTH._getSession = ({ event }) => refetch({ event })
-
-    onCleanup(() => {
-      __SOLIDAUTH._lastSync = 0
-      __SOLIDAUTH._session = undefined
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      __SOLIDAUTH._getSession = () => {}
-    })
-  })
-
-  createEffect(() => {
-    const { refetchOnWindowFocus = true } = props
-    const visibilityHandler = () => {
-      if (refetchOnWindowFocus && document.visibilityState === 'visible')
-        __SOLIDAUTH._getSession({ event: 'visibilitychange' })
-    }
-    document.addEventListener('visibilitychange', visibilityHandler, false)
-    onCleanup(() =>
-      document.removeEventListener('visibilitychange', visibilityHandler, false)
-    )
+  onCleanup(() => {
+    __SOLIDAUTH._getSession = () => {}
   })
 
   return (
-    <SessionContext.Provider value={session as any}>
+    <SessionContext.Provider value={authResource}>
       {props.children}
     </SessionContext.Provider>
   )
@@ -213,7 +243,7 @@ const getUrl = (endpoint: string) => {
 }
 
 export const getSession = async (
-  event?: ReturnType<typeof getRequestEvent>
+  event?: ReturnType<typeof getRequestEvent>,
 ) => {
   let reqInit: RequestInit | undefined
   if (isServer && event?.request) {

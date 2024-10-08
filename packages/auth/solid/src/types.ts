@@ -23,7 +23,7 @@ declare global {
       getSession(): Promise<Session | null>
       signIn: <
         P extends BuiltInProviderType | (string & NonNullable<unknown>),
-        R extends boolean = true
+        R extends boolean = true,
       >(
         /** Provider to sign in to */
         provider?: P, // See: https://github.com/microsoft/TypeScript/issues/29729
@@ -40,7 +40,7 @@ declare global {
           | string[][]
           | Record<string, string>
           | string
-          | URLSearchParams
+          | URLSearchParams,
       ) => Promise<
         R extends false
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any

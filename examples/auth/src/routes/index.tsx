@@ -1,12 +1,14 @@
 import { Show, type VoidComponent } from 'solid-js'
 import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
+import { getRequestEvent } from 'solid-js/web'
 
-const AuthShowcase: VoidComponent = () => {
+const AuthShowcase1: VoidComponent = () => {
   const session = createSession()
   return (
     <div class='flex flex-col items-center justify-center gap-4'>
+      <div>{JSON.stringify(session(), null, 2)}</div>
       <Show
-        when={session()}
+        when={session().session}
         fallback={
           <button
             onClick={() => signIn('discord', { redirectTo: '/' })}
@@ -31,6 +33,38 @@ const AuthShowcase: VoidComponent = () => {
             </>
           )
         }}
+      </Show>
+    </div>
+  )
+}
+
+const AuthShowcase: VoidComponent = () => {
+  const session = createSession()
+
+  return (
+    <div class='flex flex-col items-center justify-center gap-4'>
+      <div>{JSON.stringify(session(), null, 2)}</div>
+      <Show
+        when={session().status === 'loading'}
+        fallback={
+          <div
+            onClick={async () => {
+              if (session().status === 'authenticated') {
+                await signOut({ redirect: false })
+              } else {
+                const r = await signIn('credentials', {
+                  redirect: false,
+                  email: 'test',
+                  password: 'test',
+                })
+              }
+            }}
+          >
+            {session().status === 'authenticated' ? 'ok' : 'not ok'}
+          </div>
+        }
+      >
+        <div>loading</div>
       </Show>
     </div>
   )

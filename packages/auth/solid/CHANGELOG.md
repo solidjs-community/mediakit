@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 2.1.6
+
+### Patch Changes
+
+- [`89c7953`](https://github.com/solidjs-community/mediakit/commit/89c79531408a44aaee8331bf41989b23e02cc2d1) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: cleanup auth package
+
 ## 2.1.5
 
 ### Patch Changes

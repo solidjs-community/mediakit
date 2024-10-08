@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.3.0
+
+### Minor Changes
+
+- [`3c12a26`](https://github.com/solidjs-community/mediakit/commit/3c12a26cf65eb6040c2d3c47fbb2fb1ff4649d0a) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: typing issue with builder utils
+
 ## 1.2.7
 
 ### Patch Changes

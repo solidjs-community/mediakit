@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 1.3.1
+
+### Patch Changes
+
+- [`8faa97c`](https://github.com/solidjs-community/mediakit/commit/8faa97c5079a12304fde0b624ab27e44e1190f82) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: mutation context typing
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @solid-mediakit/prpc
 
+## 1.3.2
+
+### Patch Changes
+
+- [`c8e2c19`](https://github.com/solidjs-community/mediakit/commit/c8e2c19b0bace235f9cce18bdeb3806f53116341) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: TVariables mutation typing
+
+- [`ecc7997`](https://github.com/solidjs-community/mediakit/commit/ecc799725dea7e88c4c5e10463569753e2c6db05) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: utils input empty schema typing
+
 ## 1.3.1
 
 ### Patch Changes

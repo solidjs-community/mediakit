@@ -43,4 +43,44 @@ const getUser = cache(async () => {
 const user = createAsync(() => getUser())
 ```
 
-This is being used to fetch the session from the server side, if you want to fetch it client-side, check out the [`createSession`](/auth/createsession) function.
+### Preloading The Session
+
+In order to preload the session (the useAuth hook will retrieve the session from here), you can use:
+
+#### Locals
+
+```ts
+const getUser = cache(async () => {
+  'use server'
+  const event = getRequestEvent()!
+  const session = await getSession(event, authOptions)
+  event.locals.session = session
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'user')
+
+//
+event.locals.session = await getSession(event.request, authOptions)
+```
+
+#### Vinxi's Context
+
+```ts
+const getUser = cache(async () => {
+  'use server'
+  const event = getRequestEvent()!
+  const session = await getSession(event, authOptions)
+  setContext('session', session)
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'user')
+
+//
+setContext('session', await getSession(event.request, authOptions))
+```
+
+Once completed, the session will be set from the server and then refetched on the client to validate.

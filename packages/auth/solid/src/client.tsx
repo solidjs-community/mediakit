@@ -49,11 +49,11 @@ type SessionState =
       data: undefined
     }
 
-export const useAuth = () => {
+export const useAuth = (): AuthRes => {
   const value = useContext(SessionContext)
   if (!value) {
     throw new Error(
-      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />',
+      '[@solid-mediakit/auth]: `useAuth` must be wrapped in a <SessionProvider />',
     )
   }
   const authSignIn = async <
@@ -84,8 +84,12 @@ export const useAuth = () => {
   return {
     signIn: authSignIn,
     signOut: authSignOut,
-    status: () => value.sessionState().status,
-    session: () => value.sessionState().data,
+    status: () =>
+      value.sessionState().status as
+        | 'authenticated'
+        | 'unauthenticated'
+        | 'loading',
+    session: () => value.sessionState().data as Session | null | undefined,
   }
 }
 
@@ -115,28 +119,29 @@ export function SessionProvider(props: SessionProviderProps) {
           },
   )
 
-  const authAction = async (initial?: boolean) => {
-    const innerAction = async (): Promise<SessionState> => {
-      try {
-        const _session = await getSession(event)
-        if (_session) {
-          return {
-            status: 'authenticated',
-            data: _session,
-          }
-        }
+  const _innerAction = async (): Promise<SessionState> => {
+    try {
+      const _session = await getSession(event)
+      if (_session) {
         return {
-          status: 'unauthenticated',
-          data: null,
-        }
-      } catch (e) {
-        console.error('@auth', e)
-        return {
-          status: 'unauthenticated',
-          data: null,
+          status: 'authenticated',
+          data: _session,
         }
       }
+      return {
+        status: 'unauthenticated',
+        data: null,
+      }
+    } catch (e) {
+      console.error('@auth', e)
+      return {
+        status: 'unauthenticated',
+        data: null,
+      }
     }
+  }
+
+  const authAction = async (initial?: boolean) => {
     if (
       initial &&
       sessionState().status !== 'loading' &&
@@ -144,7 +149,7 @@ export function SessionProvider(props: SessionProviderProps) {
     ) {
       return
     }
-    setSessionState(await innerAction())
+    setSessionState(await _innerAction())
   }
 
   onMount(() => {
@@ -172,6 +177,23 @@ const getUrl = (endpoint: string) => {
     }${endpoint}`
   }
   return endpoint
+}
+
+type AuthRes = {
+  signIn: <P extends RedirectableProviderType | undefined = undefined>(
+    providerId?: LiteralUnion<
+      P extends RedirectableProviderType
+        ? P | BuiltInProviderType
+        : BuiltInProviderType
+    >,
+    options?: SignInOptions,
+    authorizationParams?: SignInAuthorizationParams,
+  ) => ReturnType<typeof signIn>
+  signOut: <R extends boolean = true>(
+    options?: SignOutParams<R>,
+  ) => ReturnType<typeof signOut>
+  status: Accessor<'authenticated' | 'unauthenticated' | 'loading'>
+  session: Accessor<Session | null | undefined>
 }
 
 export const getSession = async (

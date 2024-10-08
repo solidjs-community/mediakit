@@ -4,7 +4,7 @@ import Credentials from '@auth/core/providers/credentials'
 import { z } from 'zod'
 declare module '@auth/core/types' {
   export interface Session {
-    user: DefaultSession['user']
+    user: NonNullable<DefaultSession['user']>
   }
 }
 

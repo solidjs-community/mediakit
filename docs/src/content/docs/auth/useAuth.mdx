@@ -1,46 +1,47 @@
 ---
-title: 'signOut'
-description: 'API for the signOut function'
+title: 'useAuth'
+description: 'API for the useAuth function'
 ---
 
-**API for the signOut function**
+**API for the useAuth function**
 
-The `signOut` function is a function that will be used from the client side to sign out the user, after signing out, the session in [`useAuth`](/auth/useauth) will be refetched and updated accordingly. This function takes 1 argument:
-
-- `options` - An object that contains the following properties:
-  - `redirectTo` - A string that represents the path to redirect to after signing out, defaults to `/`
+`useAuth` is a client side Solid hook that returns both the current session & status in addition to `signIn` and `signOut` functions.
 
 ## Usage
+
+### Basic
 
 ```tsx
 import { useAuth } from '@solid-mediakit/auth/client'
 
-const MyComp = () => {
+const RenderSession = () => {
   const auth = useAuth()
-
-  auth.signOut() // redirect to login page
-  auth.signOut({ redirectTo: '/auth' }) // redirect to /ok
-
-  return <div>etc</div>
+  return (
+    <Show
+      when={auth.status() === 'authenticated' && auth.session()}
+      fallback={<div>{auth.status()}</div>}
+    >
+      {(session) => <div>Hey there {session().user.name}</div>}
+    </Show>
+  )
 }
+
+auth.status // ()=> authenticated | unauthenticated | loading
+auth.session // ()=> Session | null | undefined
+auth.signIn // signIn function
+auth.signOut // signOut function
+
+await auth.signOut({ redirect: false })
+
+const r = await auth.signIn('credentials', {
+  redirect: false,
+  email: email(),
+  password: password(),
+})
+console.log('here', r)
 ```
 
-### Example
-
-```tsx
-<Match when={auth.status() === 'authenticated'}>
-  <button
-    onClick={async () => {
-      await auth.signOut({ redirect: false })
-    }}
-    class='font-bold text-3xl text-red-500'
-  >
-    Sign Out
-  </button>
-</Match>
-```
-
-### Full Example
+### Actual
 
 ```tsx
 const AuthShowcase: VoidComponent = () => {
@@ -107,3 +108,7 @@ const AuthShowcase: VoidComponent = () => {
   )
 }
 ```
+
+## Preloading the session
+
+Check this [`doc`](/auth/getsession#preloading-the-session)

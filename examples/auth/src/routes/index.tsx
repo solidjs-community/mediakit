@@ -19,6 +19,7 @@ const getSomething = cache(async () => {
   await new Promise((res) => setTimeout(res, 3000))
   const event = getRequestEvent()!
   setContext('session', await getSession(event.request, authOptions))
+  // event.locals.session = await getSession(event.request, authOptions)
   return 1
 }, 'something2')
 

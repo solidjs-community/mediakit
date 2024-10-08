@@ -50,7 +50,7 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <Suspense>
-            <SessionProvider>{props.children} </SessionProvider>
+            <SessionProvider>{props.children}</SessionProvider>
           </Suspense>
         </MetaProvider>
       )}
@@ -94,5 +94,5 @@ Now that everything is configured correctly, we can go ahead and start using the
 
 - [`signIn`](/auth/signin)
 - [`signOut`](/auth/signout)
-- [`createSession`](/auth/createsession)
+- [`useAuth`](/auth/useauth)
 - [`protected`](/auth/protected)

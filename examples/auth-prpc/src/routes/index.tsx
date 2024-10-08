@@ -1,5 +1,5 @@
 import { type VoidComponent, Show, Suspense } from 'solid-js'
-import { createSession, signOut, signIn } from '@solid-mediakit/auth/client'
+import { useAuth } from '@solid-mediakit/auth/client'
 import { helloQuery } from '~/server/hello/hello.queries'
 import { A } from '@solidjs/router'
 
@@ -50,23 +50,25 @@ const Home: VoidComponent = () => {
 export default Home
 
 const AuthShowcase: VoidComponent = () => {
-  const session = createSession()
+  const auth = useAuth()
   return (
     <div class='flex flex-col items-center justify-center gap-4'>
       <Show
-        when={session()}
+        when={auth.status() === 'authenticated'}
         fallback={
           <button
-            onClick={() => signIn('discord', { redirectTo: '/' })}
+            onClick={() => auth.signIn('discord', { redirectTo: '/' })}
             class='rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20'
           >
             Sign in
           </button>
         }
       >
-        <span class='text-xl text-white'>Welcome {session()?.user?.name}</span>
+        <span class='text-xl text-white'>
+          Welcome {auth.session()?.user?.name}
+        </span>
         <button
-          onClick={() => signOut({ redirectTo: '/' })}
+          onClick={() => auth.signOut({ redirectTo: '/' })}
           class='rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20'
         >
           Sign out

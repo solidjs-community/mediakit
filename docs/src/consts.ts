@@ -43,7 +43,7 @@ export const SIDEBAR: Sidebar = {
     { text: 'protected$', link: 'auth/protected' },
     { text: 'signIn', link: 'auth/signin' },
     { text: 'signOut', link: 'auth/signout' },
-    { text: 'createSession', link: 'auth/createsession' },
+    { text: 'useAuth', link: 'auth/useauth' },
     { text: 'getSession', link: 'auth/getsession' },
   ],
   pRPC: [

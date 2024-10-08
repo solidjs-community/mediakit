@@ -6,36 +6,210 @@ import { Session } from '@auth/core/types'
 import {
   Accessor,
   JSX,
-  Resource,
+  Setter,
   createContext,
-  createResource,
-  onCleanup,
+  createSignal,
+  onMount,
   useContext,
 } from 'solid-js'
-import { conditionalEnv, getBasePath, getEnv, parseUrl } from './utils'
-import { getRequestEvent, isServer } from 'solid-js/web'
+import { conditionalEnv, getBasePath, parseUrl } from './utils'
+import { RequestEvent, getRequestEvent, isServer } from 'solid-js/web'
 import {
-  AuthClientConfig,
   LiteralUnion,
   SignInAuthorizationParams,
   SignInOptions,
   SignOutParams,
 } from './types'
 
-export const __SOLIDAUTH: Omit<AuthClientConfig, '_lastSync' | '_session'> = {
-  baseUrl: parseUrl(conditionalEnv('AUTH_URL', 'VERCEL_URL')).origin,
-  basePath: parseUrl(getEnv('AUTH_URL')).path,
-  baseUrlServer: parseUrl(
-    conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL', 'VERCEL_URL'),
-  ).origin,
-  basePathServer: parseUrl(conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL'))
-    .path,
-  _getSession: () => {},
+export const SessionContext = createContext<{
+  sessionState: Accessor<SessionState>
+  setSessionState: Setter<SessionState>
+  authAction: () => Promise<void>
+}>(undefined)
+
+export interface SessionProviderProps {
+  children: JSX.Element
+  baseUrl?: string
+  basePath?: string
+  deferStream?: boolean
+  refetchAfterServer?: boolean
 }
 
-export async function signIn<
+type SessionState =
+  | {
+      status: 'authenticated'
+      data: Session
+    }
+  | {
+      status: 'unauthenticated'
+      data: null
+    }
+  | {
+      status: 'loading'
+      data: undefined
+    }
+
+export const useAuth = () => {
+  const value = useContext(SessionContext)
+  if (!value) {
+    throw new Error(
+      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />',
+    )
+  }
+  const authSignIn = async <
+    P extends RedirectableProviderType | undefined = undefined,
+  >(
+    providerId?: LiteralUnion<
+      P extends RedirectableProviderType
+        ? P | BuiltInProviderType
+        : BuiltInProviderType
+    >,
+    options?: SignInOptions,
+    authorizationParams?: SignInAuthorizationParams,
+  ) => {
+    return await signIn(
+      value.authAction,
+      providerId,
+      options,
+      authorizationParams,
+    )
+  }
+
+  const authSignOut = async <R extends boolean = true>(
+    options?: SignOutParams<R>,
+  ) => {
+    return await signOut(value.authAction, options)
+  }
+
+  return {
+    signIn: authSignIn,
+    signOut: authSignOut,
+    status: () => value.sessionState().status,
+    session: () => value.sessionState().data,
+  }
+}
+
+const getSessionFromEvent = (event: RequestEvent) => {
+  if (event.locals.session) return event.locals.session
+  return event.nativeEvent.context.session
+}
+
+export function SessionProvider(props: SessionProviderProps) {
+  const event = getRequestEvent()
+  const initialSession = isServer ? getSessionFromEvent(event!) : undefined
+
+  const [sessionState, setSessionState] = createSignal<SessionState>(
+    initialSession === null
+      ? {
+          status: 'unauthenticated',
+          data: null,
+        }
+      : initialSession
+        ? {
+            status: 'authenticated',
+            data: initialSession,
+          }
+        : {
+            status: 'loading',
+            data: undefined,
+          },
+  )
+
+  const authAction = async (initial?: boolean) => {
+    const innerAction = async (): Promise<SessionState> => {
+      try {
+        const _session = await getSession(event)
+        if (_session) {
+          return {
+            status: 'authenticated',
+            data: _session,
+          }
+        }
+        return {
+          status: 'unauthenticated',
+          data: null,
+        }
+      } catch (e) {
+        console.error('@auth', e)
+        return {
+          status: 'unauthenticated',
+          data: null,
+        }
+      }
+    }
+    if (
+      initial &&
+      sessionState().status !== 'loading' &&
+      !props.refetchAfterServer
+    ) {
+      return
+    }
+    setSessionState(await innerAction())
+  }
+
+  onMount(() => {
+    void authAction(true)
+  })
+
+  return (
+    <SessionContext.Provider
+      value={{
+        sessionState,
+        setSessionState,
+        authAction,
+      }}
+    >
+      {props.children}
+    </SessionContext.Provider>
+  )
+}
+
+const getUrl = (endpoint: string) => {
+  if (typeof window === 'undefined') {
+    return `${
+      parseUrl(conditionalEnv('AUTH_URL_INTERNAL', 'AUTH_URL', 'VERCEL_URL'))
+        .origin
+    }${endpoint}`
+  }
+  return endpoint
+}
+
+export const getSession = async (
+  event?: ReturnType<typeof getRequestEvent>,
+) => {
+  let reqInit: RequestInit | undefined
+  if (isServer && event?.request) {
+    const cookie = event.request.headers.get('cookie')
+    if (cookie) {
+      reqInit = {
+        headers: {
+          cookie,
+        },
+      }
+    }
+  }
+  const res = await fetch(getUrl(`${getBasePath()}/session`), reqInit)
+  if (isServer && event?.request && (event as any)?.response) {
+    const cookie = res.headers.get('set-cookie')
+    if (cookie) {
+      try {
+        ;(event as any).response.headers.append('set-cookie', cookie ?? '')
+      } catch (e) {
+        // console.log('spcasfafError: ', e)
+      }
+    }
+  }
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error)
+  if (!data) return null
+  if (Object.keys(data).length === 0) return null
+  return data
+}
+
+async function signIn<
   P extends RedirectableProviderType | undefined = undefined,
 >(
+  refetchAuth: () => Promise<void>,
   providerId?: LiteralUnion<
     P extends RedirectableProviderType
       ? P | BuiltInProviderType
@@ -90,8 +264,7 @@ export async function signIn<
   const code = new URL(data.url).searchParams.get('code')
 
   if (res.ok) {
-    console.log('here$$')
-    await __SOLIDAUTH._getSession()
+    await refetchAuth()
   }
 
   return {
@@ -103,13 +276,8 @@ export async function signIn<
   } as any
 }
 
-/**
- * Signs the user out, by removing the session cookie.
- * Automatically adds the CSRF token to the request.
- *
- * [Documentation](https://authjs.dev/reference/sveltekit/client#signout)
- */
-export async function signOut<R extends boolean = true>(
+async function signOut<R extends boolean = true>(
+  refetchAuth: () => Promise<void>,
   options?: SignOutParams<R>,
 ) {
   const { redirectTo = window.location.href } = options ?? {}
@@ -137,140 +305,7 @@ export async function signOut<R extends boolean = true>(
     return
   }
 
-  await __SOLIDAUTH._getSession()
+  await refetchAuth()
 
-  return data
-}
-
-export const SessionContext = createContext<Resource<SessionState>>(undefined)
-
-export function createSession(): Accessor<SessionState> {
-  // @ts-expect-error Satisfy TS if branch on line below
-  const value: SessionContextValue<R> = useContext(SessionContext)
-  if (!value && (import.meta as any).env.DEV) {
-    throw new Error(
-      '[@solid-mediakit/auth]: `createSession` must be wrapped in a <SessionProvider />',
-    )
-  }
-
-  return value
-}
-export interface SessionProviderProps {
-  children: JSX.Element
-  baseUrl?: string
-  basePath?: string
-  deferStream?: boolean
-}
-
-type SessionState =
-  | {
-      status: 'authenticated'
-      data: Session
-    }
-  | {
-      status: 'unauthenticated'
-      data: null
-    }
-  | {
-      status: 'loading'
-      data: undefined
-    }
-
-export function SessionProvider(props: SessionProviderProps) {
-  const event = getRequestEvent()
-
-  const authAction = async (): Promise<SessionState> => {
-    try {
-      const _session = await getSession(event)
-      if (_session) {
-        return {
-          status: 'authenticated',
-          data: _session,
-        }
-      }
-      return {
-        status: 'unauthenticated',
-        data: null,
-      }
-    } catch {
-      return {
-        status: 'unauthenticated',
-        data: null,
-      }
-    }
-  }
-
-  const [authResource, { refetch }] = createResource(
-    async () => {
-      if (event?.locals.session) {
-        return {
-          status: 'authenticated' as const,
-          data: event.locals.session,
-        }
-      }
-      return await authAction()
-    },
-    {
-      initialValue: event?.locals.session
-        ? {
-            status: 'authenticated',
-            data: event.locals.session,
-          }
-        : {
-            status: 'loading',
-            data: undefined,
-          },
-      deferStream: props.deferStream ?? true,
-    },
-  )
-  __SOLIDAUTH._getSession = () => refetch()
-
-  onCleanup(() => {
-    __SOLIDAUTH._getSession = () => {}
-  })
-
-  return (
-    <SessionContext.Provider value={authResource}>
-      {props.children}
-    </SessionContext.Provider>
-  )
-}
-
-const getUrl = (endpoint: string) => {
-  if (typeof window === 'undefined') {
-    return `${__SOLIDAUTH.baseUrlServer}${endpoint}`
-  }
-  return endpoint
-}
-
-export const getSession = async (
-  event?: ReturnType<typeof getRequestEvent>,
-) => {
-  let reqInit: RequestInit | undefined
-  if (isServer && event?.request) {
-    const cookie = event.request.headers.get('cookie')
-    if (cookie) {
-      reqInit = {
-        headers: {
-          cookie,
-        },
-      }
-    }
-  }
-  const res = await fetch(getUrl(`${getBasePath()}/session`), reqInit)
-  if (isServer && event?.request && (event as any)?.response) {
-    const cookie = res.headers.get('set-cookie')
-    if (cookie) {
-      try {
-        ;(event as any).response.headers.append('set-cookie', cookie ?? '')
-      } catch (e) {
-        // console.log('spcasfafError: ', e)
-      }
-    }
-  }
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.error)
-  if (!data) return null
-  if (Object.keys(data).length === 0) return null
   return data
 }

@@ -1,101 +1,95 @@
 import {
   Match,
-  Show,
   Switch,
   createSignal,
   type VoidComponent,
-  Suspense,
+  Show,
+  createEffect,
+  on,
 } from 'solid-js'
-import { createSession, signIn, signOut } from '@solid-mediakit/auth/client'
+import { useAuth } from '@solid-mediakit/auth/client'
 import { getRequestEvent } from 'solid-js/web'
+import { cache, createAsync } from '@solidjs/router'
+import { getSession } from '@solid-mediakit/auth'
+import { authOptions } from '~/server/auth'
+import { setContext } from 'vinxi/server'
 
-const AuthShowcase1: VoidComponent = () => {
-  const session = createSession()
-  return (
-    <div class='flex flex-col items-center justify-center gap-4'>
-      <div>{JSON.stringify(session(), null, 2)}</div>
-      <Show
-        when={session().data}
-        fallback={
-          <button
-            onClick={() => signIn('discord', { redirectTo: '/' })}
-            class='rounded-full bg-black/50 px-10 py-3 font-semibold text-white no-underline transition hover:bg-black/70'
-          >
-            Sign in
-          </button>
-        }
-      >
-        {(session) => {
-          return (
-            <>
-              <span class='text-xl text-black'>
-                Hello there {session()?.user?.name}
-              </span>
-              <button
-                onClick={() => signOut({ redirectTo: '/' })}
-                class='rounded-full bg-black/50 px-10 py-3 font-semibold text-white no-underline transition hover:bg-black/70'
-              >
-                Sign out
-              </button>
-            </>
-          )
-        }}
-      </Show>
-    </div>
-  )
+const getSomething = cache(async () => {
+  'use server'
+  await new Promise((res) => setTimeout(res, 3000))
+  const event = getRequestEvent()!
+  setContext('session', await getSession(event.request, authOptions))
+  return 1
+}, 'something2')
+
+export const route = {
+  load: () => getSomething(),
 }
 
 const AuthShowcase: VoidComponent = () => {
-  const session = createSession()
+  const r = createAsync(() => getSomething())
+  const auth = useAuth()
   const [email, setEmail] = createSignal('')
   const [password, setPassword] = createSignal('')
+
   return (
-    <div class='flex flex-col items-center justify-center gap-4'>
-      <div>{JSON.stringify(session(), null, 2)}</div>
-      <Switch>
-        <Match when={session().status === 'authenticated'}>
-          <button
-            onClick={async () => {
-              await signOut({ redirect: false })
-            }}
-            class='font-bold text-3xl text-red-500'
-          >
-            Sign Out
-          </button>
-        </Match>
-        <Match when={session().status === 'unauthenticated'}>
-          <div class='flex flex-col gap-4 itesms-center'>
-            <input
-              type='text'
-              value={email()}
-              placeholder='Email'
-              onInput={(e) => setEmail(e.currentTarget.value)}
-              class='outline-none bg-zinc-700 rounded-lg p-3 text-white text-lg font-bold'
-            />
-            <input
-              type='password'
-              value={password()}
-              placeholder='Password'
-              onInput={(e) => setPassword(e.currentTarget.value)}
-              class='outline-none bg-zinc-700 rounded-lg p-3 text-white text-lg font-bold'
-            />
+    <Show when={r()}>
+      <div class='flex flex-col items-center justify-center gap-4'>
+        <div>
+          {JSON.stringify(
+            {
+              status: auth.status(),
+              session: auth.session(),
+            },
+            null,
+            2,
+          )}
+        </div>
+        <Switch fallback={<div>Loading...</div>}>
+          <Match when={auth.status() === 'authenticated'}>
             <button
               onClick={async () => {
-                const r = await signIn('credentials', {
-                  redirect: false,
-                  email: email(),
-                  password: password(),
-                })
-                console.log('here', r)
+                await auth.signOut({ redirect: false })
               }}
-              class='font-bold text-3xl text-green-500'
+              class='font-bold text-3xl text-red-500'
             >
-              Sign In
+              Sign Out
             </button>
-          </div>
-        </Match>
-      </Switch>
-    </div>
+          </Match>
+          <Match when={auth.status() === 'unauthenticated'}>
+            <div class='flex flex-col gap-4 itesms-center'>
+              <input
+                type='text'
+                value={email()}
+                placeholder='Email'
+                onInput={(e) => setEmail(e.currentTarget.value)}
+                class='outline-none bg-zinc-700 rounded-lg p-3 text-white text-lg font-bold'
+              />
+              <input
+                type='password'
+                value={password()}
+                placeholder='Password'
+                onInput={(e) => setPassword(e.currentTarget.value)}
+                class='outline-none bg-zinc-700 rounded-lg p-3 text-white text-lg font-bold'
+              />
+              <button
+                onClick={async () => {
+                  const r = await auth.signIn('credentials', {
+                    redirect: false,
+                    email: email(),
+                    password: password(),
+                  })
+                  console.log('here', r)
+                }}
+                class='font-bold text-3xl text-green-500'
+              >
+                Sign In
+              </button>
+            </div>
+          </Match>
+        </Switch>
+      </div>
+    </Show>
   )
 }
 

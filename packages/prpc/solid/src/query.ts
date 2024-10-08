@@ -33,9 +33,7 @@ export const query$ = <
     const queryClient = useQueryClient()
 
     const queryKey = (input?: any) =>
-      input
-        ? ['prpc.query', props.key, JSON.stringify(input)]
-        : ['prpc.query', props.key]
+      input ? ['prpc.query', props.key, input] : ['prpc.query', props.key]
 
     return {
       invalidate: (_input, filters, options) => {

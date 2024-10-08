@@ -97,66 +97,35 @@ export type QueryKeyKnown<TInput, TType extends Exclude<QueryType, 'any'>> = [
 ]
 
 export type QueryBuilder<
-  Fn extends ExpectedFn<ZObj, Mws>,
   Mws extends IMiddleware<any>[] | void = void,
   ZObj extends ExpectedSchema = EmptySchema,
   BuilderType extends PossibleBuilderTypes | void = void,
-> = (BuilderType extends 'query'
+> = {
+  query$<NewFn extends ExpectedFn<ZObj, Mws>>(
+    fn: NewFn,
+    key: string,
+  ): QueryRes<Mws, NewFn, ZObj>
+  mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(
+    fn: NewFn,
+    key: string,
+  ): MutationRes<Mws, NewFn, ZObj>
+} & (ZObj extends EmptySchema
   ? {
-      (
-        input: ZObj extends EmptySchema
-          ? EmptySchema
-          : Accessor<Infer$PayLoad<ZObj>>,
-        opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
-      ): CreateQueryResult<
-        Fn$Output<Fn, ZObj, Mws>,
-        ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
-      >
+      input<NewZObj extends ExpectedSchema>(
+        schema: NewZObj,
+      ): QueryBuilder<Mws, NewZObj>
     }
   : {}) &
-  (BuilderType extends 'mutation'
-    ? {
-        (
-          opts?: FCreateMutationOptions<ZObj, Infer$PayLoad<ZObj>>,
-        ): CreateMutationResult<
-          Fn$Output<Fn, ZObj, Mws>,
-          ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
-          Infer$PayLoad<ZObj>
-        >
-      }
-    : {} & BuilderType extends void
-      ? {
-          query$<NewFn extends ExpectedFn<ZObj, Mws>>(
-            fn: NewFn,
-            key: string,
-          ): QueryBuilder<NewFn, Mws, ZObj, 'query'>
-          mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(
-            fn: NewFn,
-            key: string,
-          ): QueryBuilder<NewFn, Mws, ZObj, 'mutation'>
-        }
-      : {}) &
-  (ZObj extends EmptySchema
-    ? {
-        input<NewZObj extends ExpectedSchema>(
-          schema: NewZObj,
-        ): QueryBuilder<ExpectedFn<NewZObj, Mws>, Mws, NewZObj>
-      }
-    : {}) &
   (BuilderType extends void
     ? {
         middleware$<Mw extends IMiddleware<P & InferFinalMiddlware<Mws>>>(
           mw: Mw,
-        ): QueryBuilder<
-          ExpectedFn<ZObj, Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw]>,
-          Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw],
-          ZObj
-        >
+        ): QueryBuilder<Mws extends IMiddleware[] ? [...Mws, Mw] : [Mw], ZObj>
       }
     : {})
 
 export type QueryRes<
-  Mw extends IMiddleware[],
+  Mw extends IMiddleware<any>[] | void,
   Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema,
 > = {
@@ -197,5 +166,24 @@ export type QueryRes<
       ? EmptySchema
       : Accessor<Infer$PayLoad<ZObj>>,
     opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
-  ): CreateQueryResult<Fn$Output<Fn, ZObj, Mw>>
+  ): CreateQueryResult<
+    Fn$Output<Fn, ZObj, Mw>,
+    ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
+  >
 }
+
+type MutationRes<
+  Mw extends IMiddleware<any>[] | void,
+  Fn extends ExpectedFn<ZObj, Mw>,
+  ZObj extends ExpectedSchema = EmptySchema,
+> = (
+  opts?: FCreateMutationOptions<
+    ZObj,
+    Fn$Output<Fn, ZObj, Mw>,
+    ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
+  >,
+) => CreateMutationResult<
+  Fn$Output<Fn, ZObj, Mw>,
+  ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
+  Infer$PayLoad<ZObj>
+>

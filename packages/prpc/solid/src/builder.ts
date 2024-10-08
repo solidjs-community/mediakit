@@ -9,12 +9,11 @@ import {
 } from './types'
 
 export const builder$ = <
-  Fn extends ExpectedFn<ZObj, Mws>,
   Mws extends IMiddleware<any>[] | void = void,
   ZObj extends ExpectedSchema = EmptySchema,
-  BuilderType extends PossibleBuilderTypes | void = void
->(): QueryBuilder<Fn, Mws, ZObj, BuilderType> => {
-  const builder: QueryBuilder<Fn, Mws, ZObj, PossibleBuilderTypes> = {
+  BuilderType extends PossibleBuilderTypes | void = void,
+>(): QueryBuilder<Mws, ZObj, BuilderType> => {
+  const builder: QueryBuilder<Mws, ZObj, PossibleBuilderTypes> = {
     middleware$<Mw extends IMiddleware<InferFinalMiddlware<Mws>>>(_mw: Mw) {
       return builder
     },
@@ -24,14 +23,10 @@ export const builder$ = <
     mutation$<NewFn extends ExpectedFn<ZObj, Mws>>(_fn: NewFn, _key: string) {
       throw new Error('Should be compiled away')
     },
-    input<NewZObj extends ExpectedSchema>(schema: NewZObj) {
-      return builder as QueryBuilder<
-        ExpectedFn<typeof schema, Mws>,
-        Mws,
-        NewZObj
-      >
+    input<NewZObj extends ExpectedSchema>(_schema: NewZObj) {
+      return builder as unknown as QueryBuilder<Mws, NewZObj>
     },
   }
 
-  return builder as QueryBuilder<Fn, Mws, ZObj, BuilderType>
+  return builder as QueryBuilder<Mws, ZObj, BuilderType>
 }

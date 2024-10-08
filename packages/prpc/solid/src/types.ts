@@ -20,8 +20,11 @@ export type EmptySchema = void | undefined
 
 export type ExpectedSchema = zod.ZodSchema | EmptySchema
 
-export type Infer$PayLoad<ZObj extends ExpectedSchema> =
+export type _Infer$PayLoad<ZObj extends ExpectedSchema> =
   ZObj extends zod.ZodSchema ? zod.infer<ZObj> : never
+
+export type Infer$PayLoad<ZObj extends ExpectedSchema> =
+  _Infer$PayLoad<ZObj> extends never ? undefined | void : _Infer$PayLoad<ZObj>
 
 export type PRPCEvent = NonNullable<ReturnType<typeof getRequestEvent>>
 

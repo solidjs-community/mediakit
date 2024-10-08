@@ -15,7 +15,7 @@ import {
 } from './types'
 import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
-import { ZodSchema } from 'zod'
+import { type ZodSchema } from 'zod'
 
 export const mutation$ = <
   Mw extends IMiddleware[],
@@ -55,7 +55,7 @@ export type FCreateMutationOptions<
   TContext,
   TData = unknown,
   TError = ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
-  TVariables = void,
+  TVariables = Infer$PayLoad<ZObj>,
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
 >

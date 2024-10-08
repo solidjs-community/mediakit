@@ -2,7 +2,16 @@ import type zod from 'zod'
 import type { getRequestEvent } from 'solid-js/web'
 import { Accessor } from 'solid-js'
 import { FCreateQueryOptions } from './query'
-import { CreateMutationResult, CreateQueryResult } from '@tanstack/solid-query'
+import {
+  CancelOptions,
+  CreateMutationResult,
+  CreateQueryResult,
+  InvalidateOptions,
+  InvalidateQueryFilters,
+  Query,
+  SetDataOptions,
+  Updater,
+} from '@tanstack/solid-query'
 import { FCreateMutationOptions } from './mutation'
 import { ZodSchema } from 'zod'
 import { PRPCClientError } from './error'
@@ -145,3 +154,48 @@ export type QueryBuilder<
         >
       }
     : {})
+
+export type QueryRes<
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<ZObj, Mw>,
+  ZObj extends ExpectedSchema = EmptySchema,
+> = {
+  useUtils: () => {
+    getData(input?: Infer$PayLoad<ZObj>): Fn$Output<Fn, ZObj, Mw> | undefined
+    setData(
+      input: Infer$PayLoad<ZObj>,
+      updater: Updater<
+        Fn$Output<Fn, ZObj, Mw> | undefined,
+        Fn$Output<Fn, ZObj, Mw> | undefined
+      >,
+      options?: SetDataOptions,
+    ): void
+
+    cancel(input?: Infer$PayLoad<ZObj>, options?: CancelOptions): Promise<void>
+    invalidate(
+      input?: DeepPartial<Infer$PayLoad<ZObj>>,
+      filters?: Omit<InvalidateQueryFilters, 'predicate'> & {
+        predicate?: (
+          query: Query<
+            Infer$PayLoad<ZObj>,
+            ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
+            Infer$PayLoad<ZObj>,
+            QueryKeyKnown<
+              Infer$PayLoad<ZObj>,
+              Infer$PayLoad<ZObj> extends { cursor?: any } | void
+                ? 'infinite'
+                : 'query'
+            >
+          >,
+        ) => boolean
+      },
+      options?: InvalidateOptions,
+    ): Promise<void>
+  }
+  (
+    input: ZObj extends EmptySchema
+      ? EmptySchema
+      : Accessor<Infer$PayLoad<ZObj>>,
+    opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
+  ): CreateQueryResult<Fn$Output<Fn, ZObj, Mw>>
+}

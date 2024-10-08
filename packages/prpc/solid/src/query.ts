@@ -2,16 +2,12 @@ import {
   createQuery,
   CreateQueryResult,
   FunctionedParams,
-  InvalidateOptions,
-  InvalidateQueryFilters,
-  Query,
   QueryKey,
   SolidQueryOptions,
   useQueryClient,
 } from '@tanstack/solid-query'
 import { Accessor } from 'solid-js'
 import type {
-  DeepPartial,
   EmptySchema,
   ExpectedFn,
   ExpectedSchema,
@@ -19,45 +15,11 @@ import type {
   IMiddleware,
   Infer$PayLoad,
   OmitQueryData,
-  QueryKeyKnown,
+  QueryRes,
 } from './types'
 import type { PRPCClientError } from './error'
 import { tryAndWrap } from './wrap'
 import { ZodSchema } from 'zod'
-
-type QueryRes<
-  Mw extends IMiddleware[],
-  Fn extends ExpectedFn<ZObj, Mw>,
-  ZObj extends ExpectedSchema = EmptySchema,
-> = {
-  useUtils: () => {
-    invalidate(
-      input?: DeepPartial<Infer$PayLoad<ZObj>>,
-      filters?: Omit<InvalidateQueryFilters, 'predicate'> & {
-        predicate?: (
-          query: Query<
-            Infer$PayLoad<ZObj>,
-            ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
-            Infer$PayLoad<ZObj>,
-            QueryKeyKnown<
-              Infer$PayLoad<ZObj>,
-              Infer$PayLoad<ZObj> extends { cursor?: any } | void
-                ? 'infinite'
-                : 'query'
-            >
-          >,
-        ) => boolean
-      },
-      options?: InvalidateOptions,
-    ): Promise<void>
-  }
-  (
-    input: ZObj extends EmptySchema
-      ? EmptySchema
-      : Accessor<Infer$PayLoad<ZObj>>,
-    opts?: FCreateQueryOptions<ZObj, Infer$PayLoad<ZObj>>,
-  ): CreateQueryResult<Fn$Output<Fn, ZObj, Mw>>
-}
 
 export const query$ = <
   Mw extends IMiddleware[],
@@ -84,6 +46,24 @@ export const query$ = <
           },
           options,
         )
+      },
+      cancel(_input, options) {
+        return queryClient.cancelQueries(
+          {
+            queryKey: queryKey(_input),
+          },
+          options,
+        )
+      },
+      setData(_input, updater, options) {
+        return queryClient.setQueryData(
+          queryKey(_input),
+          updater as any,
+          options,
+        )
+      },
+      getData(_input) {
+        return queryClient.getQueryData(queryKey(_input))
       },
     } satisfies ReturnType<R['useUtils']>
   }

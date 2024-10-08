@@ -34,7 +34,7 @@
   "types": "./dist/index.d.ts",
   "module": "./dist/server.js",
   "devDependencies": {
-    "@tanstack/solid-query": "^5.51.15",
+    "@tanstack/solid-query": "^5.59.0",
     "@types/node": "^22.0.0",
     "@typescript-eslint/parser": "^7.18.0",
     "tsup": "^8.2.3",
@@ -52,7 +52,7 @@
     "@rollup/pluginutils": "^5.1.0"
   },
   "peerDependencies": {
-    "@tanstack/solid-query": "^5.56.2",
+    "@tanstack/solid-query": "^5.59.0",
     "typescript": "^4.8.2",
     "zod": "^3.22.4",
     "@solidjs/router": "^0.14.5",

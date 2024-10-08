@@ -79,6 +79,7 @@ export const query$ = <
         props.key,
         input ? JSON.stringify(input()) : undefined,
       ],
+      experimental_prefetchInRender: true,
       ...((opts?.() ?? {}) as any),
     })) as unknown as CreateQueryResult<
       Fn$Output<Fn, ZObj, Mw>,

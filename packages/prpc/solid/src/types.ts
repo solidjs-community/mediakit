@@ -176,9 +176,10 @@ type MutationRes<
   Mw extends IMiddleware<any>[] | void,
   Fn extends ExpectedFn<ZObj, Mw>,
   ZObj extends ExpectedSchema = EmptySchema,
-> = (
+> = <TContext = unknown>(
   opts?: FCreateMutationOptions<
     ZObj,
+    TContext,
     Fn$Output<Fn, ZObj, Mw>,
     ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError
   >,

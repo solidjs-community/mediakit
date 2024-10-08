@@ -24,7 +24,9 @@ export const mutation$ = <
 >(
   props: Mutation$Props<Mw, Fn, ZObj>,
 ) => {
-  return (opts?: FCreateMutationOptions<ZObj, Infer$PayLoad<ZObj>>) => {
+  return <TContext = unknown>(
+    opts?: FCreateMutationOptions<ZObj, TContext, Infer$PayLoad<ZObj>>,
+  ) => {
     return createMutation(() => ({
       mutationFn: async (input) => await tryAndWrap(props.mutationFn, input),
       mutationKey: ['prpc.mutation', props.key],
@@ -50,10 +52,10 @@ export type Mutation$Props<
 
 export type FCreateMutationOptions<
   ZObj extends ExpectedSchema,
+  TContext,
   TData = unknown,
   TError = ZObj extends ZodSchema ? PRPCClientError<ZObj> : PRPCClientError,
   TVariables = void,
-  TContext = unknown,
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
 >

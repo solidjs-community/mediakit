@@ -13,9 +13,17 @@ description: 'API for the createSession function'
 
 ```ts
 import { createSession } from '@solid-mediakit/auth/client'
+
 const session = createSession()
 
-const user = () => session()?.user
+const user = () => {
+  const sess = session()
+  if (sess.status === 'authenticated') {
+    return sess.data
+  } else {
+    return sess.status === 'loading' ? undefined : null
+  }
+}
 ```
 
 ### Actual
@@ -30,7 +38,7 @@ const AuthShowcase: VoidComponent = () => {
   return (
     <div class='flex flex-col items-center justify-center gap-4'>
       <Show
-        when={session()}
+        when={session().data}
         fallback={
           <button
             onClick={() => signIn('discord', { redirectTo: '/' })}

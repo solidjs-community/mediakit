@@ -8,7 +8,7 @@ const AuthShowcase1: VoidComponent = () => {
     <div class='flex flex-col items-center justify-center gap-4'>
       <div>{JSON.stringify(session(), null, 2)}</div>
       <Show
-        when={session().session}
+        when={session().data}
         fallback={
           <button
             onClick={() => signIn('discord', { redirectTo: '/' })}
@@ -40,6 +40,15 @@ const AuthShowcase1: VoidComponent = () => {
 
 const AuthShowcase: VoidComponent = () => {
   const session = createSession()
+
+  const user = () => {
+    const sess = session()
+    if (sess.status === 'authenticated') {
+      return sess.data
+    } else {
+      return sess.status === 'loading' ? undefined : null
+    }
+  }
 
   return (
     <div class='flex flex-col items-center justify-center gap-4'>

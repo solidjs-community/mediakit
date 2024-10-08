@@ -164,15 +164,15 @@ export interface SessionProviderProps {
 type SessionState =
   | {
       status: 'authenticated'
-      session: Session
+      data: Session
     }
   | {
       status: 'unauthenticated'
-      session: null
+      data: null
     }
   | {
       status: 'loading'
-      session: undefined
+      data: undefined
     }
 
 export function SessionProvider(props: SessionProviderProps) {
@@ -184,17 +184,17 @@ export function SessionProvider(props: SessionProviderProps) {
       if (_session) {
         return {
           status: 'authenticated',
-          session: _session,
+          data: _session,
         }
       }
       return {
         status: 'unauthenticated',
-        session: null,
+        data: null,
       }
     } catch {
       return {
         status: 'unauthenticated',
-        session: null,
+        data: null,
       }
     }
   }
@@ -204,7 +204,7 @@ export function SessionProvider(props: SessionProviderProps) {
       if (event?.locals.session) {
         return {
           status: 'authenticated' as const,
-          session: event.locals.session,
+          data: event.locals.session,
         }
       }
       return await authAction()
@@ -213,11 +213,11 @@ export function SessionProvider(props: SessionProviderProps) {
       initialValue: event?.locals.session
         ? {
             status: 'authenticated',
-            session: event.locals.session,
+            data: event.locals.session,
           }
         : {
             status: 'loading',
-            session: undefined,
+            data: undefined,
           },
       deferStream: props.deferStream ?? true,
     },

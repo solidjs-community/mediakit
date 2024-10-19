@@ -1,5 +1,15 @@
 # @solid-mediakit/auth
 
+## 3.0.0
+
+### Major Changes
+
+- [`b0f7d26`](https://github.com/solidjs-community/mediakit/commit/b0f7d269499a6b256f7f42035e04bf9032d92d95) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: new api & support for preload sessions
+
+### Patch Changes
+
+- [`753c194`](https://github.com/solidjs-community/mediakit/commit/753c194636826a558c05611f44e4bec8d7a7291f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: minor fixes for the new update
+
 ## 2.1.6
 
 ### Patch Changes

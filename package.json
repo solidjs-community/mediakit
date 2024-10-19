@@ -10,7 +10,7 @@
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
     "format": "prettier --write \"**.*.{ts,tsx,md}\"",
-    "ts:check": "torbo run ts:check --continue",
+    "ts:check": "turbo run ts:check --continue",
     "dev:packages": "turbo run dev --filter=./packages/**/*"
   },
   "type": "module",

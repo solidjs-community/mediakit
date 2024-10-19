@@ -19,15 +19,16 @@
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
-    "typescript": "^5.5.4",
+    "rollup-preset-solid": "^2.0.1",
     "solid-js": "^1.8.19",
-    "rollup-preset-solid": "^2.0.1"
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "solid-js": "^1.8.14"
   },
   "dependencies": {
-    "@solid-mediakit/shared": "workspace:*"
+    "@solid-mediakit/shared": "workspace:*",
+    "@unpic/core": "^0.0.49"
   },
   "author": "OrJDev"
 }

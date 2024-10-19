@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "turbo run build --filter=./packages/**/*",
-    "dev": "turbo run dev --parallel --include-dependencies --no-deps",
+    "dev": "turbo run dev -- --parallel --include-dependencies --no-deps",
     "clean": "turbo run clean --parallel && rimraf node_modules pnpm-lock.yaml && pnpm install",
     "lint": "turbo run lint",
     "test": "turbo run test",

@@ -3,18 +3,28 @@
   "version": "0.0.7",
   "type": "module",
   "description": "A media utility library for Solid.",
-  "main": "./dist/index/index.jsx",
-  "module": "./dist/index/index.jsx",
+  "main": "./dist/cjs/production/index.jsx",
+  "module": "./dist/esm/production/index.jsx",
   "exports": {
     ".": {
-      "types": "./dist/index/index.d.ts",
-      "import": "./dist/index/index.jsx",
-      "default": "./dist/index/index.jsx"
+      "development": {
+        "require": "./dist/cjs/development/index.jsx",
+        "import": "./dist/esm/development/index.jsx"
+      },
+      "require": "./dist/cjs/production/index.jsx",
+      "import": "./dist/esm/production/index.jsx",
+      "types": "./dist/types/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsc && rollup -c",
-    "clean": "rimraf dist node_modules"
+    "prepublishOnly": "pridepack clean && pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "lint": "pridepack lint",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch",
+    "start": "pridepack start",
+    "dev": "pridepack dev"
   },
   "license": "ISC",
   "devDependencies": {
@@ -28,7 +38,13 @@
   },
   "dependencies": {
     "@solid-mediakit/shared": "workspace:*",
-    "@unpic/core": "^0.0.49"
+    "@unpic/core": "^0.0.49",
+    "babel-preset-solid": "^1.8.22",
+    "pridepack": "2.6.1"
   },
-  "author": "OrJDev"
+  "author": "OrJDev",
+  "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {}
+  }
 }

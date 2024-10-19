@@ -1,0 +1,4 @@
+{
+  "target": "es2018",
+  "jsx": "preserve"
+}

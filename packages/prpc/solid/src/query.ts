@@ -74,11 +74,7 @@ export const query$ = <
     return createQuery(() => ({
       queryFn: async () =>
         await tryAndWrap(props.queryFn, input ? input() : undefined),
-      queryKey: [
-        'prpc.query',
-        props.key,
-        input ? JSON.stringify(input()) : undefined,
-      ],
+      queryKey: ['prpc.query', props.key, input ? input() : undefined],
       experimental_prefetchInRender: true,
       ...((opts?.() ?? {}) as any),
     })) as unknown as CreateQueryResult<

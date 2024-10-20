@@ -1,0 +1,315 @@
+---
+title: 'Install'
+description: 'Installing AuthPC'
+---
+
+## Install
+
+First install both the plugin & the authpc package
+
+- `@tanstack/solid-query` - We are using Solid Query under the hood to transform `createCaller` into `createQuery` / `createMutation`.
+- `@solid-mediakit/authpc` - Where you import AuthPC utils from.
+- `@solid-mediakit/authpc-plugin` - The vite plugin for AuthPC (this is required for the app to work).
+
+Simply run
+
+```bash
+pnpm install @solid-mediakit/authpc@latest @solid-mediakit/authpc-plugin@latest @tanstack/solid-query@latest
+```
+
+### App Config
+
+Wrap your entire config with the `withAuthPC` method for typesafety:
+
+```ts
+import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+
+const config = withAuthPC({
+  ssr: true,
+})
+
+// this is important: otherwise you cannot access the session$ property
+declare module '@solid-mediakit/authpc' {
+  interface Settings {
+    config: typeof config
+  }
+}
+
+export default config
+```
+
+### Note
+
+To use any auth provider, you need to follow the guides bellow, this is optional you don't have to use any auth provider with this library, if you don't use one, you will not be able to access the `session$` property.
+**Also if you don't use any auth provider, you need to wrap your app with the AuthPCProvider**
+
+- I Want To Use Auth By Using AuthJS - [`here`](#setting-up-authjs)
+- I Want To Use Auth By Using Clerk - [`here`](#setting-up-clerk)
+- I Don't Use Any Auth - [`here`](#setting-up-with-no-auth)
+
+## Setting Up Clerk
+
+First Install The Dependencies
+
+#### Install
+
+```bash
+pnpm install clerk-solidjs@latest
+```
+
+### Env Variables
+
+Make sure to have this in your `.env`
+
+```
+VITE_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+```
+
+#### Wrap Your App With ClerkProvider
+
+`src/app.tsx` should be something like:
+
+```tsx
+// @refresh reload
+import './app.css'
+import { MetaProvider, Title } from '@solidjs/meta'
+import { Router } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start/router'
+import { Suspense } from 'solid-js'
+import { QueryClient } from '@tanstack/solid-query'
+import { AuthPCProvider } from '@solid-mediakit/authpc'
+import { ClerkProvider } from 'clerk-solidjs'
+
+export default function App() {
+  const queryClient = new QueryClient()
+  return (
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          <Title>SolidStart - Basic</Title>
+          <ClerkProvider
+            publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
+          >
+            <AuthPCProvider queryClient={queryClient}>
+              <Suspense>{props.children}</Suspense>
+            </AuthPCProvider>
+          </ClerkProvider>
+        </MetaProvider>
+      )}
+    >
+      <FileRoutes />
+    </Router>
+  )
+}
+```
+
+#### Creating A Middleware
+
+Head over to `src/middleware.ts` and make sure its something like:
+
+```ts
+import { createMiddleware } from '@solidjs/start/middleware'
+import { clerkMiddleware } from 'clerk-solidjs/start/server'
+
+export default createMiddleware({
+  onRequest: [
+    clerkMiddleware({
+      publishableKey: process.env.VITE_CLERK_PUBLISHABLE_KEY,
+      secretKey: process.env.CLERK_SECRET_KEY,
+    }),
+  ],
+})
+```
+
+### Modifying app.config.ts
+
+This is it, you just need to modify `app.config.ts`
+
+```ts
+import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+
+const config = withAuthPC(
+  {
+    ssr: true,
+  },
+  {
+    auth: 'clerk',
+    authCfg: {
+      middleware: './src/middleware.ts',
+      protectedMessage: 'You need to sign in first',
+    },
+  },
+)
+
+export default config
+
+declare module '@solid-mediakit/authpc' {
+  interface Settings {
+    config: typeof config
+  }
+}
+```
+
+## Setting Up AuthJS
+
+First Install The Dependencies
+
+#### Install
+
+```bash
+pnpm install @auth/core@0.35.0 @solid-mediakit/auth@latest
+```
+
+### Env Variables
+
+Make sure to have this in your `.env`
+
+```
+VITE_AUTH_PATH=/api/auth
+DISCORD_ID=
+DISCORD_SECRET=
+```
+
+#### Create Config
+
+After installing, head over to `server/auth.ts` and create the AuthJS config:
+
+```ts
+import { type SolidAuthConfig } from '@solid-mediakit/auth'
+import Discord from '@auth/core/providers/discord'
+
+declare module '@auth/core/types' {
+  export interface Session {
+    user: {} & DefaultSession['user']
+  }
+}
+
+export const authOpts: SolidAuthConfig = {
+  providers: [
+    Discord({
+      clientId: process.env.DISCORD_ID,
+      clientSecret: process.env.DISCORD_SECRET,
+    }),
+  ],
+  debug: false,
+  basePath: import.meta.env.VITE_AUTH_PATH,
+}
+```
+
+### Create Auth API Endpoint
+
+Go to `src/routes/api/auth/[...solidauth].ts`:
+
+```ts
+import { SolidAuth } from '@solid-mediakit/auth'
+import { authOpts } from '~/server/auth'
+
+export const { GET, POST } = SolidAuth(authOpts)
+```
+
+#### Wrap Your App With SessionProvider
+
+`src/app.tsx` should be something like:
+
+```tsx
+// @refresh reload
+import './app.css'
+import { MetaProvider, Title } from '@solidjs/meta'
+import { Router } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start/router'
+import { Suspense } from 'solid-js'
+import { QueryClient } from '@tanstack/solid-query'
+import { AuthPCProvider } from '@solid-mediakit/authpc'
+import { SessionProvider } from '@solid-mediakit/auth/client'
+
+export default function App() {
+  const queryClient = new QueryClient()
+  return (
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          <Title>SolidStart - Basic</Title>
+          <SessionProvider>
+            <AuthPCProvider queryClient={queryClient}>
+              <Suspense>{props.children}</Suspense>
+            </AuthPCProvider>
+          </SessionProvider>
+        </MetaProvider>
+      )}
+    >
+      <FileRoutes />
+    </Router>
+  )
+}
+```
+
+### Modifying app.config.ts
+
+This is it, you just need to modify `app.config.ts`
+
+```ts
+import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+
+const config = withAuthPC(
+  {
+    ssr: true,
+  },
+  {
+    auth: 'authjs',
+    authCfg: {
+      source: '~/server/auth',
+      configName: 'authOpts',
+      protectedMessage: 'You need to sign in first',
+    },
+  },
+)
+
+export default config
+
+declare module '@solid-mediakit/authpc' {
+  interface Settings {
+    config: typeof config
+  }
+}
+```
+
+## Setting Up With No Auth
+
+`src/app.tsx` should be something like:
+
+```tsx
+// @refresh reload
+import './app.css'
+import { MetaProvider, Title } from '@solidjs/meta'
+import { Router } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start/router'
+import { Suspense } from 'solid-js'
+import { QueryClient } from '@tanstack/solid-query'
+import { AuthPCProvider } from '@solid-mediakit/authpc'
+
+export default function App() {
+  const queryClient = new QueryClient()
+  return (
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          <Title>SolidStart - Basic</Title>
+          <AuthPCProvider queryClient={queryClient}>
+            <Suspense>{props.children}</Suspense>
+          </AuthPCProvider>
+        </MetaProvider>
+      )}
+    >
+      <FileRoutes />
+    </Router>
+  )
+}
+```
+
+## Links
+
+- [createCaller](/authpc/createcaller)
+- [redirect$](/authpc/redirect)
+- [error$](/authpc/error)
+- [response$](/authpc/response)

@@ -1,5 +1,3 @@
-> [Doc](https://mediakit-taupe.vercel.app/authpc/install)
-
 ## What Is AuthPC
 
 AuthPC is a utility library that combines both
@@ -84,9 +82,6 @@ Use this method to interact with the api, you can choose between a `query` or a 
 ```ts
 // server.ts
 import { createCaller } from '@solid-mediakit/authpc'
-import * as v from 'valibot'
-
-const mySchema = v.object({ name: v.string() })
 
 const myServerQuery = createCaller(
   ({ session$ }) => {

@@ -38,6 +38,16 @@ export const SIDEBAR: Sidebar = {
     { text: 'Contributors', link: 'contributors' },
     { text: 'Sponsors', link: 'sponsors' },
   ],
+  AuthPC: [
+    { text: 'Introduction', link: 'authpc/introduction' },
+    { text: 'Install', link: 'authpc/install' },
+    { text: 'createCaller', link: 'authpc/createcaller' },
+    { text: 'Error Handling', link: 'authpc/error-handling' },
+    { text: 'Optimistic Updates', link: 'authpc/optimistic' },
+    { text: 'redirect$', link: 'authpc/redirect' },
+    { text: 'error$', link: 'authpc/error' },
+    { text: 'response$', link: 'authpc/response' },
+  ],
   Auth: [
     { text: 'Install', link: 'auth/install' },
     { text: 'protected$', link: 'auth/protected' },
@@ -46,49 +56,50 @@ export const SIDEBAR: Sidebar = {
     { text: 'useAuth', link: 'auth/useauth' },
     { text: 'getSession', link: 'auth/getsession' },
   ],
-  pRPC: [
-    { text: 'Install', link: 'prpc/install' },
-    { text: 'builder$', link: 'prpc/builder' },
-    { text: 'query$', link: 'prpc/query' },
-    { text: 'mutation$', link: 'prpc/mutation' },
-    { text: 'middleware$', link: 'prpc/middleware' },
-    { text: 'pipe$', link: 'prpc/pipe' },
-    {
-      text: 'error$',
-      link: 'prpc/error',
-    },
-    {
-      text: 'useUtils',
-      link: 'prpc/useutils',
-    },
-    {
-      text: 'PRPCClientError',
-      link: 'prpc/prpc-client-error',
-    },
-    {
-      text: 'hideEvent',
-      link: 'prpc/hideevent',
-    },
-  ],
+
   Forms: [
     { text: 'Install', link: 'forms/install' },
     { text: 'createForm', link: 'forms/createform' },
     { text: 'createForm$', link: 'forms/serverform' },
-  ],
-  Log: [
-    { text: 'Install', link: 'log/install' },
-    { text: 'log$', link: 'log/log' },
   ],
   OpenGraph: [
     { text: 'Install', link: 'og/install' },
     { text: 'DynamicImage', link: 'og/dynamic-image' },
     { text: 'OpenGraph', link: 'og/opengraph' },
   ],
-  tRPC: [
-    { text: 'Install', link: 'trpc/install' },
-    { text: 'Router', link: 'trpc/router' },
-    { text: 'API Handler', link: 'trpc/handler' },
-  ],
+  // tRPC: [
+  //   { text: 'Install', link: 'trpc/install' },
+  //   { text: 'Router', link: 'trpc/router' },
+  //   { text: 'API Handler', link: 'trpc/handler' },
+  // ],
+  // Log: [
+  //   { text: 'Install', link: 'log/install' },
+  //   { text: 'log$', link: 'log/log' },
+  // ],
+  // pRPC: [
+  //   { text: 'Install', link: 'prpc/install' },
+  //   { text: 'builder$', link: 'prpc/builder' },
+  //   { text: 'query$', link: 'prpc/query' },
+  //   { text: 'mutation$', link: 'prpc/mutation' },
+  //   { text: 'middleware$', link: 'prpc/middleware' },
+  //   { text: 'pipe$', link: 'prpc/pipe' },
+  //   {
+  //     text: 'error$',
+  //     link: 'prpc/error',
+  //   },
+  //   {
+  //     text: 'useUtils',
+  //     link: 'prpc/useutils',
+  //   },
+  //   {
+  //     text: 'PRPCClientError',
+  //     link: 'prpc/prpc-client-error',
+  //   },
+  //   {
+  //     text: 'hideEvent',
+  //     link: 'prpc/hideevent',
+  //   },
+  // ],
   Media: [
     { text: 'Install', link: 'media/install' },
     { text: 'createVideo', link: 'media/createvideo' },

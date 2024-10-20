@@ -1,0 +1,360 @@
+---
+title: 'createCaller'
+description: 'createCaller Method'
+---
+
+Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is POST).
+
+### API
+
+- [createCaller](#createcaller)
+  - [Zod](#zod)
+  - [ValiBot](#valibot)
+  - [Client Error Handling](#error-handling)
+  - [Middlewares & .use](#middlewares--use)
+  - [Optimistic Updates](#optimistic-updates)
+  - [Methods](#methods)
+    - [POST](#post)
+    - [GET](#get)
+  - [Function Types](#function-types)
+    - [Query](#query)
+    - [Mutation](#mutation)
+- [Utils](#utils)
+  - [redirect$](#redirect)
+  - [response$](#response)
+  - [error$](#error)
+
+### No Schema
+
+```ts
+// server.ts
+import { createCaller } from '@solid-mediakit/authpc'
+
+const myServerQuery = createCaller(
+  ({ session$ }) => {
+    console.log(session$, event$.request.headers.get('user-agent'))
+    return 'Who do i say hey to'
+  },
+  {
+    method: 'GET',
+  },
+)
+
+// client.tsx
+import { myServerQuery } from './server'
+const query = myServerQuery()
+```
+
+### Zod
+
+```ts
+// server.ts
+import { createCaller } from '@solid-mediakit/authpc'
+import { z } from 'zod'
+
+const mySchema = z.object({ name: z.string() })
+
+export const myServerQuery = createCaller(
+  mySchema,
+  ({ input$, session$, event$ }) => {
+    console.log(session$, event$.request.headers.get('user-agent'))
+    return `Hey there ${input$.name}`
+  },
+  {
+    method: 'GET',
+  },
+)
+
+// client.tsx
+import { myServerQuery } from './server'
+const query = myServerQuery(() => ({ name: 'Demo' }))
+```
+
+### Valibot
+
+```ts
+// server.ts
+import { createCaller } from '@solid-mediakit/authpc'
+import * as v from 'valibot'
+
+const mySchema = v.object({ name: v.string() })
+
+export const myServerQuery = createCaller(
+  mySchema,
+  ({ input$, session$, event$ }) => {
+    console.log(session$, event$.request.headers.get('user-agent'))
+    return `Hey there ${input$.name}`
+  },
+  {
+    method: 'GET',
+  },
+)
+
+// client.tsx
+import { myServerQuery } from './server'
+const query = myServerQuery(() => ({ name: 'Demo' }))
+```
+
+### Error Handling
+
+Errors are thrown using the `AuthPClientError` class. When the server function has a schema defined, you can use the `isValidationError` to get the issues.
+
+```tsx
+import { createEffect } from 'solid-js'
+import { myServerQuery } from './server'
+
+const MyClient = () => {
+  const query = myServerQuery(() => ({ name: 'Demo' }))
+
+  createEffect(() => {
+    if (query.error) {
+      if (query.error.isValidationError()) {
+        query.error.cause.fieldErrors.name // string[]
+      } else {
+        console.error('What is this', query.error.cause)
+      }
+    }
+  })
+
+  return (...)
+}
+
+export default MyClient
+```
+
+### Methods
+
+You can choose any method (GET || POST), regardless of the function type (default is POST)
+
+#### GET
+
+```ts
+import { createCaller, response$ } from '@solid-mediakit/authpc'
+
+export const getRequest = createCaller(
+  () => {
+    return response$(
+      { iSetTheHeader: true },
+      { headers: { 'cache-control': 'max-age=60' } },
+    )
+  },
+  {
+    method: 'GET',
+  },
+)
+```
+
+#### POST
+
+This is the default so you don't have to mention it
+
+```ts
+import { createCaller, response$ } from '@solid-mediakit/authpc'
+
+export const postRequest = createCaller(
+  () => {
+    return response$({ iSetTheHeader: true }, { headers: { 'X-Testing': '1' } })
+  },
+  {
+    method: 'POST',
+  },
+)
+
+export const postRequest2 = createCaller(() => {
+  return response$({ iSetTheHeader: true }, { headers: { 'X-Testing': '1' } })
+})
+```
+
+### Function Types
+
+In addition to methods, you can also choose a function type (the function type will not affect the request method).
+
+#### query
+
+This is the default, you don't have to specify this:
+
+```ts
+import { createCaller } from '@solid-mediakit/authpc'
+
+const thisIsAQuery = createCaller(() => {
+  return 1
+})
+
+const alsoIsAQuery = createCaller(
+  () => {
+    return 1
+  },
+  {
+    type: 'query',
+  },
+)
+
+// client side
+const query = thisIsAQuery()
+query.data // number
+```
+
+#### mutation
+
+You can either specify `{type: 'action'}` or use the `createAction` method
+
+```ts
+import { createCaller, createAction } from '@solid-mediakit/authpc'
+
+const thisIsAMutation = createCaller(
+  () => {
+    return 1
+  },
+  {
+    type: 'action',
+  },
+)
+
+const alsoIsAMutation = createAction(() => {
+  return 1
+})
+
+// client side
+const mutation = thisIsAMutation()
+mutation.mutate()
+```
+
+## Middlewares & .use
+
+This method allows you create a reuseable caller that contains your middlewares.
+You can combine multiple callers / middlewares and import them to different files, take a look at this example.
+
+### file1.ts
+
+In this file we create a caller with a custom middleware and then export it so it could be use in other files as-well.
+
+```ts
+import { createCaller } from '@solid-mediakit/authpc'
+
+export const withMw1 = createCaller.use(() => {
+  return {
+    myFile1: 1,
+  }
+})
+
+export const action1 = withMw1(({ ctx$ }) => {
+  return `hey ${ctx$.myFile1} `
+})
+```
+
+[This Transforms To](#transforms)
+
+### file2.ts
+
+In this file we can actually import the caller we created and then add more middlewares to it or use it as is.
+
+```ts
+import { withMw1 } from './file1'
+
+export const withMw2 = withMw1.use(({ ctx$ }) => {
+  return {
+    ...ctx$,
+    myFile2: 2,
+  }
+})
+
+export const action2 = withMw2(({ ctx$ }) => {
+  return `hey ${ctx$.myFile1} ${ctx$.myFile2}`
+})
+```
+
+## Utils
+
+AuthPC contains many utils out of the box, like redirection, erroring, setting cookies, etc.
+
+### redirect$
+
+Use this function to **redirect the user** (this will not affect the function type):
+
+```ts
+import { createCaller, redirect$ } from '@solid-mediakit/authpc'
+
+let redirect = false
+
+export const myQuery = createCaller(() => {
+  if (redirect) {
+    return redirect$('/login')
+  }
+  return 'yes'
+})
+```
+
+### error$
+
+Use this function to **throw an error on the user side** (this will not affect the function type):
+
+```ts
+import { createCaller, error$ } from '@solid-mediakit/authpc'
+
+let shouldError = false
+
+export const myQuery = createCaller(() => {
+  if (shouldError) {
+    return error$('Why did i error')
+  }
+  return 'yes'
+})
+```
+
+### response$
+
+Use this function to **return data & modify headers** (the return type is also infered from the data passed to response$):
+
+```ts
+import { createCaller, response$ } from '@solid-mediakit/authpc'
+
+let setHeader = false
+
+export const myQuery = createCaller(() => {
+  if (setHeader) {
+    return response$(1, {
+      headers: { this: 'that' },
+    })
+  }
+  return 'yes'
+})
+
+// respone type: number | string
+```
+
+### Optimistic Updates
+
+Similiar to tRPC, each query function has a `useUtils` method, so lets say we import a server action we created using `createCaller` called `serverQuery1`
+
+```ts
+import { serverQuery1, serverMutation1 } from '~/server/etc'
+
+const MyComponent = () => {
+  const listPostQuery = serverQuery1()
+  const serverQueryUtils = serverQuery1.useUtils()
+
+  const postCreate = serverMutation1(() => ({
+    async onMutate(newPost) {
+      // Cancel outgoing fetches (so they don't overwrite our optimistic update)
+      await serverQueryUtils.cancel()
+
+      // Get the data from the queryCache
+      const prevData = serverQueryUtils.getData()
+
+      // Optimistically update the data with our new post
+      serverQueryUtils.setData(undefined, (old) => [...old, newPost])
+
+      // Return the previous data so we can revert if something goes wrong
+      return { prevData }
+    },
+    onError(err, newPost, ctx) {
+      // If the mutation fails, use the context-value from onMutate
+      serverQueryUtils.setData(undefined, ctx.prevData)
+    },
+    onSettled() {
+      // Sync with server once mutation has settled
+      serverQueryUtils.invalidate()
+    },
+  }))
+}
+```

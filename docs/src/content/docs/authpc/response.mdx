@@ -1,0 +1,23 @@
+---
+title: 'response$'
+description: 'response$ Utility'
+---
+
+Use this function to **return data & modify headers** (the return type is also infered from the data passed to response$):
+
+```ts
+import { createCaller, response$ } from '@solid-mediakit/authpc'
+
+let setHeader = false
+
+export const myQuery = createCaller(() => {
+  if (setHeader) {
+    return response$(1, {
+      headers: { this: 'that' },
+    })
+  }
+  return 'yes'
+})
+
+// respone type: number | string
+```

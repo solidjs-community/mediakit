@@ -1,0 +1,19 @@
+---
+title: 'redirect$'
+description: 'redirect$ Utility'
+---
+
+Use this function to **redirect the user** (this will not affect the function type):
+
+```ts
+import { createCaller, redirect$ } from '@solid-mediakit/authpc'
+
+let redirect = false
+
+export const myQuery = createCaller(() => {
+  if (redirect) {
+    return redirect$('/login')
+  }
+  return 'yes'
+})
+```

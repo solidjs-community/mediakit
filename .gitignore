@@ -34,3 +34,5 @@ dist/
 # vscode
 */.vscode/*
 .turbo
+!solid.d.ts
+!locales.d.ts

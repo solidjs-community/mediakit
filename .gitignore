@@ -35,4 +35,4 @@ dist/
 */.vscode/*
 .turbo
 !solid.d.ts
-!locales.d.ts
+!locals.d.ts

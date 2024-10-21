@@ -33,4 +33,4 @@ Thumbs.db
 !rollup.config.js
 !scripts/**/*.js
 !solid.d.ts
-!locales.d.ts
+!locals.d.ts

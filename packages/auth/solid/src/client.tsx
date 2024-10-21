@@ -93,14 +93,20 @@ export const useAuth = (): AuthRes => {
   }
 }
 
-const getSessionFromEvent = (event: RequestEvent) => {
-  if (event.locals.session) return event.locals.session
-  return event.nativeEvent.context.session
+type AuthEvent = RequestEvent & {
+  locals?: { session?: null | Session }
+  nativeEvent?: { context?: { session?: null | Session } }
+}
+const getSessionFromEvent = (event: AuthEvent) => {
+  if (event.locals?.session) return event.locals.session
+  return event.nativeEvent?.context?.session
 }
 
 export function SessionProvider(props: SessionProviderProps) {
   const event = getRequestEvent()
-  const initialSession = isServer ? getSessionFromEvent(event!) : undefined
+  const initialSession = isServer
+    ? getSessionFromEvent(event! as unknown as AuthEvent)
+    : undefined
 
   const [sessionState, setSessionState] = createSignal<SessionState>(
     initialSession === null

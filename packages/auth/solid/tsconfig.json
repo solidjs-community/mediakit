@@ -12,12 +12,12 @@
     "module": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node", "./locales.d.ts"],
+    "types": ["node", "./locals"],
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["./src/**/*", "locales.d.ts"]
+  "include": ["./src/**/*", "locals.d.ts"]
 }

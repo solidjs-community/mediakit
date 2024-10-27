@@ -1,8 +1,14 @@
-import { createSignal, VoidComponent, createMemo } from 'solid-js'
+import { createSignal, VoidComponent, createMemo, createEffect } from 'solid-js'
 
 const Home: VoidComponent = () => {
+  // should be transformed
   const [s, setS] = createSignal()
-  createMemo(() => 1)
+
+  //   should not be transformed
+  const memo = createMemo(() => 1)
+
+  //   should be transformed
+  createEffect(() => console.log(s()))
   return <div>hey</div>
 }
 

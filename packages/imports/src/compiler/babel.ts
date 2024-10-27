@@ -23,19 +23,15 @@ export function createTransform$(opts?: ImportPluginOptions) {
             )
             const otherSpecifiers = path.node.specifiers.filter(
               (specifier) =>
-                !(
-                  t.isImportSpecifier(specifier) &&
-                  specificImports.includes((specifier.imported as any).name)
-                ),
+                t.isImportSpecifier(specifier) &&
+                !specificImports.includes((specifier.imported as any).name),
             )
             if (specificSpecifiers.length > 0) {
               const newImportDeclaration = t.importDeclaration(
                 specificSpecifiers,
                 t.stringLiteral('solid-js/dist/solid'),
               )
-
               path.insertAfter(newImportDeclaration)
-
               if (otherSpecifiers.length > 0) {
                 path.node.specifiers = otherSpecifiers
               } else {

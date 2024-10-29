@@ -270,7 +270,15 @@ export type Create$Opts<
   protected?: IsProtected
   method?: RequestMethod
   type?: FnType
-}
+} & (FnType extends undefined
+  ? {
+      cache?: boolean
+    }
+  : FnType extends 'action'
+    ? {}
+    : {
+        cache?: boolean
+      })
 
 export type OutputGet$<
   IsAction extends boolean,

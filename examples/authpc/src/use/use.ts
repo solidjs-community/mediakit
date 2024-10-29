@@ -56,7 +56,6 @@ export const getRequest = createCaller(
 export const mutationTest3 = qfn(
   z.object({ ok: z.number(), test: z.object({ l: z.string() }) }),
   ({ input$ }) => {
-    return error$('test')
     return `${input$.ok}`
   },
   {

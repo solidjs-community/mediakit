@@ -126,7 +126,6 @@ export const getNodeInfo = (
               return t
             }
           }
-
           return checkForEle((current.init as any).name, [...prev, name])
         }
         return null
@@ -200,6 +199,7 @@ export const getFunctionArgs = (
   let _protected: null = null
   let _method: 'GET' | 'POST' = undefined!
   let _fnType: 'action' | 'query' = undefined!
+  let _cache = true
 
   const _opts = // method(schema,fn,opts)
     pArgs.length === 3
@@ -236,12 +236,13 @@ export const getFunctionArgs = (
     _protected = getProp('protected')
     _fnType = getProp('type')
     _method = getProp('method')
+    _cache = getProp('cache') === false ? false : true
   }
 
   _fnType =
     nodeInfo.isGet === 'createAction' ? 'action' : !_fnType ? 'query' : _fnType
   if (!_method) {
-    _method = 'POST'
+    _method = _fnType === 'action' ? 'POST' : 'GET'
   }
 
   const key = t.isStringLiteral(_key)
@@ -264,6 +265,7 @@ export const getFunctionArgs = (
     zodSchema,
     _fnType,
     _method,
+    _cache,
   }
 }
 

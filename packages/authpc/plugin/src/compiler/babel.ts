@@ -17,10 +17,6 @@ import {
 export const packageSource = `@solid-mediakit/authpc`
 
 export function createTransform$(opts?: AuthPCPluginOptions<any>) {
-  const wrappedEles: {
-    source: string
-    name: string
-  }[] = []
   return function transform$({
     types: t,
     template: temp,
@@ -145,12 +141,20 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
             )
 
             if (args._method === 'GET') {
-              importIfNotThere(path, t, 'GET', '@solidjs/start')
+              importIfNotThere(
+                path,
+                t,
+                args._cache ? 'cache' : 'GET',
+                args._cache ? '@solidjs/router' : '@solidjs/start',
+              )
             }
 
             const wrappedArg =
               args._method === 'GET'
-                ? t.callExpression(t.identifier('GET'), [originFn])
+                ? t.callExpression(
+                    t.identifier(args._cache ? 'cache' : 'GET'),
+                    [originFn],
+                  )
                 : originFn
 
             const props = t.objectExpression([
@@ -166,10 +170,6 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
               ),
             ])
             if (nodeInfo.isWrapped) {
-              wrappedEles.push({
-                name: nodeInfo.originalName!,
-                source: currentFileName!,
-              })
               path.node.callee = t.identifier(nodeInfo.isGet)
             }
             path.node.arguments = [wrappedArg, props]

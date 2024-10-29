@@ -3,7 +3,7 @@ title: 'createCaller'
 description: 'createCaller Method'
 ---
 
-Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is POST).
+Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is GET & wrapped with Solid's `cache` function).
 
 ### API
 
@@ -124,9 +124,11 @@ export default MyClient
 
 ### Methods
 
-You can choose any method (GET || POST), regardless of the function type (default is POST)
+You can choose any method (GET || POST), regardless of the function type (default is GET & wrapped with Solid's `cache` function)
 
 #### GET
+
+This is the default so you don't have to mention it
 
 ```ts
 import { createCaller, response$ } from '@solid-mediakit/authpc'
@@ -142,11 +144,32 @@ export const getRequest = createCaller(
     method: 'GET',
   },
 )
+
+export const getRequest2 = createCaller(() => {
+  return response$(
+    { iSetTheHeader: true },
+    { headers: { 'cache-control': 'max-age=60' } },
+  )
+})
+
+// this will not be wrapped with solid's `cache`
+export const notCached = createCaller(
+  () => {
+    return response$(
+      { iSetTheHeader: true },
+      { headers: { 'cache-control': 'max-age=60' } },
+    )
+  },
+  {
+    cached: false,
+  },
+)
 ```
 
 #### POST
 
-This is the default so you don't have to mention it
+You can also use `POST` with queries.
+When using `mutations` / `actions` you don't have to specify the method and the default will be `POST`
 
 ```ts
 import { createCaller, response$ } from '@solid-mediakit/authpc'
@@ -160,9 +183,14 @@ export const postRequest = createCaller(
   },
 )
 
-export const postRequest2 = createCaller(() => {
-  return response$({ iSetTheHeader: true }, { headers: { 'X-Testing': '1' } })
-})
+export const postRequest2 = createCaller(
+  () => {
+    return response$({ iSetTheHeader: true }, { headers: { 'X-Testing': '1' } })
+  },
+  {
+    type: 'action',
+  },
+)
 ```
 
 ### Function Types

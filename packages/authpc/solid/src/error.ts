@@ -3,15 +3,16 @@ import type { inferFlattenedErrors } from 'zod'
 import type { InferIssue, BaseSchema } from 'valibot'
 import { AllowedSchemas } from './types'
 
-type ActualCause<Schema extends AllowedSchemas> = undefined extends Schema
-  ? Error
-  : Schema extends Zod.ZodSchema
-    ? inferFlattenedErrors<Schema>
-    : Schema extends BaseSchema<any, any, any>
-      ? InferIssue<Schema>
-      : Error
+export type ActualCause<Schema extends AllowedSchemas> =
+  undefined extends Schema
+    ? Error
+    : Schema extends Zod.ZodSchema
+      ? inferFlattenedErrors<Schema>
+      : Schema extends BaseSchema<any, any, any>
+        ? InferIssue<Schema>
+        : Error
 
-type Cause<Schema extends AllowedSchemas> =
+export type Cause<Schema extends AllowedSchemas> =
   | ActualCause<Schema>
   | Record<any, any>
 

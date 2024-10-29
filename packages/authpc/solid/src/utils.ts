@@ -4,8 +4,9 @@ import { RequestEvent } from 'solid-js/web'
 import { CustomResponse, redirect } from '@solidjs/router'
 import * as v from 'valibot'
 
-const isZodSchema = (schema: RequiredAllowedSchemas): schema is ZodSchema =>
-  '_def' in schema
+export const isZodSchema = (
+  schema: RequiredAllowedSchemas,
+): schema is ZodSchema => '_def' in schema
 
 export const validateSchema = async <Schema extends RequiredAllowedSchemas>(
   payload: string | object,

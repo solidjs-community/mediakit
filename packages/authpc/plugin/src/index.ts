@@ -39,6 +39,8 @@ export function authpcVite<K extends AllowedAuth | undefined>(
   return plugin
 }
 
+export { compilepAuthPC }
+
 export function withAuthPC<K extends AllowedAuth | undefined>(
   config: SolidStartInlineConfig,
   opts?: AuthPCPluginOptions<K>,

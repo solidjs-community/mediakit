@@ -5,6 +5,7 @@ const config = withAuthPC(
     ssr: true,
   },
   {
+    log: true,
     auth: 'authjs',
     authCfg: {
       source: '~/server/auth',

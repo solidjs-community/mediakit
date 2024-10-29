@@ -143,7 +143,7 @@ export type CallerRes<
     ? MutationRes<Fn, Schema, IsProtected, Ctx$>
     : QueryRes<Fn, Schema, IsProtected, Ctx$>
 
-type ConsumeFnT<
+export type ConsumeFnT<
   OriginialFnType extends AllowedFunctionType | undefined = undefined,
   FnType extends AllowedFunctionType | undefined = undefined,
 > = undefined extends OriginialFnType ? FnType : OriginialFnType

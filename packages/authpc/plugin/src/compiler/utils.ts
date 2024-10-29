@@ -563,7 +563,7 @@ export const appendSession = (
   })
 
   const authCfg = (_opts as any)
-    .authCfg as AuthPCPluginOptions<'authjs'>['authCfg']
+    ?.authCfg as AuthPCPluginOptions<'authjs'>['authCfg']
 
   if (isReferenced && !_opts?.auth) {
     throw new Error(
@@ -668,29 +668,46 @@ export const readValue = (
     if (isPackageImport(nameIsimported.source.value)) {
       return { isWrapped, originalName, method }
     }
+
+    const trvarse = (resolvedPath: string, possibleNames: string[]) => {
+      const actualSource = `${resolvedPath}.ts`
+      const fileContent = readFileSync(actualSource, 'utf-8')
+      const ast = babel.parse(fileContent, {
+        sourceType: 'module',
+      })!
+      babel.traverse(ast, {
+        VariableDeclarator(path) {
+          if (
+            t.isIdentifier(path.node.id) &&
+            possibleNames.includes(path.node.id.name)
+          ) {
+            const initNode = path.node.init
+            const baseCallee = findBaseCallee(t, initNode)
+            if (allowedMethod.includes(baseCallee as any)) {
+              isWrapped = true
+              originalName = path.node.id.name
+              method = baseCallee as any
+            }
+          }
+        },
+        ImportDeclaration(path) {
+          if (isPackageImport(path.node.source.value)) return
+          const newSrc = resolve(
+            dirname(currentFileName),
+            path.node.source.value,
+          )
+          const possibleNames = path.node.specifiers.map(
+            (e) => (e as any).imported.name,
+          )
+          trvarse(newSrc, possibleNames)
+        },
+      })
+    }
     const resolvedPath = resolve(
       dirname(currentFileName),
       nameIsimported.source.value,
     )
-
-    const actualSource = `${resolvedPath}.ts`
-    const fileContent = readFileSync(actualSource, 'utf-8')
-    const ast = babel.parse(fileContent, {
-      sourceType: 'module',
-    })!
-    babel.traverse(ast, {
-      VariableDeclarator(path) {
-        if (t.isIdentifier(path.node.id, { name })) {
-          const initNode = path.node.init
-          const baseCallee = findBaseCallee(t, initNode)
-          if (allowedMethod.includes(baseCallee as any)) {
-            isWrapped = true
-            originalName = name
-            method = baseCallee as any
-          }
-        }
-      },
-    })
+    trvarse(resolvedPath, [name])
   }
   return {
     isWrapped,

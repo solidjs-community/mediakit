@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "jsxImportSource": "solid-js",
     "jsx": "preserve",
-    "types": ["@solidjs/start/env"],
+    "types": ["@solidjs/start/env", "vite/client", "vinxi/client"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,

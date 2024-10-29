@@ -98,7 +98,7 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
   ) as CallerRes<any, any, any>
 }
 
-const createUseUtils = (key: string) => {
+export const createUseUtils = (key: string) => {
   const useUtils = () => {
     type R = QueryRes<any, any>
     const queryClient = useQueryClient()

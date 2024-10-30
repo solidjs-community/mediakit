@@ -76,19 +76,49 @@ export const addRequestIfNeeded = (
 
 const allowedMethod = ['createCaller', 'createAction'] as const
 
+const isMw = (
+  t: typeof babel.types,
+  path: babel.NodePath<babel.types.CallExpression>,
+) => {
+  const { callee } = path.node
+  let isMiddleware = false
+  let currentCallee = callee
+
+  while (t.isMemberExpression(currentCallee)) {
+    const object = currentCallee.object
+    const property = currentCallee.property
+
+    if (isGetId(t, object) && t.isIdentifier(property, { name: 'use' })) {
+      isMiddleware = true
+    } else if (t.isIdentifier(property, { name: 'use' })) {
+      isMiddleware = true
+    } else {
+      isMiddleware = false
+      break
+    }
+
+    currentCallee = object
+  }
+
+  return isMiddleware
+}
 export const getNodeInfo = (
   path: babel.NodePath<babel.types.CallExpression>,
   t: typeof babel.types,
   currentFileName: string,
+  advanced?: boolean,
 ) => {
   const { callee } = path.node
 
   let isGet = isGetId(t, callee)
   let originalName: string | null = null
   let isWrapped = false
+  let _shouldUseMw: boolean | undefined = false
   const p = (path.findParent((p) => p.isProgram())!.node as any).body
 
-  if (!isGet) {
+  const isMiddleware = isMw(t, path)
+
+  if (!isGet && !isMiddleware) {
     if (t.isIdentifier(callee)) {
       const scope = path.scope.bindings
       const checkForEle = (
@@ -101,10 +131,18 @@ export const getNodeInfo = (
           t.isImportSpecifier(temp.path.node) &&
           t.isIdentifier(temp.path.node.imported)
         ) {
-          const tempResults = readValue(t, temp, p, currentFileName, name)
+          const tempResults = readValue(
+            t,
+            temp,
+            p,
+            currentFileName,
+            name,
+            advanced,
+          )
           if (tempResults.isWrapped) {
             isWrapped = true
             if (tempResults.originalName) {
+              _shouldUseMw = tempResults._shouldUseMw
               originalName = tempResults.originalName
             }
             return tempResults.method
@@ -134,25 +172,6 @@ export const getNodeInfo = (
     }
   }
 
-  let isMiddleware = false
-  let currentCallee = callee
-
-  while (t.isMemberExpression(currentCallee)) {
-    const object = currentCallee.object
-    const property = currentCallee.property
-
-    if (isGetId(t, object) && t.isIdentifier(property, { name: 'use' })) {
-      isMiddleware = true
-    } else if (t.isIdentifier(property, { name: 'use' })) {
-      isMiddleware = true
-    } else {
-      isMiddleware = false
-      break
-    }
-
-    currentCallee = object
-  }
-
   return {
     isMiddleware,
     isGet,
@@ -161,6 +180,7 @@ export const getNodeInfo = (
     originalName,
     isWrapped,
     currentFileName,
+    _shouldUseMw,
   }
 }
 
@@ -300,7 +320,9 @@ export const cleanOutParams = (
 }
 
 const shouldUseMw = (
-  path: babel.NodePath<babel.types.CallExpression>,
+  path: babel.NodePath<
+    babel.types.CallExpression | babel.types.VariableDeclarator
+  >,
   name: string,
   isWrapped: boolean,
   originalName?: string,
@@ -312,7 +334,7 @@ const shouldUseMw = (
   )
 
   const v = `_$$${isWrapped ? originalName : name}_mws`
-  return mwKeys.find((e) => e === v)
+  return !!mwKeys.find((e) => e === v)
 }
 
 export const shiftMiddleware = (
@@ -321,6 +343,7 @@ export const shiftMiddleware = (
   path: babel.NodePath<babel.types.CallExpression>,
   serverFunction: any,
   originalName?: string | null,
+  _shouldUse?: boolean,
 ) => {
   const req = '_$$event'
   const parentPath = path.findParent((p) => p.isVariableDeclarator())
@@ -340,6 +363,7 @@ export const shiftMiddleware = (
   }
 
   if (
+    _shouldUse ||
     shouldUseMw(path, name, typeof originalName === 'string', originalName!)
   ) {
     importIfNotThere(path, t, 'callMiddleware$')
@@ -517,7 +541,7 @@ export const importIfNotThere = (
     (n: babel.types.ImportDeclaration) =>
       n.type === 'ImportDeclaration' &&
       n.source.value === actualLoc &&
-      n.specifiers.some((s: any) => s.imported.name === name),
+      n.specifiers.some((s: any) => s.imported?.name === name),
   )
 
   if (!nameIsimported) {
@@ -646,26 +670,56 @@ const isPackageImport = (source: string): boolean => {
   )
 }
 
+export const handleMw = (
+  t: typeof babel.types,
+  path: babel.NodePath<babel.types.CallExpression>,
+) => {
+  const { callee } = path.node
+  const isShared =
+    t.isMemberExpression(callee) && t.isIdentifier(callee.object)
+      ? isGetId(t, callee.object)
+        ? null
+        : callee.object.name
+      : null
+
+  handleBuilderMw(path, t, isShared)
+}
+
+export const onProgramExit = (
+  t: typeof babel.types,
+  path: babel.NodePath<babel.types.Program>,
+) => {
+  const scope = path.scope.bindings
+  const keys = Object.keys(scope)
+  const mwKeys = keys.filter(
+    (key) => key.startsWith('_$$') && key.endsWith('_mws'),
+  )
+  if (mwKeys.length) {
+    exportBuilderMw(mwKeys, path, t)
+  }
+}
 export const readValue = (
   t: typeof babel.types,
   temp: any,
   parentPath: any,
-  currentFileName: string,
+  _currentFileName: string,
   name: string,
+  advanced?: boolean,
 ) => {
   let isWrapped = false
   let originalName: string = null!
   let method: (typeof allowedMethod)[number] = null!
+  let _shouldUseMw = false
   if (
     t.isImportSpecifier(temp.path.node) &&
     t.isIdentifier(temp.path.node.imported)
   ) {
-    const importedName = temp.path.node.imported.name
+    const importedName = temp.path.node?.imported?.name
 
     const nameIsimported = parentPath.find(
       (n: any) =>
         n.type === 'ImportDeclaration' &&
-        n.specifiers.some((s: any) => s.imported.name === importedName),
+        n.specifiers.some((s: any) => s.imported?.name === importedName),
     ) as babel.types.ImportDeclaration
     if (isPackageImport(nameIsimported.source.value)) {
       return { isWrapped, originalName, method }
@@ -676,8 +730,26 @@ export const readValue = (
       const fileContent = readFileSync(actualSource, 'utf-8')
       const ast = babel.parse(fileContent, {
         sourceType: 'module',
+        parserOpts: {
+          plugins: ['typescript'],
+        },
       })!
       babel.traverse(ast, {
+        Program: {
+          exit(path) {
+            if (advanced) {
+              onProgramExit(t, path)
+            }
+          },
+        },
+        CallExpression(path) {
+          if (isMw(t, path)) {
+            _shouldUseMw = true
+            if (advanced) {
+              handleMw(t, path)
+            }
+          }
+        },
         VariableDeclarator(path) {
           if (
             t.isIdentifier(path.node.id) &&
@@ -687,17 +759,14 @@ export const readValue = (
             const baseCallee = findBaseCallee(t, initNode)
             if (allowedMethod.includes(baseCallee as any)) {
               isWrapped = true
-              originalName = path.node.id.name
+              originalName = path.node?.id.name
               method = baseCallee as any
             }
           }
         },
         ImportDeclaration(path) {
           if (isPackageImport(path.node.source.value)) return
-          const newSrc = resolve(
-            dirname(currentFileName),
-            path.node.source.value,
-          )
+          const newSrc = resolve(dirname(resolvedPath), path.node.source.value)
           const possibleNames = path.node.specifiers.map(
             (e) => (e as any).imported.name,
           )
@@ -706,7 +775,7 @@ export const readValue = (
       })
     }
     const resolvedPath = resolve(
-      dirname(currentFileName),
+      dirname(_currentFileName),
       nameIsimported.source.value,
     )
     trvarse(resolvedPath, [name])
@@ -715,5 +784,6 @@ export const readValue = (
     isWrapped,
     originalName,
     method,
+    _shouldUseMw,
   }
 }

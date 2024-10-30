@@ -5,12 +5,11 @@ import {
   addRequestIfNeeded,
   appendSession,
   cleanOutParams,
-  exportBuilderMw,
   getFunctionArgs,
   getNodeInfo,
-  handleBuilderMw,
+  handleMw,
   importIfNotThere,
-  isGetId,
+  onProgramExit,
   shiftMiddleware,
 } from './utils'
 
@@ -28,30 +27,19 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
       visitor: {
         Program: {
           exit(path) {
-            const scope = path.scope.bindings
-            const keys = Object.keys(scope)
-            const mwKeys = keys.filter(
-              (key) => key.startsWith('_$$') && key.endsWith('_mws'),
-            )
-            if (mwKeys.length) {
-              exportBuilderMw(mwKeys, path, t)
-            }
+            onProgramExit(t, path)
           },
         },
-
         CallExpression(path, state) {
           const currentFileName = state.file.opts.filename
-          const nodeInfo = getNodeInfo(path, t, currentFileName!)
+          const nodeInfo = getNodeInfo(
+            path,
+            t,
+            currentFileName!,
+            opts?.advanced,
+          )
           if (nodeInfo.isMiddleware) {
-            const isShared =
-              t.isMemberExpression(nodeInfo.callee) &&
-              t.isIdentifier(nodeInfo.callee.object)
-                ? isGetId(t, nodeInfo.callee.object)
-                  ? null
-                  : nodeInfo.callee.object.name
-                : null
-
-            handleBuilderMw(path, t, isShared)
+            handleMw(t, path)
           } else if (nodeInfo.isGet) {
             importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
             importIfNotThere(path, t, nodeInfo.isGet)
@@ -69,6 +57,7 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
               path,
               args.serverFunction,
               nodeInfo.originalName,
+              nodeInfo._shouldUseMw,
             )
             appendSession(
               path,
@@ -108,12 +97,13 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
               path.traverse({
                 Identifier(innerPath: any) {
                   if (
-                    innerPath.node.name === '_$$payload' &&
+                    innerPath.node?.name === '_$$payload' &&
                     innerPath.scope?.path?.listKey !== 'params'
                   ) {
                     if (
                       innerPath.parentPath.node.type !== 'CallExpression' ||
-                      innerPath.parentPath.node.callee.name !== 'validateSchema'
+                      innerPath.parentPath.node.callee?.name !==
+                        'validateSchema'
                     ) {
                       innerPath.node.name = '_$$validated'
                     }
@@ -125,7 +115,7 @@ export function createTransform$(opts?: AuthPCPluginOptions<any>) {
             const destructuring = args.serverFunction?.params?.[0]
             if (destructuring && t.isObjectPattern(destructuring)) {
               destructuring.properties = destructuring.properties.filter(
-                (p: any) => p.key.name !== 'event$' && p.key.name !== 'ctx$',
+                (p: any) => p.key?.name !== 'event$' && p.key?.name !== 'ctx$',
               )
             }
             const originFn = t.arrowFunctionExpression(
@@ -185,29 +175,24 @@ export async function compilepAuthPC(
   id: string,
   opts?: AuthPCPluginOptions<any>,
 ) {
-  try {
-    const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
-    const transform$ = createTransform$(opts)
-    const transformed = await babel.transformAsync(code, {
-      presets: [['@babel/preset-typescript'], ...(opts?.babel?.presets ?? [])],
-      parserOpts: {
-        plugins,
-      },
-      plugins: [[transform$], ...(opts?.babel?.plugins ?? [])],
-      filename: id,
-    })
-    if (transformed) {
-      if (opts?.log) {
-        console.log(id, transformed.code)
-      }
-      return {
-        code: transformed.code ?? '',
-        map: transformed.map,
-      }
+  const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
+  const transform$ = createTransform$(opts)
+  const transformed = await babel.transformAsync(code, {
+    presets: [['@babel/preset-typescript'], ...(opts?.babel?.presets ?? [])],
+    parserOpts: {
+      plugins,
+    },
+    plugins: [[transform$], ...(opts?.babel?.plugins ?? [])],
+    filename: id,
+  })
+  if (transformed) {
+    if (opts?.log) {
+      console.log(id, transformed.code)
     }
-    return null
-  } catch (e) {
-    console.error('err$$', e)
-    return null
+    return {
+      code: transformed.code ?? '',
+      map: transformed.map,
+    }
   }
+  return null
 }

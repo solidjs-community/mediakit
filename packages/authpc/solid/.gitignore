@@ -33,3 +33,7 @@ Thumbs.db
 !tsup.config.js
 !scripts/**/*.js
 !solid.d.ts
+!provider.d.ts
+!provider.jsx
+!provider.js
+!provider.cjs

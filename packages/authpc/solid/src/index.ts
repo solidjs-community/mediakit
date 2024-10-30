@@ -1,7 +1,6 @@
 export * from './createCaller'
 export * from './createAction'
 export * from './utils'
-export * from './provider'
 export * from './types'
 export * from './error'
 

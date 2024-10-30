@@ -12,10 +12,9 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "dev-auth",
+    "dev-authpc",
+    "dev-jd-authpc",
     "dev-media",
-    "dev-trpc",
-    "dev-prpc",
-    "auth-prpc",
     "og-example",
     "log-example",
     "dev-forms"

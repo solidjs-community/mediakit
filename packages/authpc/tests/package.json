@@ -25,6 +25,7 @@
     "@clerk/backend": "^1.14.1",
     "vitest": "^2.1.4",
     "@solid-mediakit/authpc": "workspace:*",
-    "@solid-mediakit/authpc-plugin": "workspace:*"
+    "@solid-mediakit/authpc-plugin": "workspace:*",
+    "@solid-mediakit/auth": "workspace:*"
   }
 }

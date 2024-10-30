@@ -28,6 +28,7 @@ export type AuthPCPluginOptions<K extends AllowedAuth | undefined> = {
   }
   log?: boolean
   auth?: K
+  advanced?: boolean
 } & (undefined extends K
   ? {}
   : K extends 'authjs'

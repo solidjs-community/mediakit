@@ -53,6 +53,13 @@ export function withAuthPC<K extends AllowedAuth | undefined>(
   if (!(config.vite as any).plugins) {
     ;(config.vite as any).plugins = []
   }
+  if (!(config.vite as any).ssr) {
+    ;(config.vite as any).ssr = {}
+  }
+  if (!(config.vite as any).ssr.noExternal) {
+    ;(config.vite as any).ssr.noExternal = []
+  }
+  ;(config.vite as any).ssr.noExternal.push(`@solid-mediakit/authpc`)
   ;(config.vite as any).plugins = [
     authpcVite(opts),
     ...(config.vite as any).plugins,

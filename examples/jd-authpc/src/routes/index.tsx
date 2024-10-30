@@ -2,6 +2,7 @@ import { A } from '@solidjs/router'
 import { useAuth } from '@solid-mediakit/auth/client'
 import { type VoidComponent, Match, Switch } from 'solid-js'
 import { helloQuery } from '~/server/hello/hello.queries'
+import { protectedQuery } from '~/server/user/user.queries'
 
 const Home: VoidComponent = () => {
   const hello = helloQuery(() => ({ hello: 'from authpc' }))
@@ -44,6 +45,10 @@ const Home: VoidComponent = () => {
 
 export default Home
 
+const RenderProtected = () => {
+  const res = protectedQuery(() => ({ hello: 'protected' }))
+  return <p>{res.data}</p>
+}
 const AuthShowcase: VoidComponent = () => {
   const auth = useAuth()
   return (
@@ -54,6 +59,7 @@ const AuthShowcase: VoidComponent = () => {
             <span class='text-xl text-white'>
               Welcome {auth.session()?.user?.name}
             </span>
+            <RenderProtected />
             <button
               onClick={() => auth.signOut({ redirectTo: '/' })}
               class='rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20'

@@ -1,10 +1,4 @@
-import { ZodSchema, infer as _ZodInfer } from 'zod'
-import {
-  createMutation,
-  createQuery,
-  useQueryClient,
-} from '@tanstack/solid-query'
-import {
+import type {
   Action$Options,
   AllowedFunctionType,
   AllowedRequestMethods,
@@ -15,7 +9,13 @@ import {
   OutputCaller$,
   QueryRes,
 } from './types'
+import type { ZodSchema, infer as _ZodInfer } from 'zod'
 import { wrapFn } from './wrap'
+import {
+  createMutation,
+  createQuery,
+  useQueryClient,
+} from '@tanstack/solid-query'
 
 export const createCaller = new Proxy(
   (...args: any[]) => {

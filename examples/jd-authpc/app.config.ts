@@ -7,6 +7,7 @@ const config = withAuthPC(
     vite: {
       ssr: {
         external: ['@prisma/client'],
+        noExternal: ['@solid-mediakit/authpc'],
       },
     },
     server: {
@@ -14,7 +15,7 @@ const config = withAuthPC(
     },
   },
   {
-    log: false,
+    log: true,
     auth: 'authjs',
     authCfg: {
       configName: 'authOptions',

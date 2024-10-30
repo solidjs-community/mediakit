@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/authpc",
   "description": "Type-safe utility library for Solid",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "build": "rimraf dist && tsup --config ./tsup.config.ts",
     "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",

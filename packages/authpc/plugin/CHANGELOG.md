@@ -1,5 +1,11 @@
 # @solid-mediakit/authpc-plugin
 
+## 1.5.0
+
+### Minor Changes
+
+- [`08ef082`](https://github.com/solidjs-community/mediakit/commit/08ef082b05fb5de40b64e85a2a265465e3bc16fc) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: major fixes of the transform recursiveness
+
 ## 1.4.0
 
 ### Minor Changes

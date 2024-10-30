@@ -1,0 +1,204 @@
+{
+  "_auth.mjs": {
+    "file": "auth.mjs",
+    "name": "auth",
+    "imports": [
+      "_cache.mjs"
+    ]
+  },
+  "_cache.mjs": {
+    "file": "cache.mjs",
+    "name": "cache"
+  },
+  "_client.mjs": {
+    "file": "client.mjs",
+    "name": "client",
+    "imports": [
+      "_auth.mjs"
+    ]
+  },
+  "_createAsync.mjs": {
+    "file": "createAsync.mjs",
+    "name": "createAsync"
+  },
+  "_response.mjs": {
+    "file": "response.mjs",
+    "name": "response"
+  },
+  "_server-fns.mjs": {
+    "file": "server-fns.mjs",
+    "name": "server-fns",
+    "imports": [
+      "_cache.mjs",
+      "src/routes/index.tsx?pick=route",
+      "src/routes/loader.tsx?pick=route",
+      "src/routes/protected.tsx?pick=route"
+    ],
+    "dynamicImports": [
+      "src/routes/index.tsx?pick=default&pick=$css",
+      "src/routes/index.tsx?pick=default&pick=$css",
+      "src/routes/loader.tsx?pick=default&pick=$css",
+      "src/routes/loader.tsx?pick=default&pick=$css",
+      "src/routes/protected.tsx?pick=default&pick=$css",
+      "src/routes/protected.tsx?pick=default&pick=$css",
+      "src/routes/test.tsx?pick=default&pick=$css",
+      "src/routes/test.tsx?pick=default&pick=$css",
+      "src/routes/test2.tsx?pick=default&pick=$css",
+      "src/routes/test2.tsx?pick=default&pick=$css",
+      "src/routes/api/auth/[...solidauth].ts?pick=GET",
+      "src/routes/api/auth/[...solidauth].ts?pick=GET",
+      "src/routes/api/auth/[...solidauth].ts?pick=POST",
+      "src/routes/api/auth/[...solidauth].ts?pick=POST",
+      "src/app.tsx"
+    ]
+  },
+  "src/app.tsx": {
+    "file": "app.mjs",
+    "name": "app",
+    "src": "src/app.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns.mjs",
+      "_client.mjs",
+      "_cache.mjs",
+      "src/routes/index.tsx?pick=route",
+      "_auth.mjs",
+      "src/routes/loader.tsx?pick=route",
+      "src/routes/protected.tsx?pick=route",
+      "_response.mjs"
+    ],
+    "css": [
+      "assets/app-BZjP_ieU.css"
+    ]
+  },
+  "src/routes/api/auth/[...solidauth].ts?pick=GET": {
+    "file": "_...solidauth_.mjs",
+    "name": "_...solidauth_",
+    "src": "src/routes/api/auth/[...solidauth].ts?pick=GET",
+    "isDynamicEntry": true,
+    "imports": [
+      "_auth.mjs",
+      "_cache.mjs"
+    ]
+  },
+  "src/routes/api/auth/[...solidauth].ts?pick=POST": {
+    "file": "_...solidauth_2.mjs",
+    "name": "_...solidauth_",
+    "src": "src/routes/api/auth/[...solidauth].ts?pick=POST",
+    "isDynamicEntry": true,
+    "imports": [
+      "_auth.mjs",
+      "_cache.mjs"
+    ]
+  },
+  "src/routes/index.tsx?pick=default&pick=$css": {
+    "file": "c_1y9cimg.mjs",
+    "name": "c_1y9cimg",
+    "src": "src/routes/index.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_client.mjs",
+      "_auth.mjs",
+      "_createAsync.mjs"
+    ]
+  },
+  "src/routes/index.tsx?pick=route": {
+    "file": "c_102kcj3.mjs",
+    "name": "c_102kcj3",
+    "src": "src/routes/index.tsx?pick=route",
+    "isEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_client.mjs",
+      "_auth.mjs"
+    ]
+  },
+  "src/routes/loader.tsx?pick=default&pick=$css": {
+    "file": "c_1sc1rtv.mjs",
+    "name": "c_1sc1rtv",
+    "src": "src/routes/loader.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_auth.mjs",
+      "_createAsync.mjs"
+    ]
+  },
+  "src/routes/loader.tsx?pick=route": {
+    "file": "c_10jsfi6.mjs",
+    "name": "c_10jsfi6",
+    "src": "src/routes/loader.tsx?pick=route",
+    "isEntry": true,
+    "imports": [
+      "_cache.mjs"
+    ]
+  },
+  "src/routes/protected.tsx?pick=default&pick=$css": {
+    "file": "c_1ph8hba.mjs",
+    "name": "c_1ph8hba",
+    "src": "src/routes/protected.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_auth.mjs",
+      "_createAsync.mjs",
+      "_response.mjs"
+    ]
+  },
+  "src/routes/protected.tsx?pick=route": {
+    "file": "c_ymyeph.mjs",
+    "name": "c_ymyeph",
+    "src": "src/routes/protected.tsx?pick=route",
+    "isEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_auth.mjs",
+      "_response.mjs"
+    ]
+  },
+  "src/routes/test.tsx?pick=default&pick=$css": {
+    "file": "c_1dwqc5y.mjs",
+    "name": "c_1dwqc5y",
+    "src": "src/routes/test.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_auth.mjs",
+      "_createAsync.mjs"
+    ]
+  },
+  "src/routes/test2.tsx?pick=default&pick=$css": {
+    "file": "c_12zdwre.mjs",
+    "name": "c_12zdwre",
+    "src": "src/routes/test2.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_cache.mjs",
+      "_auth.mjs",
+      "_createAsync.mjs",
+      "_response.mjs"
+    ]
+  },
+  "virtual:$vinxi/handler/server-fns": {
+    "file": "entry.mjs",
+    "name": "entry",
+    "src": "virtual:$vinxi/handler/server-fns",
+    "isEntry": true,
+    "imports": [
+      "_server-fns.mjs",
+      "_cache.mjs",
+      "src/routes/index.tsx?pick=route",
+      "_client.mjs",
+      "_auth.mjs",
+      "src/routes/loader.tsx?pick=route",
+      "src/routes/protected.tsx?pick=route",
+      "_response.mjs"
+    ]
+  }
+}

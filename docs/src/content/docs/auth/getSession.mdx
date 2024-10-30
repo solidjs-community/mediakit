@@ -40,47 +40,43 @@ const getUser = cache(async () => {
   return session
 }, 'user')
 
-const user = createAsync(() => getUser())
+const user = createAsync(() => getUser(), { deferStream: true })
 ```
 
 ### Preloading The Session
 
-In order to preload the session (the useAuth hook will retrieve the session from here), you can use:
-
-#### Locals
+In order to preload the session (the useAuth hook will retrieve the session from here), you need to create a Solid middleware.
+Ahead over to `src/middleware.ts` and add the following:
 
 ```ts
-const getUser = cache(async () => {
-  'use server'
-  const event = getRequestEvent()!
-  const session = await getSession(event, authOptions)
-  event.locals.session = session
-  if (!session) {
-    throw redirect('/')
-  }
-  return session
-}, 'user')
+import { authMiddleware } from '@solid-mediakit/auth'
+import { createMiddleware } from '@solidjs/start/middleware'
+import { authOptions } from './server/auth' // where your auth config is located
 
-//
-event.locals.session = await getSession(event.request, authOptions)
+const pathsToPreload = ['/'] // the session will be prefetched when visiting those routes.
+
+export default createMiddleware({
+  onRequest: [authMiddleware(pathsToPreload, authOptions)],
+})
 ```
 
-#### Vinxi's Context
+You can also preload the session always by passing `true` instead of array of paths:
 
 ```ts
-const getUser = cache(async () => {
-  'use server'
-  const event = getRequestEvent()!
-  const session = await getSession(event, authOptions)
-  setContext('session', session)
-  if (!session) {
-    throw redirect('/')
-  }
-  return session
-}, 'user')
+export default createMiddleware({
+  onRequest: [authMiddleware(true, authOptions)], // The session will always be prefetched
+})
+```
 
-//
-setContext('session', await getSession(event.request, authOptions))
+After creating the file above, ahead over to `app.config.ts` and add the middleware:
+
+```ts
+import { defineConfig } from '@solidjs/start/config'
+
+export default defineConfig({
+  ssr: true,
+  middleware: './src/middleware.ts', // the exact path of the middleware
+})
 ```
 
 Once completed, the session will be set from the server and then refetched on the client to validate.

@@ -1,0 +1,142 @@
+{
+  "_auth-DgOjBUDV.js": {
+    "file": "assets/auth-DgOjBUDV.js",
+    "name": "auth"
+  },
+  "_client-CZWpsM-c.js": {
+    "file": "assets/client-CZWpsM-c.js",
+    "name": "client",
+    "imports": [
+      "_auth-DgOjBUDV.js"
+    ]
+  },
+  "_createAsync-Dqt8Sub7.js": {
+    "file": "assets/createAsync-Dqt8Sub7.js",
+    "name": "createAsync"
+  },
+  "_response-DrwkDGKB.js": {
+    "file": "assets/response-DrwkDGKB.js",
+    "name": "response"
+  },
+  "_server-fns-runtime-ILk5GoHa.js": {
+    "file": "assets/server-fns-runtime-ILk5GoHa.js",
+    "name": "server-fns-runtime",
+    "imports": [
+      "_auth-DgOjBUDV.js"
+    ]
+  },
+  "src/routes/api/auth/[...solidauth].ts?pick=GET": {
+    "file": "_...solidauth_.js",
+    "name": "_...solidauth_",
+    "src": "src/routes/api/auth/[...solidauth].ts?pick=GET",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_auth-DgOjBUDV.js"
+    ]
+  },
+  "src/routes/api/auth/[...solidauth].ts?pick=POST": {
+    "file": "_...solidauth_2.js",
+    "name": "_...solidauth_",
+    "src": "src/routes/api/auth/[...solidauth].ts?pick=POST",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_auth-DgOjBUDV.js"
+    ]
+  },
+  "src/routes/index.tsx?pick=default&pick=$css": {
+    "file": "index.js",
+    "name": "index",
+    "src": "src/routes/index.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_client-CZWpsM-c.js",
+      "_auth-DgOjBUDV.js",
+      "_createAsync-Dqt8Sub7.js"
+    ]
+  },
+  "src/routes/loader.tsx?pick=default&pick=$css": {
+    "file": "loader.js",
+    "name": "loader",
+    "src": "src/routes/loader.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_auth-DgOjBUDV.js",
+      "_createAsync-Dqt8Sub7.js"
+    ]
+  },
+  "src/routes/protected.tsx?pick=default&pick=$css": {
+    "file": "protected.js",
+    "name": "protected",
+    "src": "src/routes/protected.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_auth-DgOjBUDV.js",
+      "_createAsync-Dqt8Sub7.js",
+      "_response-DrwkDGKB.js"
+    ]
+  },
+  "src/routes/test.tsx?pick=default&pick=$css": {
+    "file": "test.js",
+    "name": "test",
+    "src": "src/routes/test.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_auth-DgOjBUDV.js",
+      "_createAsync-Dqt8Sub7.js"
+    ]
+  },
+  "src/routes/test2.tsx?pick=default&pick=$css": {
+    "file": "test2.js",
+    "name": "test2",
+    "src": "src/routes/test2.tsx?pick=default&pick=$css",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_auth-DgOjBUDV.js",
+      "_createAsync-Dqt8Sub7.js",
+      "_response-DrwkDGKB.js"
+    ]
+  },
+  "virtual:$vinxi/handler/ssr": {
+    "file": "ssr.js",
+    "name": "ssr",
+    "src": "virtual:$vinxi/handler/ssr",
+    "isEntry": true,
+    "imports": [
+      "_server-fns-runtime-ILk5GoHa.js",
+      "_client-CZWpsM-c.js",
+      "_auth-DgOjBUDV.js",
+      "_response-DrwkDGKB.js"
+    ],
+    "dynamicImports": [
+      "src/routes/index.tsx?pick=default&pick=$css",
+      "src/routes/index.tsx?pick=default&pick=$css",
+      "src/routes/loader.tsx?pick=default&pick=$css",
+      "src/routes/loader.tsx?pick=default&pick=$css",
+      "src/routes/protected.tsx?pick=default&pick=$css",
+      "src/routes/protected.tsx?pick=default&pick=$css",
+      "src/routes/test.tsx?pick=default&pick=$css",
+      "src/routes/test.tsx?pick=default&pick=$css",
+      "src/routes/test2.tsx?pick=default&pick=$css",
+      "src/routes/test2.tsx?pick=default&pick=$css",
+      "src/routes/api/auth/[...solidauth].ts?pick=GET",
+      "src/routes/api/auth/[...solidauth].ts?pick=GET",
+      "src/routes/api/auth/[...solidauth].ts?pick=POST",
+      "src/routes/api/auth/[...solidauth].ts?pick=POST"
+    ],
+    "css": [
+      "assets/ssr-BZjP_ieU.css"
+    ]
+  }
+}

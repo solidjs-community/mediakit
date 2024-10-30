@@ -1,8 +1,8 @@
 // @refresh reload
 import { MetaProvider, Title } from '@solidjs/meta'
-import { Router } from '@solidjs/router'
+import { Router, useLocation } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
-import { Suspense } from 'solid-js'
+import { Component, JSXElement, Suspense } from 'solid-js'
 import './app.css'
 import { SessionProvider } from '@solid-mediakit/auth/client'
 
@@ -13,7 +13,7 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <Suspense>
-            <SessionProvider>{props.children} </SessionProvider>
+            <SessionProvider>{props.children}</SessionProvider>
           </Suspense>
         </MetaProvider>
       )}

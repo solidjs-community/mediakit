@@ -1,4 +1,4 @@
-import { Auth, isAuthAction } from '@auth/core'
+import { Auth, type AuthConfig, isAuthAction } from '@auth/core'
 export { AuthError, CredentialsSignin } from '@auth/core/errors'
 
 export type {
@@ -9,10 +9,27 @@ export type {
   User,
 } from '@auth/core/types'
 import { SolidAuthConfig } from './types'
-import { APIEvent, APIHandler } from '@solidjs/start/server'
+import type { APIEvent, APIHandler, FetchEvent } from '@solidjs/start/server'
 export type { SolidAuthConfig }
 
 const authorizationParamsPrefix = 'authorizationParams-'
+
+export const authMiddleware = (
+  pathsToPreLoad: string[] | boolean,
+  authOptions: AuthConfig,
+) => {
+  return async (event: FetchEvent) => {
+    const asUrl = new URL(event.request.url)
+    const cond =
+      typeof pathsToPreLoad === 'boolean'
+        ? pathsToPreLoad
+        : pathsToPreLoad.includes(asUrl.pathname)
+    if (cond) {
+      const session = await getSession(event.request, authOptions)
+      event.locals.session = session
+    }
+  }
+}
 
 export function SolidAuth(
   config: SolidAuthConfig | ((event: APIEvent) => PromiseLike<SolidAuthConfig>),

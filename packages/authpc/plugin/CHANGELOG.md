@@ -1,5 +1,11 @@
 # @solid-mediakit/authpc-plugin
 
+## 1.5.1
+
+### Patch Changes
+
+- [`b86dab9`](https://github.com/solidjs-community/mediakit/commit/b86dab90430d9e48ce3c3f5f9e2c8553546013b2) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: mark authpc as vite.ssr.noExternal to avoid client api errors
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 3.0.1
+
+### Patch Changes
+
+- [`9b0b55c`](https://github.com/solidjs-community/mediakit/commit/9b0b55c40d29b5f760ae02fc90ed19c133700195) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: session preloading
+
 ## 3.0.0
 
 ### Major Changes

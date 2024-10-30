@@ -1,1 +1,0 @@
-import{S as o,a as t}from"./assets/auth-DgOjBUDV.js";import"@auth/core";import"@auth/core/errors";import"h3";import"node:async_hooks";import"solid-js/web";import"@auth/core/providers/discord";import"@auth/core/providers/credentials";import"zod";const{GET:u,POST:O}=o(t);export{u as GET,O as POST};

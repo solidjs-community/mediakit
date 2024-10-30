@@ -1,5 +1,11 @@
 # @solid-mediakit/authpc-plugin
 
+## 1.5.2
+
+### Patch Changes
+
+- [`bf654e5`](https://github.com/solidjs-community/mediakit/commit/bf654e5e82d4873548c39ea6cbfd5de7650857ef) Thanks [@OrJDev](https://github.com/OrJDev)! - force release
+
 ## 1.5.1
 
 ### Patch Changes

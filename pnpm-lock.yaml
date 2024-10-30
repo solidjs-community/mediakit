@@ -398,11 +398,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/auth/solid
       '@solid-mediakit/authpc':
-        specifier: ^1.2.0
-        version: 1.2.0(@solidjs/meta@0.29.4(solid-js@1.9.3))(@solidjs/router@0.14.10(solid-js@1.9.3))(@solidjs/start@1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3)))(@tanstack/solid-query@5.56.2(solid-js@1.9.3))(rollup@4.19.1)(solid-js@1.9.3)(tslib@2.6.3)(typescript@5.6.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))
+        specifier: workspace:*
+        version: link:../../packages/authpc/solid
       '@solid-mediakit/authpc-plugin':
-        specifier: ^1.5.0
-        version: 1.5.0(@solidjs/start@1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3)))(rollup@4.19.1)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))
+        specifier: workspace:*
+        version: link:../../packages/authpc/plugin
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.3)
@@ -3378,28 +3378,6 @@ packages:
   '@sindresorhus/merge-streams@2.3.0':
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
-
-  '@solid-mediakit/authpc-plugin@1.5.0':
-    resolution: {integrity: sha512-hbji0V85d4l7qWpVFqIBhFmoNYaSm2MfJ/oSTgGbViXzoUOzZhfEpqkALpE1lG/dpggKe6TPTlMKC/qFrfWCKw==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@solidjs/start': ^1.0.9
-      vinxi: ^0.4.3
-
-  '@solid-mediakit/authpc@1.2.0':
-    resolution: {integrity: sha512-fRe7qYDcpAhPznBc84b4Mos98xfnSpe0XSQuqlmbT/E8af7PnyGFcGESZIDAKNDRm2hf9xQE69P6gBO45VjpmA==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      '@solidjs/meta': ^0.29.4
-      '@solidjs/router': ^0.14.10
-      '@solidjs/start': ^1.0.9
-      '@tanstack/solid-query': ^5.59.16
-      solid-js: ^1.9.3
-      typescript: ^4.8.2
-      vinxi: ^0.4.3
-
-  '@solid-mediakit/shared@0.0.6':
-    resolution: {integrity: sha512-OFy6QAS9fXQicV4+FmLtOzgWAjYuO1FjQlta09qBjgpRENr+xZqiPP8gUlRT0nph/dr7NP18b1cWiCzThZWqkw==}
 
   '@solid-primitives/context@0.2.3':
     resolution: {integrity: sha512-6/e8qu9qJf48FJ+sxc/B782NdgFw5TvI8+r6U0gHizumfZcWZg8FAJqvRZAiwlygkUNiTQOGTeO10LVbMm0kvg==}
@@ -10310,15 +10288,6 @@ snapshots:
       rollup: 4.19.1
       tslib: 2.6.3
 
-  '@rollup/plugin-typescript@11.1.6(rollup@4.19.1)(tslib@2.6.3)(typescript@5.6.3)':
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.19.1)
-      resolve: 1.22.8
-      typescript: 5.6.3
-    optionalDependencies:
-      rollup: 4.19.1
-      tslib: 2.6.3
-
   '@rollup/pluginutils@4.2.1':
     dependencies:
       estree-walker: 2.0.2
@@ -10477,41 +10446,6 @@ snapshots:
       string.prototype.codepointat: 0.2.1
 
   '@sindresorhus/merge-streams@2.3.0': {}
-
-  '@solid-mediakit/authpc-plugin@1.5.0(@solidjs/start@1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3)))(rollup@4.19.1)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))':
-    dependencies:
-      '@babel/core': 7.25.2
-      '@babel/preset-typescript': 7.24.7(@babel/core@7.25.2)
-      '@rollup/pluginutils': 5.1.0(rollup@4.19.1)
-      '@solid-mediakit/shared': 0.0.6(rollup@4.19.1)
-      '@solidjs/start': 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3))
-      vinxi: 0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3)
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-
-  '@solid-mediakit/authpc@1.2.0(@solidjs/meta@0.29.4(solid-js@1.9.3))(@solidjs/router@0.14.10(solid-js@1.9.3))(@solidjs/start@1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3)))(@tanstack/solid-query@5.56.2(solid-js@1.9.3))(rollup@4.19.1)(solid-js@1.9.3)(tslib@2.6.3)(typescript@5.6.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))':
-    dependencies:
-      '@rollup/plugin-typescript': 11.1.6(rollup@4.19.1)(tslib@2.6.3)(typescript@5.6.3)
-      '@rollup/pluginutils': 5.1.0(rollup@4.19.1)
-      '@solidjs/meta': 0.29.4(solid-js@1.9.3)
-      '@solidjs/router': 0.14.10(solid-js@1.9.3)
-      '@solidjs/start': 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3))
-      '@tanstack/solid-query': 5.56.2(solid-js@1.9.3)
-      solid-js: 1.9.3
-      typescript: 5.6.3
-      vinxi: 0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3)
-    transitivePeerDependencies:
-      - rollup
-      - tslib
-
-  '@solid-mediakit/shared@0.0.6(rollup@4.19.1)':
-    dependencies:
-      '@babel/core': 7.25.2
-      '@rollup/pluginutils': 5.1.0(rollup@4.19.1)
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
 
   '@solid-primitives/context@0.2.3(solid-js@1.9.2)':
     dependencies:

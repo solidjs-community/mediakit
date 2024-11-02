@@ -12,11 +12,13 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "dev-auth",
-    "dev-authpc",
-    "dev-jd-authpc",
+    "dev-prpc",
+    "dev-jd-prpc",
     "dev-media",
     "og-example",
     "log-example",
-    "dev-forms"
+    "dev-forms",
+    "@solid-mediakit/routetypes",
+    "dev-routetypes"
   ]
 }

@@ -176,155 +176,6 @@ importers:
         specifier: ^5.3.5
         version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
 
-  examples/authpc:
-    dependencies:
-      '@auth/core':
-        specifier: 0.35.0
-        version: 0.35.0
-      '@babel/core':
-        specifier: ^7.25.2
-        version: 7.25.2
-      '@babel/preset-typescript':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@solid-mediakit/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth/solid
-      '@solid-mediakit/authpc':
-        specifier: workspace:*
-        version: link:../../packages/authpc/solid
-      '@solid-mediakit/authpc-plugin':
-        specifier: workspace:*
-        version: link:../../packages/authpc/plugin
-      '@solidjs/meta':
-        specifier: ^0.29.4
-        version: 0.29.4(solid-js@1.9.3)
-      '@solidjs/router':
-        specifier: ^0.14.5
-        version: 0.14.7(solid-js@1.9.3)
-      '@solidjs/start':
-        specifier: ^1.0.6
-        version: 1.0.8(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
-      '@tanstack/solid-query':
-        specifier: ^5.56.2
-        version: 5.59.0(solid-js@1.9.3)
-      clerk-solidjs:
-        specifier: ^2.0.5
-        version: 2.0.5(@solidjs/router@0.14.7(solid-js@1.9.3))(@solidjs/start@1.0.8(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3)))(react@18.3.1)(solid-js@1.9.3)
-      solid-js:
-        specifier: ^1.9.3
-        version: 1.9.3
-      typescript:
-        specifier: ^4.8.2
-        version: 4.9.5
-      vinxi:
-        specifier: ^0.4.3
-        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
-      zod:
-        specifier: ^3.22.4
-        version: 3.23.8
-    devDependencies:
-      '@types/babel__core':
-        specifier: ^7.20.5
-        version: 7.20.5
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.18.0
-        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.8.0)(typescript@4.9.5))(eslint@9.8.0)(typescript@4.9.5)
-      '@typescript-eslint/parser':
-        specifier: ^7.18.0
-        version: 7.18.0(eslint@9.8.0)(typescript@4.9.5)
-      autoprefixer:
-        specifier: ^10.4.19
-        version: 10.4.19(postcss@8.4.40)
-      eslint:
-        specifier: ^9.8.0
-        version: 9.8.0
-      eslint-plugin-solid:
-        specifier: ^0.14.1
-        version: 0.14.1(eslint@9.8.0)(typescript@4.9.5)
-      postcss:
-        specifier: ^8.4.40
-        version: 8.4.40
-      tailwindcss:
-        specifier: ^3.4.7
-        version: 3.4.7
-      vite:
-        specifier: ^5.3.5
-        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
-
-  examples/authpc-clerk:
-    dependencies:
-      '@babel/preset-typescript':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@solid-mediakit/authpc':
-        specifier: workspace:*
-        version: link:../../packages/authpc/solid
-      '@solid-mediakit/authpc-plugin':
-        specifier: workspace:*
-        version: link:../../packages/authpc/plugin
-      '@solidjs/meta':
-        specifier: ^0.29.4
-        version: 0.29.4(solid-js@1.9.2)
-      '@solidjs/router':
-        specifier: ^0.14.5
-        version: 0.14.7(solid-js@1.9.2)
-      '@solidjs/start':
-        specifier: ^1.0.6
-        version: 1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
-      '@tanstack/solid-query':
-        specifier: ^5.56.2
-        version: 5.59.0(solid-js@1.9.2)
-      clerk-solidjs:
-        specifier: ^2.0.5
-        version: 2.0.5(@solidjs/router@0.14.7(solid-js@1.9.2))(@solidjs/start@1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3)))(react@18.3.1)(solid-js@1.9.2)
-      solid-js:
-        specifier: ^1.8.19
-        version: 1.9.2
-      typescript:
-        specifier: ^4.8.2
-        version: 4.9.5
-      vinxi:
-        specifier: ^0.4.3
-        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
-      zod:
-        specifier: ^3.22.4
-        version: 3.23.8
-    devDependencies:
-      '@types/babel__core':
-        specifier: ^7.20.5
-        version: 7.20.5
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.18.0
-        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.8.0)(typescript@4.9.5))(eslint@9.8.0)(typescript@4.9.5)
-      '@typescript-eslint/parser':
-        specifier: ^7.18.0
-        version: 7.18.0(eslint@9.8.0)(typescript@4.9.5)
-      autoprefixer:
-        specifier: ^10.4.19
-        version: 10.4.19(postcss@8.4.40)
-      eslint:
-        specifier: ^9.8.0
-        version: 9.8.0
-      eslint-plugin-solid:
-        specifier: ^0.14.1
-        version: 0.14.1(eslint@9.8.0)(typescript@4.9.5)
-      postcss:
-        specifier: ^8.4.40
-        version: 8.4.40
-      tailwindcss:
-        specifier: ^3.4.7
-        version: 3.4.7
-      vite:
-        specifier: ^5.3.5
-        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
-
   examples/forms:
     dependencies:
       '@solid-mediakit/forms':
@@ -383,7 +234,7 @@ importers:
         specifier: ^5.3.5
         version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
 
-  examples/jd-authpc:
+  examples/jd-prpc:
     dependencies:
       '@auth/core':
         specifier: 0.35.0
@@ -397,12 +248,12 @@ importers:
       '@solid-mediakit/auth':
         specifier: workspace:*
         version: link:../../packages/auth/solid
-      '@solid-mediakit/authpc':
+      '@solid-mediakit/prpc':
         specifier: workspace:*
-        version: link:../../packages/authpc/solid
-      '@solid-mediakit/authpc-plugin':
+        version: link:../../packages/prpc/solid
+      '@solid-mediakit/prpc-plugin':
         specifier: workspace:*
-        version: link:../../packages/authpc/plugin
+        version: link:../../packages/prpc/plugin
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.3)
@@ -412,9 +263,6 @@ importers:
       '@solidjs/start':
         specifier: ^1.0.9
         version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@20.14.9)(terser@5.31.3))
-      '@tanstack/solid-query':
-        specifier: 5.56.2
-        version: 5.56.2(solid-js@1.9.3)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.40)
@@ -443,6 +291,12 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.6.0
         version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      dotenv-cli:
+        specifier: ^7.4.2
+        version: 7.4.2
       eslint:
         specifier: ^9.13.0
         version: 9.13.0(jiti@1.21.6)
@@ -553,6 +407,204 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
 
+  examples/prpc:
+    dependencies:
+      '@auth/core':
+        specifier: 0.35.0
+        version: 0.35.0
+      '@babel/core':
+        specifier: ^7.25.2
+        version: 7.25.2
+      '@babel/preset-typescript':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@solid-mediakit/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth/solid
+      '@solid-mediakit/prpc':
+        specifier: workspace:*
+        version: link:../../packages/prpc/solid
+      '@solid-mediakit/prpc-plugin':
+        specifier: workspace:*
+        version: link:../../packages/prpc/plugin
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.3)
+      '@solidjs/router':
+        specifier: ^0.14.5
+        version: 0.14.7(solid-js@1.9.3)
+      '@solidjs/start':
+        specifier: ^1.0.6
+        version: 1.0.8(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      '@tanstack/solid-query':
+        specifier: ^5.56.2
+        version: 5.59.0(solid-js@1.9.3)
+      clerk-solidjs:
+        specifier: ^2.0.5
+        version: 2.0.5(@solidjs/router@0.14.7(solid-js@1.9.3))(@solidjs/start@1.0.8(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3)))(react@18.3.1)(solid-js@1.9.3)
+      solid-js:
+        specifier: ^1.9.3
+        version: 1.9.3
+      typescript:
+        specifier: ^4.8.2
+        version: 4.9.5
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      zod:
+        specifier: ^3.22.4
+        version: 3.23.8
+    devDependencies:
+      '@types/babel__core':
+        specifier: ^7.20.5
+        version: 7.20.5
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.18.0
+        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.8.0)(typescript@4.9.5))(eslint@9.8.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.8.0)(typescript@4.9.5)
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.40)
+      eslint:
+        specifier: ^9.8.0
+        version: 9.8.0
+      eslint-plugin-solid:
+        specifier: ^0.14.1
+        version: 0.14.1(eslint@9.8.0)(typescript@4.9.5)
+      postcss:
+        specifier: ^8.4.40
+        version: 8.4.40
+      tailwindcss:
+        specifier: ^3.4.7
+        version: 3.4.7
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
+
+  examples/prpc-clerk:
+    dependencies:
+      '@babel/preset-typescript':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@solid-mediakit/prpc':
+        specifier: workspace:*
+        version: link:../../packages/prpc/solid
+      '@solid-mediakit/prpc-plugin':
+        specifier: workspace:*
+        version: link:../../packages/prpc/plugin
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.2)
+      '@solidjs/router':
+        specifier: ^0.14.5
+        version: 0.14.7(solid-js@1.9.2)
+      '@solidjs/start':
+        specifier: ^1.0.6
+        version: 1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      clerk-solidjs:
+        specifier: ^2.0.5
+        version: 2.0.5(@solidjs/router@0.14.7(solid-js@1.9.2))(@solidjs/start@1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3)))(react@18.3.1)(solid-js@1.9.2)
+      solid-js:
+        specifier: ^1.8.19
+        version: 1.9.2
+      typescript:
+        specifier: ^4.8.2
+        version: 4.9.5
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      zod:
+        specifier: ^3.22.4
+        version: 3.23.8
+    devDependencies:
+      '@types/babel__core':
+        specifier: ^7.20.5
+        version: 7.20.5
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.18.0
+        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.8.0)(typescript@4.9.5))(eslint@9.8.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.8.0)(typescript@4.9.5)
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.40)
+      eslint:
+        specifier: ^9.8.0
+        version: 9.8.0
+      eslint-plugin-solid:
+        specifier: ^0.14.1
+        version: 0.14.1(eslint@9.8.0)(typescript@4.9.5)
+      postcss:
+        specifier: ^8.4.40
+        version: 8.4.40
+      tailwindcss:
+        specifier: ^3.4.7
+        version: 3.4.7
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
+
+  examples/routetypes:
+    dependencies:
+      '@solid-mediakit/routetypes':
+        specifier: workspace:*
+        version: link:../../packages/routetypes
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.3)
+      '@solidjs/router':
+        specifier: ^0.14.5
+        version: 0.14.10(solid-js@1.9.3)
+      '@solidjs/start':
+        specifier: ^1.0.6
+        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      solid-js:
+        specifier: ^1.9.3
+        version: 1.9.3
+      typescript:
+        specifier: ^4.8.2
+        version: 4.9.5
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.18.0
+        version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5))(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.40)
+      eslint:
+        specifier: ^9.8.0
+        version: 9.13.0(jiti@1.21.6)
+      eslint-plugin-solid:
+        specifier: ^0.14.1
+        version: 0.14.3(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      postcss:
+        specifier: ^8.4.40
+        version: 8.4.40
+      tailwindcss:
+        specifier: ^3.4.7
+        version: 3.4.7
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
+
   packages/auth/plugin:
     dependencies:
       '@babel/core':
@@ -644,176 +696,6 @@ importers:
       vinxi:
         specifier: ^0.4.3
         version: 0.4.3(@types/node@20.14.9)(ioredis@5.4.1)(terser@5.31.3)
-
-  packages/authpc/plugin:
-    dependencies:
-      '@babel/core':
-        specifier: ^7.25.2
-        version: 7.25.2
-      '@babel/preset-typescript':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@rollup/pluginutils':
-        specifier: ^5.1.0
-        version: 5.1.0(rollup@4.19.1)
-      '@solid-mediakit/shared':
-        specifier: workspace:*
-        version: link:../../shared
-    devDependencies:
-      '@babel/plugin-transform-modules-commonjs':
-        specifier: ^7.25.7
-        version: 7.25.7(@babel/core@7.25.2)
-      '@solidjs/start':
-        specifier: ^1.0.9
-        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
-      '@types/babel__core':
-        specifier: ^7.20.5
-        version: 7.20.5
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.0.0
-      '@typescript-eslint/parser':
-        specifier: ^7.18.0
-        version: 7.18.0(eslint@9.8.0)(typescript@5.5.4)
-      eslint:
-        specifier: ^9.8.0
-        version: 9.8.0
-      pridepack:
-        specifier: 2.6.1
-        version: 2.6.1(tslib@2.6.3)(typescript@5.5.4)
-      tslib:
-        specifier: ^2.6.3
-        version: 2.6.3
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-      vinxi:
-        specifier: ^0.4.3
-        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
-      vite:
-        specifier: ^5.3.5
-        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
-      vitest:
-        specifier: 2.0.4
-        version: 2.0.4(@types/node@22.0.0)(terser@5.31.3)
-
-  packages/authpc/solid:
-    dependencies:
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.19.1)(tslib@2.6.3)(typescript@5.5.4)
-      '@rollup/pluginutils':
-        specifier: ^5.1.0
-        version: 5.1.0(rollup@4.19.1)
-    devDependencies:
-      '@auth/core':
-        specifier: 0.35.0
-        version: 0.35.0
-      '@clerk/backend':
-        specifier: ^1.14.1
-        version: 1.14.1(react@18.3.1)
-      '@solidjs/meta':
-        specifier: ^0.29.4
-        version: 0.29.4(solid-js@1.9.3)
-      '@solidjs/router':
-        specifier: ^0.14.10
-        version: 0.14.10(solid-js@1.9.3)
-      '@solidjs/start':
-        specifier: ^1.0.9
-        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
-      '@tanstack/solid-query':
-        specifier: ^5.59.0
-        version: 5.59.0(solid-js@1.9.3)
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.0.0
-      '@typescript-eslint/parser':
-        specifier: ^7.18.0
-        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.5.4)
-      solid-js:
-        specifier: ^1.9.3
-        version: 1.9.3
-      tsup:
-        specifier: ^8.2.3
-        version: 8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5)
-      tsup-preset-solid:
-        specifier: 2.2.0
-        version: 2.2.0(esbuild@0.23.0)(solid-js@1.9.3)(tsup@8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5))
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-      valibot:
-        specifier: ^0.42.1
-        version: 0.42.1(typescript@5.5.4)
-      vinxi:
-        specifier: ^0.4.3
-        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
-
-  packages/authpc/tests:
-    devDependencies:
-      '@auth/core':
-        specifier: 0.35.0
-        version: 0.35.0
-      '@clerk/backend':
-        specifier: ^1.14.1
-        version: 1.14.1(react@18.3.1)
-      '@solid-mediakit/auth':
-        specifier: workspace:*
-        version: link:../../auth/solid
-      '@solid-mediakit/authpc':
-        specifier: workspace:*
-        version: link:../solid
-      '@solid-mediakit/authpc-plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@solidjs/meta':
-        specifier: ^0.29.4
-        version: 0.29.4(solid-js@1.9.2)
-      '@solidjs/router':
-        specifier: ^0.14.5
-        version: 0.14.7(solid-js@1.9.2)
-      '@solidjs/start':
-        specifier: ^1.0.6
-        version: 1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
-      '@tanstack/solid-query':
-        specifier: ^5.59.0
-        version: 5.59.0(solid-js@1.9.2)
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.0.0
-      '@typescript-eslint/parser':
-        specifier: ^7.18.0
-        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.5.4)
-      prettier:
-        specifier: 3.3.3
-        version: 3.3.3
-      solid-js:
-        specifier: ^1.8.19
-        version: 1.9.2
-      tsup:
-        specifier: ^8.2.3
-        version: 8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5)
-      tsup-preset-solid:
-        specifier: 2.2.0
-        version: 2.2.0(esbuild@0.23.0)(solid-js@1.9.2)(tsup@8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5))
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-      valibot:
-        specifier: ^0.42.1
-        version: 0.42.1(typescript@5.5.4)
-      vinxi:
-        specifier: ^0.4.3
-        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
-      vitest:
-        specifier: ^2.1.4
-        version: 2.1.4(@types/node@22.0.0)(terser@5.31.3)
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
 
   packages/forms/plugin:
     dependencies:
@@ -1007,6 +889,225 @@ importers:
         version: 5.5.4
       vitest:
         specifier: ^2.0.4
+        version: 2.0.4(@types/node@22.0.0)(terser@5.31.3)
+
+  packages/prpc/plugin:
+    dependencies:
+      '@babel/core':
+        specifier: ^7.25.2
+        version: 7.25.2
+      '@babel/preset-typescript':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@rollup/pluginutils':
+        specifier: ^5.1.0
+        version: 5.1.0(rollup@4.19.1)
+      '@solid-mediakit/shared':
+        specifier: workspace:*
+        version: link:../../shared
+    devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7.25.7
+        version: 7.25.7(@babel/core@7.25.2)
+      '@solidjs/start':
+        specifier: ^1.0.9
+        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      '@types/babel__core':
+        specifier: ^7.20.5
+        version: 7.20.5
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.8.0)(typescript@5.5.4)
+      eslint:
+        specifier: ^9.8.0
+        version: 9.8.0
+      pridepack:
+        specifier: 2.6.1
+        version: 2.6.1(tslib@2.6.3)(typescript@5.5.4)
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
+      vitest:
+        specifier: 2.0.4
+        version: 2.0.4(@types/node@22.0.0)(terser@5.31.3)
+
+  packages/prpc/solid:
+    dependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.6
+        version: 11.1.6(rollup@4.19.1)(tslib@2.6.3)(typescript@5.5.4)
+      '@rollup/pluginutils':
+        specifier: ^5.1.0
+        version: 5.1.0(rollup@4.19.1)
+    devDependencies:
+      '@auth/core':
+        specifier: 0.35.0
+        version: 0.35.0
+      '@clerk/backend':
+        specifier: ^1.14.1
+        version: 1.14.1(react@18.3.1)
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.3)
+      '@solidjs/router':
+        specifier: ^0.14.10
+        version: 0.14.10(solid-js@1.9.3)
+      '@solidjs/start':
+        specifier: ^1.0.9
+        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      '@tanstack/solid-query':
+        specifier: ^5.59.0
+        version: 5.59.0(solid-js@1.9.3)
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.5.4)
+      solid-js:
+        specifier: ^1.9.3
+        version: 1.9.3
+      tsup:
+        specifier: ^8.2.3
+        version: 8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5)
+      tsup-preset-solid:
+        specifier: 2.2.0
+        version: 2.2.0(esbuild@0.23.0)(solid-js@1.9.3)(tsup@8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5))
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+      valibot:
+        specifier: ^0.42.1
+        version: 0.42.1(typescript@5.5.4)
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+
+  packages/prpc/tests:
+    devDependencies:
+      '@auth/core':
+        specifier: 0.35.0
+        version: 0.35.0
+      '@clerk/backend':
+        specifier: ^1.14.1
+        version: 1.14.1(react@18.3.1)
+      '@solid-mediakit/auth':
+        specifier: workspace:*
+        version: link:../../auth/solid
+      '@solid-mediakit/prpc':
+        specifier: workspace:*
+        version: link:../solid
+      '@solid-mediakit/prpc-plugin':
+        specifier: workspace:*
+        version: link:../plugin
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.2)
+      '@solidjs/router':
+        specifier: ^0.14.5
+        version: 0.14.7(solid-js@1.9.2)
+      '@solidjs/start':
+        specifier: ^1.0.6
+        version: 1.0.9(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      '@tanstack/solid-query':
+        specifier: ^5.59.0
+        version: 5.59.0(solid-js@1.9.2)
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.5.4)
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
+      solid-js:
+        specifier: ^1.8.19
+        version: 1.9.2
+      tsup:
+        specifier: ^8.2.3
+        version: 8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5)
+      tsup-preset-solid:
+        specifier: 2.2.0
+        version: 2.2.0(esbuild@0.23.0)(solid-js@1.9.2)(tsup@8.2.3(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.4.5))
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+      valibot:
+        specifier: ^0.42.1
+        version: 0.42.1(typescript@5.5.4)
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.4(@types/node@22.0.0)(terser@5.31.3)
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+
+  packages/routetypes:
+    dependencies:
+      '@babel/core':
+        specifier: ^7.25.2
+        version: 7.25.2
+      '@babel/preset-typescript':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@rollup/pluginutils':
+        specifier: ^5.1.0
+        version: 5.1.0(rollup@4.19.1)
+      '@solid-mediakit/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      '@solidjs/start':
+        specifier: ^1.0.9
+        version: 1.0.9(solid-js@1.9.3)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      '@types/babel__core':
+        specifier: ^7.20.5
+        version: 7.20.5
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.0.0
+      '@typescript-eslint/parser':
+        specifier: ^7.18.0
+        version: 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
+      eslint:
+        specifier: ^9.8.0
+        version: 9.13.0(jiti@1.21.6)
+      pridepack:
+        specifier: 2.6.1
+        version: 2.6.1(tslib@2.6.3)(typescript@5.6.3)
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      typescript:
+        specifier: ^5.5.4
+        version: 5.6.3
+      vinxi:
+        specifier: ^0.4.3
+        version: 0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3)
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
+      vitest:
+        specifier: 2.0.4
         version: 2.0.4(@types/node@22.0.0)(terser@5.31.3)
 
   packages/shared:
@@ -3438,16 +3539,8 @@ packages:
   '@solidjs/start@1.0.9':
     resolution: {integrity: sha512-dZ1b4Oa5gXk95eVxHAj/W+sQIY3yevYeerrxKNWPqwTyzZYvwUwpnU7Ph3sMduo5LnL/USQ66AloLTs2FX94ZA==}
 
-  '@tanstack/query-core@5.56.2':
-    resolution: {integrity: sha512-gor0RI3/R5rVV3gXfddh1MM+hgl0Z4G7tj6Xxpq6p2I03NGPaJ8dITY9Gz05zYYb/EJq9vPas/T4wn9EaDPd4Q==}
-
   '@tanstack/query-core@5.59.0':
     resolution: {integrity: sha512-WGD8uIhX6/deH/tkZqPNcRyAhDUqs729bWKoByYHSogcshXfFbppOdTER5+qY7mFvu8KEFJwT0nxr8RfPTVh0Q==}
-
-  '@tanstack/solid-query@5.56.2':
-    resolution: {integrity: sha512-xJTtKwVJNAqCwbRi1FnA6cNzoIBdSssgbvC/DTTLSogdfj0Xur0hwNbVG3ZPEXwxgHZ2o6gqKqyVJJ5K6tgikg==}
-    peerDependencies:
-      solid-js: ^1.6.0
 
   '@tanstack/solid-query@5.59.0':
     resolution: {integrity: sha512-2yCObsJ9NHpKSKfHJ3R2TRuYbxtU2Hzg8rxlexl3uHm3VIvQQ1KH18/PYdQAR6oXymCl7ls5QZKvTvgJRtX9bg==}
@@ -4144,10 +4237,6 @@ packages:
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
 
-  chai@5.1.1:
-    resolution: {integrity: sha512-pT1ZgP8rPNqUgieVaEY+ryQr6Q4HXNg8Ei9UnLUrjN4IA7dvQC5JB+/kxVcPNDHyBcc/26CXPkbNzq3qwrOEKA==}
-    engines: {node: '>=12'}
-
   chai@5.1.2:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
     engines: {node: '>=12'}
@@ -4591,6 +4680,14 @@ packages:
   dot-prop@8.0.2:
     resolution: {integrity: sha512-xaBe6ZT4DHPkg0k4Ytbvn5xoxgpG0jOS1dYxSOwAHPuNLjP3/OzN0gH55SrLqpx8cBfSaVt91lXYkApjb+nYdQ==}
     engines: {node: '>=16'}
+
+  dotenv-cli@7.4.2:
+    resolution: {integrity: sha512-SbUj8l61zIbzyhIbg0FwPJq6+wjbzdn9oEtozQpZ6kW2ihCcapKVZj49oCT3oPM+mgQm+itgvUQcG5szxVrZTA==}
+    hasBin: true
+
+  dotenv-expand@10.0.0:
+    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
 
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
@@ -5232,9 +5329,6 @@ packages:
   get-east-asian-width@1.2.0:
     resolution: {integrity: sha512-2nk+7SIVb14QrgXFHcm84tD4bKQz0RxPuMT8Ag5KPOq7J5fEmAg0UbXdTOSHqNuHSU28k55qnceesxXRZGzKWA==}
     engines: {node: '>=18'}
-
-  get-func-name@2.0.2:
-    resolution: {integrity: sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==}
 
   get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
@@ -5921,9 +6015,6 @@ packages:
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
-
-  loupe@3.1.1:
-    resolution: {integrity: sha512-edNu/8D5MKVfGVFRhFf8aAxiTM6Wumfz5XsaatSxlD3w4R1d/WEKUTydCdPGbl9K7QG/Ca3GnDV2sIKIpXRQcw==}
 
   loupe@3.1.2:
     resolution: {integrity: sha512-23I4pFZHmAemUnz8WZXbYRSKYj801VDaNv9ETuMh7IrMc7VuVVSo+Z9iLE3ni30+U48iDWfi30d3twAXBYmnCg==}
@@ -7310,9 +7401,6 @@ packages:
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
 
-  tinybench@2.8.0:
-    resolution: {integrity: sha512-1/eK7zUnIklz4JUUlL+658n58XO2hHLQfSk1Zf2LKieUjxidN16eKFEoDEfjHc3ohofSSqK3X5yO6VGb6iW8Lw==}
-
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -7323,20 +7411,12 @@ packages:
     resolution: {integrity: sha512-8or1+BGEdk1Zkkw2ii16qSS7uVrQJPre5A9o/XkWPATkk23FZh/15BKFxPnlTy6vkljZxLqYCzzBMj30ZrSvjw==}
     engines: {node: '>=12.0.0'}
 
-  tinypool@1.0.0:
-    resolution: {integrity: sha512-KIKExllK7jp3uvrNtvRBYBWBOAXSX8ZvoaD8T+7KB/QHIuoJW3Pmr60zucywjAlMb5TeXUkcs/MWeWLu0qvuAQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-
   tinypool@1.0.1:
     resolution: {integrity: sha512-URZYihUbRPcGv95En+sz6MfghfIc2OJ1sv/RmhWZLouPY0/8Vo80viwPvg3dlaS9fuq7fQMEfgRRK7BBZThBEA==}
     engines: {node: ^18.0.0 || >=20.0.0}
 
   tinyrainbow@1.2.0:
     resolution: {integrity: sha512-weEDEq7Z5eTHPDh4xjX789+fHfF+P8boiFB+0vbWzpbnbsEr/GRaohi/uMKxg8RZMXnl1ItAi/IUHWMsjDV7kQ==}
-    engines: {node: '>=14.0.0'}
-
-  tinyspy@3.0.0:
-    resolution: {integrity: sha512-q5nmENpTHgiPVd1cJDDc9cVoYN5x4vCvwT3FMilvKPKneCBZAxn2YWQjDF0UMcE9k0Cay1gBiDfTMU0g+mPMQA==}
     engines: {node: '>=14.0.0'}
 
   tinyspy@3.0.2:
@@ -10726,14 +10806,7 @@ snapshots:
       - vinxi
       - vite
 
-  '@tanstack/query-core@5.56.2': {}
-
   '@tanstack/query-core@5.59.0': {}
-
-  '@tanstack/solid-query@5.56.2(solid-js@1.9.3)':
-    dependencies:
-      '@tanstack/query-core': 5.56.2
-      solid-js: 1.9.3
 
   '@tanstack/solid-query@5.59.0(solid-js@1.9.2)':
     dependencies:
@@ -10838,6 +10911,24 @@ snapshots:
 
   '@types/unist@3.0.2': {}
 
+  '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5))(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)':
+    dependencies:
+      '@eslint-community/regexpp': 4.11.0
+      '@typescript-eslint/parser': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      '@typescript-eslint/scope-manager': 7.18.0
+      '@typescript-eslint/type-utils': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      '@typescript-eslint/utils': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      '@typescript-eslint/visitor-keys': 7.18.0
+      eslint: 9.13.0(jiti@1.21.6)
+      graphemer: 1.4.0
+      ignore: 5.3.1
+      natural-compare: 1.4.0
+      ts-api-utils: 1.3.0(typescript@4.9.5)
+    optionalDependencies:
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3))(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)':
     dependencies:
       '@eslint-community/regexpp': 4.11.0
@@ -10917,6 +11008,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/parser@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)':
+    dependencies:
+      '@typescript-eslint/scope-manager': 7.18.0
+      '@typescript-eslint/types': 7.18.0
+      '@typescript-eslint/typescript-estree': 7.18.0(typescript@4.9.5)
+      '@typescript-eslint/visitor-keys': 7.18.0
+      debug: 4.3.5
+      eslint: 9.13.0(jiti@1.21.6)
+    optionalDependencies:
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/parser@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
       '@typescript-eslint/scope-manager': 7.18.0
@@ -10989,6 +11093,18 @@ snapshots:
       '@typescript-eslint/types': 7.18.0
       '@typescript-eslint/visitor-keys': 7.18.0
 
+  '@typescript-eslint/type-utils@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)':
+    dependencies:
+      '@typescript-eslint/typescript-estree': 7.18.0(typescript@4.9.5)
+      '@typescript-eslint/utils': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      debug: 4.3.5
+      eslint: 9.13.0(jiti@1.21.6)
+      ts-api-utils: 1.3.0(typescript@4.9.5)
+    optionalDependencies:
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/type-utils@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)':
     dependencies:
       '@typescript-eslint/typescript-estree': 7.18.0(typescript@5.6.3)
@@ -11037,7 +11153,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 5.52.0
       '@typescript-eslint/visitor-keys': 5.52.0
-      debug: 4.3.5
+      debug: 4.3.7
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.3
@@ -11155,6 +11271,17 @@ snapshots:
       '@typescript-eslint/types': 7.17.0
       '@typescript-eslint/typescript-estree': 7.17.0(typescript@5.5.4)
       eslint: 9.8.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@typescript-eslint/utils@7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.4.0(eslint@9.13.0(jiti@1.21.6))
+      '@typescript-eslint/scope-manager': 7.18.0
+      '@typescript-eslint/types': 7.18.0
+      '@typescript-eslint/typescript-estree': 7.18.0(typescript@4.9.5)
+      eslint: 9.13.0(jiti@1.21.6)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -11465,7 +11592,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 2.0.4
       '@vitest/utils': 2.0.4
-      chai: 5.1.1
+      chai: 5.1.2
       tinyrainbow: 1.2.0
 
   '@vitest/expect@2.1.4':
@@ -11504,7 +11631,7 @@ snapshots:
   '@vitest/snapshot@2.0.4':
     dependencies:
       '@vitest/pretty-format': 2.0.4
-      magic-string: 0.30.10
+      magic-string: 0.30.12
       pathe: 1.1.2
 
   '@vitest/snapshot@2.1.4':
@@ -11515,7 +11642,7 @@ snapshots:
 
   '@vitest/spy@2.0.4':
     dependencies:
-      tinyspy: 3.0.0
+      tinyspy: 3.0.2
 
   '@vitest/spy@2.1.4':
     dependencies:
@@ -11525,7 +11652,7 @@ snapshots:
     dependencies:
       '@vitest/pretty-format': 2.0.4
       estree-walker: 3.0.3
-      loupe: 3.1.1
+      loupe: 3.1.2
       tinyrainbow: 1.2.0
 
   '@vitest/utils@2.1.4':
@@ -12000,20 +12127,12 @@ snapshots:
 
   ccount@2.0.1: {}
 
-  chai@5.1.1:
-    dependencies:
-      assertion-error: 2.0.1
-      check-error: 2.1.1
-      deep-eql: 5.0.2
-      loupe: 3.1.1
-      pathval: 2.0.0
-
   chai@5.1.2:
     dependencies:
       assertion-error: 2.0.1
       check-error: 2.1.1
       deep-eql: 5.0.2
-      loupe: 3.1.1
+      loupe: 3.1.2
       pathval: 2.0.0
 
   chalk@2.4.2:
@@ -12396,6 +12515,15 @@ snapshots:
   dot-prop@8.0.2:
     dependencies:
       type-fest: 3.13.1
+
+  dotenv-cli@7.4.2:
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 16.4.5
+      dotenv-expand: 10.0.0
+      minimist: 1.2.8
+
+  dotenv-expand@10.0.0: {}
 
   dotenv@16.4.5: {}
 
@@ -12898,6 +13026,19 @@ snapshots:
       - supports-color
       - typescript
 
+  eslint-plugin-solid@0.14.3(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5):
+    dependencies:
+      '@typescript-eslint/utils': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@4.9.5)
+      eslint: 9.13.0(jiti@1.21.6)
+      estraverse: 5.3.0
+      is-html: 2.0.0
+      kebab-case: 1.0.2
+      known-css-properties: 0.30.0
+      style-to-object: 1.0.6
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
   eslint-plugin-solid@0.14.3(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3):
     dependencies:
       '@typescript-eslint/utils': 7.18.0(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
@@ -13265,8 +13406,6 @@ snapshots:
   get-caller-file@2.0.5: {}
 
   get-east-asian-width@1.2.0: {}
-
-  get-func-name@2.0.2: {}
 
   get-intrinsic@1.2.4:
     dependencies:
@@ -14038,10 +14177,6 @@ snapshots:
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
-
-  loupe@3.1.1:
-    dependencies:
-      get-func-name: 2.0.2
 
   loupe@3.1.2: {}
 
@@ -15092,6 +15227,22 @@ snapshots:
       typescript: 5.5.4
       yargs: 17.7.2
 
+  pridepack@2.6.1(tslib@2.6.3)(typescript@5.6.3):
+    dependencies:
+      '@ovyerus/licenses': 6.4.4
+      degit: 2.8.4
+      dotenv: 16.4.5
+      esbuild: 0.19.12
+      execa: 8.0.1
+      license: 1.0.3
+      ora: 8.0.1
+      package-json-type: 1.0.3
+      pretty-bytes: 6.1.1
+      prompts: 2.4.2
+      tslib: 2.6.3
+      typescript: 5.6.3
+      yargs: 17.7.2
+
   prisma@5.21.1:
     dependencies:
       '@prisma/engines': 5.21.1
@@ -16009,8 +16160,6 @@ snapshots:
 
   tiny-invariant@1.3.3: {}
 
-  tinybench@2.8.0: {}
-
   tinybench@2.9.0: {}
 
   tinyexec@0.3.1: {}
@@ -16020,13 +16169,9 @@ snapshots:
       fdir: 6.4.2(picomatch@4.0.2)
       picomatch: 4.0.2
 
-  tinypool@1.0.0: {}
-
   tinypool@1.0.1: {}
 
   tinyrainbow@1.2.0: {}
-
-  tinyspy@3.0.0: {}
 
   tinyspy@3.0.2: {}
 
@@ -16646,7 +16791,7 @@ snapshots:
   vite-node@2.0.4(@types/node@22.0.0)(terser@5.31.3):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.7
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
@@ -16803,19 +16948,19 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.4
-      '@vitest/pretty-format': 2.0.4
+      '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.0.4
       '@vitest/snapshot': 2.0.4
       '@vitest/spy': 2.0.4
       '@vitest/utils': 2.0.4
-      chai: 5.1.1
-      debug: 4.3.5
+      chai: 5.1.2
+      debug: 4.3.7
       execa: 8.0.1
-      magic-string: 0.30.10
+      magic-string: 0.30.12
       pathe: 1.1.2
       std-env: 3.7.0
-      tinybench: 2.8.0
-      tinypool: 1.0.0
+      tinybench: 2.9.0
+      tinypool: 1.0.1
       tinyrainbow: 1.2.0
       vite: 5.3.5(@types/node@22.0.0)(terser@5.31.3)
       vite-node: 2.0.4(@types/node@22.0.0)(terser@5.31.3)

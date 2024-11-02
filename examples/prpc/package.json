@@ -1,0 +1,44 @@
+{
+  "name": "dev-prpc",
+  "private": true,
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\""
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^9.8.0",
+    "eslint-plugin-solid": "^0.14.1",
+    "postcss": "^8.4.40",
+    "autoprefixer": "^10.4.19",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "@types/babel__core": "^7.20.5"
+  },
+  "dependencies": {
+    "@tanstack/solid-query": "^5.56.2",
+    "typescript": "^4.8.2",
+    "zod": "^3.22.4",
+    "@solidjs/router": "^0.14.5",
+    "@solidjs/start": "^1.0.6",
+    "solid-js": "^1.9.3",
+    "vinxi": "^0.4.3",
+    "@solidjs/meta": "^0.29.4",
+    "@auth/core": "0.35.0",
+    "@solid-mediakit/auth": "workspace:*",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@solid-mediakit/prpc": "workspace:*",
+    "@solid-mediakit/prpc-plugin": "workspace:*",
+    "clerk-solidjs": "^2.0.5"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 2.0.0
+
+### Major Changes
+
+- [#131](https://github.com/solidjs-community/mediakit/pull/131) [`2e20257`](https://github.com/solidjs-community/mediakit/commit/2e202575645476581249ff196c968c43b17008c9) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: .raw function & rename
+
 ## 1.2.1
 
 ### Patch Changes

@@ -167,6 +167,16 @@ export const notCached = createCaller(
     cached: false,
   },
 )
+
+export const protectedQuery = createCaller(
+  ({ session$ }) => {
+    console.log(session$.user)
+    return `Hey there ${session$.user.name}`
+  },
+  {
+    protected: true,
+  },
+)
 ```
 
 #### POST

@@ -1,0 +1,19 @@
+---
+title: 'error$'
+description: 'error$ Utility'
+---
+
+Use this function to **throw an error on the user side** (this will not affect the function type):
+
+```ts
+import { createCaller, error$ } from '@solid-mediakit/prpc'
+
+let shouldError = false
+
+export const myQuery = createCaller(() => {
+  if (shouldError) {
+    return error$('Why did i error')
+  }
+  return 'yes'
+})
+```

@@ -1,0 +1,71 @@
+{
+  "name": "@solid-mediakit/prpc-plugin",
+  "version": "1.5.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "pRPC",
+    "server$"
+  ],
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.25.7",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^9.8.0",
+    "pridepack": "2.6.1",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vitest": "2.0.4",
+    "@solidjs/start": "^1.0.9",
+    "vinxi": "^0.4.3"
+  },
+  "dependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rollup/pluginutils": "^5.1.0",
+    "@solid-mediakit/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "vinxi": "^0.4.3",
+    "@solidjs/start": "^1.0.9"
+  },
+  "scripts": {
+    "prepublishOnly": "pridepack clean && pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "lint": "pridepack lint",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch",
+    "start": "pridepack start",
+    "dev": "pridepack dev"
+  },
+  "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/cjs/production/index.cjs",
+  "module": "./dist/esm/production/index.mjs",
+  "exports": {
+    ".": {
+      "development": {
+        "require": "./dist/cjs/development/index.cjs",
+        "import": "./dist/esm/development/index.mjs"
+      },
+      "require": "./dist/cjs/production/index.cjs",
+      "import": "./dist/esm/production/index.mjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {}
+  }
+}

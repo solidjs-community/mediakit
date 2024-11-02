@@ -1,5 +1,5 @@
 ---
-'@solid-mediakit/authpc-plugin': patch
+'@solid-mediakit/prpc-plugin': patch
 ---
 
 force release

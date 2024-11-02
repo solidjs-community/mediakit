@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const docs = await getCollection("docs");
   return docs.map((entry) => ({
     params: {
-      slug: entry.slug,
+      slug: (entry as any).slug,
     },
     props: entry,
   }));

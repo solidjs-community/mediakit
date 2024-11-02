@@ -1,35 +1,37 @@
 ---
 title: 'Install'
-description: 'Installing AuthPC'
+description: 'Installing pRPC'
 ---
+
+> AuthPC was renamed to pRPC
 
 ## Install
 
-First install both the plugin & the authpc package
+First install both the plugin & the prpc package
 
+- `@solid-mediakit/prpc` - Where you import pRPC utils from.
+- `@solid-mediakit/prpc-plugin` - The vite plugin for pRPC (this is required for the app to work).
 - `@tanstack/solid-query` - We are using Solid Query under the hood to transform `createCaller` into `createQuery` / `createMutation`.
-- `@solid-mediakit/authpc` - Where you import AuthPC utils from.
-- `@solid-mediakit/authpc-plugin` - The vite plugin for AuthPC (this is required for the app to work).
 
 Simply run
 
 ```bash
-pnpm install @solid-mediakit/authpc@latest @solid-mediakit/authpc-plugin@latest @tanstack/solid-query@latest
+pnpm install @solid-mediakit/prpc@latest @solid-mediakit/prpc-plugin@latest @tanstack/solid-query@latest
 ```
 
 ### App Config
 
-Wrap your entire config with the `withAuthPC` method for typesafety:
+Wrap your entire config with the `withPRPC` method for typesafety:
 
 ```ts
-import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+import { withPRPC } from '@solid-mediakit/prpc-plugin'
 
-const config = withAuthPC({
+const config = withPRPC({
   ssr: true,
 })
 
 // this is important: otherwise you cannot access the session$ property
-declare module '@solid-mediakit/authpc' {
+declare module '@solid-mediakit/prpc' {
   interface Settings {
     config: typeof config
   }
@@ -41,7 +43,6 @@ export default config
 ### Note
 
 To use any auth provider, you need to follow the guides bellow, this is optional you don't have to use any auth provider with this library, if you don't use one, you will not be able to access the `session$` property.
-**Also if you don't use any auth provider, you need to wrap your app with the AuthPCProvider**
 
 - I Want To Use Auth By Using AuthJS - [`here`](#setting-up-authjs)
 - I Want To Use Auth By Using Clerk - [`here`](#setting-up-clerk)
@@ -68,6 +69,8 @@ CLERK_SECRET_KEY=
 
 #### Wrap Your App With ClerkProvider
 
+You must also add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
+
 `src/app.tsx` should be something like:
 
 ```tsx
@@ -77,8 +80,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { AuthPCProvider } from '@solid-mediakit/authpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { ClerkProvider } from 'clerk-solidjs'
 
 export default function App() {
@@ -91,9 +93,9 @@ export default function App() {
           <ClerkProvider
             publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
           >
-            <AuthPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </AuthPCProvider>
+            </QueryClientProvider>
           </ClerkProvider>
         </MetaProvider>
       )}
@@ -127,9 +129,9 @@ export default createMiddleware({
 This is it, you just need to modify `app.config.ts`
 
 ```ts
-import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+import { withPRPC } from '@solid-mediakit/prpc-plugin'
 
-const config = withAuthPC(
+const config = withPRPC(
   {
     ssr: true,
   },
@@ -144,7 +146,7 @@ const config = withAuthPC(
 
 export default config
 
-declare module '@solid-mediakit/authpc' {
+declare module '@solid-mediakit/prpc' {
   interface Settings {
     config: typeof config
   }
@@ -210,6 +212,8 @@ export const { GET, POST } = SolidAuth(authOpts)
 
 #### Wrap Your App With SessionProvider
 
+You must also add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
+
 `src/app.tsx` should be something like:
 
 ```tsx
@@ -220,7 +224,7 @@ import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
 import { QueryClient } from '@tanstack/solid-query'
-import { AuthPCProvider } from '@solid-mediakit/authpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { SessionProvider } from '@solid-mediakit/auth/client'
 
 export default function App() {
@@ -231,9 +235,9 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <SessionProvider>
-            <AuthPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </AuthPCProvider>
+            </QueryClientProvider>
           </SessionProvider>
         </MetaProvider>
       )}
@@ -249,9 +253,9 @@ export default function App() {
 This is it, you just need to modify `app.config.ts`
 
 ```ts
-import { withAuthPC } from '@solid-mediakit/authpc-plugin'
+import { withPRPC } from '@solid-mediakit/prpc-plugin'
 
-const config = withAuthPC(
+const config = withPRPC(
   {
     ssr: true,
   },
@@ -267,7 +271,7 @@ const config = withAuthPC(
 
 export default config
 
-declare module '@solid-mediakit/authpc' {
+declare module '@solid-mediakit/prpc' {
   interface Settings {
     config: typeof config
   }
@@ -275,6 +279,8 @@ declare module '@solid-mediakit/authpc' {
 ```
 
 ## Setting Up With No Auth
+
+You must add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
 
 `src/app.tsx` should be something like:
 
@@ -285,8 +291,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { AuthPCProvider } from '@solid-mediakit/authpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 
 export default function App() {
   const queryClient = new QueryClient()
@@ -295,9 +300,9 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
-          <AuthPCProvider queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
             <Suspense>{props.children}</Suspense>
-          </AuthPCProvider>
+          </QueryClientProvider>
         </MetaProvider>
       )}
     >
@@ -309,7 +314,7 @@ export default function App() {
 
 ## Links
 
-- [createCaller](/authpc/createcaller)
-- [redirect$](/authpc/redirect)
-- [error$](/authpc/error)
-- [response$](/authpc/response)
+- [createCaller](/prpc/createcaller)
+- [redirect$](/prpc/redirect)
+- [error$](/prpc/error)
+- [response$](/prpc/response)

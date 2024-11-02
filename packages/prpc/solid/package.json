@@ -63,6 +63,11 @@
     "vinxi": "^0.4.3",
     "@solidjs/meta": "^0.29.4"
   },
+  "peerDependenciesMeta": {
+    "@tanstack/solid-query": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=16"
   },

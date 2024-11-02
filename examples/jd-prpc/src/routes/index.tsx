@@ -1,11 +1,11 @@
-import { A } from '@solidjs/router'
+import { A, createAsync } from '@solidjs/router'
 import { useAuth } from '@solid-mediakit/auth/client'
 import { type VoidComponent, Match, Switch } from 'solid-js'
 import { helloQuery } from '~/server/hello/hello.queries'
 import { protectedQuery } from '~/server/user/user.queries'
 
 const Home: VoidComponent = () => {
-  const hello = helloQuery(() => ({ hello: 'from prpc' }))
+  const hello = createAsync(() => helloQuery.raw({ hello: 'from pRPC' }))
   return (
     <main class='flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#026d56] to-[#152a2c]'>
       <div class='container flex flex-col items-center justify-center gap-12 px-4 py-16 '>
@@ -36,7 +36,7 @@ const Home: VoidComponent = () => {
           </A>
         </div>
         <div class='flex flex-col items-center gap-2'>
-          <p class='text-2xl text-white'>{hello.data}</p>
+          <p class='text-2xl text-white'>{hello()}</p>
         </div>
       </div>
     </main>

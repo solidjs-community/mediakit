@@ -226,6 +226,7 @@ export type QueryRes<
       options?: InvalidateOptions,
     ): Promise<void>
   }
+  raw: (input: InferSchema<Schema>) => Promise<InferOutput<Fn>>
   (
     input: Schema extends undefined
       ? void | undefined
@@ -251,6 +252,7 @@ export type MutationRes<
     InferSchema<Schema>,
     R
   >
+  raw: (input: InferSchema<Schema>) => Promise<InferOutput<Fn>>
 }
 
 export type MWInput$<Ctx$ = undefined> = Ctx$ extends undefined

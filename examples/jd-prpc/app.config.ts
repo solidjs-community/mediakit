@@ -9,9 +9,6 @@ const config = withPRPC(
         external: ['@prisma/client'],
       },
     },
-    server: {
-      preset: 'vercel',
-    },
   },
   {
     log: true,

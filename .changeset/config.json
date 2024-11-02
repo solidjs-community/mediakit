@@ -18,6 +18,7 @@
     "og-example",
     "log-example",
     "dev-forms",
-    "@solid-mediakit/routetypes"
+    "@solid-mediakit/routetypes",
+    "dev-routetypes"
   ]
 }

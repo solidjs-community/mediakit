@@ -66,15 +66,25 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
   }
 
   if (actualOpts?.type === 'action') {
-    const _fn = (opts?: Action$Options<any, any, any>) => {
-      return createMutation(() => ({
-        mutationFn: async (input) =>
-          await wrapFn(fn, input, actualOpts.method ?? 'POST'),
-        mutationKey: ['prpc', 'mutation', key],
-        ...((opts?.() ?? {}) as any),
-      }))
-    }
-    return _fn as any
+    return new Proxy(
+      (opts?: Action$Options<any, any, any>) => {
+        return createMutation(() => ({
+          mutationFn: async (input) =>
+            await wrapFn(fn, input, actualOpts.method ?? 'POST'),
+          mutationKey: ['prpc', 'mutation', key],
+          ...((opts?.() ?? {}) as any),
+        }))
+      },
+      {
+        get(target, prop) {
+          if (prop === 'raw') {
+            return async (input: any) =>
+              await wrapFn(fn, input, actualOpts.method ?? 'POST')
+          }
+          return (target as any)[prop]
+        },
+      },
+    ) as any
   }
   const useUtils = createUseUtils(key)
   return new Proxy(
@@ -91,6 +101,9 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
       get(target, prop) {
         if (prop === 'useUtils') {
           return useUtils
+        } else if (prop === 'raw') {
+          return async (input: any) =>
+            await wrapFn(fn, input, actualOpts.method ?? 'POST')
         }
         return (target as any)[prop]
       },

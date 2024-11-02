@@ -22,7 +22,6 @@
     "@types/babel__core": "^7.20.5"
   },
   "dependencies": {
-    "@tanstack/solid-query": "^5.56.2",
     "typescript": "^4.8.2",
     "zod": "^3.22.4",
     "@solidjs/router": "^0.14.5",

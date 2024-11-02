@@ -4,21 +4,16 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
 import { SessionProvider } from '@solid-mediakit/auth/client'
 
 export default function App() {
-  const queryClient = new QueryClient()
   return (
     <Router
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <SessionProvider>
-            <PRPCProvider queryClient={queryClient}>
-              <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            <Suspense>{props.children}</Suspense>
           </SessionProvider>
         </MetaProvider>
       )}

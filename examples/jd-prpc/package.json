@@ -4,10 +4,11 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start",
+    "start": "pnpm with-env vinxi start",
     "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
     "push": "prisma db push",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "with-env": "dotenv -e ./.env --"
   },
   "type": "module",
   "devDependencies": {
@@ -18,7 +19,9 @@
     "eslint-plugin-solid": "^0.14.3",
     "typescript": "^5.6.2",
     "vite": "^5.1.6",
-    "prisma": "^5.20.0"
+    "prisma": "^5.20.0",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2"
   },
   "dependencies": {
     "@solidjs/router": "^0.14.10",
@@ -32,7 +35,6 @@
     "@auth/prisma-adapter": "^2.6.0",
     "@solid-mediakit/prpc": "workspace:*",
     "@solid-mediakit/prpc-plugin": "workspace:*",
-    "@tanstack/solid-query": "5.56.2",
     "@prisma/client": "^5.20.0",
     "postcss": "^8.4.40",
     "autoprefixer": "^10.4.19",

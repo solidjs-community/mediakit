@@ -3,6 +3,8 @@ title: 'createCaller'
 description: 'createCaller Method'
 ---
 
+> AuthPC was renamed to pRPC
+
 Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is GET & wrapped with Solid's `cache` function).
 
 ### API
@@ -10,6 +12,7 @@ Use this method to interact with the api, you can choose between a `query` or a 
 - [createCaller](#createcaller)
   - [Zod](#zod)
   - [ValiBot](#valibot)
+  - [Raw & Using createAsync](#raw)
   - [Client Error Handling](#error-handling)
   - [Middlewares & .use](#middlewares--use)
   - [Optimistic Updates](#optimistic-updates)
@@ -162,6 +165,16 @@ export const notCached = createCaller(
   },
   {
     cached: false,
+  },
+)
+
+export const protectedQuery = createCaller(
+  ({ session$ }) => {
+    console.log(session$.user)
+    return `Hey there ${session$.user.name}`
+  },
+  {
+    protected: true,
   },
 )
 ```
@@ -385,4 +398,26 @@ const MyComponent = () => {
     },
   }))
 }
+```
+
+## raw
+
+Each function has `function.raw` which is the transformed server function.
+
+```ts
+import { createCaller } from '@solid-mediakit/prpc'
+
+const fn = createCaller(() => 1)
+
+const callFn = async () => await fn.raw() // number
+```
+
+### createAsync
+
+Having this, we can ofc use Solid's built in createAsync
+
+```ts
+import { createAsync } from '@solidjs/router'
+
+const myAsyncSignal = createAsync(() => fn.raw(), { deferStream: true })
 ```

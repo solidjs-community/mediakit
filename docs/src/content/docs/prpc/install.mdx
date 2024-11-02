@@ -3,13 +3,15 @@ title: 'Install'
 description: 'Installing pRPC'
 ---
 
+> AuthPC was renamed to pRPC
+
 ## Install
 
 First install both the plugin & the prpc package
 
-- `@tanstack/solid-query` - We are using Solid Query under the hood to transform `createCaller` into `createQuery` / `createMutation`.
 - `@solid-mediakit/prpc` - Where you import pRPC utils from.
 - `@solid-mediakit/prpc-plugin` - The vite plugin for pRPC (this is required for the app to work).
+- `@tanstack/solid-query` - We are using Solid Query under the hood to transform `createCaller` into `createQuery` / `createMutation`.
 
 Simply run
 
@@ -41,7 +43,6 @@ export default config
 ### Note
 
 To use any auth provider, you need to follow the guides bellow, this is optional you don't have to use any auth provider with this library, if you don't use one, you will not be able to access the `session$` property.
-**Also if you don't use any auth provider, you need to wrap your app with the PRPCProvider**
 
 - I Want To Use Auth By Using AuthJS - [`here`](#setting-up-authjs)
 - I Want To Use Auth By Using Clerk - [`here`](#setting-up-clerk)
@@ -68,6 +69,8 @@ CLERK_SECRET_KEY=
 
 #### Wrap Your App With ClerkProvider
 
+You must also add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
+
 `src/app.tsx` should be something like:
 
 ```tsx
@@ -77,8 +80,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { ClerkProvider } from 'clerk-solidjs'
 
 export default function App() {
@@ -91,9 +93,9 @@ export default function App() {
           <ClerkProvider
             publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
           >
-            <PRPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            </QueryClientProvider>
           </ClerkProvider>
         </MetaProvider>
       )}
@@ -210,6 +212,8 @@ export const { GET, POST } = SolidAuth(authOpts)
 
 #### Wrap Your App With SessionProvider
 
+You must also add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
+
 `src/app.tsx` should be something like:
 
 ```tsx
@@ -220,7 +224,7 @@ import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
 import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { SessionProvider } from '@solid-mediakit/auth/client'
 
 export default function App() {
@@ -231,9 +235,9 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <SessionProvider>
-            <PRPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            </QueryClientProvider>
           </SessionProvider>
         </MetaProvider>
       )}
@@ -276,6 +280,8 @@ declare module '@solid-mediakit/prpc' {
 
 ## Setting Up With No Auth
 
+You must add the `QueryClientProvider` provider, even if you don't want to use Solid Query but rather the `function.raw`,
+
 `src/app.tsx` should be something like:
 
 ```tsx
@@ -285,8 +291,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 
 export default function App() {
   const queryClient = new QueryClient()
@@ -295,9 +300,9 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
-          <PRPCProvider queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
             <Suspense>{props.children}</Suspense>
-          </PRPCProvider>
+          </QueryClientProvider>
         </MetaProvider>
       )}
     >

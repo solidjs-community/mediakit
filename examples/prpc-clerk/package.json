@@ -32,7 +32,8 @@
     "@babel/preset-typescript": "^7.24.7",
     "@solid-mediakit/prpc": "workspace:*",
     "@solid-mediakit/prpc-plugin": "workspace:*",
-    "clerk-solidjs": "^2.0.5"
+    "clerk-solidjs": "^2.0.5",
+    "@tanstack/solid-query": "^5.59.17"
   },
   "engines": {
     "node": ">=16"

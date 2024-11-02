@@ -50,11 +50,10 @@ export default config
 ### Note
 
 To use any auth provider, you need to follow the guides bellow, this is optional you don't have to use any auth provider with this library, if you don't use one, you will not be able to access the `session$` property.
-**Also if you don't use any auth provider, you need to wrap your app with the PRPCProvider**
 
 - I Want To Use Auth By Using AuthJS - [here](#authjs)
 - I Want To Use Auth By Using Clerk - [here](#clerk)
-- I Don't Use Any Auth - [here](#PRPCProvider)
+- I Don't Use Any Auth - [here](#QueryClientProvider)
 
 ## API
 
@@ -479,8 +478,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { ClerkProvider } from 'clerk-solidjs'
 
 export default function App() {
@@ -493,9 +491,9 @@ export default function App() {
           <ClerkProvider
             publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
           >
-            <PRPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            </QueryClientProvider>
           </ClerkProvider>
         </MetaProvider>
       )}
@@ -621,8 +619,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { SessionProvider } from '@solid-mediakit/auth/client'
 
 export default function App() {
@@ -633,9 +630,9 @@ export default function App() {
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
           <SessionProvider>
-            <PRPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            </QueryClientProvider>
           </SessionProvider>
         </MetaProvider>
       )}
@@ -676,7 +673,7 @@ declare module '@solid-mediakit/prpc' {
 }
 ```
 
-### PRPCProvider
+### QueryClientProvider
 
 `src/app.tsx` should be something like:
 
@@ -687,8 +684,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 
 export default function App() {
   const queryClient = new QueryClient()
@@ -697,9 +693,9 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
-          <PRPCProvider queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
             <Suspense>{props.children}</Suspense>
-          </PRPCProvider>
+          </QueryClientProvider>
         </MetaProvider>
       )}
     >

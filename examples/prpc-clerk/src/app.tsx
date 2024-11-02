@@ -4,8 +4,7 @@ import { MetaProvider, Title } from '@solidjs/meta'
 import { Router } from '@solidjs/router'
 import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
-import { QueryClient } from '@tanstack/solid-query'
-import { PRPCProvider } from '@solid-mediakit/prpc/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import { ClerkProvider } from 'clerk-solidjs'
 
 export default function App() {
@@ -18,9 +17,9 @@ export default function App() {
           <ClerkProvider
             publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
           >
-            <PRPCProvider queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
               <Suspense>{props.children}</Suspense>
-            </PRPCProvider>
+            </QueryClientProvider>
           </ClerkProvider>
         </MetaProvider>
       )}

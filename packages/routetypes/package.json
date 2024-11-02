@@ -1,5 +1,6 @@
 {
   "name": "@solid-mediakit/routetypes",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
   "files": [
@@ -45,7 +46,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/production/index.cjs",
   "module": "./dist/esm/production/index.mjs",

@@ -3,6 +3,8 @@ title: 'createCaller'
 description: 'createCaller Method'
 ---
 
+> AuthPC was renamed to pRPC
+
 Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is GET & wrapped with Solid's `cache` function).
 
 ### API
@@ -28,7 +30,7 @@ Use this method to interact with the api, you can choose between a `query` or a 
 
 ```ts
 // server.ts
-import { createCaller } from '@solid-mediakit/authpc'
+import { createCaller } from '@solid-mediakit/prpc'
 
 const myServerQuery = createCaller(
   ({ session$ }) => {
@@ -49,7 +51,7 @@ const query = myServerQuery()
 
 ```ts
 // server.ts
-import { createCaller } from '@solid-mediakit/authpc'
+import { createCaller } from '@solid-mediakit/prpc'
 import { z } from 'zod'
 
 const mySchema = z.object({ name: z.string() })
@@ -74,7 +76,7 @@ const query = myServerQuery(() => ({ name: 'Demo' }))
 
 ```ts
 // server.ts
-import { createCaller } from '@solid-mediakit/authpc'
+import { createCaller } from '@solid-mediakit/prpc'
 import * as v from 'valibot'
 
 const mySchema = v.object({ name: v.string() })
@@ -97,7 +99,7 @@ const query = myServerQuery(() => ({ name: 'Demo' }))
 
 ### Error Handling
 
-Errors are thrown using the `AuthPClientError` class. When the server function has a schema defined, you can use the `isValidationError` to get the issues.
+Errors are thrown using the `PRPClientError` class. When the server function has a schema defined, you can use the `isValidationError` to get the issues.
 
 ```tsx
 import { createEffect } from 'solid-js'
@@ -131,7 +133,7 @@ You can choose any method (GET || POST), regardless of the function type (defaul
 This is the default so you don't have to mention it
 
 ```ts
-import { createCaller, response$ } from '@solid-mediakit/authpc'
+import { createCaller, response$ } from '@solid-mediakit/prpc'
 
 export const getRequest = createCaller(
   () => {
@@ -172,7 +174,7 @@ You can also use `POST` with queries.
 When using `mutations` / `actions` you don't have to specify the method and the default will be `POST`
 
 ```ts
-import { createCaller, response$ } from '@solid-mediakit/authpc'
+import { createCaller, response$ } from '@solid-mediakit/prpc'
 
 export const postRequest = createCaller(
   () => {
@@ -202,7 +204,7 @@ In addition to methods, you can also choose a function type (the function type w
 This is the default, you don't have to specify this:
 
 ```ts
-import { createCaller } from '@solid-mediakit/authpc'
+import { createCaller } from '@solid-mediakit/prpc'
 
 const thisIsAQuery = createCaller(() => {
   return 1
@@ -227,7 +229,7 @@ query.data // number
 You can either specify `{type: 'action'}` or use the `createAction` method
 
 ```ts
-import { createCaller, createAction } from '@solid-mediakit/authpc'
+import { createCaller, createAction } from '@solid-mediakit/prpc'
 
 const thisIsAMutation = createCaller(
   () => {
@@ -257,7 +259,7 @@ You can combine multiple callers / middlewares and import them to different file
 In this file we create a caller with a custom middleware and then export it so it could be use in other files as-well.
 
 ```ts
-import { createCaller } from '@solid-mediakit/authpc'
+import { createCaller } from '@solid-mediakit/prpc'
 
 export const withMw1 = createCaller.use(() => {
   return {
@@ -293,14 +295,14 @@ export const action2 = withMw2(({ ctx$ }) => {
 
 ## Utils
 
-AuthPC contains many utils out of the box, like redirection, erroring, setting cookies, etc.
+pRPC contains many utils out of the box, like redirection, erroring, setting cookies, etc.
 
 ### redirect$
 
 Use this function to **redirect the user** (this will not affect the function type):
 
 ```ts
-import { createCaller, redirect$ } from '@solid-mediakit/authpc'
+import { createCaller, redirect$ } from '@solid-mediakit/prpc'
 
 let redirect = false
 
@@ -317,7 +319,7 @@ export const myQuery = createCaller(() => {
 Use this function to **throw an error on the user side** (this will not affect the function type):
 
 ```ts
-import { createCaller, error$ } from '@solid-mediakit/authpc'
+import { createCaller, error$ } from '@solid-mediakit/prpc'
 
 let shouldError = false
 
@@ -334,7 +336,7 @@ export const myQuery = createCaller(() => {
 Use this function to **return data & modify headers** (the return type is also infered from the data passed to response$):
 
 ```ts
-import { createCaller, response$ } from '@solid-mediakit/authpc'
+import { createCaller, response$ } from '@solid-mediakit/prpc'
 
 let setHeader = false
 

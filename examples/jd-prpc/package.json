@@ -1,0 +1,44 @@
+{
+  "name": "dev-jd-prpc",
+  "private": true,
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
+    "push": "prisma db push",
+    "postinstall": "prisma generate"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.11.26",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-solid": "^0.14.3",
+    "typescript": "^5.6.2",
+    "vite": "^5.1.6",
+    "prisma": "^5.20.0"
+  },
+  "dependencies": {
+    "@solidjs/router": "^0.14.10",
+    "@solidjs/start": "^1.0.9",
+    "solid-js": "^1.9.3",
+    "vinxi": "^0.4.3",
+    "@solidjs/meta": "^0.29.4",
+    "zod": "^3.22.4",
+    "@auth/core": "0.35.0",
+    "@solid-mediakit/auth": "workspace:*",
+    "@auth/prisma-adapter": "^2.6.0",
+    "@solid-mediakit/prpc": "workspace:*",
+    "@solid-mediakit/prpc-plugin": "workspace:*",
+    "@tanstack/solid-query": "5.56.2",
+    "@prisma/client": "^5.20.0",
+    "postcss": "^8.4.40",
+    "autoprefixer": "^10.4.19",
+    "tailwindcss": "^3.4.7"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/prpc-plugin",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "type": "module",
   "files": [
     "dist"

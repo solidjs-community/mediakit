@@ -110,7 +110,7 @@ export const appendRouteAction = (
   const userKey = opts?.userKey ?? 'media-user'
   let getUserR: ReturnType<ReturnType<typeof temp>> | undefined = undefined
   if (args.fallBack) {
-    getUserR = temp`const _$$getUser = cache(async () => {
+    getUserR = temp`const _$$getUser = query(async () => {
       'use server'
       const event = getRequestEvent()
       return await getSession(event.request, authOptions)
@@ -118,7 +118,7 @@ export const appendRouteAction = (
     `()
   } else {
     if (args.reverse) {
-      getUserR = temp`const _$$getUser = cache(async () => {
+      getUserR = temp`const _$$getUser = query(async () => {
         'use server'
         const event = getRequestEvent()
         const session = await getSession(event.request, authOptions)
@@ -129,7 +129,7 @@ export const appendRouteAction = (
       }, '${userKey}');
       `()
     } else {
-      getUserR = temp`const _$$getUser = cache(async () => {
+      getUserR = temp`const _$$getUser = query(async () => {
       'use server'
       const event = getRequestEvent()
       const session = await getSession(event.request, authOptions)

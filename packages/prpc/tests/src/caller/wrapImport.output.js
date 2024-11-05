@@ -1,11 +1,11 @@
-import { cache } from '@solidjs/router'
+import { query } from '@solidjs/router'
 import { createCaller, callMiddleware$ } from '@solid-mediakit/prpc'
 import { getRequestEvent } from 'solid-js/web'
 import { importCaller, _$$importCaller_mws } from './withImport'
 import { myCaller, _$$myCaller_mws } from './withMw'
 export const wrappedImport = importCaller
 export const wrappedQuery = createCaller(
-  cache(async (_$$payload) => {
+  query(async (_$$payload) => {
     'use server'
     const _$$event = getRequestEvent()
     const ctx$ = await callMiddleware$(_$$event, _$$wrappedImport_mws)
@@ -23,7 +23,7 @@ export const wrappedQuery = createCaller(
 )
 export const testCaller = myCaller
 export const testQuery = createCaller(
-  cache(async (_$$payload) => {
+  query(async (_$$payload) => {
     'use server'
     const _$$event = getRequestEvent()
     const ctx$ = await callMiddleware$(_$$event, _$$testCaller_mws)

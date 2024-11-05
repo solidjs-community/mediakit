@@ -1,10 +1,10 @@
 import { getSession } from '@solid-mediakit/auth'
-import { cache, createAsync, redirect } from '@solidjs/router'
+import { query, createAsync, redirect } from '@solidjs/router'
 import { authOptions } from '~/server/auth'
 import { Show } from 'solid-js'
 import { getRequestEvent } from 'solid-js/web'
 
-const getUser = cache(async () => {
+const getUser = query(async () => {
   'use server'
   const event = getRequestEvent()!
   const session = await getSession(event.request, authOptions)
@@ -14,7 +14,7 @@ const getUser = cache(async () => {
   return session
 }, 'user')
 
-const getSomething = cache(async () => {
+const getSomething = query(async () => {
   'use server'
   const event = getRequestEvent()!
   await new Promise((resolve) => setTimeout(resolve, 3000))

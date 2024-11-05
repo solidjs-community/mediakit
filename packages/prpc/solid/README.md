@@ -76,7 +76,7 @@ To use any auth provider, you need to follow the guides bellow, this is optional
 
 ## createCaller
 
-Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is GET & wrapped with Solid's `cache` function).
+Use this method to interact with the api, you can choose between a `query` or a `mutation` (default is query) and also choose to use either `GET`/`POST` as the request method (default is GET & wrapped with Solid's `query` function).
 
 ### No Schema
 
@@ -181,7 +181,7 @@ export default MyClient
 
 ### Methods
 
-You can choose any method (GET || POST), regardless of the function type (default is GET & wrapped with Solid's `cache` function)
+You can choose any method (GET || POST), regardless of the function type (default is GET & wrapped with Solid's `query` function)
 
 #### GET
 

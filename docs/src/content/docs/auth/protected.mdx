@@ -66,11 +66,11 @@ This is it! you are good to go.
 ```ts
 export function protected$(
   page: (session$: Session) => JSXElement,
-  fallBack: () => JSXElement
+  fallBack: () => JSXElement,
 ): VoidComponent
 export function protected$(
   page: (session$: Session) => JSXElement,
-  redirectTo?: string
+  redirectTo?: string,
 ): VoidComponent
 export function protected$(...args: any[]): VoidComponent {
   throw new Error('Should be compiled by the auth plugin.')
@@ -94,10 +94,10 @@ import { getSession } from '@solid-mediakit/auth'
 import { getRequestEvent } from 'solid-js/web'
 import { createAsync } from '@solidjs/router'
 import { redirect } from '@solidjs/router'
-import { cache } from '@solidjs/router'
+import { query } from '@solidjs/router'
 import { protected$ } from '@solid-mediakit/auth'
 
-const _$$getUser = cache(async () => {
+const _$$getUser = query(async () => {
   'use server'
 
   const event = getRequestEvent()
@@ -143,7 +143,7 @@ export default protected$(
       </div>
     )
   },
-  () => <div>Not logged in</div>
+  () => <div>Not logged in</div>,
 )
 ```
 
@@ -154,11 +154,11 @@ import { Show } from 'solid-js'
 import { getSession } from '@solid-mediakit/auth'
 import { getRequestEvent } from 'solid-js/web'
 import { createAsync } from '@solidjs/router'
-import { cache } from '@solidjs/router'
+import { query } from '@solidjs/router'
 import { protected$ } from '@solid-mediakit/auth'
 import { protectedQuery } from '~/server/user/user.queries'
 
-const _$$getUser = cache(async () => {
+const _$$getUser = query(async () => {
   'use server'
 
   const event = getRequestEvent()

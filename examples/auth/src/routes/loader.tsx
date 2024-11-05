@@ -1,8 +1,8 @@
 import { protected$ } from '@solid-mediakit/auth'
-import { cache, createAsync } from '@solidjs/router'
+import { query, createAsync } from '@solidjs/router'
 import { Show, getRequestEvent } from 'solid-js/web'
 
-const getSomething = cache(async () => {
+const getSomething = query(async () => {
   'use server'
   const event = getRequestEvent()!
   await new Promise((resolve) => setTimeout(resolve, 3000))
@@ -28,5 +28,5 @@ export default protected$(
       </main>
     )
   },
-  () => <div>not logged in</div>
+  () => <div>not logged in</div>,
 )

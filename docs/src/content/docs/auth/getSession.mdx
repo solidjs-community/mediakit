@@ -26,11 +26,11 @@ async function getMySession(request: Request) {
 
 ```ts
 import { getSession } from '@solid-mediakit/auth'
-import { cache, createAsync, redirect } from '@solidjs/router'
+import { query, createAsync, redirect } from '@solidjs/router'
 import { authOptions } from './server/auth'
 import { getRequestEvent } from 'solid-js/web'
 
-const getUser = cache(async () => {
+const getUser = query(async () => {
   'use server'
   const event = getRequestEvent()!
   const session = await getSession(event, authOptions)

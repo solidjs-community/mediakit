@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/prpc",
   "description": "Type-safe utility library for Solid",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "build": "rimraf dist && tsup --config ./tsup.config.ts",
     "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",

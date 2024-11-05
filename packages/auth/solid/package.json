@@ -43,31 +43,31 @@
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "devDependencies": {
+    "@auth/core": "^0.35.0",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.1",
+    "@solidjs/start": "^1.0.6",
+    "@types/node": "^20.14.9",
+    "@types/set-cookie-parser": "^2.4.9",
+    "@typescript-eslint/parser": "^7.14.1",
     "rollup": "^4.18.0",
     "rollup-preset-solid": "^2.0.1",
-    "@types/node": "^20.14.9",
-    "@typescript-eslint/parser": "^7.14.1",
-    "typescript": "^5.5.2",
-    "@types/set-cookie-parser": "^2.4.9",
-    "@auth/core": "^0.35.0",
-    "@solidjs/router": "^0.14.10",
-    "@solidjs/start": "^1.0.6",
     "solid-js": "^1.8.19",
-    "vinxi": "^0.4.3",
-    "@solidjs/meta": "^0.29.4"
+    "typescript": "^5.5.2",
+    "vinxi": "^0.4.3"
   },
   "dependencies": {
     "@solid-mediakit/shared": "workspace:*",
-    "set-cookie-parser": "^2.6.0",
-    "cookie": "^0.6.0"
+    "cookie": "^0.6.0",
+    "set-cookie-parser": "^2.6.0"
   },
   "peerDependencies": {
     "@auth/core": "^0.35.0",
+    "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.14.10",
     "@solidjs/start": "^1.0.6",
     "solid-js": "^1.8.19",
-    "vinxi": "^0.4.3",
-    "@solidjs/meta": "^0.29.4"
+    "vinxi": "^0.4.3"
   },
   "engines": {
     "node": ">=16"

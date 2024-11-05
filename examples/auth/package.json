@@ -9,28 +9,28 @@
   },
   "type": "module",
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "autoprefixer": "^10.4.19",
+    "esbuild": "^0.23.0",
     "eslint": "^9.8.0",
     "eslint-plugin-solid": "^0.14.1",
-    "@types/node": "^22.0.0",
-    "esbuild": "^0.23.0",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
-    "autoprefixer": "^10.4.19",
     "typescript": "^5.5.4",
     "vite": "^5.3.5"
   },
   "dependencies": {
-    "zod": "^3.23.8",
-    "@solid-mediakit/auth": "workspace:*",
     "@auth/core": "^0.35.0",
-    "@solidjs/router": "^0.14.10",
+    "@solid-mediakit/auth": "workspace:*",
+    "@solid-mediakit/auth-plugin": "workspace:*",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.1",
     "@solidjs/start": "^1.0.8",
     "solid-js": "^1.9.2",
     "vinxi": "^0.4.3",
-    "@solidjs/meta": "^0.29.4",
-    "@solid-mediakit/auth-plugin": "workspace:*"
+    "zod": "^3.23.8"
   },
   "engines": {
     "node": ">=16"

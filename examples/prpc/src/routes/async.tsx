@@ -1,9 +1,9 @@
 import { createAsync } from '@solidjs/router'
 import { type VoidComponent } from 'solid-js'
-import { getRequest } from '~/use/use'
+import { redirectRequet } from '~/use/test2'
 
 const Home: VoidComponent = () => {
-  const hello1 = createAsync(() => getRequest.raw({ test: 'yes' }), {
+  const hello1 = createAsync(() => redirectRequet.raw(), {
     deferStream: true,
   })
 

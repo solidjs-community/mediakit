@@ -10,13 +10,14 @@ import type {
   QueryRes,
 } from './types'
 import type { ZodSchema, infer as _ZodInfer } from 'zod'
-import { isRedirectResponse, wrapFn } from './wrap'
+import { wrapFn } from './wrap'
 import {
   createMutation,
   createQuery,
   useQueryClient,
 } from '@tanstack/solid-query'
-import { mergeProps } from 'solid-js/web'
+import { useNavigate } from '@solidjs/router'
+import { getOwner } from 'solid-js/web'
 
 export const createCaller = new Proxy(
   (...args: any[]) => {
@@ -66,16 +67,18 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
     throw new Error('Something went wrong')
   }
 
+  const getNavigate = () => (getOwner() ? useNavigate() : undefined)
+
   if (actualOpts?.type === 'action') {
     return new Proxy(
       (opts?: Action$Options<any, any, any>) => {
-        const newOpts = getNewMutationOpts(opts)
+        const navigate = getNavigate()
         return createMutation(() => {
           return {
             mutationFn: async (input) =>
-              await wrapFn(fn, input, actualOpts.method ?? 'POST'),
+              await wrapFn(fn, input, actualOpts.method ?? 'POST', navigate),
             mutationKey: ['prpc', 'mutation', key],
-            ...((newOpts?.() ?? {}) as any),
+            ...((opts?.() ?? {}) as any),
           }
         })
       },
@@ -83,7 +86,12 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
         get(target, prop) {
           if (prop === 'raw') {
             return async (input: any) =>
-              await wrapFn(fn, input, actualOpts.method ?? 'POST')
+              await wrapFn(
+                fn,
+                input,
+                actualOpts.method ?? 'POST',
+                getNavigate(),
+              )
           }
 
           return (target as any)[prop]
@@ -95,10 +103,11 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
   const useUtils = createUseUtils(key)
   return new Proxy(
     (input: any, opts?: GET$Options<undefined, any>) => {
+      const navigate = getNavigate()
       return createQuery(() => {
         return {
           queryFn: async () =>
-            await wrapFn(fn, input, actualOpts.method ?? 'POST'),
+            await wrapFn(fn, input, actualOpts.method ?? 'POST', navigate),
           queryKey: ['prpc', 'query', key, input ? input() : undefined],
           experimental_prefetchInRender: true,
           ...((opts?.() ?? {}) as any),
@@ -111,7 +120,7 @@ function _ACTION$(...args: any[]): QueryRes<any, any> {
           return useUtils
         } else if (prop === 'raw') {
           return async (input: any) =>
-            await wrapFn(fn, input, actualOpts.method ?? 'POST')
+            await wrapFn(fn, input, actualOpts.method ?? 'POST', getNavigate())
         }
         return (target as any)[prop]
       },
@@ -158,20 +167,4 @@ export const createUseUtils = (key: string) => {
     } satisfies ReturnType<R['useUtils']>
   }
   return useUtils
-}
-
-const getNewMutationOpts = (queryOpts?: () => any) => {
-  const navigate = (url?: string | null) => void url
-  return () =>
-    mergeProps(queryOpts?.(), {
-      onSuccess: async (data: Response, variables: any, context: any) => {
-        if (data instanceof Response) {
-          if (isRedirectResponse(data)) {
-            navigate(data.headers.get('Location'))
-          }
-        } else {
-          return queryOpts?.().onSuccess?.(data, variables, context)
-        }
-      },
-    })
 }

@@ -1,63 +1,56 @@
 import { getRequestEvent, isServer } from 'solid-js/web'
 import { PRPClientError } from './error'
 import { ExpectedFn$ } from './types'
+import { startTransition } from 'solid-js'
 
 export async function wrapFn<Fn extends ExpectedFn$<any, any>>(
   callFn: Fn,
   input: any,
   method: 'GET' | 'POST',
+  navigate?: (url: string, opts?: { replace?: boolean }) => void,
 ) {
-  const innerFn = async () => {
-    const handleResponse = genHandleResponse()
+  const handleResponse = genHandleResponse()
 
-    const input$ = input
-      ? typeof input === 'function'
-        ? input()
-        : input
-      : undefined
-    try {
-      const response = await callFn(
-        method === 'GET' ? (JSON.stringify(input$) as any) : { input$ },
-      )
-      if (response instanceof Response) {
-        const url = response.headers.get('Location')
-        const isRedirect = isRedirectResponse(response) ? url : null
-        handleResponse?.(response, isRedirect)
-        if (response.headers.get('X-pRPC-Error') === '1') {
-          const isValidationError =
-            response.headers.get('X-pRPC-Validation') === '1'
-          const error = await optionalData(response)
-          throw new PRPClientError(
-            error.error.message,
-            isValidationError ? error.error.issues : error.error,
-            isValidationError,
-          )
-        } else if (isRedirect) {
-          return {
-            ['prpc-redirect']: isRedirect,
-          }
+  const input$ = input
+    ? typeof input === 'function'
+      ? input()
+      : input
+    : undefined
+  try {
+    const response = await callFn(
+      method === 'GET' ? (JSON.stringify(input$) as any) : { input$ },
+    )
+    if (response instanceof Response) {
+      const url = response.headers.get('Location')
+      const isRedirect = isRedirectResponse(response) ? url : null
+      handleResponse?.(response, isRedirect)
+      if (response.headers.get('X-pRPC-Error') === '1') {
+        const isValidationError =
+          response.headers.get('X-pRPC-Validation') === '1'
+        const error = await optionalData(response)
+        throw new PRPClientError(
+          error.error.message,
+          isValidationError ? error.error.issues : error.error,
+          isValidationError,
+        )
+      } else if (isRedirect) {
+        if (navigate && isRedirect.startsWith('/'))
+          startTransition(() => {
+            navigate(isRedirect, { replace: true })
+          })
+        else if (!isServer) window.location.href = isRedirect
+        return {
+          ['prpc-redirect']: isRedirect,
         }
-
-        // else if (isRedirect) {
-        //   if (url !== null) {
-        //     if (navigate && url.startsWith('/'))
-        //       startTransition(() => {
-        //         navigate(url, { replace: true })
-        //       })
-        //     else if (!isServer) window.Location.href = url
-        //   }
-        // } else {
-        //   return await optionalData(response)
-        // }
-        else return await optionalData(response)
+      } else {
+        return await optionalData(response)
       }
-      return response
-    } catch (e: any) {
-      if (e instanceof PRPClientError) throw e
-      throw new PRPClientError(e.message, e)
     }
+    return response
+  } catch (e: any) {
+    if (e instanceof PRPClientError) throw e
+    throw new PRPClientError(e.message, e)
   }
-  return await innerFn()
 }
 
 export const optionalData = async (response: Response) => {

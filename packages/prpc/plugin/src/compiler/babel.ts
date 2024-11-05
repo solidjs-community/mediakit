@@ -140,7 +140,7 @@ export function createTransform$(opts?: PRPCPluginOptions<any>) {
               importIfNotThere(
                 path,
                 t,
-                args._cache ? 'cache' : 'GET',
+                args._cache ? 'query' : 'GET',
                 args._cache ? '@solidjs/router' : '@solidjs/start',
               )
             }
@@ -148,7 +148,7 @@ export function createTransform$(opts?: PRPCPluginOptions<any>) {
             const wrappedArg =
               args._method === 'GET'
                 ? t.callExpression(
-                    t.identifier(args._cache ? 'cache' : 'GET'),
+                    t.identifier(args._cache ? 'query' : 'GET'),
                     [originFn],
                   )
                 : originFn

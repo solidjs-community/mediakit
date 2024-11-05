@@ -9,6 +9,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@types/babel__core": "^7.20.5",
     "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
@@ -18,22 +19,21 @@
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5",
-    "@types/babel__core": "^7.20.5"
+    "vite": "^5.3.5"
   },
   "dependencies": {
-    "typescript": "^4.8.2",
-    "zod": "^3.22.4",
-    "@solidjs/router": "^0.14.5",
-    "@solidjs/start": "^1.0.6",
-    "solid-js": "^1.8.19",
-    "vinxi": "^0.4.3",
-    "@solidjs/meta": "^0.29.4",
     "@babel/preset-typescript": "^7.24.7",
     "@solid-mediakit/prpc": "workspace:*",
     "@solid-mediakit/prpc-plugin": "workspace:*",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.1",
+    "@solidjs/start": "^1.0.6",
+    "@tanstack/solid-query": "^5.59.17",
     "clerk-solidjs": "^2.0.5",
-    "@tanstack/solid-query": "^5.59.17"
+    "solid-js": "^1.8.19",
+    "typescript": "^4.8.2",
+    "vinxi": "^0.4.3",
+    "zod": "^3.22.4"
   },
   "engines": {
     "node": ">=16"

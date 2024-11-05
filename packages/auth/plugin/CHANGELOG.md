@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.2.0
+
+### Minor Changes
+
+- [`e84cf4d`](https://github.com/solidjs-community/mediakit/commit/e84cf4d9cbdba06668053d59f5fb407e8e071ade) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use solid's query instead of cache
+
 ## 1.1.4
 
 ### Patch Changes

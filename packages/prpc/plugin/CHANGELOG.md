@@ -1,5 +1,15 @@
 # @solid-mediakit/prpc-plugin
 
+## 2.1.0
+
+### Minor Changes
+
+- [`8e1bda2`](https://github.com/solidjs-community/mediakit/commit/8e1bda232e53a73996ac23e43835d625d1dbd091) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: fix the redirect function
+
+### Patch Changes
+
+- [`3303013`](https://github.com/solidjs-community/mediakit/commit/3303013b88fd56cc245c6f14a69f17409a15de08) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: minor block statements fixse
+
 ## 2.0.0
 
 ### Major Changes

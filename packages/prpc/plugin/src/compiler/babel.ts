@@ -126,9 +126,15 @@ export function createTransform$(opts?: PRPCPluginOptions<any>) {
               true,
             )
 
-            ;(originFn.body as any).body.unshift(
-              t.expressionStatement(t.stringLiteral('use server')),
-            )
+            const expr = t.expressionStatement(t.stringLiteral('use server'))
+            if (Array.isArray((originFn.body as any)?.body)) {
+              ;(originFn.body as any).body.unshift(expr)
+            } else {
+              ;(originFn.body as any) = t.blockStatement([
+                expr,
+                t.returnStatement(originFn.body as any),
+              ])
+            }
 
             if (args._method === 'GET') {
               importIfNotThere(

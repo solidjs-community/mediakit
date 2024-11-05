@@ -208,19 +208,6 @@ export const getRequest2 = createCaller(() => {
     { headers: { 'cache-control': 'max-age=60' } },
   )
 })
-
-// this will not be wrapped with solid's `cache`
-export const notCached = createCaller(
-  () => {
-    return response$(
-      { iSetTheHeader: true },
-      { headers: { 'cache-control': 'max-age=60' } },
-    )
-  },
-  {
-    cached: false,
-  },
-)
 ```
 
 #### POST

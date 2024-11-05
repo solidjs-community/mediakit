@@ -29,7 +29,13 @@ export const validateSchema = async <Schema extends RequiredAllowedSchemas>(
 }
 
 export const redirect$ = (url: string, init?: ResponseInit) => {
-  return redirect(url, init)
+  return redirect(url, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      'X-pRPC-Redirect': '1',
+    },
+  })
 }
 
 export const response$ = <T>(data: T, init?: ResponseInit): T => {

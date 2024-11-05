@@ -1,5 +1,10 @@
 import { z } from 'zod'
-import { createCaller, error$, response$ } from '@solid-mediakit/prpc'
+import {
+  createCaller,
+  error$,
+  redirect$,
+  response$,
+} from '@solid-mediakit/prpc'
 
 export const withMws = createCaller
   .use(async () => {
@@ -56,6 +61,7 @@ export const getRequest = createCaller(
 export const mutationTest3 = qfn(
   z.object({ ok: z.number(), test: z.object({ l: z.string() }) }),
   ({ input$ }) => {
+    if (input$.ok === 4) return redirect$('/test')
     return `${input$.ok}`
   },
   {

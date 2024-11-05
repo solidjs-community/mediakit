@@ -155,19 +155,6 @@ export const getRequest2 = createCaller(() => {
   )
 })
 
-// this will not be wrapped with solid's `cache`
-export const notCached = createCaller(
-  () => {
-    return response$(
-      { iSetTheHeader: true },
-      { headers: { 'cache-control': 'max-age=60' } },
-    )
-  },
-  {
-    cached: false,
-  },
-)
-
 export const protectedQuery = createCaller(
   ({ session$ }) => {
     console.log(session$.user)

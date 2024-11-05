@@ -25,7 +25,7 @@ const Home: VoidComponent = () => {
         <button
           onClick={() => {
             try {
-              myMutation.mutateAsync({ ok: 3, test: { l: 'test' } })
+              myMutation.mutateAsync({ ok: 4, test: { l: 'test' } })
             } catch (e) {
               console.error('here', e)
             }

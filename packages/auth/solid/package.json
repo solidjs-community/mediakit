@@ -62,11 +62,11 @@
     "set-cookie-parser": "^2.6.0"
   },
   "peerDependencies": {
-    "@auth/core": "^0.35.0",
+    "@auth/core": "^0.37.3",
     "@solidjs/meta": "^0.29.4",
-    "@solidjs/router": "^0.14.10",
-    "@solidjs/start": "^1.0.6",
-    "solid-js": "^1.8.19",
+    "@solidjs/router": "^0.15.1",
+    "@solidjs/start": "^1.0.10",
+    "solid-js": "^1.9.1",
     "vinxi": "^0.4.3"
   },
   "engines": {

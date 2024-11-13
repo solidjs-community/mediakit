@@ -132,6 +132,9 @@ importers:
       '@solidjs/start':
         specifier: ^1.0.8
         version: 1.0.8(solid-js@1.9.2)(vinxi@0.4.3(@types/node@22.0.0)(ioredis@5.4.1)(terser@5.31.3))(vite@5.3.5(@types/node@22.0.0)(terser@5.31.3))
+      solid-icons:
+        specifier: ^1.1.0
+        version: 1.1.0(solid-js@1.9.2)
       solid-js:
         specifier: ^1.9.2
         version: 1.9.2
@@ -855,7 +858,7 @@ importers:
         version: link:../shared
       '@solidjs/meta':
         specifier: ^0.29.4
-        version: 0.29.4(solid-js@1.8.19)
+        version: 0.29.4(solid-js@1.9.3)
       '@vercel/og':
         specifier: ^0.6.2
         version: 0.6.2
@@ -7167,6 +7170,11 @@ packages:
   snakecase-keys@5.4.4:
     resolution: {integrity: sha512-YTywJG93yxwHLgrYLZjlC75moVEX04LZM4FHfihjHe1FCXm+QaLOFfSf535aXOAd0ArVQMWUAe8ZPm4VtWyXaA==}
     engines: {node: '>=12'}
+
+  solid-icons@1.1.0:
+    resolution: {integrity: sha512-IesTfr/F1ElVwH2E1110s2RPXH4pujKfSs+koT8rwuTAdleO5s26lNSpqJV7D1+QHooJj18mcOiz2PIKs0ic+A==}
+    peerDependencies:
+      solid-js: '*'
 
   solid-js@1.8.19:
     resolution: {integrity: sha512-h8z/TvTQYsf894LM9Iau/ZW2iAKrCzAWDwjPhMcXnonmW1OIIihc28wp82b1wwei1p81fH5+gnfNOe8RzLbDRQ==}
@@ -15865,6 +15873,10 @@ snapshots:
       map-obj: 4.3.0
       snake-case: 3.0.4
       type-fest: 2.19.0
+
+  solid-icons@1.1.0(solid-js@1.9.2):
+    dependencies:
+      solid-js: 1.9.2
 
   solid-js@1.8.19:
     dependencies:

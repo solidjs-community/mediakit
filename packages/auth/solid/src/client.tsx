@@ -21,7 +21,7 @@ import {
 
 export const SessionContext = createContext<{
   sessionState: Accessor<SessionState>
-  refetchSessionState: () => unknown
+  refetchSessionState: (force?: boolean) => Promise<SessionState>
 }>(undefined)
 
 export interface SessionProviderProps {
@@ -106,6 +106,7 @@ export const useAuth = (): AuthRes => {
         | 'unauthenticated'
         | 'loading',
     session: () => value.sessionState().data as Session | null | undefined,
+    refetch: async (force?: boolean) => await value.refetchSessionState(force),
   }
 }
 
@@ -124,7 +125,7 @@ export function SessionProvider(props: SessionProviderProps) {
     ? getSessionFromEvent(event! as unknown as AuthEvent)
     : undefined
 
-  const _innerAction = async (): Promise<SessionState> => {
+  const authAction = async (): Promise<SessionState> => {
     try {
       const _session = await getSession(event)
       if (_session) {
@@ -138,7 +139,7 @@ export function SessionProvider(props: SessionProviderProps) {
         data: null,
       }
     } catch (e) {
-      console.error('@auth', e)
+      console.error('@solid-mediakit/auth error', e)
       return {
         status: 'unauthenticated',
         data: null,
@@ -146,36 +147,45 @@ export function SessionProvider(props: SessionProviderProps) {
     }
   }
 
-  const authAction = async (initial?: boolean): Promise<SessionState> => {
-    if (initial && initialSession !== undefined && !props.refetchAfterServer) {
-      return getSessionState(initialSession)
-    }
-    return await _innerAction()
-  }
+  const [sessionState, { refetch: refetchSessionState }] =
+    createResource<SessionState>(
+      async (_, info) => {
+        const isForced =
+          typeof info.refetching === 'object'
+            ? (info.refetching as { force?: boolean }).force
+            : false
+        const prev = info.value as SessionState
 
-  const [sessionState, { refetch: refetchSessionState }] = createResource(
-    async (_, info) => {
-      const prev = info.value as SessionState
-      if (isServer) {
-        if (initialSession !== undefined) {
+        if (isServer && initialSession !== undefined && !isForced) {
           return getSessionState(initialSession)
         }
-      }
-      return prev.status !== 'loading' ? prev : await authAction()
-    },
-    {
-      initialValue: initialSession
-        ? getSessionState(initialSession)
-        : { status: 'loading', data: undefined },
-      deferStream: props.deferStream ?? true,
-    },
-  )
+
+        return !isForced && prev?.status !== 'loading'
+          ? prev
+          : await authAction()
+      },
+      {
+        initialValue: initialSession
+          ? getSessionState(initialSession)
+          : { status: 'loading', data: undefined },
+        deferStream: props.deferStream ?? true,
+      },
+    )
 
   return (
     <SessionContext.Provider
       value={{
         sessionState: sessionState as () => SessionState,
-        refetchSessionState,
+        refetchSessionState: async (force?: boolean) => {
+          const res = await refetchSessionState({ force: force ?? false })
+          if (res === null || res === undefined) {
+            return {
+              status: 'loading',
+              data: undefined,
+            }
+          }
+          return res
+        },
       }}
     >
       {props.children}
@@ -208,6 +218,7 @@ type AuthRes = {
   ) => ReturnType<typeof signOut>
   status: Accessor<'authenticated' | 'unauthenticated' | 'loading'>
   session: Accessor<Session | null | undefined>
+  refetch: (force?: boolean) => Promise<SessionState>
 }
 
 export const getSession = async (
@@ -245,7 +256,7 @@ export const getSession = async (
 async function signIn<
   P extends RedirectableProviderType | undefined = undefined,
 >(
-  refetchSessionState: () => unknown,
+  refetchSessionState: (force?: boolean) => unknown,
   providerId?: LiteralUnion<
     P extends RedirectableProviderType
       ? P | BuiltInProviderType
@@ -300,7 +311,7 @@ async function signIn<
   const code = new URL(data.url).searchParams.get('code')
 
   if (res.ok) {
-    await refetchSessionState()
+    await refetchSessionState(true)
   }
 
   return {
@@ -313,7 +324,7 @@ async function signIn<
 }
 
 async function signOut<R extends boolean = true>(
-  refetchSessionState: () => unknown,
+  refetchSessionState: (force?: boolean) => unknown,
 
   options?: SignOutParams<R>,
 ) {
@@ -342,7 +353,7 @@ async function signOut<R extends boolean = true>(
     return
   }
 
-  await refetchSessionState()
+  await refetchSessionState(true)
 
   return data
 }

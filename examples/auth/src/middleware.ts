@@ -1,7 +1,7 @@
 import { authMiddleware } from '@solid-mediakit/auth'
 import { createMiddleware } from '@solidjs/start/middleware'
-import { authOptions } from './auth'
+import { authOptions } from './server/auth'
 
 export default createMiddleware({
-  onRequest: [],
+  onRequest: [authMiddleware(true, authOptions)],
 })

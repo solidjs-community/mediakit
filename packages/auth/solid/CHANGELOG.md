@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 3.1.0
+
+### Minor Changes
+
+- [`8e1bda2`](https://github.com/solidjs-community/mediakit/commit/8e1bda232e53a73996ac23e43835d625d1dbd091) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: fix the redirect function
+
 ## 3.0.1
 
 ### Patch Changes

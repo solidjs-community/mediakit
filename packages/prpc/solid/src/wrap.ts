@@ -23,7 +23,9 @@ export async function wrapFn<Fn extends ExpectedFn$<any, any>>(
     if (response instanceof Response) {
       const url = response.headers.get('Location')
       const isRedirect = isRedirectResponse(response) ? url : null
-      handleResponse?.(response, isRedirect)
+      if (isServer) {
+        handleResponse?.(response, isRedirect)
+      }
       if (response.headers.get('X-pRPC-Error') === '1') {
         const isValidationError =
           response.headers.get('X-pRPC-Validation') === '1'
@@ -76,15 +78,19 @@ export const genHandleResponse = () => {
   const event = getRequestEvent()
   return (response: Response, isRedirect: string | null) => {
     if (isServer && event) {
-      if ((event as any).response) {
-        response.headers.forEach((value, key) => {
-          if (key === 'content-type') return
-          ;(event as any).response.headers.set(key, value)
-        })
-      }
-      if (isRedirect) {
-        event.response.headers.set('Location', isRedirect)
-        event.response.status = 302
+      try {
+        if ((event as any).response) {
+          response.headers.forEach((value, key) => {
+            if (key === 'content-type') return
+            ;(event as any).response.headers.set(key, value)
+          })
+        }
+        if (isRedirect) {
+          event.response.headers.set('Location', isRedirect)
+          event.response.status = 302
+        }
+      } catch {
+        // already sent to the client
       }
     }
   }

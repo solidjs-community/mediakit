@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 3.1.1
+
+### Patch Changes
+
+- [`2295506`](https://github.com/solidjs-community/mediakit/commit/2295506b9f8b55ee7ff179e090033a864520bd35) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: auth.refetch function
+
 ## 3.1.0
 
 ### Minor Changes

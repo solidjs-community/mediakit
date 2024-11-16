@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc
 
+## 2.1.1
+
+### Patch Changes
+
+- [`de4f2ae`](https://github.com/solidjs-community/mediakit/commit/de4f2aeff35f6c7b2bbda1f7b1259ab5993e7bea) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: headers already sent error
+
 ## 2.1.0
 
 ### Minor Changes

@@ -40,6 +40,7 @@ export async function createBase64Image(jsx?: string | JSX.Element) {
   const url = 'data:image/png;base64,' + Buffer.from(buf).toString('base64')
   return url
 }
+//
 
 /**
  * Parses the function arguments from the given URL

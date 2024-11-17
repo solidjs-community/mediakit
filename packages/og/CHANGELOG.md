@@ -1,5 +1,11 @@
 # @solid-mediakit/og
 
+## 0.3.1
+
+### Patch Changes
+
+- [`e1e2216`](https://github.com/solidjs-community/mediakit/commit/e1e22163061b6960cfd950a930a58625849da7d4) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add opts to imageResponse
+
 ## 0.3.0
 
 ### Minor Changes

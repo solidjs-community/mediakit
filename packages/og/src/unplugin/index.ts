@@ -9,6 +9,7 @@ type Options = {
     include?: FilterPattern
     exclude?: FilterPattern
   }
+  log?: boolean
 }
 
 export const unplugin = createUnplugin((opts?: Options) => {
@@ -27,6 +28,9 @@ export const unplugin = createUnplugin((opts?: Options) => {
         parserOpts: { plugins },
       })
       if (!res?.code) return null
+      if (opts?.log) {
+        console.log(id, res.code)
+      }
       return { code: res.code, map: res.map }
     },
   }

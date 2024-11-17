@@ -10,25 +10,25 @@ type DynamicImage = {
 
 const extractChild = (
   t: typeof babel.types,
-  element: babel.types.JSXElement
+  element: babel.types.JSXElement,
 ) => {
   const elementChildren = element.children.filter((ch) =>
-    t.isJSXElement(ch)
+    t.isJSXElement(ch),
   ) as babel.types.JSXElement[]
   if (!elementChildren.length) return null
   return elementChildren.length === 1
     ? elementChildren[0]
     : t.jsxElement(
-      t.jsxOpeningElement(t.jsxIdentifier('div'), []),
-      t.jsxClosingElement(t.jsxIdentifier('div')),
-      elementChildren,
-      false
-    )
+        t.jsxOpeningElement(t.jsxIdentifier('div'), []),
+        t.jsxClosingElement(t.jsxIdentifier('div')),
+        elementChildren,
+        false,
+      )
 }
 
 export const replaceDynamicImages = (
   t: typeof babel.types,
-  path: babel.NodePath<babel.types.Program>
+  path: babel.NodePath<babel.types.Program>,
 ) => {
   const DynamicImages: DynamicImage[] = []
   const replaceDynamicImageVisitor: babel.Visitor = {
@@ -45,12 +45,21 @@ export const replaceDynamicImages = (
         elementPath.node.openingElement.selfClosing = true
         elementPath.node.closingElement = null
         name.name = `DynamicImage${DynamicImages.length}`
-        elementPath.node.openingElement.attributes = [
-          t.jSXAttribute(
-            t.jSXIdentifier('values'),
-            t.jSXExpressionContainer(t.arrayExpression(reactives))
+
+        const parent = elementPath.parentPath
+        const isJsx = parent.isJSXElement() || parent.isJSXFragment()
+        elementPath.replaceWith(
+          (isJsx ? t.jsxExpressionContainer : t.expressionStatement)(
+            t.callExpression(t.identifier(name.name), [
+              t.objectExpression([
+                t.objectProperty(
+                  t.identifier('values'),
+                  t.arrayExpression(reactives),
+                ),
+              ]),
+            ]),
           ),
-        ]
+        )
       }
     },
   }
@@ -61,7 +70,7 @@ export const replaceDynamicImages = (
 
 export const extractAndReplaceReactives = (
   t: typeof babel.types,
-  path: babel.NodePath<babel.types.JSXElement>
+  path: babel.NodePath<babel.types.JSXElement>,
 ) => {
   const Reactives: babel.types.Expression[] = []
   const replaceReactivesVisitor: babel.Visitor = {
@@ -79,7 +88,7 @@ export const extractAndReplaceReactives = (
 export const addDynamicImages = (
   images: DynamicImage[],
   t: typeof babel.types,
-  path: babel.NodePath<babel.types.Program>
+  path: babel.NodePath<babel.types.Program>,
 ) => {
   for (let i = 0; i < images.length; i++) {
     const image = images[i]
@@ -93,9 +102,9 @@ export const addDynamicImages = (
       const url = createMemo(()=>{
           return img.url.replace("_server", "_server/") + \`&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
       });
-      return <>{url()}</>;
+      return url;
   };`,
-      { plugins: ['jsx'] }
+      { plugins: ['jsx'] },
     )
     const args: babel.types.Identifier[] = []
     for (let i = 0; i < image.reactives; i++) {
@@ -105,11 +114,8 @@ export const addDynamicImages = (
       args.length === 0
         ? null
         : t.variableDeclaration('const', [
-          t.variableDeclarator(
-            t.arrayPattern(args),
-            t.identifier("args")
-          ),
-        ])
+            t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
+          ])
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,
@@ -117,7 +123,7 @@ export const addDynamicImages = (
         args: argsDecl,
       }) as any,
       path,
-      true
+      true,
     )
   }
 }

@@ -1,5 +1,11 @@
 # @solid-mediakit/og
 
+## 0.3.0
+
+### Minor Changes
+
+- [`4833932`](https://github.com/solidjs-community/mediakit/commit/48339323791776d631c6a37b6be8fef75f9b45e2) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: convert renders to function calls
+
 ## 0.2.6
 
 ### Patch Changes

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImageResponse } from '@vercel/og'
+import type { ImageResponseNodeOptions } from '@vercel/og/dist/types'
 import { html } from 'satori-html'
 import type { JSX } from 'solid-js'
 
@@ -12,7 +13,8 @@ export async function createOpenGraphImage(
     | string
     | JSX.Element
     | (() => (string | JSX.Element) | Promise<string | JSX.Element>)
-    | { t: string }
+    | { t: string },
+  opts?: ImageResponseNodeOptions,
 ) {
   if (!jsx) return
   if (typeof jsx === 'function') {
@@ -25,8 +27,11 @@ export async function createOpenGraphImage(
     return
   }
   const converted = html(jsx)
-  const img = new ImageResponse(converted as any, { headers: { "X-Content-Raw": "" } })
-  return img;
+  const img = new ImageResponse(converted as any, {
+    ...(opts ?? {}),
+    headers: { 'X-Content-Raw': '' },
+  })
+  return img
 }
 
 export async function createBase64Image(jsx?: string | JSX.Element) {

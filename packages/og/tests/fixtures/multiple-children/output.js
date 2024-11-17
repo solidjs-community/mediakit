@@ -17,6 +17,8 @@ const DynamicImage1 = (props) => {
       `&args=${encodeURIComponent(JSON.stringify(props.values))}`
     )
   })
-  return <>{url()}</>
+  return url
 }
-const coolVar = <DynamicImage1 values={[]} />
+const coolVar = DynamicImage1({
+  values: [signal()],
+})

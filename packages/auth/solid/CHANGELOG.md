@@ -1,5 +1,11 @@
 # @solid-mediakit/auth
 
+## 3.1.2
+
+### Patch Changes
+
+- [#137](https://github.com/solidjs-community/mediakit/pull/137) [`3cd0c02`](https://github.com/solidjs-community/mediakit/commit/3cd0c02b977617111410d7ab7397638fea101151) Thanks [@vincehi](https://github.com/vincehi)! - Update peer-deps
+
 ## 3.1.1
 
 ### Patch Changes

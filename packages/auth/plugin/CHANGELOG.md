@@ -1,5 +1,11 @@
 # @solid-mediakit/prpc-plugin
 
+## 1.2.1
+
+### Patch Changes
+
+- [#142](https://github.com/solidjs-community/mediakit/pull/142) [`1f3ac53`](https://github.com/solidjs-community/mediakit/commit/1f3ac53dac6c5666ed407caa03ef49932d34ebe5) Thanks [@thatgurkangurk](https://github.com/thatgurkangurk)! - rename cache to query
+
 ## 1.2.0
 
 ### Minor Changes

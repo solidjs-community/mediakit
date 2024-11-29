@@ -33,7 +33,7 @@ export const addMissingImports = (
   opts: AuthPluginOptions,
   args: ReturnType<typeof getArgs>,
 ) => {
-  babelUtils.importIfNotThere(path, t, 'cache', '@solidjs/router')
+  babelUtils.importIfNotThere(path, t, 'query', '@solidjs/router')
   babelUtils.importIfNotThere(path, t, 'createAsync', '@solidjs/router')
   babelUtils.importIfNotThere(path, t, 'getRequestEvent', 'solid-js/web')
   babelUtils.importIfNotThere(path, t, 'getSession', '@solid-mediakit/auth')

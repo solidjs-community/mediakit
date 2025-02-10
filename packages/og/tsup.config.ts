@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup'
+import { defineConfig, Options } from 'tsup'
 export default defineConfig([
   {
     entry: ['src/index.tsx'],
@@ -24,4 +24,4 @@ export default defineConfig([
     format: 'esm',
     splitting: false,
   },
-])
+] satisfies Options[])

@@ -20,5 +20,5 @@ const DynamicImage1 = (props) => {
   return url
 }
 const coolVar = DynamicImage1({
-  values: [signal()],
+  values: [],
 })

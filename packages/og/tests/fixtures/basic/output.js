@@ -1,7 +1,6 @@
 import { createOpenGraphImage } from '@solid-mediakit/og/server'
 import { createMemo } from 'solid-js'
 import { createSignal } from 'solid-js'
-
 const DynamicImage1 = (props) => {
   const img = (...args) => {
     'use server'

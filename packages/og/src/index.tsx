@@ -1,10 +1,12 @@
 import { children, createMemo } from 'solid-js'
 import type { JSX, JSXElement, ParentProps } from 'solid-js'
 import { Meta } from '@solidjs/meta'
+import { ImageResponseNodeOptions } from '@vercel/og/dist/types'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const DynamicImage = (_props: {
   children: JSX.Element | (() => JSX.Element | Promise<JSX.Element>)
+  imageOptions?: ImageResponseNodeOptions
 }): JSX.Element => {
   throw new Error('This should be compiled away')
 }

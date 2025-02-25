@@ -93,14 +93,14 @@ export const addDynamicImages = (
   for (let i = 0; i < images.length; i++) {
     const image = images[i]
     const template = babel.template(
-      `const %%compName%% = (props)=>{
-      const img = (...args)=>{
+      `const %%serverFnName%% = (...args)=>{
           'use server';
           %%args%%
           return createOpenGraphImage(%%jsx%%);
       };
+      const %%compName%% = (props)=>{
       const url = createMemo(()=>{
-          return img.url.replace("_server", "_server/") + \`&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
+          return %%serverFnName%%.url.replace("_server", "_server/") + \`&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
       });
       return url;
   };`,
@@ -119,6 +119,7 @@ export const addDynamicImages = (
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,
+        serverFnName: `DynamicImage${i + 1}ServerFunction`,
         jsx: image.element,
         args: argsDecl,
       }) as any,

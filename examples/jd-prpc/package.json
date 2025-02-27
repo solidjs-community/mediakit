@@ -21,7 +21,7 @@
     "eslint-plugin-solid": "^0.14.3",
     "prisma": "^5.20.0",
     "typescript": "^5.6.2",
-    "vite": "^5.1.6"
+    "vite": "^6.0.0"
   },
   "dependencies": {
     "@auth/core": "0.35.0",
@@ -32,12 +32,12 @@
     "@solid-mediakit/prpc-plugin": "workspace:*",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
-    "@solidjs/start": "^1.0.9",
+    "@solidjs/start": "^1.1.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.40",
     "solid-js": "^1.9.3",
     "tailwindcss": "^3.4.7",
-    "vinxi": "^0.4.3",
+    "vinxi": "^0.5.3",
     "zod": "^3.22.4"
   },
   "engines": {

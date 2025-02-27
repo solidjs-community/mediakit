@@ -33,13 +33,13 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/types": "7.25.2",
-    "@solidjs/start": "^1.0.6",
+    "@solidjs/start": "^1.1.0",
     "@types/babel__core": "7.20.5",
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.21.6",
     "tsup": "^8.2.3",
     "typescript": "^5.5.4",
-    "vitest": "^2.0.4"
+    "vitest": "3.0.5"
   },
   "dependencies": {
     "@babel/core": "7.25.2",
@@ -50,7 +50,7 @@
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.4",
-    "@solidjs/start": "^1.0.6",
+    "@solidjs/start": "^1.1.0",
     "solid-js": "^1.8.19"
   }
 }

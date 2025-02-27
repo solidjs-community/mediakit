@@ -36,7 +36,7 @@
   "peerDependencies": {
     "@solidjs/meta": "^0.28.5",
     "solid-js": "^1.8.19",
-    "@solidjs/start": "^1.0.6",
+    "@solidjs/start": "^1.1.0",
     "zod": "^3.22.4"
   }
 }

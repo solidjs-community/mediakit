@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/log",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "description": "Logs utility library for Solid.",
   "main": "./dist/index.jsx",

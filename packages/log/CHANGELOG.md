@@ -1,5 +1,11 @@
 # @solid-mediakit/log
 
+## 1.0.9
+
+### Patch Changes
+
+- [`0ca38fe`](https://github.com/solidjs-community/mediakit/commit/0ca38fee49b728f4f5b5191b46941d5e12235bff) Thanks [@OrJDev](https://github.com/OrJDev)! - bump packages
+
 ## 1.0.8
 
 ### Patch Changes

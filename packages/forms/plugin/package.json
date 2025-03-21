@@ -20,7 +20,7 @@
     "pridepack": "2.6.1",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5"
+    "vite": "^6.2.2"
   },
   "dependencies": {
     "@babel/core": "^7.25.2",

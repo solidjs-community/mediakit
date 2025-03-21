@@ -1,5 +1,13 @@
 # @solid-mediakit/auth
 
+## 3.1.3
+
+### Patch Changes
+
+- [`4fd8af4`](https://github.com/solidjs-community/mediakit/commit/4fd8af40f2f27ed37b746a6c7c7cb05fea1286a7) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: typing
+
+- [`0ca38fe`](https://github.com/solidjs-community/mediakit/commit/0ca38fee49b728f4f5b5191b46941d5e12235bff) Thanks [@OrJDev](https://github.com/OrJDev)! - bump packages
+
 ## 3.1.2
 
 ### Patch Changes

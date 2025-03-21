@@ -3,7 +3,8 @@ import { AiFillGithub } from 'solid-icons/ai'
 import { FaBrandsDiscord } from 'solid-icons/fa'
 import { A } from '@solidjs/router'
 import { capitalize } from '~/utils/string'
-import { getSession, useAuth } from '@solid-mediakit/auth/client'
+import { useAuth } from '@solid-mediakit/auth/client'
+
 const Auth: VoidComponent = () => {
   return (
     <div class='flex flex-col gap-4 items-center h-full w-full'>

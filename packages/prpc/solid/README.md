@@ -545,7 +545,7 @@ First Install The Dependencies
 #### Install
 
 ```bash
-pnpm install @auth/core@0.35.0 @solid-mediakit/auth@latest
+pnpm install @auth/core@latest @solid-mediakit/auth@latest
 ```
 
 ### Env Variables

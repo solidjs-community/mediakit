@@ -34,7 +34,7 @@
   "types": "./dist/index.d.ts",
   "module": "./dist/server.js",
   "devDependencies": {
-    "@auth/core": "0.35.0",
+    "@auth/core": "^0.38.0",
     "@clerk/backend": "^1.14.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",

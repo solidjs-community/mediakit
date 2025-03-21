@@ -66,18 +66,18 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
               // const f = createAsync(...)
               // search for all the createAsync calls within content.body
 
-              const createAsyncCalls = content.body.filter((node: any) => {
-                return (
-                  t.isVariableDeclaration(node) &&
-                  t.isCallExpression(node.declarations[0].init) &&
-                  t.isIdentifier(node.declarations[0].init.callee) &&
-                  node.declarations[0].init.callee.name === 'createAsync'
-                )
-              })
+              // const createAsyncCalls = content.body.filter((node: any) => {
+              //   return (
+              //     t.isVariableDeclaration(node) &&
+              //     t.isCallExpression(node.declarations[0].init) &&
+              //     t.isIdentifier(node.declarations[0].init.callee) &&
+              //     node.declarations[0].init.callee.name === 'createAsync'
+              //   )
+              // })
 
-              content.body = content.body.filter((node: any) => {
-                return !createAsyncCalls.includes(node)
-              })
+              // content.body = content.body.filter((node: any) => {
+              //   return !createAsyncCalls.includes(node)
+              // })
 
               const RenderProtected = t.variableDeclaration('const', [
                 t.variableDeclarator(
@@ -102,10 +102,7 @@ export function createTransformAuth$(opts: AuthPluginOptions) {
               ;(newPage.body as any).body.push(
                 t.returnStatement(getProtectedContent(t, args)),
               )
-              ;(newPage.body as any).body = [
-                ...createAsyncCalls,
-                ...(newPage.body as any).body,
-              ]
+              ;(newPage.body as any).body = [...(newPage.body as any).body]
 
               path.replaceWith(newPage)
             }

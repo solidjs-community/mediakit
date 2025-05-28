@@ -1,4 +1,5 @@
 packages:
   - 'docs'
+  - 'new-docs'
   - 'packages/**/*'
   - 'examples/**/*'

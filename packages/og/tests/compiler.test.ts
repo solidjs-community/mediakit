@@ -10,5 +10,6 @@ pluginTester({
       plugins,
     },
   },
+	// snapshot: true,
   fixtures: join(__dirname, 'fixtures'),
 })

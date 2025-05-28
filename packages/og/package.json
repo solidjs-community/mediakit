@@ -36,17 +36,17 @@
     "@solidjs/start": "^1.1.3",
     "@types/babel__core": "7.20.5",
     "babel-plugin-tester": "^11.0.4",
-    "jiti": "^1.21.6",
+    "jiti": "^2.4.2",
     "tsup": "^8.2.3",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.4"
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.4"
   },
   "dependencies": {
     "@babel/core": "7.25.2",
     "@solid-mediakit/shared": "workspace:*",
-    "@vercel/og": "^0.6.2",
+    "@vercel/og": "^0.6.8",
     "satori-html": "^0.3.2",
-    "unplugin": "^1.12.0"
+    "unplugin": "^2.3.5"
   },
   "peerDependencies": {
     "@solidjs/meta": "^0.29.4",

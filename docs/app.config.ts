@@ -60,7 +60,21 @@ const processPackages = () => {
 		}
 		map[pkg].push(route)
 	}
-	console.log(map)
+	// For each package, sort routes into the correct order by the ordering specified in MDX.
+	for (const key of Object.keys(map)) {
+		const item = map[key];
+		item.sort((a,b) => {
+			const a_order = a.metadata.order;
+			const b_order = b.metadata.order;
+			if ((!a_order || !b_order) || a_order == b_order) return 0;
+			if (b_order > a_order) {
+				return -1
+			}
+			else {
+				return 1
+			}
+		})
+	}
 	return map;
 }
 

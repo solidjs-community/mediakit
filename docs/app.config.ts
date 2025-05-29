@@ -23,7 +23,7 @@ const getRoutes = (base: string, paths: string[]) => {
 	const routes = paths.map(p => p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""));
 	return routes;
 }
-const routes = getRoutes("src/routes", await getPaths("src/routes"))
+const routes = getRoutes("src/routes", await getPaths("src/routes")).filter(x => x !== "/index")
 const processPackages = () => {
 	const packageRoutes = routes.filter(r => r.startsWith("/packages/")).map(r => r.replace("/packages/", "").split("/"))
 

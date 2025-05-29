@@ -105,9 +105,19 @@ export default defineConfig(
 							// },
 						],
 					},
-					"/packages/og": {
-						items: [packageSidebarItem("og", packages, false, (_, page) => `/${page}`)]
-					}
+					...(() => {
+						let map = {};
+						for (const pkg of Object.keys(packages)) {
+							// @ts-ignore
+							map[`/packages/${pkg}`] = {
+								items: [packageSidebarItem(pkg, packages, false, (_, page) => `/${page}`)]
+							}
+						}
+						return map;
+					})()
+					// "/packages/og": {
+					// 	items: [packageSidebarItem("og", packages, false, (_, page) => `/${page}`)]
+					// }
 				},
 			},
 		},

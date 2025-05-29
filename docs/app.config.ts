@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { parse } from "yaml";
 import { createWithSolidBase } from "@kobalte/solidbase/config";
 import defaultTheme, {
 } from "@kobalte/solidbase/default-theme";
@@ -19,36 +20,60 @@ const getPaths = async (base: string): Promise<string[]> => {
 	}
 	return paths;
 }
-const getRoutes = (base: string, paths: string[]) => {
-	const routes = paths.map(p => p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""));
+type RouteMetadata = {
+	title: string,
+	description?: string,
+	order?: number,
+}
+type Route = {
+	slug: string,
+	metadata: RouteMetadata,
+}
+const parseMetadata = (path: string): RouteMetadata => {
+	const contents = fs.readFileSync(path).toString();
+	const start = contents.indexOf("---");
+	const end = contents.lastIndexOf("---");
+	if (start == -1 || end == -1) return { title: path.split("\\")[-1] }
+	const yaml = contents.substring(start + 3, end)
+	const parsed = parse(yaml);
+	parsed.title ??= path.split("\\")[-1];
+	return parsed
+}
+const getRoutes = (base: string, paths: string[]): Route[] => {
+	const routes = paths.map(p => ({ slug: p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""), metadata: parseMetadata(p) }));
 	return routes;
 }
-const routes = getRoutes("src/routes", await getPaths("src/routes")).filter(x => x !== "/index")
-const processPackages = () => {
-	const packageRoutes = routes.filter(r => r.startsWith("/packages/")).map(r => r.replace("/packages/", "").split("/"))
+const routes = getRoutes("src/routes", await getPaths("src/routes")).filter(x => x.slug !== "/index")
+const parentPackage = (route: Route) =>
+	route.slug.replace("/packages/", "").split("/")[0]
 
-	let map: Record<string, string[]> = {};
+const processPackages = () => {
+	const packageRoutes = routes.filter(r => r.slug.startsWith("/packages/"));
+
+	let map: Record<string, Route[]> = {};
 
 	for (const route of packageRoutes) {
-		const pkg = route[0];
-		if (!route[1]) continue;
+		const pkg = parentPackage(route)
+		if (pkg === "index") continue;
 		if (!map[pkg]) {
 			map[pkg] = [];
 		}
-		map[pkg].push(route[1])
+		map[pkg].push(route)
 	}
-
+	console.log(map)
 	return map;
 }
-const packageSidebarItem = (pkg: string, packages: Record<string, string[]>, collapsed: boolean, link?: (pkg: string, page: string) => string) => {
+
+
+const packageSidebarItem = (pkg: string, packages: Record<string, Route[]>, link: (route: Route) => string, collapsed: boolean = false) => {
 	const packageRoutes = packages[pkg];
 	return {
 		title: pkg,
 		collapsed,
 		items: packageRoutes.map(route => ({
-			title: route,
+			title: route.metadata.title,
 			collapsed,
-			link: link ? link(pkg, route) : `/${pkg}/${route}`,
+			link: link(route),
 			items: []
 		}))
 	}
@@ -65,7 +90,7 @@ export default defineConfig(
 
 				},
 				prerender: {
-					routes,
+					routes: routes.map(r => r.slug),
 					crawlLinks: true,
 				},
 			},
@@ -87,7 +112,7 @@ export default defineConfig(
 					"/packages": {
 						items: [
 							...(() => {
-								return Object.keys(packages).map((key) => packageSidebarItem(key, packages, true))
+								return Object.keys(packages).map((pkg) => packageSidebarItem(pkg, packages, (r) => r.slug.replace("/packages", "")))
 							})()
 							// {
 							// 	title: "Overview",
@@ -106,7 +131,7 @@ export default defineConfig(
 						for (const pkg of Object.keys(packages)) {
 							// @ts-ignore
 							map[`/packages/${pkg}`] = {
-								items: [packageSidebarItem(pkg, packages, false, (_, page) => `/${page}`)]
+								items: [packageSidebarItem(pkg, packages, (r) => r.slug.replace(`/packages/${pkg}`, ""))]
 							}
 						}
 						return map;

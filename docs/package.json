@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "yaml": "^2.8.0"
   }
 }

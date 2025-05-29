@@ -5,6 +5,7 @@ import defaultTheme, {
 } from "@kobalte/solidbase/default-theme";
 import { defineConfig } from "@solidjs/start/config";
 import { readdir } from "node:fs/promises";
+
 const getPaths = async (base: string): Promise<string[]> => {
 	const files = await readdir(base, { withFileTypes: true });
 	const paths = [];
@@ -18,12 +19,41 @@ const getPaths = async (base: string): Promise<string[]> => {
 	}
 	return paths;
 }
-const getRoutes = async (base: string) => {
-	const paths = await getPaths(base);
+const getRoutes = (base: string, paths: string[]) => {
 	const routes = paths.map(p => p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""));
 	return routes;
 }
+const routes = getRoutes("src/routes", await getPaths("src/routes"))
+const processPackages = () => {
+	const packageRoutes = routes.filter(r => r.startsWith("/packages/")).map(r => r.replace("/packages/", "").split("/"))
 
+	let map: Record<string, string[]> = {};
+
+	for (const route of packageRoutes) {
+		const pkg = route[0];
+		if (!route[1]) continue;
+		if (!map[pkg]) {
+			map[pkg] = [];
+		}
+		map[pkg].push(route[1])
+	}
+
+	return map;
+}
+const packageSidebarItem = (pkg: string, packages: Record<string, string[]>, collapsed: boolean, link?: (pkg: string, page: string) => string) => {
+	const packageRoutes = packages[pkg];
+	return {
+		title: pkg,
+		collapsed,
+		items: packageRoutes.map(route => ({
+			title: route,
+			collapsed,
+			link: link ? link(pkg, route) : `/${pkg}/${route}`,
+			items: []
+		}))
+	}
+}
+const packages = processPackages();
 export default defineConfig(
 	createWithSolidBase(defaultTheme)(
 		{
@@ -35,7 +65,7 @@ export default defineConfig(
 
 				},
 				prerender: {
-					routes: await getRoutes("src/routes"),
+					routes,
 					crawlLinks: true,
 				},
 			},
@@ -58,20 +88,26 @@ export default defineConfig(
 					},
 				],
 				sidebar: {
-					"/guide": {
+					"/packages": {
 						items: [
-							{
-								title: "Overview",
-								collapsed: false,
-								items: [
-									{
-										title: "Getting Started",
-										link: "/",
-									},
-								],
-							},
+							...(() => {
+								return Object.keys(packages).map((key) => packageSidebarItem(key, packages, true))
+							})()
+							// {
+							// 	title: "Overview",
+							// 	collapsed: false,
+							// 	items: [
+							// 		{
+							// 			title: "Getting Started",
+							// 			link: "/packages",
+							// 		},
+							// 	],
+							// },
 						],
 					},
+					"/packages/og": {
+						items: [packageSidebarItem("og", packages, false, (_, page) => `/${page}`)]
+					}
 				},
 			},
 		},

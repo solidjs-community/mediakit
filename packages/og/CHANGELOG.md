@@ -1,5 +1,11 @@
 # @solid-mediakit/og
 
+## 0.4.0
+
+### Minor Changes
+
+- [#157](https://github.com/solidjs-community/mediakit/pull/157) [`6775c24`](https://github.com/solidjs-community/mediakit/commit/6775c241a4e8310faff64211916a6b4a641917a9) Thanks [@Tommypop2](https://github.com/Tommypop2)! - Optimise compiler output, support setting `ImageOptions`, and add corresponding tests
+
 ## 0.3.2
 
 ### Patch Changes

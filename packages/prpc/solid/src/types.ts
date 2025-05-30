@@ -3,7 +3,6 @@ import {
   CancelOptions,
   CreateMutationResult,
   CreateQueryResult,
-  FunctionedParams,
   InvalidateOptions,
   InvalidateQueryFilters,
   Query,
@@ -87,7 +86,7 @@ export type DeepPartial<TObject> = TObject extends object
 export type GET$Options<
   Schema extends AllowedSchemas,
   Output,
-> = FunctionedParams<
+> = Accessor<
   Omit<
     SolidQueryOptions<
       Output,
@@ -105,7 +104,7 @@ export type Action$Options<
   Ctx,
   Schema extends AllowedSchemas,
   Output,
-> = FunctionedParams<
+> = Accessor<
   Omit<
     SolidMutationOptions<
       Output,

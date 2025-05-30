@@ -1,0 +1,167 @@
+---
+title: 'createForm$'
+description: 'API for the createForm$ function'
+order: 3
+---
+
+# {frontmatter.title}
+
+**API for the createForm$ function**
+
+## Vite Plugin
+
+Before being able to use this utility, you will need to install and add our vite plugin.
+
+### Install
+
+```sh
+pnpm add @solid-mediakit/forms-plugin
+```
+
+### Add the plugin
+
+Go to your `app.config.ts` file and add the following:
+
+```ts
+import { defineConfig } from '@solidjs/start/config'
+import { formsPlugin } from '@solid-mediakit/forms-plugin' // ->
+
+export default defineConfig({
+  ssr: true,
+  vite: {
+    plugins: [formsPlugin()], // ->
+  },
+})
+```
+
+## createForm$
+
+This api is 1:1 the `createForm` api so make sure you understand the api before reading this page.
+
+The `createForm$` utility is being used to create a server-side action for the form and interact with the MediaKit/Forms api.
+
+```ts
+import { z } from 'zod'
+import { createForm } from '@solid-mediakit/forms'
+
+const { RenderTestForm, testFieldErrors } = createForm$({
+  schema: z.object({
+    name: z.string().min(1),
+    test: z.string().min(1),
+  }),
+  name: 'test',
+})
+```
+
+### CreateForm Input
+
+The createForm function accepts in 3 properties
+
+#### schema (required)
+
+```ts
+const {} = createForm$({
+  schema: z.object({
+    name: z.string().min(1),
+    test: z.string().min(1),
+  }),
+  ...
+})
+```
+
+#### name (required)
+
+Specifying a name is going to change all of your returned variables names, unlike client side `createForm` this is required in `createForm$`
+
+```ts
+const { RenderTestForm } = createForm$({
+  name: 'test',
+  ...
+})
+
+```
+
+#### defaultValues (optional)
+
+```ts
+const {} = createForm$({
+  defaultValues: {
+    name: 'default name',
+    test: 'default test',
+  },
+  ...
+})
+```
+
+Once created a form, you will be given a function to render the Form and pass a function which we will be converting to a server side function.
+
+## RenderForm
+
+All you need is to render the RenderForm component you received from the `createForm$` function.
+
+```tsx
+import { type VoidComponent } from 'solid-js'
+import { z } from 'zod'
+import { createForm } from '@solid-mediakit/forms'
+
+const Home: VoidComponent = () => {
+  const { RenderExampleForm, exampleFieldErrors } = createForm$({
+    schema: z.object({
+      name: z.string().min(1),
+      test: z.string().min(1),
+    }),
+    name: 'example',
+  })
+  return (
+    <RenderExampleForm
+      onSubmit={async ({ payload, event$ }) => {
+        console.log('isServer', isServer)
+        console.log(payload, event$.request.headers.get('user-agent'))
+      }}
+      onFormError={(e) => {
+        if (e.isZodError()) {
+          const nameErros = e.cause.fieldErrors.name // string[] | undefined
+          const testErrors = e.cause.fieldErrors.test // string[] | undefined
+          console.log('Validation error', { nameErros, testErrors })
+        } else {
+          console.log(e.cause)
+        }
+      }}
+      class='flex p-3 rounded-lg flex-col gap-2 h-[300px] w-[80vw] bg-zinc-800 items-center'
+    >
+      {({ Field, name }) => {
+        // name: name | 'test
+        const bgColor = name === 'test' ? 'bg-gray-700' : 'bg-zinc-900'
+        return (
+          <Field
+            inputClass={`${bgColor} p-3 rounded-lg focus:outline-none text-gray-500`}
+            labelClass='text-white font-bold text-lg'
+            wrapperClass='flex flex-col gap-1'
+          />
+        )
+      }}
+      <button class='bg-zinc-900 w-[80%] font-bold rounded-lg p-3 text-white flex items-center justify-center'>
+        My Submit
+      </button>
+    </RenderExampleForm>
+  )
+}
+
+export default Home
+```
+
+### onSubmit
+
+This function will be called with a type-safed required input after validation the input using the provided schema.
+
+```tsx
+<RenderExampleForm
+  onSubmit={async ({ payload, event$ }) => {
+    console.log(payload) // {name: string; test: string;}
+    console.log(event$) // SolidStart server event
+    console.log(event$.request.headers.get('user-agent'))
+  }}
+>
+{...}
+</RenderExampleForm>
+```

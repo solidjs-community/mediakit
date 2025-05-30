@@ -1,0 +1,22 @@
+---
+title: 'redirect$'
+description: 'redirect$ Utility'
+order: 6
+---
+
+# {frontmatter.title}
+
+Use this function to **redirect the user** (this will not affect the function type):
+
+```ts
+import { createCaller, redirect$ } from '@solid-mediakit/prpc'
+
+let redirect = false
+
+export const myQuery = createCaller(() => {
+  if (redirect) {
+    return redirect$('/login')
+  }
+  return 'yes'
+})
+```

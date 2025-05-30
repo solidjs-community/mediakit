@@ -1,0 +1,31 @@
+---
+title: 'Install'
+description: 'Installing MediaKit'
+order: 1
+---
+
+# {frontmatter.title}
+
+**Adding MediaKit/og to SolidStart**
+
+## Install
+
+```sh
+pnpm add @solid-mediakit/og
+```
+
+## Plugin Installation
+
+Add the plugin to your config, so that the compiler can resolve and extract [`DynamicImage`](../dynamic-image) elements.
+
+```ts
+import { defineConfig } from "@solidjs/start/config";
+import { vitePlugin as OGPlugin } from "@solid-mediakit/og/unplugin";
+export default defineConfig({
+    vite: {
+        plugins: [OGPlugin()]
+    }
+});
+```
+
+Config complete! To see how to add dynamic and opengraph images to your app, visit [`DynamicImage`](../dynamic-image)

@@ -1,0 +1,85 @@
+---
+title: 'getSession'
+description: 'API for the getSession function'
+order: 6
+---
+
+# {frontmatter.title}
+
+**API for the getSession function**
+The `getSession` function is a server side function that will be used to fetch the current active session from a web Request. It takes 2 arguments:
+
+- `request`: The web request to fetch the session from
+- `options`: The auth config we created in the previous step (API Route)
+
+## Usage
+
+### Basic
+
+```ts
+import { getSession } from '@solid-mediakit/auth'
+import { authOpts } from '~/routes/api/auth/[...solidauth]'
+
+async function getMySession(request: Request) {
+  return await getSession(request, authOpts)
+} // Promise<Session | null>
+```
+
+### Actual
+
+```ts
+import { getSession } from '@solid-mediakit/auth'
+import { query, createAsync, redirect } from '@solidjs/router'
+import { authOptions } from './server/auth'
+import { getRequestEvent } from 'solid-js/web'
+
+const getUser = query(async () => {
+  'use server'
+  const event = getRequestEvent()!
+  const session = await getSession(event, authOptions)
+  if (!session) {
+    throw redirect('/')
+  }
+  return session
+}, 'user')
+
+const user = createAsync(() => getUser(), { deferStream: true })
+```
+
+### Preloading The Session
+
+In order to preload the session (the useAuth hook will retrieve the session from here), you need to create a Solid middleware.
+Ahead over to `src/middleware.ts` and add the following:
+
+```ts
+import { authMiddleware } from '@solid-mediakit/auth'
+import { createMiddleware } from '@solidjs/start/middleware'
+import { authOptions } from './server/auth' // where your auth config is located
+
+const pathsToPreload = ['/'] // the session will be prefetched when visiting those routes.
+
+export default createMiddleware({
+  onRequest: [authMiddleware(pathsToPreload, authOptions)],
+})
+```
+
+You can also preload the session always by passing `true` instead of array of paths:
+
+```ts
+export default createMiddleware({
+  onRequest: [authMiddleware(true, authOptions)], // The session will always be prefetched
+})
+```
+
+After creating the file above, ahead over to `app.config.ts` and add the middleware:
+
+```ts
+import { defineConfig } from '@solidjs/start/config'
+
+export default defineConfig({
+  ssr: true,
+  middleware: './src/middleware.ts', // the exact path of the middleware
+})
+```
+
+Once completed, the session will be set from the server and then refetched on the client to validate.

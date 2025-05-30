@@ -1,0 +1,52 @@
+---
+title: 'Install'
+description: 'Installing MediaKit Log'
+order: 1
+---
+
+# {frontmatter.title}
+
+**Adding MediaKit/log to SolidStart**
+
+## Install
+
+```sh
+pnpm add @solid-mediakit/og
+```
+
+## Plugin Installation
+
+Add the plugin to your config:
+
+```ts
+import { defineConfig } from '@solidjs/start/config'
+import { vitePlugin as logPlugin } from '@solid-mediakit/log/unplugin'
+
+export default defineConfig({
+  vite: {
+    plugins: [logPlugin()],
+  },
+})
+```
+
+## Options
+
+You can choose on which `ENV` it will be printed, if you only need logs for development then specify:
+
+```ts
+logOn: 'development'
+```
+
+Default is `always`
+
+```ts
+export type Options = {
+  logOn?: 'production' | 'development' | 'always'
+  filter?: {
+    include?: FilterPattern
+    exclude?: FilterPattern
+  }
+}
+```
+
+Config complete! To see how to use the `log$` utility in your app, visit [`log`](../log)

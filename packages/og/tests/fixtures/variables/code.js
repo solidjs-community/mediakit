@@ -1,0 +1,1 @@
+const coolVar = <DynamicImage yes="123"><div>{nonSignal}</div></DynamicImage>;

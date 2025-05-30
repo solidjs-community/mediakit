@@ -1,12 +1,18 @@
 import { createOpenGraphImage } from '@solid-mediakit/og/server'
 import { createMemo } from 'solid-js'
+import { createSignal } from 'solid-js'
 const DynamicImage1ServerFunction = (...args) => {
   'use server'
 
+  const [r0] = args
   return createOpenGraphImage(
-    <div>
-      <div></div>
-      <div></div>
+    <div
+      class={{
+        fontSize: '100px',
+        [r0]: '123',
+      }}
+    >
+      {}
     </div>
   )
 }
@@ -19,6 +25,7 @@ const DynamicImage1 = (props) => {
   })
   return url
 }
+const [signal] = createSignal('hello')
 const coolVar = DynamicImage1({
-  values: [],
+  values: [signal()],
 })

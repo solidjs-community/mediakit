@@ -20,11 +20,11 @@ const extractChild = (
   return elementChildren.length === 1
     ? elementChildren[0]
     : t.jsxElement(
-        t.jsxOpeningElement(t.jsxIdentifier('div'), []),
-        t.jsxClosingElement(t.jsxIdentifier('div')),
-        elementChildren,
-        false,
-      )
+      t.jsxOpeningElement(t.jsxIdentifier('div'), []),
+      t.jsxClosingElement(t.jsxIdentifier('div')),
+      elementChildren,
+      false,
+    )
 }
 
 const extractImageOptions = (element: babel.types.JSXElement) => {
@@ -86,19 +86,58 @@ export const replaceDynamicImages = (
   path.traverse(replaceDynamicImageVisitor)
   return DynamicImages
 }
-
+const isDynamic = (t: typeof babel.types, path: babel.NodePath<babel.types.JSXExpressionContainer>) => {
+  let isDynamic = false;
+  const isDynamicVisitor: babel.Visitor = {
+    // Assume expression is dynamic if an identifier is present
+    Identifier(path) {
+      // Don't mark as dynamic when the identifier is a property in JSON object
+      // @ts-expect-error
+      if (t.isProperty(path.parent) && path.parent.computed == false) {
+        return
+      }
+      isDynamic = true
+    }
+  }
+  path.traverse(isDynamicVisitor)
+  return isDynamic;
+}
 export const extractAndReplaceReactives = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.JSXElement>,
 ) => {
   const Reactives: babel.types.Expression[] = []
   const replaceReactivesVisitor: babel.Visitor = {
-    JSXExpressionContainer(path) {
-      const expr = path.node.expression
-      if (t.isJSXEmptyExpression(expr)) return
-      path.node.expression = t.identifier(`r${Reactives.length}`)
-      Reactives.push(t.cloneNode(expr))
+    Property(path) {
+      if (path.node.type !== "ClassPrivateProperty") {
+        const expr = path.node.key;
+        if (path.node.computed && expr.type !== "PrivateName") {
+          path.node.key = t.identifier(`r${Reactives.length}`)
+          Reactives.push(t.cloneNode(expr));
+        }
+        path.skip();
+      }
     },
+    // Any call expression could be dynamic so replace
+    CallExpression(path) {
+      const expr = path.node;
+      path.replaceWith(t.identifier(`r${Reactives.length}`))
+      Reactives.push(t.cloneNode(expr));
+      path.skip();
+    },
+    Identifier(path) {
+      const expr = path.node;
+      path.replaceWith(t.identifier(`r${Reactives.length}`))
+      Reactives.push(t.cloneNode(expr));
+      path.skip();
+    }
+    // JSXExpressionContainer(path) {
+    //   const expr = path.node.expression
+    //   if (t.isJSXEmptyExpression(expr)) return
+    //   if (!isDynamic(t, path)) return
+    //   path.node.expression = t.identifier(`r${Reactives.length}`)
+    //   Reactives.push(t.cloneNode(expr))
+    // },
   }
   path.traverse(replaceReactivesVisitor)
   return Reactives
@@ -133,8 +172,8 @@ export const addDynamicImages = (
       args.length === 0
         ? null
         : t.variableDeclaration('const', [
-            t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
-          ])
+          t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
+        ])
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,

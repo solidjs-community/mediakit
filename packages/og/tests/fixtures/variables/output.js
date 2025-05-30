@@ -3,12 +3,8 @@ import { createMemo } from 'solid-js'
 const DynamicImage1ServerFunction = (...args) => {
   'use server'
 
-  return createOpenGraphImage(
-    <div>
-      <div></div>
-      <div></div>
-    </div>
-  )
+  const [r0] = args
+  return createOpenGraphImage(<div>{r0}</div>)
 }
 const DynamicImage1 = (props) => {
   const url = createMemo(() => {
@@ -20,5 +16,5 @@ const DynamicImage1 = (props) => {
   return url
 }
 const coolVar = DynamicImage1({
-  values: [],
+  values: [nonSignal],
 })

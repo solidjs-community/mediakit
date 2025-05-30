@@ -4,9 +4,12 @@ const DynamicImage1ServerFunction = (...args) => {
   'use server'
 
   return createOpenGraphImage(
-    <div>
-      <div></div>
-      <div></div>
+    <div
+      style={{
+        fontSize: '100px',
+      }}
+    >
+      Hello
     </div>
   )
 }

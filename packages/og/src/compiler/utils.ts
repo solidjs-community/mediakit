@@ -6,6 +6,7 @@ import { babel as babelUtils } from '@solid-mediakit/shared'
 type DynamicImage = {
   element: babel.types.JSXElement
   reactives: number
+  imageOptions?: babel.types.ObjectExpression
 }
 
 const extractChild = (
@@ -26,6 +27,22 @@ const extractChild = (
       )
 }
 
+const extractImageOptions = (element: babel.types.JSXElement) => {
+  const index = element.openingElement.attributes.findIndex(
+    (a) => 'name' in a && a.name.name === 'imageOptions',
+  )
+  if (index === -1) return
+  const attr = element.openingElement.attributes[index]
+  if (
+    attr.type === 'JSXSpreadAttribute' ||
+    attr.value?.type !== 'JSXExpressionContainer' ||
+    attr.value.expression.type !== 'ObjectExpression'
+  )
+    return
+  element.openingElement.attributes.splice(index, 1)
+  return attr.value.expression
+}
+
 export const replaceDynamicImages = (
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>,
@@ -35,12 +52,14 @@ export const replaceDynamicImages = (
     JSXElement(elementPath) {
       const name = elementPath.node.openingElement.name
       if (t.isJSXIdentifier(name) && name.name === 'DynamicImage') {
+        const imageOptions = extractImageOptions(elementPath.node)
         const reactives = extractAndReplaceReactives(t, elementPath)
         const child = extractChild(t, elementPath.node)
         if (!child) throw new Error('DynamicImage must have a child element')
         DynamicImages.push({
           reactives: reactives.length,
           element: t.cloneNode(child),
+          imageOptions,
         })
         elementPath.node.openingElement.selfClosing = true
         elementPath.node.closingElement = null
@@ -96,7 +115,7 @@ export const addDynamicImages = (
       `const %%serverFnName%% = (...args)=>{
           'use server';
           %%args%%
-          return createOpenGraphImage(%%jsx%%);
+          return createOpenGraphImage(%%jsx%%, %%imageOptions%%);
       };
       const %%compName%% = (props)=>{
       const url = createMemo(()=>{
@@ -122,6 +141,7 @@ export const addDynamicImages = (
         serverFnName: `DynamicImage${i + 1}ServerFunction`,
         jsx: image.element,
         args: argsDecl,
+        imageOptions: image.imageOptions,
       }) as any,
       path,
       true,

@@ -1,0 +1,1 @@
+<DynamicImage imageOptions={{emoji: "openmoji"}}><div>Hi!</div></DynamicImage>

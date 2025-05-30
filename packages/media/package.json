@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/media",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "description": "A media utility library for Solid.",
   "main": "./dist/index/index.jsx",
@@ -20,12 +20,12 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
     "typescript": "^5.5.4",
-    "solid-js": "^1.8.19",
+    "solid-js": "^1.9.5",
     "rollup-preset-solid": "^2.0.1",
     "babel-preset-solid": "^1.8.22"
   },
   "peerDependencies": {
-    "solid-js": "^1.8.14"
+    "solid-js": "^1.9.5"
   },
   "dependencies": {
     "@solid-mediakit/shared": "workspace:*"

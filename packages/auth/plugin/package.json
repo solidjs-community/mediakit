@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/auth-plugin",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "files": [
     "dist"
@@ -20,7 +20,7 @@
     "pridepack": "2.6.1",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5",
+    "vite": "^6.2.2",
     "vitest": "2.0.4"
   },
   "dependencies": {

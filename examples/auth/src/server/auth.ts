@@ -8,6 +8,11 @@ declare module '@auth/core/types' {
   }
 }
 
+import { CredentialsSignin } from '@solid-mediakit/auth'
+class InvalidLoginError extends CredentialsSignin {
+  code = 'No Such User'
+}
+
 const zSchema = z.object({
   email: z.string().min(1).email(),
   password: z.string().min(4),
@@ -27,7 +32,7 @@ export const authOptions: SolidAuthConfig = {
       async authorize(credentials) {
         const zData = await zSchema.safeParseAsync(credentials)
         if (!zData.success) {
-          throw new Error('No Such User')
+          throw new InvalidLoginError()
         }
         return {
           name: zData.data.email.split('@')[0],

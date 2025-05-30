@@ -1,7 +1,7 @@
 {
   "name": "@solid-mediakit/auth",
   "description": "An authentication utility library for Solid 2.",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && rollup -c && node scripts/postbuild",
     "clean": "pnpm clean:dist && rimraf ./node_modules .turbo .solid",
@@ -43,18 +43,18 @@
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@auth/core": "^0.35.0",
+    "@auth/core": "^0.38.0",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
-    "@solidjs/start": "^1.0.6",
+    "@solidjs/start": "^1.1.3",
     "@types/node": "^20.14.9",
     "@types/set-cookie-parser": "^2.4.9",
     "@typescript-eslint/parser": "^7.14.1",
     "rollup": "^4.18.0",
     "rollup-preset-solid": "^2.0.1",
-    "solid-js": "^1.8.19",
+    "solid-js": "^1.9.5",
     "typescript": "^5.5.2",
-    "vinxi": "^0.4.3"
+    "vinxi": "^0.5.3"
   },
   "dependencies": {
     "@solid-mediakit/shared": "workspace:*",
@@ -62,12 +62,12 @@
     "set-cookie-parser": "^2.6.0"
   },
   "peerDependencies": {
-    "@auth/core": "^0.37.3",
+    "@auth/core": "^0.38.0",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
     "@solidjs/start": "^1.0.10",
-    "solid-js": "^1.9.1",
-    "vinxi": "^0.4.3"
+    "solid-js": "^1.9.5",
+    "vinxi": "^0.5.3"
   },
   "engines": {
     "node": ">=16"

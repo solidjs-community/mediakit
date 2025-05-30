@@ -19,10 +19,10 @@
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5"
+    "vite": "^6.2.2"
   },
   "dependencies": {
-    "@auth/core": "0.35.0",
+    "@auth/core": "^0.38.0",
     "@babel/core": "^7.25.2",
     "@babel/preset-typescript": "^7.24.7",
     "@solid-mediakit/auth": "workspace:*",
@@ -30,12 +30,12 @@
     "@solid-mediakit/prpc-plugin": "workspace:*",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
-    "@solidjs/start": "^1.0.6",
+    "@solidjs/start": "^1.1.3",
     "@tanstack/solid-query": "^5.56.2",
     "clerk-solidjs": "^2.0.5",
-    "solid-js": "^1.9.3",
+    "solid-js": "^1.9.5",
     "typescript": "^4.8.2",
-    "vinxi": "^0.4.3",
+    "vinxi": "^0.5.3",
     "zod": "^3.22.4"
   },
   "engines": {

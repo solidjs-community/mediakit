@@ -1,5 +1,5 @@
 import type { AuthConfig } from '@auth/core'
-import type { BuiltInProviderType } from '@auth/core/providers'
+import { ProviderId } from '@auth/core/providers'
 import type { Session } from '@auth/core/types'
 
 export interface SolidAuthConfig extends Omit<AuthConfig, 'raw'> {}
@@ -22,7 +22,7 @@ declare global {
       /** @deprecated Use `auth` instead. */
       getSession(): Promise<Session | null>
       signIn: <
-        P extends BuiltInProviderType | (string & NonNullable<unknown>),
+        P extends ProviderId | (string & NonNullable<unknown>),
         R extends boolean = true,
       >(
         /** Provider to sign in to */

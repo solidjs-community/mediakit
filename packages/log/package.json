@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/log",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "description": "Logs utility library for Solid.",
   "main": "./dist/index.jsx",
@@ -31,7 +31,7 @@
     "babel-plugin-tester": "^11.0.4",
     "jiti": "^1.21.6",
     "typescript": "^5.5.4",
-    "solid-js": "^1.8.19",
+    "solid-js": "^1.9.5",
     "@babel/types": "7.25.2",
     "tsup": "^8.2.3"
   },
@@ -42,8 +42,8 @@
     "@solid-mediakit/shared": "workspace:*"
   },
   "peerDependencies": {
-    "@solidjs/meta": "^0.28.5",
-    "solid-js": "^1.8.19",
-    "@solidjs/start": "^1.0.6"
+    "@solidjs/meta": "^0.29.4",
+    "solid-js": "^1.9.5",
+    "@solidjs/start": "^1.1.3"
   }
 }

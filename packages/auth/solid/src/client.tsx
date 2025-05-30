@@ -1,7 +1,4 @@
-import type {
-  BuiltInProviderType,
-  RedirectableProviderType,
-} from '@auth/core/providers'
+import type { ProviderId } from '@auth/core/providers'
 import { Session } from '@auth/core/types'
 import {
   Accessor,
@@ -13,7 +10,6 @@ import {
 import { conditionalEnv, getBasePath, parseUrl } from './utils'
 import { RequestEvent, getRequestEvent, isServer } from 'solid-js/web'
 import {
-  LiteralUnion,
   SignInAuthorizationParams,
   SignInOptions,
   SignOutParams,
@@ -72,14 +68,8 @@ export const useAuth = (): AuthRes => {
       '[@solid-mediakit/auth]: `useAuth` must be wrapped in a <SessionProvider />',
     )
   }
-  const authSignIn = async <
-    P extends RedirectableProviderType | undefined = undefined,
-  >(
-    providerId?: LiteralUnion<
-      P extends RedirectableProviderType
-        ? P | BuiltInProviderType
-        : BuiltInProviderType
-    >,
+  const authSignIn = async <P extends ProviderId>(
+    providerId?: P,
     options?: SignInOptions,
     authorizationParams?: SignInAuthorizationParams,
   ) => {
@@ -204,12 +194,8 @@ const getUrl = (endpoint: string) => {
 }
 
 type AuthRes = {
-  signIn: <P extends RedirectableProviderType | undefined = undefined>(
-    providerId?: LiteralUnion<
-      P extends RedirectableProviderType
-        ? P | BuiltInProviderType
-        : BuiltInProviderType
-    >,
+  signIn: <P extends ProviderId>(
+    providerId?: P,
     options?: SignInOptions,
     authorizationParams?: SignInAuthorizationParams,
   ) => ReturnType<typeof signIn>
@@ -253,15 +239,9 @@ export const getSession = async (
   return data
 }
 
-async function signIn<
-  P extends RedirectableProviderType | undefined = undefined,
->(
+async function signIn<P extends ProviderId>(
   refetchSessionState: (force?: boolean) => unknown,
-  providerId?: LiteralUnion<
-    P extends RedirectableProviderType
-      ? P | BuiltInProviderType
-      : BuiltInProviderType
-  >,
+  providerId?: P,
   options?: SignInOptions,
   authorizationParams?: SignInAuthorizationParams,
 ) {

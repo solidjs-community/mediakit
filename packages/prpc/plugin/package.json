@@ -1,6 +1,6 @@
 {
   "name": "@solid-mediakit/prpc-plugin",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "files": [
     "dist"
@@ -21,10 +21,10 @@
     "pridepack": "2.6.1",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5",
+    "vite": "^6.2.2",
     "vitest": "2.0.4",
-    "@solidjs/start": "^1.0.9",
-    "vinxi": "^0.4.3"
+    "@solidjs/start": "^1.1.3",
+    "vinxi": "^0.5.3"
   },
   "dependencies": {
     "@babel/core": "^7.25.2",
@@ -33,8 +33,8 @@
     "@solid-mediakit/shared": "workspace:*"
   },
   "peerDependencies": {
-    "vinxi": "^0.4.3",
-    "@solidjs/start": "^1.0.9"
+    "vinxi": "^0.5.3",
+    "@solidjs/start": "^1.1.3"
   },
   "scripts": {
     "prepublishOnly": "pridepack clean && pridepack build",

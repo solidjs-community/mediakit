@@ -21,7 +21,7 @@ export async function createOpenGraphImage(
     jsx = await jsx()
   }
   if (jsx && typeof jsx === 'object' && Object.hasOwn(jsx, 't')) {
-    jsx = (jsx as any).t.replace(/data-hk=\S*\s?/, "") as string
+    jsx = (jsx as any).t.replace(/data-hk=\S+?((?=>)|\s)/, "") as string
   }
   if (typeof jsx !== 'string') {
     return

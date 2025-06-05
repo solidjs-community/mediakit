@@ -6,6 +6,8 @@ import defaultTheme, {
 } from "@kobalte/solidbase/default-theme";
 import { defineConfig } from "@solidjs/start/config";
 import { readdir } from "node:fs/promises";
+import { vitePlugin as OGPlugin } from "@solid-mediakit/og/unplugin";
+import arraybuffer from "vite-plugin-arraybuffer";
 
 const getPaths = async (base: string): Promise<string[]> => {
 	const files = await readdir(base, { withFileTypes: true });
@@ -40,7 +42,7 @@ const parseMetadata = (path: string): RouteMetadata => {
 	return parsed
 }
 const getRoutes = (base: string, paths: string[]): Route[] => {
-	const routes = paths.map(p => ({ slug: p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""), metadata: parseMetadata(p) }));
+	const routes = paths.filter(p => p.endsWith(".mdx")).map(p => ({ slug: p.replace(path.normalize(base), "").replaceAll("\\", "/").replace(".mdx", ""), metadata: parseMetadata(p) }));
 	return routes;
 }
 const routes = getRoutes("src/routes", await getPaths("src/routes")).filter(x => x.slug !== "/index")
@@ -63,7 +65,7 @@ const processPackages = () => {
 	// For each package, sort routes into the correct order by the ordering specified in MDX.
 	for (const key of Object.keys(map)) {
 		const item = map[key];
-		item.sort((a,b) => {
+		item.sort((a, b) => {
 			const a_order = a.metadata.order;
 			const b_order = b.metadata.order;
 			if ((!a_order || !b_order) || a_order == b_order) return 0;
@@ -97,11 +99,11 @@ export default defineConfig(
 	createWithSolidBase(defaultTheme)(
 		{
 			ssr: true,
+			vite: { plugins: [OGPlugin() as any, arraybuffer()] },
 			server: {
 				compatibilityDate: "2025-05-28",
 				preset: "vercel-static",
 				vercel: {
-
 				},
 				prerender: {
 					routes: routes.map(r => r.slug),

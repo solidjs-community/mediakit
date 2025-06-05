@@ -1,6 +1,6 @@
 {
   "name": "mediakit-docs",
-	"private": true,
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vinxi dev",
@@ -21,7 +21,10 @@
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.5",
+    "@solid-mediakit/og": "workspace:*",
+    "@vercel/og": "^0.6.8",
     "typescript": "^5.8.3",
+    "vite-plugin-arraybuffer": "^0.1.0",
     "yaml": "^2.8.0"
   }
 }

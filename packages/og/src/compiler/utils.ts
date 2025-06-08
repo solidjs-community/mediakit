@@ -150,20 +150,20 @@ export const addDynamicImages = (
 ) => {
   for (let i = 0; i < images.length; i++) {
     const image = images[i]
-    const template = babel.template(
+    const serverFnTemplate = babel.template(
       `const %%serverFnName%% = (...args)=>{
           'use server';
           %%args%%
           return createOpenGraphImage(%%jsx%%, %%imageOptions%%);
-      };
-      const %%compName%% = (props)=>{
+      };`,
+      { plugins: ['jsx'] },
+    )
+		const componentTemplate = babel.template(`const %%compName%% = (props)=>{
       const url = createMemo(()=>{
           return %%serverFnName%%.url.replace("_server", "_server/") + \`&args=\${encodeURIComponent(JSON.stringify(props.values))}\`
       });
       return url;
-  };`,
-      { plugins: ['jsx'] },
-    )
+  };`, { plugins: ['jsx'] })
     const args: babel.types.Identifier[] = []
     for (let i = 0; i < image.reactives; i++) {
       args.push(t.identifier(`r${i}`))
@@ -175,13 +175,15 @@ export const addDynamicImages = (
           t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
         ])
     babelUtils.pushStmts(
-      template({
-        compName: `DynamicImage${i + 1}`,
+      [serverFnTemplate({
         serverFnName: `DynamicImage${i + 1}ServerFunction`,
         jsx: image.element,
         args: argsDecl,
         imageOptions: image.imageOptions,
-      }) as any,
+      }) as any, componentTemplate({
+				compName: `DynamicImage${i + 1}`,
+				serverFnName: `DynamicImage${i + 1}ServerFunction`,
+			})],
       path,
       true,
     )

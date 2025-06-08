@@ -101,7 +101,7 @@ export default defineConfig(
 			ssr: true,
 			vite: {
 				esbuild: { exclude: /nitropack/ },
-				plugins: [OGPlugin({ experimental: { static: true }, log: true }) as any, arraybuffer()],
+				plugins: [OGPlugin({ experimental: { static: true } }) as any, arraybuffer()],
 				optimizeDeps: { exclude: ["nitropack"] },
 				build: {
 					rollupOptions: { external: /nitropack/ },

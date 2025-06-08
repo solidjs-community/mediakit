@@ -5,35 +5,38 @@ import { babel as babelUtils } from '@solid-mediakit/shared'
 import { FilterPattern } from 'vite'
 
 type Options = {
-  filter?: {
-    include?: FilterPattern
-    exclude?: FilterPattern
-  }
-  log?: boolean
+	filter?: {
+		include?: FilterPattern
+		exclude?: FilterPattern
+	}
+	log?: boolean
+	experimental: {
+		static: boolean
+	}
 }
 
 export const unplugin = createUnplugin((opts?: Options) => {
-  const filter = babelUtils.getFilter(opts?.filter)
-  return {
-    enforce: 'pre',
-    name: 'unplugin-dynamic-image',
-    async transform(code, id) {
-      if (!filter(id)) {
-        return null
-      }
-      const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
+	const filter = babelUtils.getFilter(opts?.filter)
+	return {
+		enforce: 'pre',
+		name: 'unplugin-dynamic-image',
+		async transform(code, id) {
+			if (!filter(id)) {
+				return null
+			}
+			const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
 
-      const res = await babel.transformAsync(code, {
-        plugins: [[transformOG]],
-        parserOpts: { plugins },
-      })
-      if (!res?.code) return null
-      if (opts?.log) {
-        console.log(id, res.code)
-      }
-      return { code: res.code, map: res.map }
-    },
-  }
+			const res = await babel.transformAsync(code, {
+				plugins: [[transformOG, { experimental: { static: opts?.experimental.static ?? false } }]],
+				parserOpts: { plugins },
+			})
+			if (!res?.code) return null
+			if (opts?.log) {
+				console.log(id, res.code)
+			}
+			return { code: res.code, map: res.map }
+		},
+	}
 })
 export const vitePlugin = unplugin.vite
 export const rollupPlugin = unplugin.rollup

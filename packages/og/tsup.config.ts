@@ -16,9 +16,10 @@ export default defineConfig([
       'src/unplugin/index.ts',
       'src/server/index.ts',
       'src/compiler/index.ts',
+			'src/server/prerender.ts'
     ],
     esbuildOptions(opts) {
-      opts.entryNames = '[dir]'
+      opts.entryNames = '[dir]/[name]'
     },
     target: 'esnext',
     format: 'esm',

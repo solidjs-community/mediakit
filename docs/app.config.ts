@@ -99,8 +99,18 @@ export default defineConfig(
 	createWithSolidBase(defaultTheme)(
 		{
 			ssr: true,
-			vite: { plugins: [OGPlugin() as any, arraybuffer()] },
+			vite: {
+				esbuild: { exclude: /nitropack/ },
+				plugins: [OGPlugin({ experimental: { static: true }, log: true }) as any, arraybuffer()],
+				optimizeDeps: { exclude: ["nitropack"] },
+				build: {
+					rollupOptions: { external: /nitropack/ },
+					target: "esnext",
+					modulePreload: { polyfill: false }
+				}
+			},
 			server: {
+				// plugins: ["./plugins/prerender_og.ts"],
 				compatibilityDate: "2025-05-28",
 				preset: "vercel-static",
 				vercel: {

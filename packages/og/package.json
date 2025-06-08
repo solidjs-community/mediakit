@@ -12,12 +12,16 @@
     },
     "./server": {
       "types": "./dist/server/index.d.ts",
-      "import": "./dist/server.js"
+      "import": "./dist/server/index.js"
     },
+		"./server/prerender": {
+			"types": "./dist/server/prerender.d.ts",
+      "import": "./dist/server/prerender.js"
+		},
     "./unplugin": {
-      "import": "./dist/unplugin.js",
+      "import": "./dist/unplugin/index.js",
       "types": "./dist/unplugin/index.d.ts",
-      "default": "./dist/unplugin.js"
+      "default": "./dist/unplugin/index.js"
     }
   },
   "scripts": {
@@ -45,6 +49,8 @@
     "@babel/core": "7.25.2",
     "@solid-mediakit/shared": "workspace:*",
     "@vercel/og": "^0.6.8",
+    "dot-prop": "^9.0.0",
+    "nitropack": "^2.11.12",
     "satori-html": "^0.3.2",
     "unplugin": "^2.3.5"
   },

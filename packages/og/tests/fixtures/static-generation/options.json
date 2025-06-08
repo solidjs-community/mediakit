@@ -1,0 +1,7 @@
+{
+	"pluginOptions": {
+		"experimental": {
+			"static": true
+		}
+	}
+}

@@ -147,6 +147,7 @@ export const addDynamicImages = (
   images: DynamicImage[],
   t: typeof babel.types,
   path: babel.NodePath<babel.types.Program>,
+	prerender: boolean
 ) => {
   for (let i = 0; i < images.length; i++) {
     const image = images[i]
@@ -164,6 +165,12 @@ export const addDynamicImages = (
       });
       return url;
   };`, { plugins: ['jsx'] })
+	const prerenderTemplate = babel.template(`const %%compName%% = (props)=>{
+			if (isServer) {
+				prerenderDynamicImage(%%serverFnName%%, props.values, %%outFileName%%)[0]
+			}
+			return \`/\${%%outFileName%%}\`
+  };`);
     const args: babel.types.Identifier[] = []
     for (let i = 0; i < image.reactives; i++) {
       args.push(t.identifier(`r${i}`))
@@ -180,7 +187,11 @@ export const addDynamicImages = (
         jsx: image.element,
         args: argsDecl,
         imageOptions: image.imageOptions,
-      }) as any, componentTemplate({
+      }) as any, prerender ? prerenderTemplate({
+				compName: `DynamicImage${i + 1}`,
+				serverFnName: `DynamicImage${i + 1}ServerFunction`,
+				outFileName: t.stringLiteral(`DynamicImage${i + 1}.png`)
+			}) : componentTemplate({
 				compName: `DynamicImage${i + 1}`,
 				serverFnName: `DynamicImage${i + 1}ServerFunction`,
 			})],

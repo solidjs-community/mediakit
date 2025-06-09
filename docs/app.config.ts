@@ -8,6 +8,7 @@ import { defineConfig } from "@solidjs/start/config";
 import { readdir } from "node:fs/promises";
 import { vitePlugin as OGPlugin } from "@solid-mediakit/og/unplugin";
 import arraybuffer from "vite-plugin-arraybuffer";
+import { SidebarItem } from "@kobalte/solidbase/client";
 
 const getPaths = async (base: string): Promise<string[]> => {
 	const files = await readdir(base, { withFileTypes: true });
@@ -90,11 +91,12 @@ const packageSidebarItem = (pkg: string, packages: Record<string, Route[]>, link
 			title: route.metadata.title,
 			collapsed,
 			link: link(route),
-			items: []
+			// items: []
 		}))
-	}
+	} as SidebarItem
 }
 const packages = processPackages();
+
 export default defineConfig(
 	createWithSolidBase(defaultTheme)(
 		{
@@ -135,31 +137,18 @@ export default defineConfig(
 					},
 				],
 				sidebar: {
-					"/packages": {
-						items: [
-							...(() => {
-								return Object.keys(packages).map((pkg) => packageSidebarItem(pkg, packages, (r) => r.slug.replace("/packages", "")))
-							})()
-							// {
-							// 	title: "Overview",
-							// 	collapsed: false,
-							// 	items: [
-							// 		{
-							// 			title: "Getting Started",
-							// 			link: "/packages",
-							// 		},
-							// 	],
-							// },
-						],
-					},
+					"/packages": [
+						...Object.keys(packages).map((pkg) => packageSidebarItem(pkg, packages, (r) => r.slug.replace("/packages", ""))),
+					],
 					...(() => {
-						let map = {};
+						let map: Record<string, SidebarItem> = {};
 						for (const pkg of Object.keys(packages)) {
-							// @ts-ignore
 							map[`/packages/${pkg}`] = {
+								title: pkg.toUpperCase(),
 								items: [packageSidebarItem(pkg, packages, (r) => r.slug.replace(`/packages/${pkg}`, ""))]
 							}
 						}
+						console.log(map)
 						return map;
 					})()
 					// "/packages/og": {

@@ -169,6 +169,15 @@ export const addDynamicImages = (
 			if (isServer) {
 				prerenderDynamicImage(%%serverFnName%%, props.values, %%outFileName%%)[0]
 			}
+			createEffect(
+				on(
+					() => props.values,
+					() => {
+						console.warn("WARNING: Attempting to update a static image won't work");
+					},
+					{ defer: true },
+				),
+			);
 			return \`/\${%%outFileName%%}\`
   };`);
     const args: babel.types.Identifier[] = []

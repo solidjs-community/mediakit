@@ -28,6 +28,8 @@ export const transformOG = ({
 							'@solid-mediakit/og/server/prerender'
 						)
 						babelUtils.importIfNotThere(path, t, 'isServer', 'solid-js/web')
+						babelUtils.importIfNotThere(path, t, 'on', 'solid-js')
+						babelUtils.importIfNotThere(path, t, 'createEffect', 'solid-js')
 					}
 
 					addDynamicImages(dynamicImages, t, path, pass.opts.experimental?.static ?? false)

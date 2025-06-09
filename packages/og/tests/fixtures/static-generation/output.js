@@ -1,3 +1,5 @@
+import { createEffect } from 'solid-js'
+import { on } from 'solid-js'
 import { isServer } from 'solid-js/web'
 import { prerenderDynamicImage } from '@solid-mediakit/og/server/prerender'
 import { createOpenGraphImage } from '@solid-mediakit/og/server'
@@ -17,6 +19,17 @@ const DynamicImage1 = (props) => {
       'DynamicImage1.png'
     )[0]
   }
+  createEffect(
+    on(
+      () => props.values,
+      () => {
+        console.warn("WARNING: Attempting to update a static image won't work")
+      },
+      {
+        defer: true,
+      }
+    )
+  )
   return `/${'DynamicImage1.png'}`
 }
 const [signal] = createSignal('')

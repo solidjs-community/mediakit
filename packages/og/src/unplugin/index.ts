@@ -17,17 +17,22 @@ type Options = {
 
 export const unplugin = createUnplugin((opts?: Options) => {
 	const filter = babelUtils.getFilter(opts?.filter)
+	let isDev = true;
 	return {
 		enforce: 'pre',
 		name: 'unplugin-dynamic-image',
+		vite: {
+			config(_options, {mode}) {
+				isDev = (mode === "development");
+			}
+		},
 		async transform(code, id) {
 			if (!filter(id)) {
 				return null
 			}
 			const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
-
 			const res = await babel.transformAsync(code, {
-				plugins: [[transformOG, { experimental: { static: opts?.experimental.static ?? false } }]],
+				plugins: [[transformOG, { experimental: { static: isDev ? false : (opts?.experimental.static ?? false) } }]],
 				parserOpts: { plugins },
 			})
 			if (!res?.code) return null

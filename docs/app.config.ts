@@ -99,10 +99,7 @@ export default defineConfig(
 			ssr: true,
 			server: {
 				compatibilityDate: "2025-05-28",
-				preset: "vercel-static",
-				vercel: {
-
-				},
+				preset: "netlify",
 				prerender: {
 					routes: routes.map(r => r.slug),
 					crawlLinks: true,

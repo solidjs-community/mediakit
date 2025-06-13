@@ -99,7 +99,7 @@ export default defineConfig(
 			ssr: true,
 			server: {
 				compatibilityDate: "2025-05-28",
-				preset: "vercel-static",
+				preset: "netlify",
 				vercel: {
 
 				},

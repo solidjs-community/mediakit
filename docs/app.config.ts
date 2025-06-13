@@ -7,7 +7,6 @@ import defaultTheme, {
 import { defineConfig } from "@solidjs/start/config";
 import { readdir } from "node:fs/promises";
 import { vitePlugin as OGPlugin } from "@solid-mediakit/og/unplugin";
-import arraybuffer from "vite-plugin-arraybuffer";
 
 const getPaths = async (base: string): Promise<string[]> => {
 	const files = await readdir(base, { withFileTypes: true });
@@ -99,7 +98,7 @@ export default defineConfig(
 	createWithSolidBase(defaultTheme)(
 		{
 			ssr: true,
-			vite: { plugins: [OGPlugin() as any, arraybuffer()] },
+			vite: { plugins: [OGPlugin() as any] },
 			server: {
 				compatibilityDate: "2025-05-28",
 				preset: "netlify",

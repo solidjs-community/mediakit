@@ -12,9 +12,9 @@
     "@kobalte/solidbase": "^0.2.16",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
-    "@solidjs/start": "^1.1.4",
+    "@solidjs/start": "^1.1.6",
     "solid-js": "^1.9.7",
-    "vinxi": "^0.5.7"
+    "vinxi": "^0.5.8"
   },
   "engines": {
     "node": ">=22"
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@iconify-json/ri": "^1.2.5",
     "@solid-mediakit/og": "workspace:*",
-    "@vercel/og": "^0.6.8",
+    "@vercel/og": "^0.7.2",
     "typescript": "^5.8.3",
     "yaml": "^2.8.0"
   }

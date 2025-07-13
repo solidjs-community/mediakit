@@ -35,7 +35,7 @@
     "@babel/types": "7.25.2",
     "@solidjs/start": "^1.1.4",
     "@types/babel__core": "7.20.5",
-    "babel-plugin-tester": "^11.0.4",
+    "babel-plugin-tester": "^12.0.0",
     "jiti": "^2.4.2",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
@@ -44,7 +44,7 @@
   "dependencies": {
     "@babel/core": "7.25.2",
     "@solid-mediakit/shared": "workspace:*",
-    "@vercel/og": "^0.6.8",
+    "@vercel/og": "^0.7.2",
     "satori-html": "^0.3.2",
     "unplugin": "^2.3.5"
   },

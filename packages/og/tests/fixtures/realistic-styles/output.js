@@ -17,7 +17,7 @@ const DynamicImage1ServerFunction = (...args) => {
       }}
     >
       {`👋 Hello, ${r0 * 2}!`}
-    </div>
+    </div>,
   )
 }
 const DynamicImage1 = (props) => {

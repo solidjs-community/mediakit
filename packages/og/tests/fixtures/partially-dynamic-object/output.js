@@ -13,7 +13,7 @@ const DynamicImage1ServerFunction = (...args) => {
       }}
     >
       {}
-    </div>
+    </div>,
   )
 }
 const DynamicImage1 = (props) => {

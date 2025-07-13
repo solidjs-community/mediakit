@@ -1,9 +1,9 @@
 import type { PluginObj } from '@babel/core'
-import { addDynamicImages, replaceDynamicImages } from './utils'
+import { addDynamicImages, addDynamicImagesTanstack, replaceDynamicImages } from './utils'
 import type babel from '@babel/core'
 import { babel as babelUtils } from '@solid-mediakit/shared'
-
-export const transformOG = ({
+type Runtime = "SolidStart" | "TanstackStart"
+export const transformOG = (runtime?: Runtime) => ({
   types: t,
 }: {
   types: typeof babel.types
@@ -20,7 +20,12 @@ export const transformOG = ({
             'createOpenGraphImage',
             '@solid-mediakit/og/server'
           )
-          addDynamicImages(dynamicImages, t, path)
+					if (runtime == "TanstackStart") {
+						addDynamicImagesTanstack(dynamicImages, t, path)
+					}
+					else {
+						addDynamicImages(dynamicImages, t, path)
+					}
         }
         return path
       },

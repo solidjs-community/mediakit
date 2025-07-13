@@ -24,7 +24,7 @@ export const unplugin = createUnplugin((opts?: Options) => {
       const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
 
       const res = await babel.transformAsync(code, {
-        plugins: [[transformOG]],
+        plugins: [[transformOG("SolidStart")]],
         parserOpts: { plugins },
       })
       if (!res?.code) return null

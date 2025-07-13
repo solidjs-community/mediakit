@@ -1,6 +1,6 @@
 import { createUnplugin } from 'unplugin'
 import babel from '@babel/core'
-import { transformOG } from '../compiler'
+import { Runtime, transformOG } from '../compiler'
 import { babel as babelUtils } from '@solid-mediakit/shared'
 import { FilterPattern } from 'vite'
 
@@ -9,11 +9,13 @@ type Options = {
     include?: FilterPattern
     exclude?: FilterPattern
   }
-  log?: boolean
+  log?: boolean | RegExp,
+	runtime?: Runtime,
 }
 
 export const unplugin = createUnplugin((opts?: Options) => {
   const filter = babelUtils.getFilter(opts?.filter)
+	const log = opts?.log
   return {
     enforce: 'pre',
     name: 'unplugin-dynamic-image',
@@ -24,13 +26,17 @@ export const unplugin = createUnplugin((opts?: Options) => {
       const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
 
       const res = await babel.transformAsync(code, {
-        plugins: [[transformOG("SolidStart")]],
+        plugins: [[transformOG(opts?.runtime)]],
         parserOpts: { plugins },
       })
       if (!res?.code) return null
-      if (opts?.log) {
-        console.log(id, res.code)
+      if (typeof log === "boolean") {
+        if (log == true) console.log(id, res.code);
       }
+			else if (log && log.test(id)) {
+				// console.log("LOGGING!!", id, log.test(id))
+				console.log(id, res.code);
+			}
       return { code: res.code, map: res.map }
     },
   }

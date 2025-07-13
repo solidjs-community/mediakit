@@ -143,6 +143,21 @@ export const extractAndReplaceReactives = (
   return Reactives
 }
 
+/**Generates the expression that destructures the arguments from the request*/
+export const argumentDeclaration = (t: typeof babel.types, image: DynamicImage) => {
+	const args: babel.types.Identifier[] = []
+  for (let i = 0; i < image.reactives; i++) {
+    args.push(t.identifier(`r${i}`))
+  }
+  const argsDecl =
+    args.length === 0
+      ? null
+      : t.variableDeclaration('const', [
+        t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
+      ])
+	return argsDecl
+}
+/**Add dynamic image server functions for Solid Start */
 export const addDynamicImages = (
   images: DynamicImage[],
   t: typeof babel.types,
@@ -164,16 +179,9 @@ export const addDynamicImages = (
   };`,
       { plugins: ['jsx'] },
     )
-    const args: babel.types.Identifier[] = []
-    for (let i = 0; i < image.reactives; i++) {
-      args.push(t.identifier(`r${i}`))
-    }
-    const argsDecl =
-      args.length === 0
-        ? null
-        : t.variableDeclaration('const', [
-          t.variableDeclarator(t.arrayPattern(args), t.identifier('args')),
-        ])
+    
+		const argsDecl = argumentDeclaration(t, image)
+
     babelUtils.pushStmts(
       template({
         compName: `DynamicImage${i + 1}`,
@@ -186,4 +194,42 @@ export const addDynamicImages = (
       true,
     )
   }
+}
+
+export const addDynamicImagesTanstack = (
+	images: DynamicImage[],
+  t: typeof babel.types,
+  path: babel.NodePath<babel.types.Program>,
+) => {
+	for (let i = 0; i < images.length; i++) {
+    const image = images[i]
+		const template = babel.template(
+			`const %%serverFnName%% = createServerFn({
+				method: "GET",
+				response: "raw",
+			}).handler((ctx) => {
+				const args = ctx.data.values;
+				%%args%%
+				return createOpenGraphImage(%%jsx%%, %%imageOptions%%);
+			})
+			const %%compName%% = (props) => {
+				const payload = () => ({"data":{"values":props.values},"context":{}})
+				const url = createMemo(\`\${%%serverFnName%%.url}?payload=\${encodeURIComponent(JSON.stringify(payload()))}&createServerFn&raw\`)
+				return url
+			}
+			`
+		)
+		const argsDecl = argumentDeclaration(t, image)
+		babelUtils.pushStmts(
+      template({
+        compName: `DynamicImage${i + 1}`,
+        serverFnName: `DynamicImage${i + 1}ServerFunction`,
+        jsx: image.element,
+        args: argsDecl,
+        imageOptions: image.imageOptions,
+      }) as any,
+      path,
+      true,
+    )
+	}
 }

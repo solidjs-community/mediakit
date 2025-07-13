@@ -2,7 +2,7 @@ import type { PluginObj } from '@babel/core'
 import { addDynamicImages, addDynamicImagesTanstack, replaceDynamicImages } from './utils'
 import type babel from '@babel/core'
 import { babel as babelUtils } from '@solid-mediakit/shared'
-type Runtime = "SolidStart" | "TanstackStart"
+export type Runtime = "SolidStart" | "TanstackStart"
 export const transformOG = (runtime?: Runtime) => ({
   types: t,
 }: {

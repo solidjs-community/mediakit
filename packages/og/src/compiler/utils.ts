@@ -214,7 +214,7 @@ export const addDynamicImagesTanstack = (
 			})
 			const %%compName%% = (props) => {
 				const payload = () => ({"data":{"values":props.values},"context":{}})
-				const url = createMemo(\`\${%%serverFnName%%.url}?payload=\${encodeURIComponent(JSON.stringify(payload()))}&createServerFn&raw\`)
+				const url = createMemo(() => \`\${%%serverFnName%%.url}?payload=\${encodeURIComponent(JSON.stringify(payload()))}&createServerFn&raw\`)
 				return url
 			}
 			`

@@ -17,7 +17,8 @@ const DynamicImage1 = (props) => {
     context: {},
   })
   const url = createMemo(
-    `${DynamicImage1ServerFunction.url}?payload=${encodeURIComponent(JSON.stringify(payload()))}&createServerFn&raw`,
+    () =>
+      `${DynamicImage1ServerFunction.url}?payload=${encodeURIComponent(JSON.stringify(payload()))}&createServerFn&raw`,
   )
   return url
 }

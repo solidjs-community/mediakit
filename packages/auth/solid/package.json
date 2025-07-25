@@ -43,7 +43,7 @@
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@auth/core": "^0.38.0",
+    "@auth/core": "^0.40.0",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
     "@solidjs/start": "^1.1.3",

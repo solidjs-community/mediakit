@@ -664,8 +664,8 @@ importers:
         version: 2.6.0
     devDependencies:
       '@auth/core':
-        specifier: ^0.38.0
-        version: 0.38.0
+        specifier: ^0.40.0
+        version: 0.40.0
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.5)
@@ -1244,6 +1244,20 @@ packages:
 
   '@auth/core@0.38.0':
     resolution: {integrity: sha512-ClHl44x4cY3wfJmHLpW+XrYqED0fZIzbHmwbExltzroCjR5ts3DLTWzADRba8mJFYZ8JIEJDa+lXnGl0E9Bl7Q==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+
+  '@auth/core@0.40.0':
+    resolution: {integrity: sha512-n53uJE0RH5SqZ7N1xZoMKekbHfQgjd0sAEyUbE+IYJnmuQkbvuZnXItCU7d+i7Fj8VGOgqvNO7Mw4YfBTlZeQw==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -7892,9 +7906,6 @@ packages:
     engines: {node: ^14.16.0 || >=16.10.0}
     hasBin: true
 
-  oauth4webapi@3.1.2:
-    resolution: {integrity: sha512-KQZkNU+xn02lWrFu5Vjqg9E81yPtDSxUZorRHlLWVoojD+H/0GFbH59kcnz5Thdjj7c4/mYMBPj/mhvGe/kKXA==}
-
   oauth4webapi@3.3.1:
     resolution: {integrity: sha512-ZwX7UqYrP3Lr+Glhca3a1/nF2jqf7VVyJfhGuW5JtrfDUxt0u+IoBPzFjZ2dd7PJGkdM6CFPVVYzuDYKHv101A==}
 
@@ -10409,11 +10420,19 @@ snapshots:
       '@types/cookie': 0.6.0
       cookie: 0.7.1
       jose: 5.9.6
-      oauth4webapi: 3.1.2
+      oauth4webapi: 3.3.1
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
 
   '@auth/core@0.38.0':
+    dependencies:
+      '@panva/hkdf': 1.2.1
+      jose: 6.0.10
+      oauth4webapi: 3.3.1
+      preact: 10.24.3
+      preact-render-to-string: 6.5.11(preact@10.24.3)
+
+  '@auth/core@0.40.0':
     dependencies:
       '@panva/hkdf': 1.2.1
       jose: 6.0.10
@@ -19386,8 +19405,6 @@ snapshots:
       pathe: 2.0.3
       pkg-types: 2.1.0
       tinyexec: 0.3.2
-
-  oauth4webapi@3.1.2: {}
 
   oauth4webapi@3.3.1: {}
 
